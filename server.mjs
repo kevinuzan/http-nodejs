@@ -13,7 +13,8 @@ readFile('loginWindow.html', function (err, html) {
     throw err;
   }
   createServer(function (request, response) {
+    response.writeHeader(200, { "Content-Type": "text/html" });
     response.write(html);
     response.end();
-  }).listen(8000);
+  }).listen(process.env.PORT);
 });
