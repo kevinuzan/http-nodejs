@@ -42,7 +42,7 @@ server.listen(process.env.PORT);
 // You should create a public directory in your project folder and
 // place all your static files there and the below app.use() will
 // serve all files and sub-directories contained within it.
-app.use('public', express.static(join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
