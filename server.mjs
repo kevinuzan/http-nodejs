@@ -19,6 +19,3 @@ readFile('./html/loginWindow.html', function (err, html) {
   }).listen(process.env.PORT);
 });
 
-async function teste(){
-  document.getElementById("teste").value = "oi"
-}
