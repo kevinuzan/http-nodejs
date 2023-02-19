@@ -6,16 +6,36 @@
 // }).listen(process.env.PORT);
 
 
-import { createServer } from 'http';
-import { readFile } from 'fs';
-readFile('./html/loginWindow.html', function (err, html) {
-  if (err) {
-    throw err;
-  }
-  createServer(function (request, response) {
-    response.writeHeader(200, { "Content-Type": "text/html" });
-    response.write(html);
-    response.end();
-  }).listen(process.env.PORT);
-});
+// import { createServer } from 'http';
+// import { readFile } from 'fs';
+// readFile('./html/loginWindow.html', function (err, html) {
+//   if (err) {
+//     throw err;
+//   }
+//   createServer(function (request, response) {
+//     response.writeHeader(200, { "Content-Type": "text/html" });
+//     response.write(html);
+//     response.end();
+//   }).listen(process.env.PORT);
+// });
 
+import express from 'express';
+var app = express();
+import { join } from 'path';
+import { createServer } from 'http';
+
+var server = createServer(app);
+
+server.listen(process.env.PORT);
+
+// The below works but isn't a good practice because it's not scalable
+// app.use('/app.js', static(join(__dirname, '/app.js')));
+
+// You should create a public directory in your project folder and
+// place all your static files there and the below app.use() will
+// serve all files and sub-directories contained within it.
+app.use('public', express.static(join(__dirname, 'public')));
+
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
