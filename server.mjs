@@ -7,8 +7,8 @@
 
 
 import { createServer } from 'http';
-import { fs } from 'fs';
-fs.readFile('./html/loginWindow.html', function (err, html) {
+import { readFile } from 'fs';
+readFile('./html/loginWindow.html', function (err, html) {
   if (err) {
     throw err;
   }
