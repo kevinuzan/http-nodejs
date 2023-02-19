@@ -1,0 +1,15 @@
+.w-min-250 {
+  min-width: 250px;
+}
+
+.w-min-300 {
+  min-width: 300px;
+}
+
+.w-fixed-300 {
+  width: 300px;
+}
+
+.w-33 {
+  width: 33%;
+}
