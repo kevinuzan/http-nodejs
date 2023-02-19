@@ -8,7 +8,7 @@
 
 import { createServer } from 'http';
 import { readFile } from 'fs';
-readFile('loginWindow.html', function (err, html) {
+readFile('./html/loginWindow.html', function (err, html) {
   if (err) {
     throw err;
   }
