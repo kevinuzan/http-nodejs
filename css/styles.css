@@ -86,13 +86,9 @@
 
 .input-lang-bg {
     text-transform: uppercase;
-    /* color: #0690D6;
-   background: var(--body); */
     color: #ffffff;
     background: #0d9be2;
     padding: .2rem .6rem;
-    /* border: 2px solid #ccc;
-   border-color:#3399ff; */
     border: none;
     text-align-last: center;
     outline: none;
