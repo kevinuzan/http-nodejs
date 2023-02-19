@@ -19,6 +19,8 @@
 //   }).listen(process.env.PORT);
 // });
 
+
+
 import express from 'express';
 var app = express();
 import { join } from 'path';
@@ -37,5 +39,5 @@ server.listen(process.env.PORT);
 app.use('public', express.static(join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + 'index.html');
 });
