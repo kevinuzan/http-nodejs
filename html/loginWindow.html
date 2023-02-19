@@ -8,7 +8,10 @@
 	<link rel="stylesheet" href="../css/fontawesome.min.css" />
 	<link rel="stylesheet" href="../css/styles.css" />
 	<script>
-		window.$ = window.jQuery = require("jquery");
+		import {$,jQuery} from 'jquery';
+		// export for others scripts to use
+		window.$ = $;
+		window.jQuery = jQuery;
 	</script>
 	<script src="../js/fontawesome.min.js"></script>
 	<script src="../js/bootstrap.bundle.min.js"></script>
