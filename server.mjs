@@ -1,3 +1,1 @@
-import { createServer } from 'http';
-
-createServer('./html/loginWindow.html');
+window.open('./html/loginWindow.html');
