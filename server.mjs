@@ -7,8 +7,7 @@
 
 
 import { createServer } from 'http';
-import { fs } from 'fs';
-
+fs = require('fs');
 fs.readFile('./html/loginWindow.html', function (err, html) {
   if (err) {
     throw err;
