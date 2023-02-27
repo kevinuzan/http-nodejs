@@ -2,9 +2,10 @@ async function teste() {
   document.getElementById("teste").value = "oi"
 }
 
+const path = require("path")
 
-import path from 'path';
-import { fileURLToPath } from 'url';
+
+const fileURLToPath =require('url')
 
 const __filename = fileURLToPath(import.meta.url);
 
