@@ -3,5 +3,5 @@ async function teste() {
 }
 
 async function abrirpg2() {
-  window.location.replace(__dirname + '/html/index2.html')
+  alert("OLA")
 }
