@@ -4,12 +4,7 @@ async function teste() {
 
 const path = require("path")
 
-
-const fileURLToPath =require('url')
-
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(filename);
 
 async function abrirpg2() {
   window.location.replace(__dirname + '/html/index2.html')
