@@ -1,7 +1,9 @@
+import { getPage } from "../../server.mjs"
+
 async function teste() {
   document.getElementById("teste").value = "oi"
 }
 
 async function abrirpg2() {
-  alert("OLA")
+  getPage('/public/html/index_2.html')
 }
