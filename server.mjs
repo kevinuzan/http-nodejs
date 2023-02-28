@@ -46,7 +46,7 @@ server.listen(process.env.PORT);
 app.use(express.static(join(__dirname, 'public')));
 app.use('/src',express.static(join(__dirname, 'public/src')));
 app.use(express.static(join(__dirname, 'node_modules')));
-app.use('/html',express.static(join(__dirname, 'public/html')));
+// app.use('/html',express.static(join(__dirname, 'public/html')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
