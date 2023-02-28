@@ -22,6 +22,6 @@ async function teste() {
 
 
 async function abrirpg2() {
-  window.location.replace('/html/index2.html')
+  // window.location.replace('/html/index2.html')
   console.log("oi")
 }
