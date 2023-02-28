@@ -47,8 +47,9 @@ app.use(express.static(join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname.toString() + '/index.html');
+    console.log(__dirname.toString())
 });
 
 app.get('/src', function(req, res) {
-    res.sendFile(__dirname + '/public/src');
+    res.sendFile(__dirname + '/src');
 });
