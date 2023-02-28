@@ -44,7 +44,12 @@ server.listen(process.env.PORT);
 // place all your static files there and the below app.use() will
 // serve all files and sub-directories contained within it.
 app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'node_modules')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
+
+// app.get('/node_modules', function(req, res) {
+//     res.sendFile(__dirname + '/node_modules');
+// });
