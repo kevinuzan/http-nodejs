@@ -1,10 +1,10 @@
 
-// import path from '../../node_modules/';
-// import { fileURLToPath } from '../../node_modules/';
+import path from 'node_modules/path';
+import { fileURLToPath } from 'node_modules/url';
 
-// const __filename = fileURLToPath(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
 
-// const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename);
  
 
 // const path = require("path")
@@ -19,6 +19,6 @@ async function teste() {
 
 
 async function abrirpg2() {
-  // window.location.replace(__dirname + '/html/index2.html')
+  window.location.replace('/html/index2.html')
   console.log("oi")
 }

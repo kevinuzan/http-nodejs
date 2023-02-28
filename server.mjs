@@ -45,6 +45,8 @@ server.listen(process.env.PORT);
 // serve all files and sub-directories contained within it.
 app.use(express.static(join(__dirname, 'public')));
 app.use('/src',express.static(path.join(__dirname, 'public/src')));
+app.use('/node_modules',express.static(path.join(__dirname, 'node_modules')));
+app.use('/html',express.static(path.join(__dirname, 'public/html')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
