@@ -1,4 +1,7 @@
 
+import path from '/node_modules/path';
+import { fileURLToPath } from '/node_modules/url';
+
 import * as path from 'path'
 import * as fileURLToPath from 'url';
 
