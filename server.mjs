@@ -46,7 +46,7 @@ server.listen(process.env.PORT);
 app.use(express.static(join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname.toString() + '/index.html');
 });
 
 app.get('/src', function(req, res) {
