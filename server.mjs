@@ -43,6 +43,6 @@ app.use('/node_modules',express.static(path.join(__dirname, 'node_modules')));
 app.use('/html',express.static(path.join(__dirname, 'public/html')));
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/html/index_2.html');
 });
 
