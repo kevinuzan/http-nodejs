@@ -37,19 +37,10 @@ app.get('/', function (req, res) {
 });
 
 app.get('/cliente', async function (req, res) {
-    var query = req.body.query
-    const { rows } = await pool.query(query)
+    // var query = req
+    const { rows } = await pool.query(req)
 
     res.json(rows)
-
-
-    //ABRIU E LEU O EXCEL
-    // res.sendStatus(req);
-    // console.log(req)
-    // var query = req.body.query
-    // var array = await connect(query)
-    // // console.log(array)
-    // res.send(array)
 });
 
 // const { rows } = await pool.query("SELECT * FROM jokes")

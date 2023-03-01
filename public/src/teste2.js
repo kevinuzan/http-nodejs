@@ -5,9 +5,9 @@ async function teste() {
 }
 
 async function buscaCliente() {
-  var query = { query: "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC" }
-  var myJsonString = JSON.stringify(query);
-  var data = await httpGet("/cliente", myJsonString)
+  var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
+  // var myJsonString = JSON.stringify(query);
+  var data = await httpGet("/cliente", query)
   console.log(data)
 }
 
