@@ -4,9 +4,36 @@ async function teste() {
   document.getElementById("teste").value = "oi"
 }
 
+async function fecthGet(url){
+  const resp = await fetch(url, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+
+  // Handle any errors please
+
+  const data = await resp.json();
+  return data
+}
+
+async function fecthPost(url){
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+
+
+  const data = await resp.json();
+  return data
+}
+
 async function buscaCliente() {
   var nome = document.getElementById("inputCliente").value
-  const resp = await fetch('https://danig-budget.up.railway.app/clienteData?name=' + nome, {
+  const resp = await fetch('/clienteData?name=' + nome, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -46,11 +73,16 @@ async function buscaCliente() {
 window.onload = async function (event) {
   await onLoad()
 };
-
+var optionsClient = ''
 async function onLoad() {
-  document.getElementById("inputCliente") = "Sasaki"
+  document.getElementById("inputCliente").value = "Sasaki"
   var data = await httpGet("/cliente")
   console.log(data)
+  data.forEach(function (item) {
+    if (optionsClient.indexOf(item["cliente"]) == -1) {
+        optionsClient += '<option value="' + item["cliente"] + '" />';
+    }
+});
 }
 
 function httpGet(theUrl) {
