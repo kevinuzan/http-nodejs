@@ -10,7 +10,7 @@ async function teste() {
 }
 
 async function abrirpg2() {
-  httpGet("/excel")
+  httpPost("/excel")
 }
 
 function httpGet(theUrl)
@@ -19,4 +19,11 @@ function httpGet(theUrl)
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     return xmlHttp.response;
+}
+
+function httpPost(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
 }
