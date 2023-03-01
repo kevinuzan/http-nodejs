@@ -26,9 +26,10 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/cliente', async function (req, res) {
+app.post('/cliente', async function (req, res) {
     //ABRIU E LEU O EXCEL
     // res.sendStatus(200);
+    console.log(req)
     var array = await connect(req)
     console.log(array)
     res.send(array)
