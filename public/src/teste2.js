@@ -6,14 +6,18 @@ async function teste() {
 
 async function buscaCliente() {
   var nome = document.getElementById("inputCliente")
-  await fetch('https://danig-budget.up.railway.app/clienteData?name=' + nome, { Method: 'POST' })
-  .then(response => {
-      //handle response            
-      console.log(response);
-  })
-  .catch(error => {
-      //handle error
+  const resp = await fetch('https://danig-budget.up.railway.app/cliente?name=' + nome, {
+    Method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    }
   });
+
+  // Handle any errors please
+
+  const data = await resp.json();
+
+  console.log(data);
 
   // var data = await httpPost("/clienteData", query)
   // console.log(data)
