@@ -1,26 +1,3 @@
-// import { createServer } from 'http';
-
-// createServer((req, res) => {
-//   res.('./html/loginWindow.html');
-//   res.end();
-// }).listen(process.env.PORT);
-
-
-// import { createServer } from 'http';
-// import { readFile } from 'fs';
-// readFile('./html/loginWindow.html', function (err, html) {
-//   if (err) {
-//     throw err;
-//   }
-//   createServer(function (request, response) {
-//     response.writeHeader(200, { "Content-Type": "text/html" });
-//     response.write(html);
-//     response.end();
-//   }).listen(process.env.PORT);
-// });
-
-
-
 import express from 'express';
 var app = express();
 import path from 'path';
@@ -47,5 +24,5 @@ app.get('/', function (req, res) {
 
 app.get('/excel', function (req, res) {
     //ABRIU E LEU O EXCEL
-    res.sendFile(__dirname + '/index_2.html');
+    res.sendFile(__dirname + '/html/index_2.html');
 });
