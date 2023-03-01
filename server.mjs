@@ -34,12 +34,12 @@ app.get('/', function (req, res) {
 
 app.post('/cliente', async function (req, res) {
     //ABRIU E LEU O EXCEL
-    // res.sendStatus(200);
-    console.log(req)
-    var query = req.body.query
-    var array = await connect(query)
-    console.log(array)
-    res.send(array)
+    res.sendStatus(req);
+    // console.log(req)
+    // var query = req.body.query
+    // var array = await connect(query)
+    // console.log(array)
+    // res.send(array)
 });
 
 

@@ -18,9 +18,9 @@ function httpGet(theUrl, sendData) {
   return xmlHttp.response;
 }
 
-function httpPost(theUrl, sendData) {
+async function httpPost(theUrl, sendData) {
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("POST", theUrl, false); // false for synchronous request
+  xmlHttp.open("POST", theUrl, true); // false for synchronous request
   xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   xmlHttp.send(sendData);
   return xmlHttp.response;
