@@ -4,8 +4,12 @@ import path from 'path';
 import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 
-import * as pg from 'pg'
-const { Pool } = pg
+// import * as pg from 'pg'
+// const { Pool } = pg
+
+import pg from "pg";
+
+const pool = new pg.Pool();
 
 import bodyParser from "body-parser";
 
@@ -33,29 +37,34 @@ app.get('/', function (req, res) {
 });
 
 app.get('/cliente', async function (req, res) {
+    const { rows } = await pool.query("SELECT * FROM erp")
+
+    res.json(rows)
+
+
     //ABRIU E LEU O EXCEL
-    res.sendStatus(req);
+    // res.sendStatus(req);
     // console.log(req)
     // var query = req.body.query
     // var array = await connect(query)
-    // console.log(array)
+    // // console.log(array)
     // res.send(array)
 });
 
+// const { rows } = await pool.query("SELECT * FROM jokes")
 
+// res.json(rows)
 
-async function connect(query) {
-    if (global.connection)
-        return global.connection.connect();
+// async function connect(query) {
+    
+//     const pool = new Pool({
+//         connectionString: url_base
+//     });
 
-    const pool = new Pool({
-        connectionString: url_base
-    });
+//     const client = await pool.connect();
 
-    const client = await pool.connect();
-
-    const res = await client.query(query);
-    const array = res.rows
-    client.release();
-    return array;
-}
+//     const res = await client.query(query);
+//     const array = res.rows
+//     client.release();
+//     return array;
+// }
