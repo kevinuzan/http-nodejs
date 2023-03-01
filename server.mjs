@@ -4,7 +4,9 @@ import path from 'path';
 import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 
-import { Pool } from 'pg'
+import * as pg from 'pg'
+const { Pool } = pg
+
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -24,11 +26,11 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/cliente', function (req, res) {
+app.get('/cliente', async function (req, res) {
     //ABRIU E LEU O EXCEL
     // res.sendStatus(200);
-    connect(req)
-    res.send()
+    var array = await connect(req)
+    res.send(array)
 });
 
 
