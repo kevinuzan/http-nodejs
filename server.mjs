@@ -30,6 +30,7 @@ app.get('/cliente', async function (req, res) {
     //ABRIU E LEU O EXCEL
     // res.sendStatus(200);
     var array = await connect(req)
+    console.log(array)
     res.send(array)
 });
 
