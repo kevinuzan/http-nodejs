@@ -10,7 +10,7 @@ async function teste() {
 }
 
 async function abrirpg2() {
-  console.log(httpGet("/excel"))
+  httpGet("/excel")
 }
 
 function httpGet(theUrl)
