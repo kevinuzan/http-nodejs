@@ -42,9 +42,9 @@ app.get('/cliente', async function (req, res) {
     res.json(rows)
 });
 
-app.post('/clienteData', async function (req, res) {
+app.get('/clienteData', async function (req, res) {
     let name = req.query.name;
     // var query = "SELECT * FROM ERP where cliente = '" + name + "'"
     // const { rows } = await pool.query(query)
-    res.send(name)
+    res.json(name)
 });

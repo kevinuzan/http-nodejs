@@ -6,8 +6,8 @@ async function teste() {
 
 async function buscaCliente() {
   var nome = document.getElementById("inputCliente").value
-  const resp = await fetch('/clienteData?name=' + 'Sasaki', {
-    Method: 'POST',
+  const resp = await fetch('https://danig-budget.up.railway.app/clienteData?name=' + 'Sasaki', {
+    Method: 'GET',
     headers: {
       "Content-Type": "application/json",
     }
