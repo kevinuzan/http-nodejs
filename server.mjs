@@ -32,7 +32,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/cliente', async function (req, res) {
+app.get('/cliente', async function (req, res) {
     //ABRIU E LEU O EXCEL
     res.sendStatus(req);
     // console.log(req)
