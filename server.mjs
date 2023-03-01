@@ -7,6 +7,9 @@ import { fileURLToPath } from 'url';
 import * as pg from 'pg'
 const { Pool } = pg
 
+import * as bp from 'body-parser'
+const bodyParser = bp
+
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -22,6 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'public/src')));
 app.use('/html', express.static(path.join(__dirname, 'public/html')));
 
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
@@ -30,7 +37,8 @@ app.post('/cliente', async function (req, res) {
     //ABRIU E LEU O EXCEL
     // res.sendStatus(200);
     console.log(req)
-    var array = await connect(req)
+    var query = req.body.query
+    var array = await connect(query)
     console.log(array)
     res.send(array)
 });
