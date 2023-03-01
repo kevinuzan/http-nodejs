@@ -29,16 +29,17 @@ app.use('/src', express.static(path.join(__dirname, 'public/src')));
 app.use('/html', express.static(path.join(__dirname, 'public/html')));
 
 
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+// app.use(bodyParser.json()); // for parsing application/json
+// app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/cliente', async function (req, res) {
-    // var query = req
-    const { rows } = await pool.query(req)
+    var query = req.toString()
+    const { rows } = await pool.query(query)
+    // const { rows } = await pool.query("SELECT * FROM erp")
 
     res.json(rows)
 });
