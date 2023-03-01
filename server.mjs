@@ -24,6 +24,6 @@ app.get('/', function (req, res) {
 
 app.get('/excel', function (req, res) {
     //ABRIU E LEU O EXCEL
-    res.send(__dirname + '/html/index_2.html');
+    res.send(__dirname + '/public/html/index_2.html');
     //res.sendFile(__dirname + '/html/index_2.html');
 });
