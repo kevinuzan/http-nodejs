@@ -5,7 +5,8 @@ async function teste() {
 }
 
 async function buscaCliente() {
-  await fetch('https://danig-budget.up.railway.app/clienteData?name=' + 'brody', { Method: 'POST' })
+  var nome = document.getElementById("inputCliente")
+  await fetch('https://danig-budget.up.railway.app/clienteData?name=' + nome, { Method: 'POST' })
   .then(response => {
       //handle response            
       console.log(response);
@@ -19,6 +20,7 @@ async function buscaCliente() {
 }
 
 async function onLoad() {
+  document.getElementById("inputCliente") = "Sasaki"
   var data = await httpGet("/cliente")
   console.log(data)
 }
