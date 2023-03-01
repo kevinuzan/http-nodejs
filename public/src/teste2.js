@@ -33,16 +33,18 @@ async function fecthPost(url){
 
 async function buscaCliente() {
   var nome = document.getElementById("inputCliente").value
-  const resp = await fetch('/clienteData?name=' + nome, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-    }
-  });
+  const data = await fecthPost('/clienteData?name=' + nome)
+  // const resp = await fetch('/clienteData?name=' + nome, {
+  //   method: 'POST',
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   }
+  // });
 
   // Handle any errors please
 
-  const data = await resp.json();
+  // const data = await resp.json();
+
   document.getElementById("inputTelefone").value = data[0]["telefone"]
   document.getElementById("inputTelhado").value = data[0]["tipo_telhado"]
   document.getElementById("inputEstado").value = data[0]["estado"]
@@ -75,8 +77,8 @@ window.onload = async function (event) {
 };
 var optionsClient = ''
 async function onLoad() {
-  document.getElementById("inputCliente").value = "Sasaki"
-  var data = await httpGet("/cliente")
+  const data = await fecthGet("/cliente")
+  // var data = await httpGet("/cliente")
   data = JSON.parse(data)
   console.log(data)
   data.forEach(function (item) {
