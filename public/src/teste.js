@@ -1,5 +1,5 @@
 async function abrirpg2() {
-  window.open("/html/index_2.html")
+  window.location.replace("/html/index_2.html")
 }
 
 function httpGet(theUrl)
