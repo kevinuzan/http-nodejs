@@ -23,7 +23,7 @@
 
 import express from 'express';
 var app = express();
-import path, { join } from 'path';
+import path from 'path';
 import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 
@@ -46,5 +46,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/excel', function (req, res) {
-    res.sendStatus(200);
+    //ABRIU E LEU O EXCEL
+    res.sendFile(__dirname + '/index_2.html');
 });
