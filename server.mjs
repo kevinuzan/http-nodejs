@@ -7,8 +7,7 @@ import { fileURLToPath } from 'url';
 import * as pg from 'pg'
 const { Pool } = pg
 
-import * as bp from 'body-parser'
-const bodyParser = bp
+import bodyParser from "body-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 
