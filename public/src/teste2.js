@@ -4,7 +4,7 @@ async function teste() {
   document.getElementById("teste").value = "oi"
 }
 
-async function fecthGet(url){
+async function fecthGet(url) {
   const resp = await fetch(url, {
     method: 'GET',
     headers: {
@@ -18,7 +18,7 @@ async function fecthGet(url){
   return data
 }
 
-async function fecthPost(url){
+async function fecthPost(url) {
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -83,9 +83,10 @@ async function onLoad() {
   console.log(data)
   data.forEach(function (item) {
     if (optionsClient.indexOf(item["cliente"]) == -1) {
-        optionsClient += '<option value="' + item["cliente"] + '" />';
+      optionsClient += '<option value="' + item["cliente"] + '" />';
     }
-});
+  });
+  document.getElementById("inputClienteList").innerHTML = optionsClient
 }
 
 function httpGet(theUrl) {
