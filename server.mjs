@@ -37,7 +37,8 @@ app.get('/', function (req, res) {
 });
 
 app.get('/cliente', async function (req, res) {
-    const { rows } = await pool.query("SELECT * FROM erp")
+    var query = req.body.query
+    const { rows } = await pool.query(query)
 
     res.json(rows)
 
