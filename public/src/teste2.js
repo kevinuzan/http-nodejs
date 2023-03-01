@@ -77,6 +77,7 @@ var optionsClient = ''
 async function onLoad() {
   document.getElementById("inputCliente").value = "Sasaki"
   var data = await httpGet("/cliente")
+  data = JSON.parse(data)
   console.log(data)
   data.forEach(function (item) {
     if (optionsClient.indexOf(item["cliente"]) == -1) {

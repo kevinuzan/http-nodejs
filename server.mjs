@@ -3,10 +3,6 @@ var app = express();
 import path from 'path';
 import { createServer } from 'http';
 import { fileURLToPath } from 'url';
-
-// import * as pg from 'pg'
-// const { Pool } = pg
-
 import pg from "pg";
 
 const pool = new pg.Pool();
@@ -17,8 +13,6 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-
-var url_base = 'postgresql://postgres:2oOG2Ds7OMpQAI50gjk6@containers-us-west-107.railway.app:6236/railway'
 
 var server = createServer(app);
 
