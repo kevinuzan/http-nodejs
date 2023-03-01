@@ -42,9 +42,15 @@ app.get('/cliente', async function (req, res) {
     res.json(rows)
 });
 
-app.get('/clienteData', async function (req, res) {
+app.post('/clienteData', async function (req, res) {
     let name = req.query.name;
     var query = "SELECT * FROM ERP where cliente = '" + name + "'"
     const { rows } = await pool.query(query)
     res.json(rows)
 });
+
+// app.get('/html/index_2.html', async function (req, res) {
+//     var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
+//     const { rows } = await pool.query(query)
+//     res.json(rows)
+// });
