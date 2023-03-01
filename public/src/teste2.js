@@ -5,9 +5,17 @@ async function teste() {
 }
 
 async function buscaCliente() {
+  await fetch('https://danig-budget.up.railway.app/clienteData?name=' + 'brody', { Method: 'POST' })
+  .then(response => {
+      //handle response            
+      console.log(response);
+  })
+  .catch(error => {
+      //handle error
+  });
 
-  var data = await httpPost("/clienteData", query)
-  console.log(data)
+  // var data = await httpPost("/clienteData", query)
+  // console.log(data)
 }
 
 async function onLoad() {
