@@ -1,0 +1,51 @@
+FORNECEDOR;CODIGO;Tipo;Modelo;PotNomi;FaixaMPPT;TensPart;Maxtens;EntradaImp;Eficiencia;ConexaoCA;CorrenteSaída;FaixaTens;MPPT
+PHB;InversorPHB0,78Bifasico1S;Inversor;PHB780-XS;0,78;50-450;50;450;12,5;97,40%;Bifasico;3,5;166,4 - 279,4;1S
+PHB;InversorPHB1,5Bifasico1S;Inversor;PHB1500-XS;1,5;50-400;50;400;12,5;97,40%;Bifasico;7,2;166,4 - 279,4;1S
+PHB;InversorPHB1,8Monofasico1S;Inversor;PHB1800N-XS;1,8;50-400;50;400;13;97,40%;Monofasico;14,3;92 - 139,7;1S
+PHB;InversorPHB2,9Monofasico2S;Inversor;PHB2900D-NS;2,9;125-550;120;550;13;96,01%;Monofasico;23,8;92 - 139,7;2S
+PHB;InversorPHB3Bifasico1S;Inversor;PHB3000-NS;3;80-450;80;450;15;97,50%;Bifasico;13,5;166,4 - 279,4;1S
+PHB;InversorPHB5Bifasico2S;Inversor;PHB5000D-NS;5;125-550;120;550;11;97,80%;Bifasico;22,8;166,4 - 279,4;2S
+PHB;InversorPHB6Bifasico2S;Inversor;PHB6000D-NS;6;125-550;120;550;13;97,80%;Bifasico;27,3;166,4 - 279,4;2S
+PHB;InversorPHB8,5Bifasico3S;Inversor;PHB8500-MS;8,5;80-550;80;550;12,5;97,70%;Bifasico;42,5;166,4 - 279,4;3S
+PHB;InversorPHB12Trifasico2S;Inversor;PHB12KN-DT;12;200-650;180;650;22;98,60%;Trifasico;31,9;176 - 242;2S
+FRONIUS;InversorFronius3Bifasico2S;Inversor;FroniusPrimo3.0-1;3;200-800;80;710;12;98,00%;Bifasico;13;180 - 270;2S
+FRONIUS;InversorFronius4Bifasico2S;Inversor;FroniusPrimo4.0-1;4;210-800;80;710;12;98,10%;Bifasico;17,4;;2S
+FRONIUS;InversorFronius4,6Bifasico2S;Inversor;FroniusPrimo4.6-1;4,6;240-800;80;710;12;98,10%;Bifasico;20;;2S
+FRONIUS;InversorFronius5Bifasico2S;Inversor;FroniusPrimo5.0-1;5;240-800;80;710;12;98,10%;Bifasico;21,7;;2S
+FRONIUS;InversorFronius6Bifasico2S;Inversor;FroniusPrimo6.0-1;6;240-800;80;710;18;98,10%;Bifasico;26,1;;2S
+FRONIUS;InversorFronius8,2Bifasico2S;Inversor;FroniusPrimo8.2-1;8,2;270-800;80;710;18;98,10%;Bifasico;35,7;;2S
+HUAWEI;InversorHuawei2Bifasico2S;Inversor;SUN2000L-2KTL;2;120-480;120;480;11;98,40%;Bifasico;10;;2S
+HUAWEI;InversorHuawei3Bifasico2S;Inversor;SUN2000L-3KTL;3;160-480;120;480;11;98,50%;Bifasico;15;;2S
+HUAWEI;InversorHuawei4Bifasico2S;Inversor;SUN2000L-4KTL;4;210-480;120;480;11;98,60%;Bifasico;20;;2S
+HUAWEI;InversorHuawei5Bifasico2S;Inversor;SUN2000L-5KTL;5;260-480;120;480;11;98,60%;Bifasico;25;;2S
+GROWATT;InversorGrowatt1Bifasico1S;Inversor;MIC1000TL-X;1;50-500;50;500;13;97,40%;Bifasico;4,8;;1S
+GROWATT;InversorGrowatt1,5Bifasico1S;Inversor;MIC1500TL-X;1,5;50-500;50;500;13;97,40%;Bifasico;7,1;;1S
+GROWATT;InversorGrowatt2Bifasico1S;Inversor;MIC2000TL-X;2;50-500;50;500;13;97,40%;Bifasico;9,5;;1S
+GROWATT;InversorGrowatt2,5Monofasico1S;Inversor;MIC2500TL-X;2,5;65-550;80;550;13;97,60%;Monofasico;11,9;160 - 300;1S
+GROWATT;InversorGrowatt3Monofasico1S;Inversor;MIC3000TL-X;3;65-550;80;550;13;97,60%;Monofasico;14,3;160 - 300;1S
+GROWATT;InversorGrowatt2,5Monofasico2S;Inversor;MIN2500TL-X;2,5;60-500;100;500;12,5;98,20%;Monofasico;11,3;160 - 300;2S
+GROWATT;InversorGrowatt3Monofasico2S;Inversor;MIN3000TL-X;3;60-500;100;500;12,5;98,20%;Monofasico;13,6;160 - 300;2S
+GROWATT;InversorGrowatt3,6Monofasico2S;Inversor;MIN3600TL-X;3,6;60-500;100;500;12,5;98,20%;Monofasico;16;160 - 300;2S
+GROWATT;InversorGrowatt4,2Monofasico2S;Inversor;MIN4200TL-X;4,2;60-500;100;500;12,5;98,40%;Monofasico;19;160 - 300;2S
+GROWATT;InversorGrowatt4,6Monofasico2S;Inversor;MIN4600TL-X;4,6;60-550;100;550;12,5;98,40%;Monofasico;20,9;160 - 300;2S
+GROWATT;InversorGrowatt5Monofasico2S;Inversor;MIN5000TL-X;5;60-550;100;550;12,5;98,40%;Monofasico;22,7;160 - 300;2S
+GROWATT;InversorGrowatt6Monofasico2S;Inversor;MIN6000TL-X;6;60-550;100;550;12,5;98,40%;Monofasico;27,2;160 - 300;2S
+GROWATT;InversorGrowatt7Monofasico2S;Inversor;MIN7000TL-X(E);7;60-550;100;550;13,5;98,10%;Monofasico;33,5;160 - 300;2S
+GROWATT;InversorGrowatt8Monofasico2S;Inversor;MIN8000TL-X(E);8;60-550;100;550;13,5;98,10%;Monofasico;38,3;160 - 300;2S
+GROWATT;InversorGrowatt9Monofasico3S;Inversor;MIN9000TL-X(E);9;60-550;100;550;13,5;98,10%;Monofasico;43;160 - 300;3S
+GROWATT;InversorGrowatt10Monofasico3S;Inversor;MIN10000TL-X(E);10;60-550;100;550;13,5;98,10%;Monofasico;45,5;160 - 300;3S
+GROWATT;InversorGrowatt15Trifasico4S;Inversor;MID15KTL3-XL;15;200-850;250;850;26;98,00%;Trifasico;43,7;110-220;4S
+GROWATT;InversorGrowatt20Trifasico4S;Inversor;MID20KTL3-XL;20;200-850;250;850;26;98,00%;Trifasico;58,3;110-220;4S
+GROWATT;InversorGrowatt36Trifasico3S;Inversor;MAC36KTL3-XL;36;200-1000;250;1000;52;98,80%;Trifasico;94,5;110-220;3S
+GROWATT;InversorGrowatt75Trifasico7S;Inversor;MAX75KTL3-LV;75;200-1000;250;1000;26;98,80%;Trifasico;120,8;220/380;7S
+CANADIAN;InversorCanadian3Bifasico1S;Inversor;CSI-3KTL1P-GI-FL;3;80-500;90;500;11;97,50%;Bifasico;15,7;;1S
+CANADIAN;InversorCanadian4Bifasico2S;Inversor;CSI-4KTL1P-GI-FL;4;90-520;120;520;11;98,10%;Bifasico;21;;2S
+CANADIAN;InversorCanadian5Bifasico2S;Inversor;CSI-5KTL1P-GI-FL;5;90-520;120;520;11;98,10%;Bifasico;25;;2S
+CANADIAN;InversorCanadian7Bifasico3S;Inversor;CSI-7KTL1P-GI-FL;7;100-500;120;500;10;98,10%;Bifasico;33,7;;3S
+CANADIAN;InversorCanadian8Bifasico3S;Inversor;CSI-8KTL1P-GI-FL;8;100-500;120;500;10;98,10%;Bifasico;36,6;;3S
+CANADIAN;InversorCanadian9Bifasico3S;Inversor;CSI-9KTL1P-GI-FL;9;100-500;120;500;10;98,10%;Bifasico;41,3;;3S
+CANADIAN;InversorCanadian15Trifasico 2S;Inversor;CSI-15K-T400GL01-E;15;160-850;180;850;22;98,70%;Trifasico ;23,8;;2S
+CANADIAN;InversorCanadian20Trifasico 2S;Inversor;CSI-20K-T400GL01-E;20;160-850;180;850;22;98,70%;Trifasico ;31,8;;2S
+APSYSTEMS;MicroInversorAPSystems1,5Bifasico4S;MicroInversor;QS1A;1,5;30-52;20;60;13,3;99,5%;Bifasico;6,81;;4S
+DEYE;MicroInversorDeye2Monofasico4S;MicroInversor;Sun2000G3-US-220;2;25-55;20;60;13;96,5%;Monofasico;9,1;220;4S
+HOYMILES;MicroInversorHoymiles1,8Bifasico4S;MicroInversor;HMA-1800-4T;1,8;16-60;22;65;13,3;99,8%;Bifasico;8,18;220;4S
