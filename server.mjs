@@ -38,16 +38,12 @@ var server = createServer(app);
 server.listen(process.env.PORT);
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/src',express.static(path.join(__dirname, 'public/src')));
-app.use('/node_modules',express.static(path.join(__dirname, 'node_modules')));
-app.use('/html',express.static(path.join(__dirname, 'public/html')));
+app.use('/src', express.static(path.join(__dirname, 'public/src')));
+app.use('/html', express.static(path.join(__dirname, 'public/html')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-
-export async function getPage(page){
-    app.get('/', function (req, res) {
-        res.sendFile(__dirname + page);
-    });
-}
+app.get('/excel', function (req, res) {
+    res.sendStatus(200);
+});
