@@ -77,8 +77,8 @@ window.onload = async function (event) {
 };
 var optionsClient = ''
 async function onLoad() {
-  const data = await fecthGet("/cliente")
-  // var data = await httpGet("/cliente")
+  // const data = await fecthGet("/cliente")
+  var data = await httpGet("/cliente")
   data = JSON.parse(data)
   console.log(data)
   data.forEach(function (item) {
