@@ -5,21 +5,21 @@ async function teste() {
 }
 
 async function buscaCliente() {
-  var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
-  var data = await httpGet("/cliente", query)
-  console.log(data)
 
-  // var query = { query: "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC" }
-  // var myJsonString = JSON.stringify(query);
-  // var data = await httpGet("/cliente", myJsonString)
-  // console.log(data)
+  var data = await httpPost("/clienteData", query)
+  console.log(data)
 }
 
-function httpGet(theUrl, sendData) {
+async function onLoad() {
+  var data = await httpGet("/cliente")
+  console.log(data)
+}
+
+function httpGet(theUrl) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("GET", theUrl, false); // false for synchronous request
   // xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  xmlHttp.send(sendData);
+  xmlHttp.send(null);
   return xmlHttp.response;
 }
 
@@ -27,6 +27,6 @@ async function httpPost(theUrl, sendData) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", theUrl, true); // false for synchronous request
   xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  xmlHttp.send(sendData);
+  xmlHttp.send(JSON.stringify(sendData));
   return xmlHttp.response;
 }
