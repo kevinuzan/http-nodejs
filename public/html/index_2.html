@@ -18,37 +18,110 @@
 
 <body>
 	<div id="main">
-		<div class="d-flex justify-content-between align-items-baseline">
-			<div class="w-25 m-2">
-				<img id="logo" src="/img/danig.png" style="max-width: 100%;max-height: 100%;"/>
+		<div class="app-container">
+			<h2>DADOS CADASTRAIS</h2>
+			<div class="container-3-columns mr-3">
+
+				<div class="field-container mt-2">
+					<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
+					<input list="inputClienteList" id="inputCliente" />
+					<datalist id="inputClienteList">
+						<option selected disabled></option>
+					</datalist>
+				</div>
+
 			</div>
-			<h1 class="app-title text-center mt-4 w-50">LOGIN</h1>
-			<div class="w-25 m-2 d-flex flex-column justify-content-end align-items-end">
-			</div>
-		</div>
-		<div class="h-100 w-100 d-flex flex-wrap justify-content-center align-items-center">
-			<div class="field-container mr-2 w-25">
-				<label for="loginUsername" data-translate="_usuarioLogin">Usuário</label>
-				<div class="row ml-1">
-					<input type="text" id="loginUsername" style="width: 82%;" />
+			<div class="container-3-columns mr-3" id="cadastraisID">
+				<div class="field-container mt-2">
+					<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
+					<input disabled id="inputTelefone" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputTelhado" style="font-weight: bold">TIPO DE TELHADO</label>
+					<input disabled id="inputTelhado" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputEstado" style="font-weight: bold">ESTADO</label>
+					<input disabled id="inputEstado" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputCidade" style="font-weight: bold">CIDADE</label>
+					<input disabled id="inputCidade" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputRua" style="font-weight: bold">RUA</label>
+					<input disabled id="inputRua" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputNumero" style="font-weight: bold">NÚMERO</label>
+					<input disabled id="inputNumero" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputBairro" style="font-weight: bold">BAIRRO</label>
+					<input disabled id="inputBairro" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputCep" style="font-weight: bold">CEP</label>
+					<input disabled id="inputCep" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
+					<input list="inputVendedorList" id="inputVendedor" />
+					<datalist id="inputVendedorList">
+						<option selected disabled></option>
+					</datalist>
 				</div>
 			</div>
-		</div>
-		<div class="h-100 w-100 d-flex flex-wrap justify-content-center align-items-center">
-			<div class="field-container mr-2 w-25">
-				<button id="forgotPass" type="submit" class="btn-app cancel btn-app-sm mx-2 move-rigth mt-3">
-					<i class="fas fa-question mr-3"></i>
-					<small data-translate="">Esqueci minha senha</small>
-				</button>
+			<h2>DADOS DE FATURA</h2>
+			<div class="container-3-columns mr-3" id="faturaID">
+				<div class="field-container mt-2">
+					<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
+					<input list="inputDistribuidoraList" id="inputDistribuidora" />
+					<datalist id="inputDistribuidoraList">
+						<option selected disabled></option>
+					</datalist>
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputIcms" style="font-weight: bold">ICMS</label>
+					<input disabled id="inputIcms" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputPis" style="font-weight: bold">PIS</label>
+					<input disabled id="inputPis" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputCofins" style="font-weight: bold">COFINS</label>
+					<input disabled id="inputCofins" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
+					<input disabled id="inputPorcentagem" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputArea" style="font-weight: bold">ÁREA</label>
+					<input disabled id="inputArea" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputConsumo" style="font-weight: bold">CONSUMO</label>
+					<input disabled id="inputConsumo" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputTaxa" style="font-weight: bold">TAXA</label>
+					<input disabled id="inputTaxa" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
+					<input disabled id="inputIlumPub" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputUniCons" style="font-weight: bold">UNID. CONSUMIDORA</label>
+					<input disabled id="inputUniCons" placeholder="Digite..">
+				</div>
+				<div class="field-container mt-2">
+					<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
+					<input disabled id="inputBandeira" placeholder="Digite..">
+				</div>
 			</div>
-		</div>
-		<div class="h-100 w-100 d-flex flex-wrap justify-content-center align-items-center">
-			<button
-				class="app-card text-center m-2 card-body d-flex flex-column justify-content-between align-items-center" onclick="abrirpg2()"
-				id="openDB">
-				<i class="fas fa-sign-in-alt card-icon mt-2 mb-3"></i>
-				<large>LOGIN</large>
-			</button>
 		</div>
 	</div>
 </body>
