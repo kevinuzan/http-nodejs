@@ -4,11 +4,13 @@ import path from 'path';
 import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 
+import { Pool } from 'pg'
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
 
+var url_base = 'postgresql://postgres:2oOG2Ds7OMpQAI50gjk6@containers-us-west-107.railway.app:6236/railway'
 
 var server = createServer(app);
 
@@ -22,8 +24,27 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/excel', function (req, res) {
+app.get('/cliente', function (req, res) {
     //ABRIU E LEU O EXCEL
     // res.sendStatus(200);
-    res.sendFile(__dirname + '/public/html/index_2.html');
+    connect(req)
+    res.send()
 });
+
+
+
+async function connect(query) {
+    if (global.connection)
+        return global.connection.connect();
+
+    const pool = new Pool({
+        connectionString: url_base
+    });
+
+    const client = await pool.connect();
+
+    const res = await client.query(query);
+    const array = res.rows
+    client.release();
+    return array;
+}
