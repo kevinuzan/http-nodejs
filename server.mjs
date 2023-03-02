@@ -46,11 +46,11 @@ app.post('/clienteData', async function (req, res) {
 });
 
 app.get('/lat_lon', async function (req, res) {
-    let address = req.query.name;
+    // let address = req.query.name;
     let options = {
         provider: 'openstreetmap'
     };
-
+    let address = "RUA TIRADENTES, 1694, FERRAZÓPOLIS"
     let geoCoder = nodeGeocoder(options);
     geoCoder.geocode(address)
         .then((lat_lon) => {
