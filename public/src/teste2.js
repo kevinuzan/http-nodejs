@@ -65,12 +65,20 @@ async function buscaCliente() {
   document.getElementById("inputIlumPub").value = data[0]["ilum_pub"]
   document.getElementById("inputUniCons").value = data[0]["unid_consid"]
   document.getElementById("inputBandeira").value = data[0]["bandeira"]
+
+
+  document.getElementById('inputRuaDadoTec').value
+  document.getElementById('inputNumeroDadoTec').value
+  document.getElementById('inputBairroDadoTec').value
   console.log(data);
 }
 
-async function getLocation(query){
-
-  var address = '/lat_lon?name=' + 'Av Dr Francisco Mesquita, 1205'
+async function getLocation(query) {
+  var rua = document.getElementById('inputRuaDadoTec').value = data[0]["rua"]
+  var numero = document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
+  var bairro = document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
+  var endereco = rua + ", " + numero + " - " + bairro
+  var address = '/lat_lon?name=' + endereco
   const data = await fecthGet(address)
   // var data = await httpGet("/lat_lon")
   console.log(data)
