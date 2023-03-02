@@ -60,7 +60,7 @@ app.get('/lat_lon', async function (req, res) {
       };
       const client = new Client();
       client.geocode(args).then(gcResponse => {
-        const str = JSON.stringify(gcResponse.data.results[0]);
+        const str = JSON.stringify(gcResponse.data.results[0].geometry.location);
         //const str = JSON.stringify(gcResponse);
         res.json(str)
       });
