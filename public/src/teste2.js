@@ -73,11 +73,28 @@ async function buscaCliente() {
   console.log(data);
 }
 
-async function getLocation(query) {
+var geocoder;
+var map;
+function initialize() {
+  geocoder = new google.maps.Geocoder();
+}
+
+function codeAddress() {
+  var address =  rua + " " + numero + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
+  geocoder.geocode({ 'address': address }, function (results, status) {
+    if (status == 'OK') {
+      console.log(results)
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
   var numero = document.getElementById('inputNumeroDadoTec').value
   var bairro = document.getElementById('inputBairroDadoTec').value
-  var endereco =  numero + " " + rua + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
+  var endereco = numero + " " + rua + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
   var address = '/lat_lon?name=' + endereco
   const data = await fecthGet(address)
   // var data = await httpGet("/lat_lon")
@@ -86,6 +103,7 @@ async function getLocation(query) {
 
 window.onload = async function (event) {
   await onLoad()
+  await initialize()
 };
 var optionsClient = ''
 async function onLoad() {

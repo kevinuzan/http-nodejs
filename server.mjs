@@ -5,9 +5,7 @@ import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 import pg from "pg";
 
-// import nodeGeocoder from "node-geocoder"
-import nodeGeocoder from "node-open-geocoder"
-
+import nodeGeocoder from "node-geocoder"
 
 const pool = new pg.Pool();
 
@@ -17,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-
+var apiMaps = 'AIzaSyDtm1Bvu0chHbYIPghyFyc9Vr2v2IU7sAk'
 var server = createServer(app);
 
 server.listen(process.env.PORT);
@@ -47,28 +45,22 @@ app.post('/clienteData', async function (req, res) {
     res.json(rows)
 });
 
+
+
 app.get('/lat_lon', async function (req, res) {
     let address = req.query.name;
+    let options = {
+        provider: 'openstreetmap'
+    };
 
-
-    nodeGeocoder()
-        .geocode(address)
-        .end((err, lat_lon) => {
+    let geoCoder = nodeGeocoder(options);
+    geoCoder.geocode(address)
+        .then((lat_lon) => {
             res.json(lat_lon)
         })
-
-
-    // let options = {
-    //     provider: 'openstreetmap'
-    // };
-    // let address = "RUA TIRADENTES, 1694, FERRAZOPOLIS"
-    // let geoCoder = nodeGeocoder(options);
-    // geoCoder.geocode(address)
-    //     .then((lat_lon) => {
-    //         res.json(lat_lon)
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //         res.json(err)
-    //     });
+        .catch((err) => {
+            console.log(err);
+            res.json(err)
+        });
 })
+ 
