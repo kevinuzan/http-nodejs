@@ -78,6 +78,8 @@ async function getLocation() {
   const data = await fecthGet(address)
   // var data = await httpGet("/lat_lon")
   console.log(data)
+  document.getElementById("inputLatitudeDadoTec").value = data.lat
+  document.getElementById("inputLongitudeDadoTec").value = data.lon
 }
 
 async function onLoad() {
