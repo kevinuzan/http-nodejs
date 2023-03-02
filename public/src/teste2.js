@@ -67,16 +67,16 @@ async function buscaCliente() {
   document.getElementById("inputBandeira").value = data[0]["bandeira"]
 
 
-  document.getElementById('inputRuaDadoTec').value
-  document.getElementById('inputNumeroDadoTec').value
-  document.getElementById('inputBairroDadoTec').value
+  document.getElementById('inputRuaDadoTec').value = data[0]["rua"]
+  document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
+  document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
   console.log(data);
 }
 
 async function getLocation(query) {
-  var rua = document.getElementById('inputRuaDadoTec').value = data[0]["rua"]
-  var numero = document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
-  var bairro = document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
+  var rua = document.getElementById('inputRuaDadoTec').value
+  var numero = document.getElementById('inputNumeroDadoTec').value
+  var bairro = document.getElementById('inputBairroDadoTec').value
   var endereco = rua + ", " + numero + " - " + bairro
   var address = '/lat_lon?name=' + endereco
   const data = await fecthGet(address)
