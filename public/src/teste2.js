@@ -69,8 +69,10 @@ async function buscaCliente() {
 }
 
 async function getLocation(query){
-  // const data = await fecthGet("/lat_lon")
-  var data = await httpGet("/lat_lon")
+
+  var address = '/lat_lon?address=' + 'Av Dr Francisco Mesquita, 1205 - Vila Prudente'
+  const data = await fecthGet(address)
+  // var data = await httpGet("/lat_lon")
   console.log(data)
 }
 

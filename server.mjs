@@ -46,14 +46,14 @@ app.post('/clienteData', async function (req, res) {
 });
 
 app.get('/lat_lon', async function (req, res) {
+    let address = req.query.address;
     let options = {
         provider: 'openstreetmap'
     };
 
     let geoCoder = nodeGeocoder(options);
-    geoCoder.geocode('Av Dr Francisco Mesquita 1205')
+    geoCoder.geocode(address)
         .then((lat_lon) => {
-            console.log(lat_lon);
             res.json(lat_lon)
         })
         .catch((err) => {
