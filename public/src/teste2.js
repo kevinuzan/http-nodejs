@@ -75,7 +75,7 @@ async function getLocation() {
   var bairro = document.getElementById('inputBairroDadoTec').value
   var endereco =  numero + " " + rua + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
   var address = '/lat_lon?name=' + endereco
-  const data = await fecthPost(address)
+  const data = await fecthGet(address)
   // var data = await httpGet("/lat_lon")
   console.log(data)
 }

@@ -50,7 +50,7 @@ app.post('/clienteData', async function (req, res) {
 
 
 
-app.post('/lat_lon', async function (req, res) {
+app.get('/lat_lon', async function (req, res) {
     let address = req.query.name;
     const args = {
         params: {
