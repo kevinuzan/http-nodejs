@@ -60,9 +60,3 @@ app.get('/lat_lon', async function (req, red) {
             console.log(err);
         });
 })
-
-// app.get('/html/index_2.html', async function (req, res) {
-//     var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
-//     const { rows } = await pool.query(query)
-//     res.json(rows)
-// });
