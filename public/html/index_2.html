@@ -152,46 +152,47 @@
 			</div>
 
 			<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
-				<div class="container-3-columns mr-3 mb-2">
+				<div class="app-container">
+					<div class="container-3-columns mr-3 mb-2">
 
-					<div class="field-container mt-2">
-						<label for="inputRuaDadoTec" style="font-weight: bold">RUA</label>
-						<input id="inputRuaDadoTec" placeholder="Digite..">
-					</div>
-					<div class="field-container mt-2">
-						<label for="inputNumeroDadoTec" style="font-weight: bold">NÚMERO</label>
-						<input id="inputNumeroDadoTec" placeholder="Digite..">
-					</div>
-					<div class="field-container mt-2">
-						<label for="inputBairroDadoTec" style="font-weight: bold">BAIRRO</label>
-						<input id="inputBairroDadoTec" placeholder="Digite..">
-					</div>
-					<div class="field-container mt-2 mb-2">
-						<label for="buscaCliente" style="font-weight: bold"> </label>
-						<button type="button" onclick="getLocation()"
-							id="buscaCliente" class="btn-app">BUSCA</button>
-					</div>
+						<div class="field-container mt-2">
+							<label for="inputRuaDadoTec" style="font-weight: bold">RUA</label>
+							<input id="inputRuaDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputNumeroDadoTec" style="font-weight: bold">NÚMERO</label>
+							<input id="inputNumeroDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputBairroDadoTec" style="font-weight: bold">BAIRRO</label>
+							<input id="inputBairroDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2 mb-2">
+							<label for="buscaCliente" style="font-weight: bold"> </label>
+							<button type="button" onclick="getLocation()" id="buscaCliente"
+								class="btn-app">BUSCA</button>
+						</div>
 
+					</div>
+					<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
+
+						<div class="field-container mt-2">
+							<label for="inputLatitudeDadoTec" style="font-weight: bold">LATITUDE</label>
+							<input id="inputLatitudeDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputLongitudeDadoTec" style="font-weight: bold">LONGITUDE</label>
+							<input id="inputLongitudeDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputVendedor2" style="font-weight: bold">VENDEDOR</label>
+							<input list="inputVendedorList2" id="inputVendedor2" />
+							<datalist id="inputVendedorList2">
+								<option selected disabled></option>
+							</datalist>
+						</div>
+					</div>
 				</div>
-				<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
-
-					<div class="field-container mt-2">
-						<label for="inputLatitudeDadoTec" style="font-weight: bold">LATITUDE</label>
-						<input id="inputLatitudeDadoTec" placeholder="Digite..">
-					</div>
-					<div class="field-container mt-2">
-						<label for="inputLongitudeDadoTec" style="font-weight: bold">LONGITUDE</label>
-						<input id="inputLongitudeDadoTec" placeholder="Digite..">
-					</div>
-					<div class="field-container mt-2">
-						<label for="inputVendedor2" style="font-weight: bold">VENDEDOR</label>
-						<input list="inputVendedorList2" id="inputVendedor2" />
-						<datalist id="inputVendedorList2">
-							<option selected disabled></option>
-						</datalist>
-					</div>
-				</div>
-
 
 			</div>
 
