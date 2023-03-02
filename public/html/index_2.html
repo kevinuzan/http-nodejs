@@ -9,19 +9,6 @@
 	<link rel="stylesheet" href="/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="/css/fontawesome.min.css" />
 	<link rel="stylesheet" href="/css/styles.css" />
-	<script>
-		var getLocation = function (address) {
-			var geocoder = new google.maps.Geocoder();
-			geocoder.geocode({ 'address': address }, function (results, status) {
-
-				if (status == google.maps.GeocoderStatus.OK) {
-					var latitude = results[0].geometry.location.lat();
-					var longitude = results[0].geometry.location.lng();
-					console.log(latitude, longitude, results[0]);
-				}
-			});
-		}
-	</script>
 	<script src="/js/fontawesome.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
 	<title>DANIG</title>
@@ -169,8 +156,8 @@
 
 				<div class="field-container mt-2 mb-2">
 					<label for="inputCliente" style="font-weight: bold"> </label>
-					<button type="button" onclick="getLocation('Av Dr Francisco Mesquita, 1205, vila prudente')" id="buscaCliente"
-						class="btn-app">BUSCA</button>
+					<button type="button" onclick="getLocation('Av Dr Francisco Mesquita, 1205, vila prudente')"
+						id="buscaCliente" class="btn-app">BUSCA</button>
 				</div>
 
 			</div>

@@ -5,6 +5,8 @@ import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 import pg from "pg";
 
+import nodeGeocoder from "node-geocoder"
+
 const pool = new pg.Pool();
 
 import bodyParser from "body-parser";
@@ -42,6 +44,22 @@ app.post('/clienteData', async function (req, res) {
     const { rows } = await pool.query(query)
     res.json(rows)
 });
+
+app.get('/lat_lon', async function (req, red) {
+    let options = {
+        provider: 'openstreetmap'
+    };
+
+    let geoCoder = nodeGeocoder(options);
+    geoCoder.geocode('Av Dr Francisco Mesquita 1205')
+        .then((lat_lon) => {
+            console.log(lat_lon);
+            res.json(lat_lon)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+})
 
 // app.get('/html/index_2.html', async function (req, res) {
 //     var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"

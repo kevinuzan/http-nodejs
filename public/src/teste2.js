@@ -68,6 +68,10 @@ async function buscaCliente() {
   console.log(data);
 }
 
+async function getLocation(query){
+  const data = await fecthGet("/lat_lon")
+  console.log(data)
+}
 
 window.onload = async function (event) {
   await onLoad()
