@@ -46,7 +46,7 @@ app.post('/clienteData', async function (req, res) {
 });
 
 app.get('/lat_lon', async function (req, res) {
-    let address = req.query.address;
+    let address = req.query.name;
     let options = {
         provider: 'openstreetmap'
     };

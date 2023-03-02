@@ -70,7 +70,7 @@ async function buscaCliente() {
 
 async function getLocation(query){
 
-  var address = '/lat_lon?address=' + 'Av Dr Francisco Mesquita, 1205 - Vila Prudente'
+  var address = '/lat_lon?name=' + 'Av Dr Francisco Mesquita, 1205'
   const data = await fecthGet(address)
   // var data = await httpGet("/lat_lon")
   console.log(data)
