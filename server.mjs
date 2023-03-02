@@ -5,7 +5,9 @@ import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 import pg from "pg";
 
-import nodeGeocoder from "node-geocoder"
+// import nodeGeocoder from "node-geocoder"
+import nodeGeocoder from "node-open-geocoder"
+
 
 const pool = new pg.Pool();
 
@@ -46,19 +48,27 @@ app.post('/clienteData', async function (req, res) {
 });
 
 app.get('/lat_lon', async function (req, res) {
-    // let address = req.query.name;
-    let options = {
-        provider: 'openstreetmap'
-    };
-    let address = "RUA TIRADENTES, 1694, FERRAZOPOLIS"
-    let geoCoder = nodeGeocoder(options);
-    geoCoder.geocode(address)
-        .then((lat_lon) => {
+    let address = req.query.name;
+
+
+    nodeGeocoder()
+        .geocode(address)
+        .end((err, lat_lon) => {
             res.json(lat_lon)
         })
-        .catch((err) => {
-            console.log(err);
-            res.json(err)
-        });
+
+
+    // let options = {
+    //     provider: 'openstreetmap'
+    // };
+    // let address = "RUA TIRADENTES, 1694, FERRAZOPOLIS"
+    // let geoCoder = nodeGeocoder(options);
+    // geoCoder.geocode(address)
+    //     .then((lat_lon) => {
+    //         res.json(lat_lon)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //         res.json(err)
+    //     });
 })
- 
