@@ -1,8 +1,4 @@
-
-
-async function teste() {
-  document.getElementById("teste").value = "oi"
-}
+var optionsClient = ''
 
 async function fecthGet(url) {
   const resp = await fetch(url, {
@@ -79,15 +75,11 @@ async function getLocation() {
   var bairro = document.getElementById('inputBairroDadoTec').value
   var endereco =  numero + " " + rua + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
   var address = '/lat_lon?name=' + endereco
-  const data = await fecthGet(address)
+  const data = await fecthPost(address)
   // var data = await httpGet("/lat_lon")
   console.log(data)
 }
 
-window.onload = async function (event) {
-  await onLoad()
-};
-var optionsClient = ''
 async function onLoad() {
   // const data = await fecthGet("/cliente")
   var data = await httpGet("/cliente")
@@ -116,3 +108,7 @@ async function httpPost(theUrl, sendData) {
   xmlHttp.send(JSON.stringify(sendData));
   return xmlHttp.response;
 }
+
+window.onload = async function (event) {
+  await onLoad()
+};
