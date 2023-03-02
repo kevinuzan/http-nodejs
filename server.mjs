@@ -45,7 +45,7 @@ app.post('/clienteData', async function (req, res) {
     res.json(rows)
 });
 
-app.get('/lat_lon', async function (req, red) {
+app.get('/lat_lon', async function (req, res) {
     let options = {
         provider: 'openstreetmap'
     };
@@ -58,5 +58,6 @@ app.get('/lat_lon', async function (req, red) {
         })
         .catch((err) => {
             console.log(err);
+            res.json(err)
         });
 })
