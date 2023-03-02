@@ -18,7 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-var apiMaps = 'AIzaSyDtm1Bvu0chHbYIPghyFyc9Vr2v2IU7sAk'
+var apiMapsCode = process.env.apiMaps
 var server = createServer(app);
 
 server.listen(process.env.PORT);
@@ -54,7 +54,7 @@ app.get('/lat_lon', async function (req, res) {
     let address = req.query.name;
     const args = {
         params: {
-          key: apiMaps,
+          key: apiMapsCode,
           address: address,
         }
       };
