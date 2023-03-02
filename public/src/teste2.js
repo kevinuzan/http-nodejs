@@ -66,9 +66,6 @@ async function buscaCliente() {
   document.getElementById("inputUniCons").value = data[0]["unid_consid"]
   document.getElementById("inputBandeira").value = data[0]["bandeira"]
   console.log(data);
-
-  // var data = await httpPost("/clienteData", query)
-  // console.log(data)
 }
 
 

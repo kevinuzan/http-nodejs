@@ -42,128 +42,126 @@
 		<!-- ITENS MENU DE NAVEGAÇÃO -->
 		<div class="tab-content">
 			<div class="tab-pane active" id="erp-tab-content" role="tabpanel">
-				<form class="d-flex flex-column mx-auto my-2 w-33 w-min-300">
-					<div class="app-container">
-						<h2>DADOS CADASTRAIS</h2>
-						<div class="container-3-columns mr-3 mb-2">
+				<div class="app-container">
+					<h2>DADOS CADASTRAIS</h2>
+					<div class="container-3-columns mr-3 mb-2">
 
-							<div class="field-container mt-2 mb-2">
-								<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
-								<input list="inputClienteList" id="inputCliente" />
-								<datalist id="inputClienteList">
-									<option selected disabled></option>
-								</datalist>
-							</div>
-							<div class="field-container mt-2 mb-2">
-								<label for="inputCliente" style="font-weight: bold"> </label>
-								<button type="button" onclick="buscaCliente()" id="buscaCliente"
-									class="btn-app">BUSCA</button>
-							</div>
-
+						<div class="field-container mt-2 mb-2">
+							<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
+							<input list="inputClienteList" id="inputCliente" />
+							<datalist id="inputClienteList">
+								<option selected disabled></option>
+							</datalist>
 						</div>
-						<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
-							<div class="field-container mt-2">
-								<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
-								<input id="inputTelefone" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputTelhado" style="font-weight: bold">TIPO DE TELHADO</label>
-								<input id="inputTelhado" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputEstado" style="font-weight: bold">ESTADO</label>
-								<input id="inputEstado" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputCidade" style="font-weight: bold">CIDADE</label>
-								<input id="inputCidade" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputRua" style="font-weight: bold">RUA</label>
-								<input id="inputRua" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputNumero" style="font-weight: bold">NÚMERO</label>
-								<input id="inputNumero" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputBairro" style="font-weight: bold">BAIRRO</label>
-								<input id="inputBairro" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputCep" style="font-weight: bold">CEP</label>
-								<input id="inputCep" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
-								<input list="inputVendedorList" id="inputVendedor" />
-								<datalist id="inputVendedorList">
-									<option selected disabled></option>
-								</datalist>
-							</div>
+						<div class="field-container mt-2 mb-2">
+							<label for="inputCliente" style="font-weight: bold"> </label>
+							<button type="button" onclick="buscaCliente()" id="buscaCliente"
+								class="btn-app">BUSCA</button>
 						</div>
-						<h2>DADOS DE FATURA</h2>
-						<div class="container-3-columns mr-3" id="faturaID">
-							<div class="field-container mt-2">
-								<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
-								<input id="inputDistribuidora" placeholder="Digite.." />
 
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputIcms" style="font-weight: bold">ICMS</label>
-								<input id="inputIcms" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputPis" style="font-weight: bold">PIS</label>
-								<input id="inputPis" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputCofins" style="font-weight: bold">COFINS</label>
-								<input id="inputCofins" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
-								<input id="inputPorcentagem" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputArea" style="font-weight: bold">ÁREA</label>
-								<input id="inputArea" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputConsumo" style="font-weight: bold">CONSUMO</label>
-								<input id="inputConsumo" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputTaxa" style="font-weight: bold">TAXA</label>
-								<input id="inputTaxa" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
-								<input id="inputIlumPub" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputUniCons" style="font-weight: bold">UNID. CONSUMIDORA</label>
-								<input id="inputUniCons" placeholder="Digite..">
-							</div>
-							<div class="field-container mt-2">
-								<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
-								<input id="inputBandeira" placeholder="Digite..">
-							</div>
+					</div>
+					<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
+						<div class="field-container mt-2">
+							<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
+							<input id="inputTelefone" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputTelhado" style="font-weight: bold">TIPO DE TELHADO</label>
+							<input id="inputTelhado" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputEstado" style="font-weight: bold">ESTADO</label>
+							<input id="inputEstado" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputCidade" style="font-weight: bold">CIDADE</label>
+							<input id="inputCidade" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputRua" style="font-weight: bold">RUA</label>
+							<input id="inputRua" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputNumero" style="font-weight: bold">NÚMERO</label>
+							<input id="inputNumero" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputBairro" style="font-weight: bold">BAIRRO</label>
+							<input id="inputBairro" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputCep" style="font-weight: bold">CEP</label>
+							<input id="inputCep" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
+							<input list="inputVendedorList" id="inputVendedor" />
+							<datalist id="inputVendedorList">
+								<option selected disabled></option>
+							</datalist>
 						</div>
 					</div>
-				</form>
+					<h2>DADOS DE FATURA</h2>
+					<div class="container-3-columns mr-3" id="faturaID">
+						<div class="field-container mt-2">
+							<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
+							<input id="inputDistribuidora" placeholder="Digite.." />
+
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputIcms" style="font-weight: bold">ICMS</label>
+							<input id="inputIcms" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputPis" style="font-weight: bold">PIS</label>
+							<input id="inputPis" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputCofins" style="font-weight: bold">COFINS</label>
+							<input id="inputCofins" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
+							<input id="inputPorcentagem" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputArea" style="font-weight: bold">ÁREA</label>
+							<input id="inputArea" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputConsumo" style="font-weight: bold">CONSUMO</label>
+							<input id="inputConsumo" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputTaxa" style="font-weight: bold">TAXA</label>
+							<input id="inputTaxa" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
+							<input id="inputIlumPub" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputUniCons" style="font-weight: bold">UNID. CONSUMIDORA</label>
+							<input id="inputUniCons" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
+							<input id="inputBandeira" placeholder="Digite..">
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
-				<form class="d-flex flex-column mx-auto my-2 w-33 w-min-300">
 
-				</form>
+
+
 			</div>
 
 			<div class="tab-pane" id="irradiacao-tab-content" role="tabpanel">
-				<form class="d-flex flex-column mx-auto my-2 w-33 w-min-300">
 
-				</form>
+
+
 			</div>
 		</div>
 
