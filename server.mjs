@@ -50,7 +50,7 @@ app.get('/lat_lon', async function (req, res) {
     let options = {
         provider: 'openstreetmap'
     };
-    let address = "RUA TIRADENTES, 1694, FERRAZÓPOLIS"
+    let address = "RUA TIRADENTES, 1694, FERRAZOPOLIS"
     let geoCoder = nodeGeocoder(options);
     geoCoder.geocode(address)
         .then((lat_lon) => {
