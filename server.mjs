@@ -5,6 +5,9 @@ import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 import pg from "pg";
 
+import {Client} from "@googlemaps/google-maps-services-js";
+
+
 import nodeGeocoder from "node-geocoder"
 
 const pool = new pg.Pool();
@@ -49,18 +52,33 @@ app.post('/clienteData', async function (req, res) {
 
 app.get('/lat_lon', async function (req, res) {
     let address = req.query.name;
-    let options = {
-        provider: 'openstreetmap'
-    };
+    const args = {
+        params: {
+          key: apiMaps,
+          address: address,
+        }
+      };
+      const client = new Client();
+      client.geocode(args).then(gcResponse => {
+        // const str = JSON.stringify(gcResponse.data.results[0]);
+        const str = JSON.stringify(gcResponse);
+        res.json(str)
+      });
 
-    let geoCoder = nodeGeocoder(options);
-    geoCoder.geocode(address)
-        .then((lat_lon) => {
-            res.json(lat_lon)
-        })
-        .catch((err) => {
-            console.log(err);
-            res.json(err)
-        });
+
+    
+    // let options = {
+    //     provider: 'openstreetmap'
+    // };
+
+    // let geoCoder = nodeGeocoder(options);
+    // geoCoder.geocode(address)
+    //     .then((lat_lon) => {
+    //         res.json(lat_lon)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //         res.json(err)
+    //     });
 })
  

@@ -73,7 +73,7 @@ async function buscaCliente() {
   console.log(data);
 }
 
-async function getLocation(query) {
+async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
   var numero = document.getElementById('inputNumeroDadoTec').value
   var bairro = document.getElementById('inputBairroDadoTec').value
