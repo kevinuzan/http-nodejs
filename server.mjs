@@ -21,7 +21,7 @@ var apiMapsCode = process.env.apiMaps
 var server = createServer(app);
 
 // server.listen(process.env.PORT);
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'public/src')));
