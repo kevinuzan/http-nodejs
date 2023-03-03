@@ -75,18 +75,20 @@ async function getLocation() {
   var bairro = document.getElementById('inputBairroDadoTec').value
   var endereco =  numero + " " + rua + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
   var address = '/lat_lon?name=' + endereco
-  const data = await fecthGet(address)
+  const data = JSON.parse(await fecthGet(address))
   // var data = await httpGet("/lat_lon")
+
   console.log(data)
-  document.getElementById("inputLatitudeDadoTec").value = data["lat"]
-  document.getElementById("inputLongitudeDadoTec").value = data["lon"]
+  document.getElementById("inputLatitudeDadoTec").value = data.lat
+  document.getElementById("inputLongitudeDadoTec").value = data.lng
 }
 
 async function onLoad() {
   // const data = await fecthGet("/cliente")
-  var data = await httpGet("/cliente")
-  data = JSON.parse(data)
+  var data = await fecthGet("/cliente")
   console.log(data)
+  // data = JSON.parse(data)
+  // console.log(data)
   data.forEach(function (item) {
     if (optionsClient.indexOf(item["cliente"]) == -1) {
       optionsClient += '<option value="' + item["cliente"] + '" />';

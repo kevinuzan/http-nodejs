@@ -8,7 +8,9 @@ import pg from "pg";
 import { Client } from "@googlemaps/google-maps-services-js";
 
 const pool = new pg.Pool();
-
+var connectionString = process.env.DATABASE_URL
+var pgClient = new pg.Client(connectionString)
+pgClient.connect()
 import bodyParser from "body-parser";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,7 +20,8 @@ const __dirname = path.dirname(__filename);
 var apiMapsCode = process.env.apiMaps
 var server = createServer(app);
 
-server.listen(process.env.PORT);
+// server.listen(process.env.PORT);
+server.listen(3000);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'public/src')));
@@ -34,14 +37,17 @@ app.get('/', function (req, res) {
 
 app.get('/cliente', async function (req, res) {
     var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
-    const { rows } = await pool.query(query)
+    var { rows } = await pgClient.query(query)
+    console.log(rows)
+    // const { rows } = await pool.query(query)
     res.json(rows)
 });
 
 app.post('/clienteData', async function (req, res) {
     let name = req.query.name;
     var query = "SELECT * FROM ERP where cliente = '" + name + "'"
-    const { rows } = await pool.query(query)
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
     res.json(rows)
 });
 
