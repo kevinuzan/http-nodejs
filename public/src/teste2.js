@@ -73,7 +73,7 @@ async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
   var numero = document.getElementById('inputNumeroDadoTec').value
   var bairro = document.getElementById('inputBairroDadoTec').value
-  var endereco =  numero + " " + rua + " " + bairro + " " + document.getElementById("inputCidade").value + " " + document.getElementById("inputEstado").value
+  var endereco = rua + " " +  numero + " " + bairro
   var address = '/lat_lon?name=' + endereco
   const data = JSON.parse(await fecthGet(address))
   // var data = await httpGet("/lat_lon")

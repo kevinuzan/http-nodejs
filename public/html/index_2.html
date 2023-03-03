@@ -167,15 +167,29 @@
 							<label for="inputBairroDadoTec" style="font-weight: bold">BAIRRO</label>
 							<input id="inputBairroDadoTec" placeholder="Digite..">
 						</div>
+						<div class="field-container mt-2">
+							
+						</div>
 						<div class="field-container mt-2 mb-2">
 							<label for="buscaCliente" style="font-weight: bold"> </label>
 							<button type="button" onclick="getLocation()" id="buscaCliente"
-								class="btn-app">BUSCA</button>
+								class="btn-app">BUSCAR POSIÇÃO</button>
 						</div>
 
 					</div>
 					<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
-
+						<div class="field-container mt-2">
+							<label for="inputTipoTelhaDadoTec" style="font-weight: bold">TIPO DE TELHADO</label>
+							<select id="inputTipoTelhaDadoTec">
+								<option selected disabled></option>
+								<option value="SOLO">SOLO</option>
+								<option value="TELHADO">TELHADO</option>
+							</select>
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputAngTelhaDadoTec" style="font-weight: bold">ANG. DO TELHADO</label>
+							<input id="inputAngTelhaDadoTec" placeholder="Digite..">
+						</div>
 						<div class="field-container mt-2">
 							<label for="inputLatitudeDadoTec" style="font-weight: bold">LATITUDE</label>
 							<input id="inputLatitudeDadoTec" placeholder="Digite..">
@@ -185,11 +199,37 @@
 							<input id="inputLongitudeDadoTec" placeholder="Digite..">
 						</div>
 						<div class="field-container mt-2">
-							<label for="inputVendedor2" style="font-weight: bold">VENDEDOR</label>
-							<input list="inputVendedorList2" id="inputVendedor2" />
-							<datalist id="inputVendedorList2">
+							<label for="inputLatitudeIntDadoTec" style="font-weight: bold">LATITUDE INTEIRA</label>
+							<input id="inputLatitudeIntDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputLatitudeOngDadoTec" style="font-weight: bold">LATITUDE ONGRID</label>
+							<input id="inputLatitudeOngDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputLatitudeCorDadoTec" style="font-weight: bold">LATITUDE + CORREÇÃO</label>
+							<input id="inputLatitudeCorDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputFatorKDadoTec" style="font-weight: bold">FATOR K</label>
+							<input id="inputFatorKDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputHSPDadoTec" style="font-weight: bold">inputHSPDadoTec</label>
+							<input id="inputHSPDadoTec" placeholder="Digite..">
+						</div>
+						<div class="field-container mt-2">
+							<label for="inputPosicionamentoDadoTec" style="font-weight: bold">POSICIONAMENTO</label>
+							<select id="inputPosicionamentoDadoTec">
 								<option selected disabled></option>
-							</datalist>
+								<option value="NORTE">NORTE</option>
+								<option value="SUL">SUL</option>
+								<option value="LESTE">LESTE</option>
+								<option value="NORDESTE">NORDESTE</option>
+								<option value="NOROESTE">NOROESTE</option>
+								<option value="SUDESTE">SUDESTE</option>
+								<option value="SUDOESTE">SUDOESTE</option>
+							</select>
 						</div>
 					</div>
 				</div>
