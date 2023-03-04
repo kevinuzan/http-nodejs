@@ -95,7 +95,39 @@ async function onLoad() {
     }
   });
   document.getElementById("inputClienteList").innerHTML = optionsClient
+  document.getElementById('dadosModulo').style.display = 'none'
+  document.getElementById('dadosInversor').style.display = 'none'
 }
+
+async function showModulo(){
+  var display = document.getElementById('dadosModulo').style.display
+  var icon = document.getElementById('iconMdl')
+  if (display == 'none'){
+    document.getElementById('dadosModulo').style.display = ''
+    icon.classList.toggle('fa-eye-slash')
+  } else {
+    document.getElementById('dadosModulo').style.display = 'none'
+    $('#showModulo').find('i').toggleClass('fa-eye fa-eye-slash');
+    icon.classList.toggle('fa-eye')
+  }
+}
+
+async function showInversor(){
+  var display = document.getElementById('dadosInversor').style.display
+  var icon = document.getElementById('iconInv')
+  if (display == 'none'){
+    document.getElementById('dadosInversor').style.display = ''
+    icon.classList.toggle('fa-eye-slash')
+  } else {
+    document.getElementById('dadosInversor').style.display = 'none'
+    $('#showInversor').find('i').toggleClass('fa-eye fa-eye-slash');
+    icon.classList.toggle('fa-eye')
+  }
+}
+
+$('showModulo').click(function(){
+  
+});
 
 function httpGet(theUrl) {
   var xmlHttp = new XMLHttpRequest();

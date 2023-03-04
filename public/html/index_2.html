@@ -18,7 +18,13 @@
 <body>
 	<div id="main">
 
-
+		<div class="w-25 m-2 d-flex flex-column justify-content-end align-items-end">
+			<div class="d-flex justify-content-center align-items-center my-4 mr-4">
+				<i class="fas fa-sun mx-2 sun-color"></i>
+				<input type="checkbox" class="app-checkbox" id="theme-switcher-button" />
+				<i class="fas fa-moon mx-2 moon-color"></i>
+			</div>
+		</div>
 		<ul class="nav nav-tabs justify-content-center mb-2" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link app-tab-title active" data-toggle="tab" href="#erp-tab-content" role="tab"
@@ -42,8 +48,8 @@
 		<div class="tab-content">
 			<div class="tab-pane active" id="erp-tab-content" role="tabpanel">
 				<div class="app-container">
-					<h2>DADOS CADASTRAIS</h2>
-					<div class="container-3-columns mr-3 mb-2">
+					<h2 class="app-title">DADOS CADASTRAIS</h2>
+					<div class="container-5-columns mr-3 mb-2">
 
 						<div class="field-container mt-2 mb-2">
 							<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
@@ -59,7 +65,7 @@
 						</div>
 
 					</div>
-					<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
+					<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
 						<div class="field-container mt-2">
 							<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
 							<input id="inputTelefone" placeholder="Digite..">
@@ -100,8 +106,8 @@
 							</datalist>
 						</div>
 					</div>
-					<h2>DADOS DE FATURA</h2>
-					<div class="container-3-columns mr-3" id="faturaID">
+					<h2 class="app-title">DADOS DE FATURA</h2>
+					<div class="container-5-columns mr-3" id="faturaID">
 						<div class="field-container mt-2">
 							<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
 							<input id="inputDistribuidora" placeholder="Digite.." />
@@ -153,7 +159,7 @@
 
 			<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
 				<div class="app-container">
-					<div class="container-3-columns mr-3 mb-2">
+					<div class="container-5-columns mr-3 mb-2">
 
 						<div class="field-container mt-2">
 							<label for="inputRuaDadoTec" style="font-weight: bold">RUA</label>
@@ -168,16 +174,16 @@
 							<input id="inputBairroDadoTec" placeholder="Digite..">
 						</div>
 						<div class="field-container mt-2">
-							
+
 						</div>
 						<div class="field-container mt-2 mb-2">
 							<label for="buscaCliente" style="font-weight: bold"> </label>
-							<button type="button" onclick="getLocation()" id="buscaCliente"
-								class="btn-app">BUSCAR POSIÇÃO</button>
+							<button type="button" onclick="getLocation()" id="buscaCliente" class="btn-app">BUSCAR
+								POSIÇÃO</button>
 						</div>
 
 					</div>
-					<div class="container-3-columns mr-3 mt-2" id="cadastraisID">
+					<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
 						<div class="field-container mt-2">
 							<label for="inputTipoTelhaDadoTec" style="font-weight: bold">TIPO DE TELHADO</label>
 							<select id="inputTipoTelhaDadoTec">
@@ -232,9 +238,232 @@
 							</select>
 						</div>
 					</div>
-				</div>
 
+				</div>
+				<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#modulos-tab-content" role="tab">
+							MÓDULOS
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#inversores-tab-content" role="tab">
+							INVERSORES
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane" id="modulos-tab-content" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputFabricanteModulo" style="font-weight: bold">FABRICANTE</label>
+									<input list="inputFabricanteModuloList" id="inputFabricanteModulo" />
+									<datalist id="inputFabricanteModuloList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotenciaModulo" style="font-weight: bold">POTÊNCIA</label>
+									<input list="inputPotenciaModuloList" id="inputPotenciaModulo" />
+									<datalist id="inputPotenciaModuloList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTipo_CelModulo" style="font-weight: bold">TIPO DE CÉLULAS</label>
+									<input list="inputTipo_CelModuloList" id="inputTipo_CelModulo" />
+									<datalist id="inputTipo_CelModuloList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTecnologiaModulo" style="font-weight: bold">TECNOLOGIA</label>
+									<input list="inputTecnologiaModuloList" id="inputTecnologiaModulo" />
+									<datalist id="inputTecnologiaModuloList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTempMediaModulo" style="font-weight: bold">TEMP. MÉDIA
+										LOCAL</label>
+									<input list="inputTempMediaModuloList" id="inputTempMediaModulo" />
+									<datalist id="inputTempMediaModuloList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPecaModulo" style="font-weight: bold">PEÇA</label>
+									<input list="inputPecaModuloList" id="inputPecaModulo" />
+									<datalist id="inputPecaModuloList">
+									</datalist>
+								</div>
+							</div>
+							<div class="container-5-columns mr-3 mb-2">
+								<button id="showModulo" onclick="showModulo()"
+									style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
+									class="btn-app btn-app-sm ml-2">
+									<i class="icon fas fa-eye" id="iconMdl"></i>
+								</button>
+							</div>
+							<div class="container-5-columns mr-3 mb-2" id="dadosModulo">
+								<div class="field-container mt-2">
+									<label for="inputVmpModulo" style="font-weight: bold">VMP (V)</label>
+									<input id="inputVmpModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputImpModulo" style="font-weight: bold">IMP (A)</label>
+									<input id="inputImpModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVocModulo" style="font-weight: bold">VOC (V)</label>
+									<input id="inputVocModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIscModulo" style="font-weight: bold">ISC (A)</label>
+									<input id="inputIscModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEficienciaModulo" style="font-weight: bold">EFICIÊNCIA (%)</label>
+									<input id="inputEficienciaModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTPmaxModulo" style="font-weight: bold">Tº/ºC PMAX</label>
+									<input id="inputTPmaxModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTVocModulo" style="font-weight: bold">Tº/ºC VOC</label>
+									<input id="inputTVocModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTIscModulo" style="font-weight: bold">Tº/ºC ISC</label>
+									<input id="inputTIscModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAreaOcupadaModulo" style="font-weight: bold">ÁREA OCUPADA
+										(M²)</label>
+									<input id="inputAreaOcupadaModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPesoModulo" style="font-weight: bold">PESO (KG)</label>
+									<input id="inputPesoModulo" />
+								</div>
+
+								<div class="field-container mt-2">
+									<label for="inputEspessuraModulo" style="font-weight: bold">ESPESSURA</label>
+									<input id="inputEspessuraModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputLarguraModulo" style="font-weight: bold">LARGURA</label>
+									<input id="inputLarguraModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAlturaModulo" style="font-weight: bold">ALTURA</label>
+									<input id="inputAlturaModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPmaxCorrModulo" style="font-weight: bold">PMAX (W)
+										CORRIGIDO</label>
+									<input id="inputPmaxCorrModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVocCorrModulo" style="font-weight: bold">VOC (V) CORRIGIDO</label>
+									<input id="inputVocCorrModulo" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIscCorrModulo" style="font-weight: bold">ISC (A) CORRIGIDO</label>
+									<input id="inputIscCorrModulo" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="inversores-tab-content" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputFabricanteInversor" style="font-weight: bold">FABRICANTE</label>
+									<input list="inputFabricanteInversorList" id="inputFabricanteInversor" />
+									<datalist id="inputFabricanteInversorList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFasesInversor" style="font-weight: bold">NÚMERO DE FASES</label>
+									<input list="inputFasesInversorList" id="inputFasesInversor" />
+									<datalist id="inputFasesInversorList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputStringsInversor" style="font-weight: bold">NÚMERO DE
+										STRINGS</label>
+									<input list="inputStringsInversorList" id="inputStringsInversor" />
+									<datalist id="inputStringsInversorList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTipoInversor" style="font-weight: bold">TIPO DE INVERSOR</label>
+									<input list="inputTipoInversorList" id="inputTipoInversor" />
+									<datalist id="inputTipoInversorList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotenciaInversor" style="font-weight: bold">POTÊNCIA</label>
+									<input list="inputPotenciaInversorList" id="inputPotenciaInversor" />
+									<datalist id="inputPotenciaInversorList">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputQtdeInversor" style="font-weight: bold">QUANTIDADE</label>
+									<input id="inputQtdeInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPecaInversor" style="font-weight: bold">PEÇA</label>
+									<input list="inputPecaInversorList" id="inputPecaInversor" />
+									<datalist id="inputPecaInversorList">
+									</datalist>
+								</div>
+							</div>
+							<div class="container-5-columns mr-3 mb-2">
+								<button id="showInversor" onclick="showInversor()"
+									style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
+									class="btn-app btn-app-sm ml-2">
+									<i class="icon fas fa-eye" id="iconInv"></i>
+								</button>
+							</div>
+							<div class="container-5-columns mr-3 mb-2" id="dadosInversor">
+								<div class="field-container mt-2">
+									<label for="inputFaixaMPPTInversor" style="font-weight: bold">FAIXA DE OP
+										MPPT</label>
+									<input id="inputFaixaMPPTInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTensaoCCInversor" style="font-weight: bold">TENSÃO CC DE PARTIDA
+										(V)</label>
+									<input id="inputTensaoCCInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputMaxTensaoCCInversor" style="font-weight: bold">MÁX. TENSÃO CC MPPT
+										(V)</label>
+									<input id="inputMaxTensaoCCInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEficienciaInversor" style="font-weight: bold">EFICIÊNCIA
+										(%)</label>
+									<input id="inputEficienciaInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFaixaTensaoInversor" style="font-weight: bold">FAIXA DE TENS. SAÍDA CA (V)</label>
+									<input id="inputFaixaTensaoInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCorrenteMaxCCInversor" style="font-weight: bold">CORR. MÁX. INVERSOR CC (A)</label>
+									<input id="inputCorrenteMaxCCInversor" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCorrenteMaxCAInversor" style="font-weight: bold">CORR. MÁX. INVERSOR CA (A)</label>
+									<input id="inputCorrenteMaxCAInversor" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+
+
 
 			<div class="tab-pane" id="irradiacao-tab-content" role="tabpanel">
 
@@ -242,10 +471,12 @@
 
 			</div>
 		</div>
+	</div>
 
 	</div>
 </body>
 <script type="text/javascript" src="/src/teste2.js"></script>
+<script type="text/javascript" src="/src/themeSwitcher.js"></script>
 
 </html>
 
