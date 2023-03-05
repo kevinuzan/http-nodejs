@@ -56,6 +56,13 @@ app.get('/mdlData', async function (req, res) {
     // const { rows } = await pool.query(query)
     res.json(rows)
 });
+app.get('/mdlDataForn', async function (req, res) {
+    console.log(req.query.name)
+    var fornecedor = req.query.name
+    var query = `SELECT * FROM modulos WHERE fornecedor = '${fornecedor}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
 
 app.get('/invData', async function (req, res) {
     var query = "SELECT * FROM inversores ORDER BY modelo ASC"
