@@ -40,9 +40,14 @@
 		<div class="h-100 w-100 d-flex flex-wrap justify-content-center align-items-center">
 			<div class="field-container mr-2 w-25">
 				<label for="loginPassword" data-translate="_usuarioLogin">Senha</label>
-				<div class="row ml-1">
-					<input type="password" id="loginPassword" style="width: 82%;" />
+				<div class="container-2-columns mr-3 mt-2">
+					<input type="password" id="loginPassword" style="width: 50%;" />
+					<input type="password" id="loginPassword" style="width: 20%;" />
+					<input type="checkbox" onclick="myFunction()">Show Password
 				</div>
+				<!-- <div class="row ml-1">
+					<input type="password" id="loginPassword" style="width: 82%;" />
+				</div> -->
 			</div>
 			<!--
 			<label for="loginPassword" data-translate="_usuarioLogin">Mostrar senha</label>
@@ -50,6 +55,7 @@
 					<input type="checkbox" onclick="myFunction()">
 				</div>-->
 		</div>
+
 		<div class="h-100 w-100 d-flex flex-wrap justify-content-center align-items-center">
 			<div class="field-container mr-2 w-25">
 				<button id="forgotPass" type="submit" class="btn-app cancel btn-app-sm mx-2 move-rigth mt-3">
