@@ -4,6 +4,11 @@ var optionsPoteMdl = ''
 var optionsTipoMdl = ''
 var optionsTecnMdl = ''
 var optionsPecaMdl = ''
+var optionsFornMdlNew = ''
+var optionsPoteMdlNew = ''
+var optionsTipoMdlNew = ''
+var optionsTecnMdlNew = ''
+var optionsPecaMdlNew = ''
 
 var optionsFornInv = ''
 var optionsFaseInv = ''
@@ -11,6 +16,12 @@ var optionsStriInv = ''
 var optionsInveInv = ''
 var optionsPoteInv = ''
 var optionsPecaInv = ''
+var optionsFornInvNew = ''
+var optionsFaseInvNew = ''
+var optionsStriInvNew = ''
+var optionsInveInvNew = ''
+var optionsPoteInvNew = ''
+var optionsPecaInvNew = ''
 
 async function fecthGet(url) {
   const resp = await fetch(url, {
@@ -125,11 +136,7 @@ async function onLoad() {
     }
   });
 
-  document.getElementById("inputFabricanteModuloList").innerHTML = optionsFornMdl
-  document.getElementById("inputPotenciaModuloList").innerHTML = optionsPoteMdl
-  document.getElementById("inputTipo_CelModuloList").innerHTML = optionsTipoMdl
-  document.getElementById("inputTecnologiaModuloList").innerHTML = optionsTecnMdl
-  document.getElementById("inputPecaModuloList").innerHTML = optionsPecaMdl
+  await fillMdl('OLD')
 
   //DADOS DE INVERSORES
 
@@ -156,15 +163,34 @@ async function onLoad() {
       optionsPecaInv += '<option value="' + item["modelo"] + '" />';
     }
   });
+  await fillInv()
+  document.getElementById('dadosModulo').style.display = 'none'
+  document.getElementById('dadosInversor').style.display = 'none'
+}
+
+async function fillMdl(wish) {
+  if (wish == 'OLD') {
+    document.getElementById("inputFabricanteModuloList").innerHTML = optionsFornMdl
+    document.getElementById("inputPotenciaModuloList").innerHTML = optionsPoteMdl
+    document.getElementById("inputTipo_CelModuloList").innerHTML = optionsTipoMdl
+    document.getElementById("inputTecnologiaModuloList").innerHTML = optionsTecnMdl
+    document.getElementById("inputPecaModuloList").innerHTML = optionsPecaMdl
+  } else {
+    document.getElementById("inputFabricanteModuloList").innerHTML = optionsFornMdlNew
+    document.getElementById("inputPotenciaModuloList").innerHTML = optionsPoteMdlNew
+    document.getElementById("inputTipo_CelModuloList").innerHTML = optionsTipoMdlNew
+    document.getElementById("inputTecnologiaModuloList").innerHTML = optionsTecnMdlNew
+    document.getElementById("inputPecaModuloList").innerHTML = optionsPecaMdlNew
+  }
+}
+
+async function fillInv() {
   document.getElementById("inputFabricanteInversorList").innerHTML = optionsFornInv
   document.getElementById("inputFasesInversorList").innerHTML = optionsFaseInv
   document.getElementById("inputStringsInversorList").innerHTML = optionsStriInv
   document.getElementById("inputTipoInversorList").innerHTML = optionsInveInv
   document.getElementById("inputPotenciaInversorList").innerHTML = optionsPoteInv
   document.getElementById("inputPecaInversorList").innerHTML = optionsPecaInv
-
-  document.getElementById('dadosModulo').style.display = 'none'
-  document.getElementById('dadosInversor').style.display = 'none'
 }
 
 async function showModulo() {
@@ -193,10 +219,6 @@ async function showInversor() {
   }
 }
 
-$('showModulo').click(function () {
-
-});
-
 function httpGet(theUrl) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("GET", theUrl, false); // false for synchronous request
@@ -216,3 +238,83 @@ async function httpPost(theUrl, sendData) {
 window.onload = async function (event) {
   await onLoad()
 };
+
+var element1 = document.getElementById("inputFabricanteModulo")
+var element2 = document.getElementById("inputPotenciaModulo")
+var element3 = document.getElementById("inputTipo_CelModulo")
+var element4 = document.getElementById("inputTecnologiaModulo")
+var element5 = document.getElementById("inputPecaModulo")
+
+var element6 = document.getElementById("inputFabricanteInversor")
+var element7 = document.getElementById("inputFasesInversor")
+var element8 = document.getElementById("inputStringsInversor")
+var element9 = document.getElementById("inputTipoInversor")
+var element10 = document.getElementById("inputPotenciaInversor")
+var element11 = document.getElementById("inputPecaInversor")
+
+element1.addEventListener('change', async function () {
+  console.log(element1.value)
+  if (element1.value == '') {
+    element2.value = ''
+    element3.value = ''
+    element4.value = ''
+    element5.value = ''
+    await fillMdl('OLD')
+  } else {
+    optionsFornMdlNew = ''
+    optionsPoteMdlNew = ''
+    optionsTipoMdlNew = ''
+    optionsTecnMdlNew = ''
+    optionsPecaMdlNew = ''
+    var mldGetData = '/mdlDataForn?name=' + element1.value
+    const dataMdlForn = await fecthGet(mldGetData)
+    dataMdlForn.forEach(function (item) {
+      if (optionsFornMdlNew.indexOf(item["fornecedor"]) == -1) {
+        optionsFornMdlNew += '<option value="' + item["fornecedor"] + '" />';
+      }
+      if (optionsPoteMdlNew.indexOf(item["pmax"]) == -1) {
+        optionsPoteMdlNew += '<option value="' + item["pmax"] + '" />';
+      }
+      if (optionsTipoMdlNew.indexOf(item["celulas"]) == -1) {
+        optionsTipoMdlNew += '<option value="' + item["celulas"] + '" />';
+      }
+      if (optionsTecnMdlNew.indexOf(item["estilo"]) == -1) {
+        optionsTecnMdlNew += '<option value="' + item["estilo"] + '" />';
+      }
+      if (optionsPecaMdlNew.indexOf(item["modelo"]) == -1) {
+        optionsPecaMdlNew += '<option value="' + item["modelo"] + '" />';
+      }
+    });
+    await fillMdl('NEW')
+  }
+})
+element2.addEventListener('change', async function () {
+
+})
+element3.addEventListener('change', async function () {
+
+})
+element4.addEventListener('change', async function () {
+
+})
+element5.addEventListener('change', async function () {
+
+})
+element6.addEventListener('change', async function () {
+
+})
+element7.addEventListener('change', async function () {
+
+})
+element8.addEventListener('change', async function () {
+
+})
+element9.addEventListener('change', async function () {
+
+})
+element10.addEventListener('change', async function () {
+
+})
+element11.addEventListener('change', async function () {
+
+})
