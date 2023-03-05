@@ -38,7 +38,6 @@ app.get('/', function (req, res) {
 app.get('/cliente', async function (req, res) {
     var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
     var { rows } = await pgClient.query(query)
-    console.log(rows)
     // const { rows } = await pool.query(query)
     res.json(rows)
 });
@@ -51,7 +50,19 @@ app.post('/clienteData', async function (req, res) {
     res.json(rows)
 });
 
+app.get('/mdlData', async function (req, res) {
+    var query = "SELECT * FROM modulos ORDER BY modelo ASC"
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
 
+app.get('/invData', async function (req, res) {
+    var query = "SELECT * FROM inversores ORDER BY modelo ASC"
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
 
 app.get('/lat_lon', async function (req, res) {
     let address = req.query.name;

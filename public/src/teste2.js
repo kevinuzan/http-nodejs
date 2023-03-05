@@ -1,4 +1,16 @@
 var optionsClient = ''
+var optionsFornMdl = ''
+var optionsPoteMdl = ''
+var optionsTipoMdl = ''
+var optionsTecnMdl = ''
+var optionsPecaMdl = ''
+
+var optionsFornInv = ''
+var optionsFaseInv = ''
+var optionsStriInv = ''
+var optionsInveInv = ''
+var optionsPoteInv = ''
+var optionsPecaInv = ''
 
 async function fecthGet(url) {
   const resp = await fetch(url, {
@@ -73,36 +85,92 @@ async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
   var numero = document.getElementById('inputNumeroDadoTec').value
   var bairro = document.getElementById('inputBairroDadoTec').value
-  var endereco = rua + " " +  numero + " " + bairro
+  var endereco = rua + " " + numero + " " + bairro
   var address = '/lat_lon?name=' + endereco
   const data = JSON.parse(await fecthGet(address))
   // var data = await httpGet("/lat_lon")
-
   console.log(data)
   document.getElementById("inputLatitudeDadoTec").value = data.lat
   document.getElementById("inputLongitudeDadoTec").value = data.lng
 }
 
 async function onLoad() {
-  // const data = await fecthGet("/cliente")
+  //DADOS DE CLIENTES
   var data = await fecthGet("/cliente")
-  console.log(data)
-  // data = JSON.parse(data)
-  // console.log(data)
   data.forEach(function (item) {
     if (optionsClient.indexOf(item["cliente"]) == -1) {
       optionsClient += '<option value="' + item["cliente"] + '" />';
     }
   });
   document.getElementById("inputClienteList").innerHTML = optionsClient
+  //DADOS DE MÓDULOS
+  var mldGetData = '/mdlData'
+  const dataMdl = await fecthGet(mldGetData)
+  console.log(dataMdl)
+  dataMdl.forEach(function (item) {
+    if (optionsFornMdl.indexOf(item["fornecedor"]) == -1) {
+      optionsFornMdl += '<option value="' + item["fornecedor"] + '" />';
+    }
+    if (optionsPoteMdl.indexOf(item["pmax"]) == -1) {
+      optionsPoteMdl += '<option value="' + item["pmax"] + '" />';
+    }
+    if (optionsTipoMdl.indexOf(item["celulas"]) == -1) {
+      optionsTipoMdl += '<option value="' + item["celulas"] + '" />';
+    }
+    if (optionsTecnMdl.indexOf(item["estilo"]) == -1) {
+      optionsTecnMdl += '<option value="' + item["estilo"] + '" />';
+    }
+    if (optionsPecaMdl.indexOf(item["modelo"]) == -1) {
+      optionsPecaMdl += '<option value="' + item["modelo"] + '" />';
+    }
+  });
+
+  document.getElementById("inputFabricanteModuloList").innerHTML = optionsFornMdl
+  document.getElementById("inputPotenciaModuloList").innerHTML = optionsPoteMdl
+  document.getElementById("inputTipo_CelModuloList").innerHTML = optionsTipoMdl
+  document.getElementById("inputTecnologiaModuloList").innerHTML = optionsTecnMdl
+  document.getElementById("inputPecaModuloList").innerHTML = optionsPecaMdl
+
+  //DADOS DE INVERSORES
+
+  var mldGetData = '/invData'
+  const dataInv = await fecthGet(mldGetData)
+  console.log(dataInv)
+  dataInv.forEach(function (item) {
+    if (optionsFornInv.indexOf(item["fornecedor"]) == -1) {
+      optionsFornInv += '<option value="' + item["fornecedor"] + '" />';
+    }
+    if (optionsFaseInv.indexOf(item["conexaoca"]) == -1) {
+      optionsFaseInv += '<option value="' + item["conexaoca"] + '" />';
+    }
+    if (optionsStriInv.indexOf(item["mppt"]) == -1) {
+      optionsStriInv += '<option value="' + item["mppt"] + '" />';
+    }
+    if (optionsInveInv.indexOf(item["tipo"]) == -1) {
+      optionsInveInv += '<option value="' + item["tipo"] + '" />';
+    }
+    if (optionsPoteInv.indexOf(item["potnomi"]) == -1) {
+      optionsPoteInv += '<option value="' + item["potnomi"] + '" />';
+    }
+    if (optionsPecaInv.indexOf(item["modelo"]) == -1) {
+      optionsPecaInv += '<option value="' + item["modelo"] + '" />';
+    }
+  });
+  document.getElementById("inputFabricanteInversorList").innerHTML = optionsFornInv
+  document.getElementById("inputFasesInversorList").innerHTML = optionsFaseInv
+  document.getElementById("inputStringsInversorList").innerHTML = optionsStriInv
+  document.getElementById("inputTipoInversorList").innerHTML = optionsInveInv
+  document.getElementById("inputPotenciaInversorList").innerHTML = optionsPoteInv
+  document.getElementById("inputPecaInversorList").innerHTML = optionsPecaInv
+
   document.getElementById('dadosModulo').style.display = 'none'
   document.getElementById('dadosInversor').style.display = 'none'
 }
 
-async function showModulo(){
+async function showModulo() {
   var display = document.getElementById('dadosModulo').style.display
   var icon = document.getElementById('iconMdl')
-  if (display == 'none'){
+  if (display == 'none') {
     document.getElementById('dadosModulo').style.display = ''
     icon.classList.toggle('fa-eye-slash')
   } else {
@@ -112,10 +180,10 @@ async function showModulo(){
   }
 }
 
-async function showInversor(){
+async function showInversor() {
   var display = document.getElementById('dadosInversor').style.display
   var icon = document.getElementById('iconInv')
-  if (display == 'none'){
+  if (display == 'none') {
     document.getElementById('dadosInversor').style.display = ''
     icon.classList.toggle('fa-eye-slash')
   } else {
@@ -125,8 +193,8 @@ async function showInversor(){
   }
 }
 
-$('showModulo').click(function(){
-  
+$('showModulo').click(function () {
+
 });
 
 function httpGet(theUrl) {
