@@ -1,18 +1,50 @@
 async function abrirpg2() {
   window.location.replace("/html/index_2.html")
 }
+var messageError = ''
+async function login() {
+  var user = document.getElementById('loginUsername').value
+  var pass = document.getElementById('loginPassword').value
+  const login = await fecthGet(`/login?name=${user};${pass}`)
+  console.log(login)
+  if (login != true) {
+    if (login.indexOf('invalid-email') != -1 || login.indexOf('wrong-password') != -1) {
+      messageError = 'EMAIL E/OU SENHA INVÁLIDOS'
+      alert(messageError)
+    } else {
+      alert(login)
+    }
+  } else {
 
-function httpGet(theUrl) {
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("GET", theUrl, false); // false for synchronous request
-  xmlHttp.send(null);
-  return xmlHttp.response;
+    window.location.replace("/html/index_2.html")
+  }
 }
 
-function httpPost(theUrl) {
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("POST", theUrl, true); // false for synchronous request
-  xmlHttp.send(null);
+async function fecthGet(url) {
+  const resp = await fetch(url, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+
+  // Handle any errors please
+
+  const data = await resp.json();
+  return data
+}
+
+async function fecthPost(url) {
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+
+
+  const data = await resp.json();
+  return data
 }
 
 async function showPass() {

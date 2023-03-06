@@ -4,14 +4,50 @@ import path from 'path';
 import { createServer } from 'http';
 import { fileURLToPath } from 'url';
 import pg from "pg";
-
 import { Client } from "@googlemaps/google-maps-services-js";
+import bodyParser from "body-parser";
+
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+const firebaseConfig = {
+    apiKey: process.env.apiFirebase,
+    authDomain: process.env.authDomainFirebase,
+    projectId: process.env.projectId,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messagingSenderId,
+    appId: process.env.appId,
+    measurementId: process.env.measurementId
+};
+
+const appFirebase = initializeApp(firebaseConfig);
+
+const auth = getAuth();
+
+app.get('/login', async function (req, res) {
+    var login = req.query.name
+    var user = login.split(';')[0]
+    var pass = login.split(';')[1]
+    console.log(login)
+    signInWithEmailAndPassword(auth, user, pass)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            res.json(true)
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            res.json(errorMessage)
+            // ..
+        });
+})
 
 const pool = new pg.Pool();
 var connectionString = process.env.DATABASE_URL
 var pgClient = new pg.Client(connectionString)
 pgClient.connect()
-import bodyParser from "body-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -56,6 +92,7 @@ app.get('/mdlData', async function (req, res) {
     // const { rows } = await pool.query(query)
     res.json(rows)
 });
+
 app.get('/mdlDataForn', async function (req, res) {
     console.log(req.query.name)
     var fornecedor = req.query.name
