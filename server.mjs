@@ -93,9 +93,42 @@ app.get('/mdlData', async function (req, res) {
 });
 
 app.get('/mdlDataForn', async function (req, res) {
-    console.log(req.query.name)
     var fornecedor = req.query.name
     var query = `SELECT * FROM modulos WHERE fornecedor = '${fornecedor}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/mdlDataPote', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var potencia = req.query.name.split(";")[1]
+    var query = `SELECT * FROM modulos WHERE fornecedor = '${fornecedor}' and pmax = '${potencia}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/mdlDataTipo', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var potencia = req.query.name.split(";")[1]
+    var tipo = req.query.name.split(";")[2]
+    var query = `SELECT * FROM modulos WHERE fornecedor = '${fornecedor}' and pmax = '${potencia}' and celulas = '${tipo}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/mdlDataTecn', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var potencia = req.query.name.split(";")[1]
+    var tipo = req.query.name.split(";")[2]
+    var tecnologia = req.query.name.split(";")[3]
+    var query = `SELECT * FROM modulos WHERE fornecedor = '${fornecedor}' and pmax = '${potencia}' and celulas = '${tipo}' and estilo = '${tecnologia}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/mdlDataPeca', async function (req, res) {
+    var peca = req.query.name
+    var query = `SELECT * FROM modulos WHERE modelo = '${peca}' ORDER BY modelo ASC`
     var { rows } = await pgClient.query(query)
     res.json(rows)
 });
@@ -104,6 +137,58 @@ app.get('/invData', async function (req, res) {
     var query = "SELECT * FROM inversores ORDER BY modelo ASC"
     var { rows } = await pgClient.query(query)
     // const { rows } = await pool.query(query)
+    res.json(rows)
+});
+
+app.get('/invDataForn', async function (req, res) {
+    var fornecedor = req.query.name
+    var query = `SELECT * FROM inversores WHERE fornecedor = '${fornecedor}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/invDataFases', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var fase = req.query.name.split(";")[1]
+    var query = `SELECT * FROM inversores WHERE fornecedor = '${fornecedor}' and conexaoca = '${fase}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/invDataStrings', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var fase = req.query.name.split(";")[1]
+    var string = req.query.name.split(";")[2]
+    var query = `SELECT * FROM inversores WHERE fornecedor = '${fornecedor}' and conexaoca = '${fase}' and mppt = '${string}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/invDataTipo', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var fase = req.query.name.split(";")[1]
+    var string = req.query.name.split(";")[2]
+    var tipo = req.query.name.split(";")[3]
+    var query = `SELECT * FROM inversores WHERE fornecedor = '${fornecedor}' and conexaoca = '${fase}' and mppt = '${string}' and tipo = '${tipo}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/invDataPote', async function (req, res) {
+    var fornecedor = req.query.name.split(";")[0]
+    var fase = req.query.name.split(";")[1]
+    var string = req.query.name.split(";")[2]
+    var tipo = req.query.name.split(";")[3]
+    var potencia = req.query.name.split(";")[4]
+    var query = `SELECT * FROM inversores WHERE fornecedor = '${fornecedor}' and conexaoca = '${fase}' and mppt = '${string}' and tipo = '${tipo}' and potnomi = '${potencia}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.get('/invDataPeca', async function (req, res) {
+    var peca = req.query.name
+    var query = `SELECT * FROM inversores WHERE modelo = '${peca}' ORDER BY modelo ASC`
+    var { rows } = await pgClient.query(query)
     res.json(rows)
 });
 
