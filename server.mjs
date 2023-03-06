@@ -28,7 +28,6 @@ app.get('/login', async function (req, res) {
     var login = req.query.name
     var user = login.split(';')[0]
     var pass = login.split(';')[1]
-    console.log(login)
     signInWithEmailAndPassword(auth, user, pass)
         .then((userCredential) => {
             // Signed in
