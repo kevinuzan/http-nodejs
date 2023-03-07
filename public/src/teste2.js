@@ -23,6 +23,9 @@ var optionsInveInvNew = ''
 var optionsPoteInvNew = ''
 var optionsPecaInvNew = ''
 
+async function ceilLat(x, s) {
+  return s * Math.ceil(parseFloat(x) / s)
+}
 
 async function buscaCliente() {
   var nome = document.getElementById("inputCliente").value
@@ -74,6 +77,8 @@ async function getLocation() {
   const data = JSON.parse(await fecthGet(address))
   // var data = await httpGet("/lat_lon")
   document.getElementById("inputLatitudeDadoTec").value = data.lat
+  document.getElementById("inputLatitudeOngDadoTec").value = Math.abs(parseFloat(data.lat)) - 5
+  document.getElementById("inputLatitudeIntDadoTec").value = `LATITUDE ${Math.abs(Math.ceil(data.lat))}`
   document.getElementById("inputLongitudeDadoTec").value = data.lng
 }
 
@@ -320,7 +325,7 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputFaixaTensaoInversor')[0].value = ''
     $('#inputCorrenteMaxCCInversor')[0].value = ''
     $('#inputCorrenteMaxCAInversor')[0].value = ''
-    
+
   }
 }
 //#endregion
@@ -719,3 +724,22 @@ element11.addEventListener('change', async function () {
   }
 })
 //#endregion
+
+var element12 = document.getElementById('inputTipoTelhaDadoTec')
+var element13 = document.getElementById('inputLatitudeCorDadoTec')
+var element14 = document.getElementById("inputLatitudeOngDadoTec")
+var element15 = document.getElementById("inputAngTelhaDadoTec")
+element12.addEventListener('change', async function () {
+  if (element12.value == 'SOLO') {
+    element13.value = await ceilLat(Math.abs(element14.value), 5)
+  } else {
+    element13.value = element15.value
+  }
+})
+element15.addEventListener('change', async function () {
+  if (element12.value == 'SOLO') {
+    element13.value = await ceilLat(Math.abs(element14.value), 5)
+  } else {
+    element13.value = element15.value
+  }
+})
