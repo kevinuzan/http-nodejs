@@ -89,6 +89,9 @@ body {
 }
 
 @media(max-width: 800px) {
+  .container-5-columns {
+     grid-template-columns: repeat(3, 1fr);
+  }
   .container-4-columns {
      grid-template-columns: repeat(3, 1fr);
   }
@@ -98,6 +101,9 @@ body {
 }
 
 @media(max-width: 600px) {
+  .container-5-columns {
+     grid-template-columns: repeat(2, 1fr);
+  }
   .container-4-columns {
      grid-template-columns: repeat(2, 1fr);
   }
