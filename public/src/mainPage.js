@@ -484,10 +484,6 @@ async function httpPost(theUrl, sendData) {
 }
 //#endregion
 
-
-window.onload = async function (event) {
-  await onLoad()
-};
 //#region MÓDULOS - FILTRO
 let element1 = document.getElementById("inputFabricanteModulo")
 let element2 = document.getElementById("inputPotenciaModulo")
@@ -826,6 +822,9 @@ element11.addEventListener('change', async function () {
 })
 //#endregion
 
+window.onload = async function (event) {
+  await onLoad()
+};
 let element12 = document.getElementById('inputTipoTelhaDadoTec')
 let element13 = document.getElementById('inputLatitudeCorDadoTec')
 let element14 = document.getElementById("inputLatitudeOngDadoTec")

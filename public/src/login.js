@@ -1,8 +1,8 @@
 async function abrirpg2() {
-  window.location.replace("/html/index_2.html")
+  window.location.replace("/html/mainPage.html")
 }
 async function abrirpg3() {
-  window.location.replace("/html/index_3.html")
+  window.location.replace("/html/resetPass.html")
 }
 var messageError = ''
 async function login() {
@@ -19,7 +19,7 @@ async function login() {
     }
   } else {
 
-    window.location.replace("/html/index_2.html")
+    window.location.replace("/html/mainPage.html")
   }
 }
 

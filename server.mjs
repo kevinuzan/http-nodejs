@@ -8,7 +8,7 @@ import { Client } from "@googlemaps/google-maps-services-js";
 import bodyParser from "body-parser";
 
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.apiFirebase,
@@ -23,6 +23,19 @@ const firebaseConfig = {
 const appFirebase = initializeApp(firebaseConfig);
 
 const auth = getAuth();
+
+app.get('/resetPass', async function (req, res) {
+    var user = req.query.name
+    sendPasswordResetEmail(auth, user)
+        .then(() => {
+            res.json(1)
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            res.json(errorMessage)
+        });
+})
 
 app.get('/login', async function (req, res) {
     var login = req.query.name
@@ -61,13 +74,18 @@ server.listen(process.env.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/src', express.static(path.join(__dirname, 'public/src')));
 app.use('/html', express.static(path.join(__dirname, 'public/html')));
+app.use('/', express.static(path.join(__dirname, '/login.html')));
 
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/login.html');
+});
+
+app.get('/firstPage', function (req, res) {
+    res.sendFile(__dirname + '/login.html');
 });
 
 app.get('/cliente', async function (req, res) {
@@ -215,12 +233,3 @@ app.get('/irradiationLat_Lon', async function (req, res) {
     var { rows } = await pgClient.query(query)
     res.json(rows)
 })
-
-// app.get('/irradiationLat_Lon', async function (req, res) {
-//     var lat = req.query.name.split(";")[0]
-//     var lon = req.query.name.split(";")[1]
-//     var query = `SELECT jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec, annual FROM irradiation_data WHERE LAT = (SELECT LAT FROM irradiation_data ORDER BY ABS(${str(lat)}  - LAT) ASC LIMIT 1) ORDER BY ABS(${lon} - LON) ASC LIMIT 1`
-//     var { rows } = await pgClient.query(query)
-//     res.json(rows)
-//     //'SELECT jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec, annual FROM irradiation_data WHERE LAT = (SELECT LAT FROM irradiation_data ORDER BY ABS(' + str(lat) + ' - LAT) ASC LIMIT 1) ORDER BY ABS(' + str(lon) + ' - LON) ASC LIMIT 1'
-// })

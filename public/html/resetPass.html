@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;chartset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/fontawesome.min.css" />
+	<link rel="stylesheet" href="/css/styles.css" />
+	<script src="/js/fontawesome.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<title>DANIG</title>
+
+	</script>
+</head>
+
+<body>
+	<div id="main">
+		<div class="w-25 m-2 d-flex flex-column justify-content-end align-items-end">
+			<div class="d-flex justify-content-center align-items-center my-4 mr-4">
+				<i class="fas fa-sun mx-2 sun-color"></i>
+				<input type="checkbox" class="app-checkbox" id="theme-switcher-button" />
+				<i class="fas fa-moon mx-2 moon-color"></i>
+			</div>
+		</div>
+		<div class="row justify-content-center" style="text-align: center">
+			<img id="logo" src="/img/danig.png" />
+		</div>
+		<div class="row justify-content-center" style="text-align: center">
+			<h1 class="app-title text-center mt-4 w-50">RESET DE SENHA</h1>
+		</div>
+		<div class="app-container" style="width: 300px;">
+			<div class="d-flex flex-wrap justify-content-center align-items-center">
+				<div class="field-container mr-2">
+					<label for="loginUsername">E-mail</label>
+					<div class="row ml-1">
+						<input type="text" id="loginUsername" style="width: 260px;"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center" style="text-align: center">
+			<button class="app-card text-center m-2 card-body d-flex flex-column align-items-center"
+				onclick="resetPass($('#loginUsername')[0].value)" id="">
+				<i class="fas fa-mail-bulk card-icon mt-2 mb-3"></i>
+				<large>Enviar e-mail</large>
+			</button>
+		</div>
+	</div>
+
+	<script>
+
+	</script>
+</body>
+<script type="text/javascript" src="/src/resetPass.js"></script>
+<script type="text/javascript" src="/src/themeSwitcher.js"></script>
+
+</html>
