@@ -23,6 +23,93 @@ var optionsInveInvNew = ''
 var optionsPoteInvNew = ''
 var optionsPecaInvNew = ''
 
+var itemsConsumo = {
+  inputJanConsumo: 0,
+  inputFevConsumo: 0,
+  inputMarConsumo: 0,
+  inputAbrConsumo: 0,
+  inputMaiConsumo: 0,
+  inputJunConsumo: 0,
+  inputJulConsumo: 0,
+  inputAgoConsumo: 0,
+  inputSetConsumo: 0,
+  inputOutConsumo: 0,
+  inputNovConsumo: 0,
+  inputDezConsumo: 0,
+}
+var somaConsumo = 0
+
+var itemsCorrecao = {
+  inputSujeira: 0,
+  inputPosTelhado: 0,
+  inputTPmaxPerModulo: 0,
+  inputTVocPerModulo: 0,
+  inputTIscPerModulo: 0,
+  inputFatorCorr: 0,
+  inputDegraAnual: 0,
+}
+var somaCorrecao = 0
+
+const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
+
+async function fatorCorrecao(id, value) {
+  itemsCorrecao[id] = parseFloat(value)
+  somaCorrecao = sumValues(itemsCorrecao)
+  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+}
+
+
+async function sumItems(id, value) {
+  itemsConsumo[id] = parseFloat(value)
+  somaConsumo = sumValues(itemsConsumo)
+  $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
+  $('#inputEmmConsumo')[0].value = parseFloat(somaConsumo / 12).toFixed(2)
+  var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
+  var addConsumo = parseFloat($('#inputAddConsumo')[0].value)
+  var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
+  var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
+  $('#inputGerConsumo')[0].value = ((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100
+
+}
+
+async function loadTableData(items) {
+  const table = document.getElementById("tableIrradiacao");
+  items.forEach(item => {
+    console.log(item)
+    let row = table.insertRow();
+    let lat = row.insertCell(0);
+    lat.innerHTML = parseFloat(item.lat);
+    let lon = row.insertCell(1);
+    lon.innerHTML = parseFloat(item.lon);
+    let jan = row.insertCell(2);
+    jan.innerHTML = parseFloat(item.jan) / 1000;
+    let feb = row.insertCell(3);
+    feb.innerHTML = parseFloat(item.feb) / 1000;
+    let mar = row.insertCell(4);
+    mar.innerHTML = parseFloat(item.mar) / 1000;
+    let apr = row.insertCell(5);
+    apr.innerHTML = parseFloat(item.apr) / 1000;
+    let may = row.insertCell(6);
+    may.innerHTML = parseFloat(item.may) / 1000;
+    let jun = row.insertCell(7);
+    jun.innerHTML = parseFloat(item.jun) / 1000;
+    let jul = row.insertCell(8);
+    jul.innerHTML = parseFloat(item.jul) / 1000;
+    let aug = row.insertCell(9);
+    aug.innerHTML = parseFloat(item.aug) / 1000;
+    let sep = row.insertCell(10);
+    sep.innerHTML = parseFloat(item.sep) / 1000;
+    let oct = row.insertCell(11);
+    oct.innerHTML = parseFloat(item.oct) / 1000;
+    let nov = row.insertCell(12);
+    nov.innerHTML = parseFloat(item.nov) / 1000;
+    let dez = row.insertCell(13);
+    dez.innerHTML = parseFloat(item.dec) / 1000;
+    let anu = row.insertCell(14);
+    anu.innerHTML = parseFloat(item.annual) / 1000;
+  });
+}
+
 async function ceilLat(x, s) {
   return s * Math.ceil(parseFloat(x) / s)
 }
@@ -80,6 +167,11 @@ async function getLocation() {
   document.getElementById("inputLatitudeOngDadoTec").value = Math.abs(parseFloat(data.lat)) - 5
   document.getElementById("inputLatitudeIntDadoTec").value = `LATITUDE ${Math.abs(Math.ceil(data.lat))}`
   document.getElementById("inputLongitudeDadoTec").value = data.lng
+  var address = `/irradiationLat_Lon?name=${data.lat};${data.lng}`
+  const dataIrr = await fecthGet(address)
+  console.log(dataIrr)
+  await loadTableData(dataIrr)
+
 }
 
 async function onLoad() {
@@ -225,6 +317,7 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputEspessuraModulo')[0].value = dataMdlPeca[0].espessura
     $('#inputLarguraModulo')[0].value = dataMdlPeca[0].largura
     $('#inputAlturaModulo')[0].value = dataMdlPeca[0].altura
+    await checkTemp()
   } else if (option == 'CLEAR') {
     $('#inputVmpModulo')[0].value = ''
     $('#inputImpModulo')[0].value = ''
@@ -240,6 +333,22 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputLarguraModulo')[0].value = ''
     $('#inputAlturaModulo')[0].value = ''
   }
+}
+// CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
+async function checkTemp() {
+  if (element20.value != '') {
+    tempMedia = element20.value
+  } else {
+    tempMedia = 0
+  }
+  element21.value = tempMedia * parseFloat(element24.value.replaceAll(",", ".")) * 100
+  element22.value = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
+  element23.value = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
+  itemsCorrecao['inputTPmaxPerModulo'] = tempMedia * parseFloat(element24.value.replaceAll(",", ".")) * 100
+  itemsCorrecao['inputTVocPerModulo'] = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
+  itemsCorrecao['inputTIscPerModulo'] = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
+  somaCorrecao = sumValues(itemsCorrecao)
+  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
 }
 //#endregion
 
@@ -376,23 +485,15 @@ async function httpPost(theUrl, sendData) {
 //#endregion
 
 
-async function calcMdlCorr() {
-
-  inputPmaxCorrModulo
-  inputVocCorrModulo
-  inputIscCorrModulo
-}
-
-
 window.onload = async function (event) {
   await onLoad()
 };
 //#region MÓDULOS - FILTRO
-var element1 = document.getElementById("inputFabricanteModulo")
-var element2 = document.getElementById("inputPotenciaModulo")
-var element3 = document.getElementById("inputTipo_CelModulo")
-var element4 = document.getElementById("inputTecnologiaModulo")
-var element5 = document.getElementById("inputPecaModulo")
+let element1 = document.getElementById("inputFabricanteModulo")
+let element2 = document.getElementById("inputPotenciaModulo")
+let element3 = document.getElementById("inputTipo_CelModulo")
+let element4 = document.getElementById("inputTecnologiaModulo")
+let element5 = document.getElementById("inputPecaModulo")
 
 element1.addEventListener('change', async function () {
   if (element1.value == '') {
@@ -534,12 +635,12 @@ element5.addEventListener('change', async function () {
 //#endregion
 
 //#region INVERSORES - FILTRO
-var element6 = document.getElementById("inputFabricanteInversor")
-var element7 = document.getElementById("inputFasesInversor")
-var element8 = document.getElementById("inputStringsInversor")
-var element9 = document.getElementById("inputTipoInversor")
-var element10 = document.getElementById("inputPotenciaInversor")
-var element11 = document.getElementById("inputPecaInversor")
+let element6 = document.getElementById("inputFabricanteInversor")
+let element7 = document.getElementById("inputFasesInversor")
+let element8 = document.getElementById("inputStringsInversor")
+let element9 = document.getElementById("inputTipoInversor")
+let element10 = document.getElementById("inputPotenciaInversor")
+let element11 = document.getElementById("inputPecaInversor")
 
 element6.addEventListener('change', async function () {
   if (element6.value == '') {
@@ -725,10 +826,10 @@ element11.addEventListener('change', async function () {
 })
 //#endregion
 
-var element12 = document.getElementById('inputTipoTelhaDadoTec')
-var element13 = document.getElementById('inputLatitudeCorDadoTec')
-var element14 = document.getElementById("inputLatitudeOngDadoTec")
-var element15 = document.getElementById("inputAngTelhaDadoTec")
+let element12 = document.getElementById('inputTipoTelhaDadoTec')
+let element13 = document.getElementById('inputLatitudeCorDadoTec')
+let element14 = document.getElementById("inputLatitudeOngDadoTec")
+let element15 = document.getElementById("inputAngTelhaDadoTec")
 element12.addEventListener('change', async function () {
   if (element12.value == 'SOLO') {
     element13.value = await ceilLat(Math.abs(element14.value), 5)
@@ -743,3 +844,68 @@ element15.addEventListener('change', async function () {
     element13.value = element15.value
   }
 })
+
+let element16 = document.getElementById('inputPosicionamentoDadoTec')
+let element17 = document.getElementById('inputHSPPerdasDadoTec')
+let element18 = document.getElementById('inputHSPDadoTec')
+let element19 = document.getElementById('inputPosTelhado')
+var porcentagemHSP = 0
+var hsp = 0
+element16.addEventListener('change', async function () {
+  switch (element16.value) {
+    case 'NORTE':
+      porcentagemHSP = 1
+      break
+    case 'NOROESTE':
+      porcentagemHSP = 0.92
+      break
+    case 'NORDESTE':
+      porcentagemHSP = 0.92
+      break
+    case 'LESTE':
+      porcentagemHSP = 0.80
+      break
+    case 'OESTE':
+      porcentagemHSP = 0.80
+      break
+    case 'SUDESTE':
+      porcentagemHSP = 0.85
+      break
+    case 'SUL':
+      porcentagemHSP = 0.3
+      break
+    case 'SUDOESTE':
+      porcentagemHSP = 0.85
+      break
+  }
+  if (element18.value != '') {
+    hsp = parseFloat(element18.value)
+  }
+  element17.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
+  element19.value = Math.round(-(1 - porcentagemHSP) * 100)
+  itemsCorrecao['inputPosTelhado'] = parseFloat(element19.value)
+  somaCorrecao = sumValues(itemsCorrecao)
+  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+})
+element18.addEventListener('change', async function () {
+  if (element18.value != '') {
+    hsp = parseFloat(element18.value)
+  } else {
+    hsp = 0
+  }
+  element17.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
+})
+
+let element20 = document.getElementById('inputTempMediaModulo')
+let element21 = document.getElementById('inputTPmaxPerModulo')
+let element22 = document.getElementById('inputTVocPerModulo')
+let element23 = document.getElementById('inputTIscPerModulo')
+let element24 = document.getElementById('inputTPmaxModulo')
+let element25 = document.getElementById('inputTVocModulo')
+let element26 = document.getElementById('inputTIscModulo')
+let element27 = document.getElementById('inputFatorCorr')
+var tempMedia = 0
+element20.addEventListener('change', async function () {
+  await checkTemp()
+})
+

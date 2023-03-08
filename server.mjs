@@ -207,3 +207,20 @@ app.get('/lat_lon', async function (req, res) {
         res.json(str)
     });
 })
+
+app.get('/irradiationLat_Lon', async function (req, res) {
+    var lat = req.query.name.split(";")[0]
+    var lon = req.query.name.split(";")[1]
+    var query = `SELECT lat, lon, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec, annual FROM irradiation_data WHERE LAT = (SELECT LAT FROM irradiation_data ORDER BY ABS(${lat} - LAT) ASC LIMIT 1) ORDER BY ABS(${lon} - LON) ASC LIMIT 1`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+})
+
+// app.get('/irradiationLat_Lon', async function (req, res) {
+//     var lat = req.query.name.split(";")[0]
+//     var lon = req.query.name.split(";")[1]
+//     var query = `SELECT jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec, annual FROM irradiation_data WHERE LAT = (SELECT LAT FROM irradiation_data ORDER BY ABS(${str(lat)}  - LAT) ASC LIMIT 1) ORDER BY ABS(${lon} - LON) ASC LIMIT 1`
+//     var { rows } = await pgClient.query(query)
+//     res.json(rows)
+//     //'SELECT jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec, annual FROM irradiation_data WHERE LAT = (SELECT LAT FROM irradiation_data ORDER BY ABS(' + str(lat) + ' - LAT) ASC LIMIT 1) ORDER BY ABS(' + str(lon) + ' - LON) ASC LIMIT 1'
+// })

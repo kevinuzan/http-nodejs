@@ -5,14 +5,17 @@
 	<meta http-equiv="Content-Type" content="text/html;chartset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="stylesheet" href="/css/fontawesome.min.css" />
 	<link rel="stylesheet" href="/css/styles.css" />
+	<link rel="stylesheet" href="/css/tables.css" />
+
 	<script src="/js/fontawesome.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
 	<title>DANIG</title>
 
-	</script>
+
 </head>
 
 <body>
@@ -46,6 +49,7 @@
 
 		<!-- ITENS MENU DE NAVEGAÇÃO -->
 		<div class="tab-content">
+			<!-- ERP -->
 			<div class="tab-pane active" id="erp-tab-content" role="tabpanel">
 				<div class="app-container">
 					<h2 class="app-title">DADOS CADASTRAIS</h2>
@@ -156,7 +160,7 @@
 					</div>
 				</div>
 			</div>
-
+			<!-- DADOS TÉCNICOS -->
 			<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
 				<div class="app-container">
 					<div class="container-5-columns mr-3 mb-2">
@@ -231,12 +235,18 @@
 								<option value="NORTE">NORTE</option>
 								<option value="SUL">SUL</option>
 								<option value="LESTE">LESTE</option>
+								<option value="OESTE">OESTE</option>
 								<option value="NORDESTE">NORDESTE</option>
 								<option value="NOROESTE">NOROESTE</option>
 								<option value="SUDESTE">SUDESTE</option>
 								<option value="SUDOESTE">SUDOESTE</option>
 							</select>
 						</div>
+						<div class="field-container mt-2">
+							<label for="inputHSPPerdasDadoTec" style="font-weight: bold">HSP C/ PERDAS POR IRR.</label>
+							<input id="inputHSPPerdasDadoTec" placeholder="Digite..">
+						</div>
+
 					</div>
 
 				</div>
@@ -249,6 +259,11 @@
 					<li class="nav-item">
 						<a class="nav-link app-tab-title" data-toggle="tab" href="#inversores-tab-content" role="tab">
 							INVERSORES
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#consumo-tab-content" role="tab">
+							CONSUMO
 						</a>
 					</li>
 				</ul>
@@ -285,9 +300,7 @@
 								<div class="field-container mt-2">
 									<label for="inputTempMediaModulo" style="font-weight: bold">TEMP. MÉDIA
 										LOCAL</label>
-									<input list="inputTempMediaModuloList" id="inputTempMediaModulo" />
-									<datalist id="inputTempMediaModuloList">
-									</datalist>
+									<input id="inputTempMediaModulo" />
 								</div>
 								<div class="field-container mt-2">
 									<label for="inputPecaModulo" style="font-weight: bold">PEÇA</label>
@@ -295,6 +308,36 @@
 									<datalist id="inputPecaModuloList">
 									</datalist>
 								</div>
+
+								<div class="field-container mt-2">
+									<label for="inputSujeira" style="font-weight: bold">SUJEIRA (%)</label>
+									<input id="inputSujeira" onchange="fatorCorrecao(this.id,this.value)" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPosTelhado" style="font-weight: bold">POS. TELHADO (%)</label>
+									<input id="inputPosTelhado" onchange="fatorCorrecao(this.id,this.value)" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTPmaxPerModulo" style="font-weight: bold">Tº/ºC PMAX (%)</label>
+									<input id="inputTPmaxPerModulo" onchange="fatorCorrecao(this.id,this.value)" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTVocPerModulo" style="font-weight: bold">Tº/ºC VOC (%)</label>
+									<input id="inputTVocPerModulo" onchange="fatorCorrecao(this.id,this.value)" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTIscPerModulo" style="font-weight: bold">Tº/ºC ISC (%)</label>
+									<input id="inputTIscPerModulo" onchange="fatorCorrecao(this.id,this.value)" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFatorCorr" style="font-weight: bold">FATOR DE CORREÇÃO (%)</label>
+									<input id="inputFatorCorr" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputDegraAnual" style="font-weight: bold">DEGRADAÇÃO ANUAL (%)</label>
+									<input id="inputDegraAnual" />
+								</div>
+
 							</div>
 							<div class="container-5-columns mr-3 mb-2">
 								<button id="showModulo" onclick="showModulo()"
@@ -451,29 +494,152 @@
 									<input id="inputEficienciaInversor" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputFaixaTensaoInversor" style="font-weight: bold">FAIXA DE TENS. SAÍDA CA (V)</label>
+									<label for="inputFaixaTensaoInversor" style="font-weight: bold">FAIXA DE TENS. SAÍDA
+										CA (V)</label>
 									<input id="inputFaixaTensaoInversor" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputCorrenteMaxCCInversor" style="font-weight: bold">CORR. MÁX. INVERSOR CC (A)</label>
+									<label for="inputCorrenteMaxCCInversor" style="font-weight: bold">CORR. MÁX.
+										INVERSOR CC (A)</label>
 									<input id="inputCorrenteMaxCCInversor" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputCorrenteMaxCAInversor" style="font-weight: bold">CORR. MÁX. INVERSOR CA (A)</label>
+									<label for="inputCorrenteMaxCAInversor" style="font-weight: bold">CORR. MÁX.
+										INVERSOR CA (A)</label>
 									<input id="inputCorrenteMaxCAInversor" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- CONSUMO -->
+					<div class="tab-pane" id="consumo-tab-content" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns">
+								<div class="field-container mt-2">
+									<label for="inputJanConsumo" style="font-weight: bold">JANEIRO</label>
+									<input id="inputJanConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFevConsumo" style="font-weight: bold">FEVEREIRO</label>
+									<input id="inputFevConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputMarConsumo" style="font-weight: bold">MARÇO</label>
+									<input id="inputMarConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAbrConsumo" style="font-weight: bold">ABRIL</label>
+									<input id="inputAbrConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputMaiConsumo" style="font-weight: bold">MAIO</label>
+									<input id="inputMaiConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputJunConsumo" style="font-weight: bold">JUNHO</label>
+									<input id="inputJunConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputJulConsumo" style="font-weight: bold">JULHO</label>
+									<input id="inputJulConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAgoConsumo" style="font-weight: bold">AGOSTO</label>
+									<input id="inputAgoConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputSetConsumo" style="font-weight: bold">SETEMBRO</label>
+									<input id="inputSetConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputOutConsumo" style="font-weight: bold">OUTUBRO</label>
+									<input id="inputOutConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputNovConsumo" style="font-weight: bold">NOVEMBRO</label>
+									<input id="inputNovConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputDezConsumo" style="font-weight: bold">DEZEMBRO</label>
+									<input id="inputDezConsumo" placeholder="Digite.."
+										onchange="sumItems(this.id, this.value)">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAddConsumo" style="font-weight: bold">ADIÇÃO NA MÉDIA HWH</label>
+									<input id="inputAddConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputSumConsumo" style="font-weight: bold">SOMATÓRIO ANUAL KWH</label>
+									<input id="inputSumConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEmmConsumo" style="font-weight: bold">EMM</label>
+									<input id="inputEmmConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputGerConsumo" style="font-weight: bold">GERAÇÃO NECESSÁRIA
+										KWH</label>
+									<input id="inputGerConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotConsumo" style="font-weight: bold">POTÊNCIA ESCOLHIDA
+										(KWH)</label>
+									<input id="inputPotConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputDemConsumo" style="font-weight: bold">DEMANDA NECESSÁRIA
+										(KWH)</label>
+									<input id="inputDemConsumo" placeholder="Digite..">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
-
+			<!-- DADOS IRRADIAÇÃO -->
 			<div class="tab-pane" id="irradiacao-tab-content" role="tabpanel">
+				<div class="app-container">
+					<div class="table-responsive">
+						<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
+						<table class="table" id="tableIrradiacao" style="width: 870px;">
+							<thead>
+								<tr>
+									<th scope="col">LATITUDE</th>
+									<th scope="col">LONGITUDE</th>
+									<th scope="col">JAN</th>
+									<th scope="col">FEV</th>
+									<th scope="col">MAR</th>
+									<th scope="col">APR</th>
+									<th scope="col">MAY</th>
+									<th scope="col">JUN</th>
+									<th scope="col">JUL</th>
+									<th scope="col">AUG</th>
+									<th scope="col">SEP</th>
+									<th scope="col">OCT</th>
+									<th scope="col">NOV</th>
+									<th scope="col">DEC</th>
+									<th scope="col">MÉDIA ANUAL</th>
+								</tr>
+							</thead>
+							<tbody id="bodyIrradiacao">
 
+							</tbody>
+						</table>
 
-
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
