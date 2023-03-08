@@ -1,6 +1,9 @@
 async function abrirpg2() {
   window.location.replace("/html/index_2.html")
 }
+async function abrirpg3() {
+  window.location.replace("/html/index_3.html")
+}
 var messageError = ''
 async function login() {
   var user = document.getElementById('loginUsername').value
