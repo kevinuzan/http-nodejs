@@ -240,9 +240,9 @@ async function fillMdl(wish, option) {
   if (wish == 'OLD') {
     if (option == 'FORNECEDOR') {
       document.getElementById("inputFabricanteModuloList").innerHTML = optionsFornMdl
-      document.getElementById("inputPotenciaModuloList").innerHTML = optionsPoteMdl
-      document.getElementById("inputTipo_CelModuloList").innerHTML = optionsTipoMdl
-      document.getElementById("inputTecnologiaModuloList").innerHTML = optionsTecnMdl
+      document.getElementById("inputPotenciaModuloList").innerHTML = ''
+      document.getElementById("inputTipo_CelModuloList").innerHTML = ''
+      document.getElementById("inputTecnologiaModuloList").innerHTML = ''
       document.getElementById("inputPecaModuloList").innerHTML = optionsPecaMdl
     } else if (option == 'POTENCIA') {
       document.getElementById("inputTipo_CelModuloList").innerHTML = optionsTipoMdl
@@ -358,10 +358,10 @@ async function fillInv(wish, option) {
   if (wish == 'OLD') {
     if (option == 'FORNECEDOR') {
       document.getElementById("inputFabricanteInversorList").innerHTML = optionsFornInv
-      document.getElementById("inputFasesInversorList").innerHTML = optionsFaseInv
-      document.getElementById("inputStringsInversorList").innerHTML = optionsStriInv
-      document.getElementById("inputTipoInversorList").innerHTML = optionsInveInv
-      document.getElementById("inputPotenciaInversorList").innerHTML = optionsPoteInv
+      document.getElementById("inputFasesInversorList").innerHTML = ''
+      document.getElementById("inputStringsInversorList").innerHTML = ''
+      document.getElementById("inputTipoInversorList").innerHTML = ''
+      document.getElementById("inputPotenciaInversorList").innerHTML = ''
       document.getElementById("inputPecaInversorList").innerHTML = optionsPecaInv
     } else if (option == 'FASE') {
       document.getElementById("inputStringsInversorList").innerHTML = optionsStriInv
