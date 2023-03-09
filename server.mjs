@@ -233,3 +233,11 @@ app.get('/irradiationLat_Lon', async function (req, res) {
     var { rows } = await pgClient.query(query)
     res.json(rows)
 })
+
+app.get('/fatorK', async function (req, res) {
+    var latInt = req.query.name.split(";")[0]
+    var latCor = req.query.name.split(";")[1]
+    var query = `SELECT MEDIA FROM fatork where latitude = 'Latitude ${latInt}${latCor}'`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+})

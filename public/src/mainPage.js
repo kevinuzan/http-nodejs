@@ -165,12 +165,13 @@ async function getLocation() {
   // var data = await httpGet("/lat_lon")
   document.getElementById("inputLatitudeDadoTec").value = data.lat
   document.getElementById("inputLatitudeOngDadoTec").value = Math.abs(parseFloat(data.lat)) - 5
-  document.getElementById("inputLatitudeIntDadoTec").value = `LATITUDE ${Math.abs(Math.ceil(data.lat))}`
+  document.getElementById("inputLatitudeIntDadoTec").value = `${Math.abs(Math.ceil(data.lat))}`
   document.getElementById("inputLongitudeDadoTec").value = data.lng
   var address = `/irradiationLat_Lon?name=${data.lat};${data.lng}`
   const dataIrr = await fecthGet(address)
   console.log(dataIrr)
   await loadTableData(dataIrr)
+  document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
 
 }
 
@@ -825,23 +826,28 @@ element11.addEventListener('change', async function () {
 window.onload = async function (event) {
   await onLoad()
 };
+var fatorKdata = ''
+async function fatorK() {
+  if (element12.value == 'SOLO') {
+    element13.value = await ceilLat(Math.abs(element14.value), 5)
+  } else {
+    element13.value = element15.value
+  }
+  fatorKdata = await fecthGet(`/fatorK?name=${element29.value};${element13.value}`)
+  element28.value = fatorKdata[0].media
+}
+
+let element28 = document.getElementById('inputFatorKDadoTec')
+let element29 = document.getElementById("inputLatitudeIntDadoTec")
 let element12 = document.getElementById('inputTipoTelhaDadoTec')
 let element13 = document.getElementById('inputLatitudeCorDadoTec')
 let element14 = document.getElementById("inputLatitudeOngDadoTec")
 let element15 = document.getElementById("inputAngTelhaDadoTec")
 element12.addEventListener('change', async function () {
-  if (element12.value == 'SOLO') {
-    element13.value = await ceilLat(Math.abs(element14.value), 5)
-  } else {
-    element13.value = element15.value
-  }
+  await fatorK()
 })
 element15.addEventListener('change', async function () {
-  if (element12.value == 'SOLO') {
-    element13.value = await ceilLat(Math.abs(element14.value), 5)
-  } else {
-    element13.value = element15.value
-  }
+  await fatorK()
 })
 
 let element16 = document.getElementById('inputPosicionamentoDadoTec')
