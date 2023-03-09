@@ -81,11 +81,9 @@
     border-radius: .2rem;
     cursor: pointer;
     margin-top: 15px;
-    text-transform: uppercase;
 }
 
 .input-lang-bg {
-    text-transform: uppercase;
     color: #ffffff;
     background: #0d9be2;
     padding: .2rem .6rem;
