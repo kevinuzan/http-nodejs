@@ -39,10 +39,12 @@ body {
 }
 
 .app-container {
-  width: 100%;
-  max-width: 1120px;
+  width: 80%;
+  max-width: 80%;
   margin: 0 auto;
   padding: 0 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container-3 {
@@ -67,12 +69,12 @@ body {
 .container-4-columns {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem 1.2rem;
+  gap: 2rem 0.6rem;
 }
 
 .container-5-columns {
   display: grid;
-  grid-template-columns: repeat(5, 240px);
+  grid-template-columns: repeat(5, 1fr);
   gap: 2rem 1.2rem;
 }
 
@@ -88,7 +90,19 @@ body {
   gap: 2rem 1.2rem;
 }
 
-@media(max-width: 800px) {
+@media(max-width: 1300px) {
+  .container-5-columns {
+     grid-template-columns: repeat(4, 1fr);
+  }
+  .container-4-columns {
+     grid-template-columns: repeat(4, 1fr);
+  }
+  .container-3-columns {
+     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media(max-width: 1000px) {
   .container-5-columns {
      grid-template-columns: repeat(3, 1fr);
   }
@@ -100,7 +114,7 @@ body {
   }
 }
 
-@media(max-width: 600px) {
+@media(max-width: 800px) {
   .container-5-columns {
      grid-template-columns: repeat(2, 1fr);
   }

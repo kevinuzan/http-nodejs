@@ -28,626 +28,739 @@
 				<i class="fas fa-moon mx-2 moon-color"></i>
 			</div>
 		</div>
-		<ul class="nav nav-tabs justify-content-center mb-2" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link app-tab-title active" data-toggle="tab" href="#erp-tab-content" role="tab"
-					data-translate="_ERPDatabase">
-					ERP
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link app-tab-title" data-toggle="tab" href="#dados-tecnicos-tab-content" role="tab">
-					DADOS TÉCNICOS
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link app-tab-title" data-toggle="tab" href="#irradiacao-tab-content" role="tab">
-					IRRADIAÇÃO
-				</a>
-			</li>
-		</ul>
 
-		<!-- ITENS MENU DE NAVEGAÇÃO -->
-		<div class="tab-content">
-			<!-- ERP -->
-			<div class="tab-pane active" id="erp-tab-content" role="tabpanel">
-				<div class="app-container">
-					<h2 class="app-title">DADOS CADASTRAIS</h2>
-					<div class="container-5-columns mr-3 mb-2">
+		<!-- <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-						<div class="field-container mt-2 mb-2">
-							<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
-							<input list="inputClienteList" id="inputCliente" />
-							<datalist id="inputClienteList">
-								<option selected disabled></option>
-							</datalist>
-						</div>
-						<div class="field-container mt-2 mb-2">
-							<label for="inputCliente" style="font-weight: bold"> </label>
-							<button type="button" onclick="buscaCliente()" id="buscaCliente"
-								class="btn-app">BUSCA</button>
-						</div>
-
-					</div>
-					<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
-						<div class="field-container mt-2">
-							<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
-							<input id="inputTelefone" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputTelhado" style="font-weight: bold">TIPO DE TELHADO</label>
-							<input id="inputTelhado" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputEstado" style="font-weight: bold">ESTADO</label>
-							<input id="inputEstado" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputCidade" style="font-weight: bold">CIDADE</label>
-							<input id="inputCidade" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputRua" style="font-weight: bold">RUA</label>
-							<input id="inputRua" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputNumero" style="font-weight: bold">NÚMERO</label>
-							<input id="inputNumero" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputBairro" style="font-weight: bold">BAIRRO</label>
-							<input id="inputBairro" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputCep" style="font-weight: bold">CEP</label>
-							<input id="inputCep" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
-							<input list="inputVendedorList" id="inputVendedor" />
-							<datalist id="inputVendedorList">
-								<option selected disabled></option>
-							</datalist>
-						</div>
-					</div>
-					<h2 class="app-title">DADOS DE FATURA</h2>
-					<div class="container-5-columns mr-3" id="faturaID">
-						<div class="field-container mt-2">
-							<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
-							<input id="inputDistribuidora" placeholder="Digite.." />
-
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputIcms" style="font-weight: bold">ICMS</label>
-							<input id="inputIcms" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputPis" style="font-weight: bold">PIS</label>
-							<input id="inputPis" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputCofins" style="font-weight: bold">COFINS</label>
-							<input id="inputCofins" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
-							<input id="inputPorcentagem" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputArea" style="font-weight: bold">ÁREA</label>
-							<input id="inputArea" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputConsumo" style="font-weight: bold">CONSUMO</label>
-							<input id="inputConsumo" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputTaxa" style="font-weight: bold">TAXA</label>
-							<input id="inputTaxa" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
-							<input id="inputIlumPub" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputUniCons" style="font-weight: bold">UNID. CONSUMIDORA</label>
-							<input id="inputUniCons" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
-							<input id="inputBandeira" placeholder="Digite..">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- DADOS TÉCNICOS -->
-			<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
-				<div class="app-container">
-					<div class="container-5-columns mr-3 mb-2">
-
-						<div class="field-container mt-2">
-							<label for="inputRuaDadoTec" style="font-weight: bold">RUA</label>
-							<input id="inputRuaDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputNumeroDadoTec" style="font-weight: bold">NÚMERO</label>
-							<input id="inputNumeroDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputBairroDadoTec" style="font-weight: bold">BAIRRO</label>
-							<input id="inputBairroDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-
-						</div>
-						<div class="field-container mt-2 mb-2">
-							<label for="buscaCliente" style="font-weight: bold"> </label>
-							<button type="button" onclick="getLocation()" id="buscaCliente" class="btn-app">BUSCAR
-								POSIÇÃO</button>
-						</div>
-
-					</div>
-					<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
-						<div class="field-container mt-2">
-							<label for="inputTipoTelhaDadoTec" style="font-weight: bold">TIPO DE TELHADO</label>
-							<select id="inputTipoTelhaDadoTec">
-								<option selected disabled></option>
-								<option value="SOLO">SOLO</option>
-								<option value="TELHADO">TELHADO</option>
-							</select>
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputAngTelhaDadoTec" style="font-weight: bold">ANG. DO TELHADO</label>
-							<input id="inputAngTelhaDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputLatitudeDadoTec" style="font-weight: bold">LATITUDE</label>
-							<input id="inputLatitudeDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputLongitudeDadoTec" style="font-weight: bold">LONGITUDE</label>
-							<input id="inputLongitudeDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputLatitudeIntDadoTec" style="font-weight: bold">LATITUDE INTEIRA</label>
-							<input id="inputLatitudeIntDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputLatitudeOngDadoTec" style="font-weight: bold">LATITUDE ONGRID</label>
-							<input id="inputLatitudeOngDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputLatitudeCorDadoTec" style="font-weight: bold">LATITUDE + CORREÇÃO</label>
-							<input id="inputLatitudeCorDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputFatorKDadoTec" style="font-weight: bold">FATOR K</label>
-							<input id="inputFatorKDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputHSPDadoTec" style="font-weight: bold">HSP</label>
-							<input id="inputHSPDadoTec" placeholder="Digite..">
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputPosicionamentoDadoTec" style="font-weight: bold">POSICIONAMENTO</label>
-							<select id="inputPosicionamentoDadoTec">
-								<option selected disabled></option>
-								<option value="NORTE">NORTE</option>
-								<option value="SUL">SUL</option>
-								<option value="LESTE">LESTE</option>
-								<option value="OESTE">OESTE</option>
-								<option value="NORDESTE">NORDESTE</option>
-								<option value="NOROESTE">NOROESTE</option>
-								<option value="SUDESTE">SUDESTE</option>
-								<option value="SUDOESTE">SUDOESTE</option>
-							</select>
-						</div>
-						<div class="field-container mt-2">
-							<label for="inputHSPPerdasDadoTec" style="font-weight: bold">HSP C/ PERDAS POR IRR.</label>
-							<input id="inputHSPPerdasDadoTec" placeholder="Digite..">
-						</div>
-
-					</div>
-
-				</div>
-				<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+			<ul class="navbar-nav mr-auto ml-auto" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link app-tab-title active" name="tabNew" data-toggle="tab" href="#dados-tab-content" role="tab">
+						DADOS
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link app-tab-title" name="tabNew" data-toggle="tab" href="#orcamento-tab-content" role="tab">
+						ORÇAMENTO
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link app-tab-title" name="tabNew" data-toggle="tab" href="#resumo-tab-content" role="tab">
+						RESUMO
+					</a>
+				</li>
+			</ul>
+		</nav> -->
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="nav navbar-nav mr-auto ml-auto" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link app-tab-title" data-toggle="tab" href="#modulos-tab-content" role="tab">
-							MÓDULOS
+						<a class="nav-link app-tab-title active" data-toggle="tab" href="#dados-tab-content" role="tab">
+							DADOS
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link app-tab-title" data-toggle="tab" href="#inversores-tab-content" role="tab">
-							INVERSORES
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#orcamento-tab-content" role="tab">
+							ORÇAMENTO
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link app-tab-title" data-toggle="tab" href="#consumo-tab-content" role="tab">
-							CONSUMO
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#resumo-tab-content" role="tab">
+							RESUMO
 						</a>
 					</li>
 				</ul>
+			</div>
+		</nav>
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="dados-tab-content" role="tabpanel">
+				<ul class="nav nav-tabs justify-content-center mb-2 mt-3" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link app-tab-title active" data-toggle="tab" href="#erp-tab-content" role="tab"
+							data-translate="_ERPDatabase">
+							ERP
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#dados-tecnicos-tab-content"
+							role="tab">
+							DADOS TÉCNICOS
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#irradiacao-tab-content" role="tab">
+							IRRADIAÇÃO
+						</a>
+					</li>
+				</ul>
+				<!-- ITENS MENU DE NAVEGAÇÃO -->
 				<div class="tab-content">
-					<!-- MÓDULOS -->
-					<div class="tab-pane" id="modulos-tab-content" role="tabpanel">
+					<!-- ERP -->
+					<div class="tab-pane active" id="erp-tab-content" role="tabpanel">
 						<div class="app-container">
-							<!-- FILTROS -->
+							<h2 class="app-title">DADOS CADASTRAIS</h2>
 							<div class="container-5-columns mr-3 mb-2">
-								<div class="field-container mt-2">
-									<label for="inputFabricanteModulo" style="font-weight: bold">FABRICANTE</label>
-									<input list="inputFabricanteModuloList" id="inputFabricanteModulo" />
-									<datalist id="inputFabricanteModuloList">
+
+								<div class="field-container mt-2 mb-2">
+									<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
+									<input list="inputClienteList" id="inputCliente" />
+									<datalist id="inputClienteList">
+										<option selected disabled></option>
 									</datalist>
 								</div>
-								<div class="field-container mt-2">
-									<label for="inputPotenciaModulo" style="font-weight: bold">POTÊNCIA</label>
-									<input list="inputPotenciaModuloList" id="inputPotenciaModulo" />
-									<datalist id="inputPotenciaModuloList">
-									</datalist>
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTipo_CelModulo" style="font-weight: bold">TIPO DE CÉLULAS</label>
-									<input list="inputTipo_CelModuloList" id="inputTipo_CelModulo" />
-									<datalist id="inputTipo_CelModuloList">
-									</datalist>
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTecnologiaModulo" style="font-weight: bold">TECNOLOGIA</label>
-									<input list="inputTecnologiaModuloList" id="inputTecnologiaModulo" />
-									<datalist id="inputTecnologiaModuloList">
-									</datalist>
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTempMediaModulo" style="font-weight: bold">TEMP. MÉDIA
-										LOCAL</label>
-									<input id="inputTempMediaModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputPecaModulo" style="font-weight: bold">PEÇA</label>
-									<input list="inputPecaModuloList" id="inputPecaModulo" />
-									<datalist id="inputPecaModuloList">
-									</datalist>
-								</div>
-							</div>
-							<h4 class="app-subtitle">FATOR DE CORREÇÃO</h4>
-							<div class="container-5-columns mr-3 mb-2">
-								<div class="field-container mt-2">
-									<label for="inputSujeira" style="font-weight: bold">SUJEIRA (%)</label>
-									<input id="inputSujeira" onchange="fatorCorrecao(this.id,this.value)" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputPosTelhado" style="font-weight: bold">POS. TELHADO (%)</label>
-									<input id="inputPosTelhado" onchange="fatorCorrecao(this.id,this.value)" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTPmaxPerModulo" style="font-weight: bold">Tº/ºC PMAX (%)</label>
-									<input id="inputTPmaxPerModulo" onchange="fatorCorrecao(this.id,this.value)" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTVocPerModulo" style="font-weight: bold">Tº/ºC VOC (%)</label>
-									<input id="inputTVocPerModulo" onchange="fatorCorrecao(this.id,this.value)" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTIscPerModulo" style="font-weight: bold">Tº/ºC ISC (%)</label>
-									<input id="inputTIscPerModulo" onchange="fatorCorrecao(this.id,this.value)" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputFatorCorr" style="font-weight: bold">FATOR DE CORREÇÃO (%)</label>
-									<input id="inputFatorCorr" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputDegraAnual" style="font-weight: bold">DEGRADAÇÃO ANUAL (%)</label>
-									<input id="inputDegraAnual" />
+								<div class="field-container mt-2 mb-2">
+									<label for="inputCliente" style="font-weight: bold"> </label>
+									<button type="button" onclick="buscaCliente()" id="buscaCliente"
+										class="btn-app">BUSCA</button>
 								</div>
 
 							</div>
-							<div class="container-5-columns mr-3 mb-2">
-								<button id="showModulo" onclick="showModulo()"
-									style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
-									class="btn-app btn-app-sm ml-2">
-									<i class="icon fas fa-eye" id="iconMdl"></i>
-								</button>
+							<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
+								<div class="field-container mt-2">
+									<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
+									<input id="inputTelefone" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTelhado" style="font-weight: bold">TIPO DE TELHADO</label>
+									<input id="inputTelhado" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEstado" style="font-weight: bold">ESTADO</label>
+									<input id="inputEstado" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCidade" style="font-weight: bold">CIDADE</label>
+									<input id="inputCidade" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputRua" style="font-weight: bold">RUA</label>
+									<input id="inputRua" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputNumero" style="font-weight: bold">NÚMERO</label>
+									<input id="inputNumero" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBairro" style="font-weight: bold">BAIRRO</label>
+									<input id="inputBairro" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCep" style="font-weight: bold">CEP</label>
+									<input id="inputCep" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
+									<input list="inputVendedorList" id="inputVendedor" />
+									<datalist id="inputVendedorList">
+										<option selected disabled></option>
+									</datalist>
+								</div>
 							</div>
-							<!-- DADOS -->
-							<div class="container-5-columns mr-3 mb-2" id="dadosModulo">
+							<h2 class="app-title">DADOS DE FATURA</h2>
+							<div class="container-5-columns mr-3" id="faturaID">
 								<div class="field-container mt-2">
-									<label for="inputVmpModulo" style="font-weight: bold">VMP (V)</label>
-									<input id="inputVmpModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputImpModulo" style="font-weight: bold">IMP (A)</label>
-									<input id="inputImpModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputVocModulo" style="font-weight: bold">VOC (V)</label>
-									<input id="inputVocModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputIscModulo" style="font-weight: bold">ISC (A)</label>
-									<input id="inputIscModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputEficienciaModulo" style="font-weight: bold">EFICIÊNCIA (%)</label>
-									<input id="inputEficienciaModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTPmaxModulo" style="font-weight: bold">Tº/ºC PMAX</label>
-									<input id="inputTPmaxModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTVocModulo" style="font-weight: bold">Tº/ºC VOC</label>
-									<input id="inputTVocModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTIscModulo" style="font-weight: bold">Tº/ºC ISC</label>
-									<input id="inputTIscModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputAreaOcupadaModulo" style="font-weight: bold">ÁREA OCUPADA
-										(M²)</label>
-									<input id="inputAreaOcupadaModulo" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputPesoModulo" style="font-weight: bold">PESO (KG)</label>
-									<input id="inputPesoModulo" />
-								</div>
+									<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
+									<input id="inputDistribuidora" placeholder="Digite.." />
 
-								<div class="field-container mt-2">
-									<label for="inputEspessuraModulo" style="font-weight: bold">ESPESSURA</label>
-									<input id="inputEspessuraModulo" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputLarguraModulo" style="font-weight: bold">LARGURA</label>
-									<input id="inputLarguraModulo" />
+									<label for="inputIcms" style="font-weight: bold">ICMS</label>
+									<input id="inputIcms" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputAlturaModulo" style="font-weight: bold">ALTURA</label>
-									<input id="inputAlturaModulo" />
+									<label for="inputPis" style="font-weight: bold">PIS</label>
+									<input id="inputPis" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputPmaxCorrModulo" style="font-weight: bold">PMAX (W)
-										CORRIGIDO</label>
-									<input id="inputPmaxCorrModulo" />
+									<label for="inputCofins" style="font-weight: bold">COFINS</label>
+									<input id="inputCofins" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputVocCorrModulo" style="font-weight: bold">VOC (V) CORRIGIDO</label>
-									<input id="inputVocCorrModulo" />
+									<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
+									<input id="inputPorcentagem" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputIscCorrModulo" style="font-weight: bold">ISC (A) CORRIGIDO</label>
-									<input id="inputIscCorrModulo" />
+									<label for="inputArea" style="font-weight: bold">ÁREA</label>
+									<input id="inputArea" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputConsumo" style="font-weight: bold">CONSUMO</label>
+									<input id="inputConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTaxa" style="font-weight: bold">TAXA</label>
+									<input id="inputTaxa" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
+									<input id="inputIlumPub" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputUniCons" style="font-weight: bold">UNID. CONSUMIDORA</label>
+									<input id="inputUniCons" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
+									<input id="inputBandeira" placeholder="Digite..">
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- INVERSORES -->
-					<div class="tab-pane" id="inversores-tab-content" role="tabpanel">
+					<!-- DADOS TÉCNICOS -->
+					<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
 						<div class="app-container">
-							<!-- DADOS DE FILTRO -->
 							<div class="container-5-columns mr-3 mb-2">
+
 								<div class="field-container mt-2">
-									<label for="inputFabricanteInversor" style="font-weight: bold">FABRICANTE</label>
-									<input list="inputFabricanteInversorList" id="inputFabricanteInversor" />
-									<datalist id="inputFabricanteInversorList">
-									</datalist>
+									<label for="inputRuaDadoTec" style="font-weight: bold">RUA</label>
+									<input id="inputRuaDadoTec" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputFasesInversor" style="font-weight: bold">NÚMERO DE FASES</label>
-									<input list="inputFasesInversorList" id="inputFasesInversor" />
-									<datalist id="inputFasesInversorList">
-									</datalist>
+									<label for="inputNumeroDadoTec" style="font-weight: bold">NÚMERO</label>
+									<input id="inputNumeroDadoTec" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputStringsInversor" style="font-weight: bold">NÚMERO DE
-										STRINGS</label>
-									<input list="inputStringsInversorList" id="inputStringsInversor" />
-									<datalist id="inputStringsInversorList">
-									</datalist>
+									<label for="inputBairroDadoTec" style="font-weight: bold">BAIRRO</label>
+									<input id="inputBairroDadoTec" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputTipoInversor" style="font-weight: bold">TIPO DE INVERSOR</label>
-									<input list="inputTipoInversorList" id="inputTipoInversor" />
-									<datalist id="inputTipoInversorList">
-									</datalist>
+
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="buscaCliente" style="font-weight: bold"> </label>
+									<button type="button" onclick="getLocation()" id="buscaCliente"
+										class="btn-app">BUSCAR
+										POSIÇÃO</button>
+								</div>
+
+							</div>
+							<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
+								<div class="field-container mt-2">
+									<label for="inputTipoTelhaDadoTec" style="font-weight: bold">TIPO DE
+										TELHADO</label>
+									<select id="inputTipoTelhaDadoTec">
+										<option selected disabled></option>
+										<option value="SOLO">SOLO</option>
+										<option value="TELHADO">TELHADO</option>
+									</select>
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputPotenciaInversor" style="font-weight: bold">POTÊNCIA</label>
-									<input list="inputPotenciaInversorList" id="inputPotenciaInversor" />
-									<datalist id="inputPotenciaInversorList">
-									</datalist>
+									<label for="inputAngTelhaDadoTec" style="font-weight: bold">ANG. DO
+										TELHADO</label>
+									<input id="inputAngTelhaDadoTec" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputQtdeInversor" style="font-weight: bold">QUANTIDADE</label>
-									<input id="inputQtdeInversor" />
+									<label for="inputLatitudeDadoTec" style="font-weight: bold">LATITUDE</label>
+									<input id="inputLatitudeDadoTec" placeholder="Digite..">
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputPecaInversor" style="font-weight: bold">PEÇA</label>
-									<input list="inputPecaInversorList" id="inputPecaInversor" />
-									<datalist id="inputPecaInversorList">
-									</datalist>
+									<label for="inputLongitudeDadoTec" style="font-weight: bold">LONGITUDE</label>
+									<input id="inputLongitudeDadoTec" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputLatitudeIntDadoTec" style="font-weight: bold">LATITUDE
+										INTEIRA</label>
+									<input id="inputLatitudeIntDadoTec" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputLatitudeOngDadoTec" style="font-weight: bold">LATITUDE
+										ONGRID</label>
+									<input id="inputLatitudeOngDadoTec" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputLatitudeCorDadoTec" style="font-weight: bold">LATITUDE +
+										CORREÇÃO</label>
+									<input id="inputLatitudeCorDadoTec" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFatorKDadoTec" style="font-weight: bold">FATOR K</label>
+									<input id="inputFatorKDadoTec" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputHSPDadoTec" style="font-weight: bold">HSP</label>
+									<input id="inputHSPDadoTec" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPosicionamentoDadoTec"
+										style="font-weight: bold">POSICIONAMENTO</label>
+									<select id="inputPosicionamentoDadoTec">
+										<option selected disabled></option>
+										<option value="NORTE">NORTE</option>
+										<option value="SUL">SUL</option>
+										<option value="LESTE">LESTE</option>
+										<option value="OESTE">OESTE</option>
+										<option value="NORDESTE">NORDESTE</option>
+										<option value="NOROESTE">NOROESTE</option>
+										<option value="SUDESTE">SUDESTE</option>
+										<option value="SUDOESTE">SUDOESTE</option>
+									</select>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputHSPPerdasDadoTec" style="font-weight: bold">HSP C/ PERDAS POR
+										IRR.</label>
+									<input id="inputHSPPerdasDadoTec" placeholder="Digite..">
+								</div>
+
+							</div>
+						</div>
+						<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#modulos-tab-content"
+									role="tab">
+									MÓDULOS
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#inversores-tab-content"
+									role="tab">
+									INVERSORES
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#consumo-tab-content"
+									role="tab">
+									CONSUMO
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<!-- MÓDULOS -->
+							<div class="tab-pane" id="modulos-tab-content" role="tabpanel">
+								<div class="app-container">
+									<!-- FILTROS -->
+									<div class="container-5-columns mr-3 mb-2">
+										<div class="field-container mt-2">
+											<label for="inputFabricanteModulo"
+												style="font-weight: bold">FABRICANTE</label>
+											<input list="inputFabricanteModuloList" id="inputFabricanteModulo" />
+											<datalist id="inputFabricanteModuloList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPotenciaModulo" style="font-weight: bold">POTÊNCIA</label>
+											<input list="inputPotenciaModuloList" id="inputPotenciaModulo" />
+											<datalist id="inputPotenciaModuloList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTipo_CelModulo" style="font-weight: bold">TIPO DE
+												CÉLULAS</label>
+											<input list="inputTipo_CelModuloList" id="inputTipo_CelModulo" />
+											<datalist id="inputTipo_CelModuloList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTecnologiaModulo"
+												style="font-weight: bold">TECNOLOGIA</label>
+											<input list="inputTecnologiaModuloList" id="inputTecnologiaModulo" />
+											<datalist id="inputTecnologiaModuloList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTempMediaModulo" style="font-weight: bold">TEMP. MÉDIA
+												LOCAL</label>
+											<input id="inputTempMediaModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPecaModulo" style="font-weight: bold">PEÇA</label>
+											<input list="inputPecaModuloList" id="inputPecaModulo" />
+											<datalist id="inputPecaModuloList">
+											</datalist>
+										</div>
+									</div>
+									<h4 class="app-subtitle">FATOR DE CORREÇÃO</h4>
+									<div class="container-5-columns mr-3 mb-2">
+										<div class="field-container mt-2">
+											<label for="inputSujeira" style="font-weight: bold">SUJEIRA (%)</label>
+											<input id="inputSujeira" onchange="fatorCorrecao(this.id,this.value)" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPosTelhado" style="font-weight: bold">POS. TELHADO
+												(%)</label>
+											<input id="inputPosTelhado" onchange="fatorCorrecao(this.id,this.value)" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTPmaxPerModulo" style="font-weight: bold">Tº/ºC PMAX
+												(%)</label>
+											<input id="inputTPmaxPerModulo"
+												onchange="fatorCorrecao(this.id,this.value)" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTVocPerModulo" style="font-weight: bold">Tº/ºC VOC
+												(%)</label>
+											<input id="inputTVocPerModulo"
+												onchange="fatorCorrecao(this.id,this.value)" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTIscPerModulo" style="font-weight: bold">Tº/ºC ISC
+												(%)</label>
+											<input id="inputTIscPerModulo"
+												onchange="fatorCorrecao(this.id,this.value)" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputFatorCorr" style="font-weight: bold">FATOR DE CORREÇÃO
+												(%)</label>
+											<input id="inputFatorCorr" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputDegraAnual" style="font-weight: bold">DEGRADAÇÃO ANUAL
+												(%)</label>
+											<input id="inputDegraAnual" />
+										</div>
+
+									</div>
+									<div class="container-5-columns mr-3 mb-2">
+										<button id="showModulo" onclick="showModulo()"
+											style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
+											class="btn-app btn-app-sm ml-2">
+											<i class="icon fas fa-eye" id="iconMdl"></i>
+										</button>
+									</div>
+									<!-- DADOS -->
+									<div class="container-5-columns mr-3 mb-2" id="dadosModulo">
+										<div class="field-container mt-2">
+											<label for="inputVmpModulo" style="font-weight: bold">VMP (V)</label>
+											<input id="inputVmpModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputImpModulo" style="font-weight: bold">IMP (A)</label>
+											<input id="inputImpModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputVocModulo" style="font-weight: bold">VOC (V)</label>
+											<input id="inputVocModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputIscModulo" style="font-weight: bold">ISC (A)</label>
+											<input id="inputIscModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputEficienciaModulo" style="font-weight: bold">EFICIÊNCIA
+												(%)</label>
+											<input id="inputEficienciaModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTPmaxModulo" style="font-weight: bold">Tº/ºC
+												PMAX</label>
+											<input id="inputTPmaxModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTVocModulo" style="font-weight: bold">Tº/ºC VOC</label>
+											<input id="inputTVocModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTIscModulo" style="font-weight: bold">Tº/ºC ISC</label>
+											<input id="inputTIscModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputAreaOcupadaModulo" style="font-weight: bold">ÁREA
+												OCUPADA
+												(M²)</label>
+											<input id="inputAreaOcupadaModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPesoModulo" style="font-weight: bold">PESO (KG)</label>
+											<input id="inputPesoModulo" />
+										</div>
+
+										<div class="field-container mt-2">
+											<label for="inputEspessuraModulo"
+												style="font-weight: bold">ESPESSURA</label>
+											<input id="inputEspessuraModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputLarguraModulo" style="font-weight: bold">LARGURA</label>
+											<input id="inputLarguraModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputAlturaModulo" style="font-weight: bold">ALTURA</label>
+											<input id="inputAlturaModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPmaxCorrModulo" style="font-weight: bold">PMAX (W)
+												CORRIGIDO</label>
+											<input id="inputPmaxCorrModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputVocCorrModulo" style="font-weight: bold">VOC (V)
+												CORRIGIDO</label>
+											<input id="inputVocCorrModulo" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputIscCorrModulo" style="font-weight: bold">ISC (A)
+												CORRIGIDO</label>
+											<input id="inputIscCorrModulo" />
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="container-5-columns mr-3 mb-2">
-								<button id="showInversor" onclick="showInversor()"
-									style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
-									class="btn-app btn-app-sm ml-2">
-									<i class="icon fas fa-eye" id="iconInv"></i>
-								</button>
+							<!-- INVERSORES -->
+							<div class="tab-pane" id="inversores-tab-content" role="tabpanel">
+								<div class="app-container">
+									<!-- DADOS DE FILTRO -->
+									<div class="container-5-columns mr-3 mb-2">
+										<div class="field-container mt-2">
+											<label for="inputFabricanteInversor"
+												style="font-weight: bold">FABRICANTE</label>
+											<input list="inputFabricanteInversorList" id="inputFabricanteInversor" />
+											<datalist id="inputFabricanteInversorList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputFasesInversor" style="font-weight: bold">NÚMERO DE
+												FASES</label>
+											<input list="inputFasesInversorList" id="inputFasesInversor" />
+											<datalist id="inputFasesInversorList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputStringsInversor" style="font-weight: bold">NÚMERO DE
+												STRINGS</label>
+											<input list="inputStringsInversorList" id="inputStringsInversor" />
+											<datalist id="inputStringsInversorList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTipoInversor" style="font-weight: bold">TIPO DE
+												INVERSOR</label>
+											<input list="inputTipoInversorList" id="inputTipoInversor" />
+											<datalist id="inputTipoInversorList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPotenciaInversor"
+												style="font-weight: bold">POTÊNCIA</label>
+											<input list="inputPotenciaInversorList" id="inputPotenciaInversor" />
+											<datalist id="inputPotenciaInversorList">
+											</datalist>
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputQtdeInversor" style="font-weight: bold">QUANTIDADE</label>
+											<input id="inputQtdeInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPecaInversor" style="font-weight: bold">PEÇA</label>
+											<input list="inputPecaInversorList" id="inputPecaInversor" />
+											<datalist id="inputPecaInversorList">
+											</datalist>
+										</div>
+									</div>
+									<div class="container-5-columns mr-3 mb-2">
+										<button id="showInversor" onclick="showInversor()"
+											style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
+											class="btn-app btn-app-sm ml-2">
+											<i class="icon fas fa-eye" id="iconInv"></i>
+										</button>
+									</div>
+									<div class="container-5-columns mr-3 mb-2" id="dadosInversor">
+										<div class="field-container mt-2">
+											<label for="inputFaixaMPPTInversor" style="font-weight: bold">FAIXA DE
+												OP
+												MPPT</label>
+											<input id="inputFaixaMPPTInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTensaoCCInversor" style="font-weight: bold">TENSÃO CC
+												DE
+												PARTIDA
+												(V)</label>
+											<input id="inputTensaoCCInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputMaxTensaoCCInversor" style="font-weight: bold">MÁX.
+												TENSÃO
+												CC
+												MPPT
+												(V)</label>
+											<input id="inputMaxTensaoCCInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputEficienciaInversor" style="font-weight: bold">EFICIÊNCIA
+												(%)</label>
+											<input id="inputEficienciaInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputFaixaTensaoInversor" style="font-weight: bold">FAIXA DE
+												TENS.
+												SAÍDA
+												CA (V)</label>
+											<input id="inputFaixaTensaoInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCorrenteMaxCCInversor" style="font-weight: bold">CORR.
+												MÁX.
+												INVERSOR CC (A)</label>
+											<input id="inputCorrenteMaxCCInversor" />
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCorrenteMaxCAInversor" style="font-weight: bold">CORR.
+												MÁX.
+												INVERSOR CA (A)</label>
+											<input id="inputCorrenteMaxCAInversor" />
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="container-5-columns mr-3 mb-2" id="dadosInversor">
-								<div class="field-container mt-2">
-									<label for="inputFaixaMPPTInversor" style="font-weight: bold">FAIXA DE OP
-										MPPT</label>
-									<input id="inputFaixaMPPTInversor" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputTensaoCCInversor" style="font-weight: bold">TENSÃO CC DE PARTIDA
-										(V)</label>
-									<input id="inputTensaoCCInversor" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputMaxTensaoCCInversor" style="font-weight: bold">MÁX. TENSÃO CC MPPT
-										(V)</label>
-									<input id="inputMaxTensaoCCInversor" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputEficienciaInversor" style="font-weight: bold">EFICIÊNCIA
-										(%)</label>
-									<input id="inputEficienciaInversor" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputFaixaTensaoInversor" style="font-weight: bold">FAIXA DE TENS. SAÍDA
-										CA (V)</label>
-									<input id="inputFaixaTensaoInversor" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputCorrenteMaxCCInversor" style="font-weight: bold">CORR. MÁX.
-										INVERSOR CC (A)</label>
-									<input id="inputCorrenteMaxCCInversor" />
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputCorrenteMaxCAInversor" style="font-weight: bold">CORR. MÁX.
-										INVERSOR CA (A)</label>
-									<input id="inputCorrenteMaxCAInversor" />
+
+							<!-- CONSUMO -->
+							<div class="tab-pane" id="consumo-tab-content" role="tabpanel">
+								<div class="app-container">
+									<div class="container-5-columns">
+										<div class="field-container mt-2">
+											<label for="inputJanConsumo" style="font-weight: bold">JANEIRO</label>
+											<input id="inputJanConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputFevConsumo" style="font-weight: bold">FEVEREIRO</label>
+											<input id="inputFevConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputMarConsumo" style="font-weight: bold">MARÇO</label>
+											<input id="inputMarConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputAbrConsumo" style="font-weight: bold">ABRIL</label>
+											<input id="inputAbrConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputMaiConsumo" style="font-weight: bold">MAIO</label>
+											<input id="inputMaiConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputJunConsumo" style="font-weight: bold">JUNHO</label>
+											<input id="inputJunConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputJulConsumo" style="font-weight: bold">JULHO</label>
+											<input id="inputJulConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputAgoConsumo" style="font-weight: bold">AGOSTO</label>
+											<input id="inputAgoConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputSetConsumo" style="font-weight: bold">SETEMBRO</label>
+											<input id="inputSetConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputOutConsumo" style="font-weight: bold">OUTUBRO</label>
+											<input id="inputOutConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputNovConsumo" style="font-weight: bold">NOVEMBRO</label>
+											<input id="inputNovConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputDezConsumo" style="font-weight: bold">DEZEMBRO</label>
+											<input id="inputDezConsumo" placeholder="Digite.."
+												onchange="sumItems(this.id, this.value)">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputAddConsumo" style="font-weight: bold">ADIÇÃO NA MÉDIA
+												HWH</label>
+											<input id="inputAddConsumo" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputSumConsumo" style="font-weight: bold">SOMATÓRIO ANUAL
+												KWH</label>
+											<input id="inputSumConsumo" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputEmmConsumo" style="font-weight: bold">EMM</label>
+											<input id="inputEmmConsumo" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputGerConsumo" style="font-weight: bold">GERAÇÃO
+												NECESSÁRIA
+												KWH</label>
+											<input id="inputGerConsumo" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputPotConsumo" style="font-weight: bold">POTÊNCIA
+												ESCOLHIDA
+												(KWH)</label>
+											<input id="inputPotConsumo" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputDemConsumo" style="font-weight: bold">DEMANDA
+												NECESSÁRIA
+												(KWH)</label>
+											<input id="inputDemConsumo" placeholder="Digite..">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<!-- CONSUMO -->
-					<div class="tab-pane" id="consumo-tab-content" role="tabpanel">
+					<!-- DADOS IRRADIAÇÃO -->
+					<div class="tab-pane" id="irradiacao-tab-content" role="tabpanel">
 						<div class="app-container">
-							<div class="container-5-columns">
-								<div class="field-container mt-2">
-									<label for="inputJanConsumo" style="font-weight: bold">JANEIRO</label>
-									<input id="inputJanConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputFevConsumo" style="font-weight: bold">FEVEREIRO</label>
-									<input id="inputFevConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputMarConsumo" style="font-weight: bold">MARÇO</label>
-									<input id="inputMarConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputAbrConsumo" style="font-weight: bold">ABRIL</label>
-									<input id="inputAbrConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputMaiConsumo" style="font-weight: bold">MAIO</label>
-									<input id="inputMaiConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputJunConsumo" style="font-weight: bold">JUNHO</label>
-									<input id="inputJunConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputJulConsumo" style="font-weight: bold">JULHO</label>
-									<input id="inputJulConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputAgoConsumo" style="font-weight: bold">AGOSTO</label>
-									<input id="inputAgoConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputSetConsumo" style="font-weight: bold">SETEMBRO</label>
-									<input id="inputSetConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputOutConsumo" style="font-weight: bold">OUTUBRO</label>
-									<input id="inputOutConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputNovConsumo" style="font-weight: bold">NOVEMBRO</label>
-									<input id="inputNovConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputDezConsumo" style="font-weight: bold">DEZEMBRO</label>
-									<input id="inputDezConsumo" placeholder="Digite.."
-										onchange="sumItems(this.id, this.value)">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputAddConsumo" style="font-weight: bold">ADIÇÃO NA MÉDIA HWH</label>
-									<input id="inputAddConsumo" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputSumConsumo" style="font-weight: bold">SOMATÓRIO ANUAL KWH</label>
-									<input id="inputSumConsumo" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputEmmConsumo" style="font-weight: bold">EMM</label>
-									<input id="inputEmmConsumo" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputGerConsumo" style="font-weight: bold">GERAÇÃO NECESSÁRIA
-										KWH</label>
-									<input id="inputGerConsumo" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputPotConsumo" style="font-weight: bold">POTÊNCIA ESCOLHIDA
-										(KWH)</label>
-									<input id="inputPotConsumo" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2">
-									<label for="inputDemConsumo" style="font-weight: bold">DEMANDA NECESSÁRIA
-										(KWH)</label>
-									<input id="inputDemConsumo" placeholder="Digite..">
-								</div>
+							<div class="table-responsive">
+								<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
+								<table class="table" id="tableIrradiacao" style="width: 870px;">
+									<thead>
+										<tr>
+											<th scope="col">LATITUDE</th>
+											<th scope="col">LONGITUDE</th>
+											<th scope="col">JAN</th>
+											<th scope="col">FEV</th>
+											<th scope="col">MAR</th>
+											<th scope="col">APR</th>
+											<th scope="col">MAY</th>
+											<th scope="col">JUN</th>
+											<th scope="col">JUL</th>
+											<th scope="col">AUG</th>
+											<th scope="col">SEP</th>
+											<th scope="col">OCT</th>
+											<th scope="col">NOV</th>
+											<th scope="col">DEC</th>
+											<th scope="col">MÉDIA ANUAL</th>
+										</tr>
+									</thead>
+									<tbody id="bodyIrradiacao">
+
+									</tbody>
+								</table>
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- DADOS IRRADIAÇÃO -->
-			<div class="tab-pane" id="irradiacao-tab-content" role="tabpanel">
-				<div class="app-container">
-					<div class="table-responsive">
-						<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
-						<table class="table" id="tableIrradiacao" style="width: 870px;">
-							<thead>
-								<tr>
-									<th scope="col">LATITUDE</th>
-									<th scope="col">LONGITUDE</th>
-									<th scope="col">JAN</th>
-									<th scope="col">FEV</th>
-									<th scope="col">MAR</th>
-									<th scope="col">APR</th>
-									<th scope="col">MAY</th>
-									<th scope="col">JUN</th>
-									<th scope="col">JUL</th>
-									<th scope="col">AUG</th>
-									<th scope="col">SEP</th>
-									<th scope="col">OCT</th>
-									<th scope="col">NOV</th>
-									<th scope="col">DEC</th>
-									<th scope="col">MÉDIA ANUAL</th>
-								</tr>
-							</thead>
-							<tbody id="bodyIrradiacao">
-
-							</tbody>
-						</table>
-
-					</div>
-				</div>
+			<div class="tab-pane fade show" id="orcamento-tab-content" role="tabpanel">
+				<h2 class="app-subtitle">oi</h2>
+			</div>
+			<div class="tab-pane fade show" id="resumo-tab-content" role="tabpanel">
+				<h2 class="app-subtitle">tchau</h2>
 			</div>
 		</div>
 	</div>
 
 	</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+	integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+	crossorigin="anonymous"></script>
 <script type="text/javascript" src="/src/mainPage.js"></script>
 <script type="text/javascript" src="/src/themeSwitcher.js"></script>
 

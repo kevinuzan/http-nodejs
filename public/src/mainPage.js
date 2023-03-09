@@ -23,19 +23,10 @@ var optionsInveInvNew = ''
 var optionsPoteInvNew = ''
 var optionsPecaInvNew = ''
 
+var fatorKdata = ''
+
 var itemsConsumo = {
-  inputJanConsumo: 0,
-  inputFevConsumo: 0,
-  inputMarConsumo: 0,
-  inputAbrConsumo: 0,
-  inputMaiConsumo: 0,
-  inputJunConsumo: 0,
-  inputJulConsumo: 0,
-  inputAgoConsumo: 0,
-  inputSetConsumo: 0,
-  inputOutConsumo: 0,
-  inputNovConsumo: 0,
-  inputDezConsumo: 0,
+
 }
 var somaConsumo = 0
 
@@ -58,20 +49,29 @@ async function fatorCorrecao(id, value) {
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
 }
 
-
 async function sumItems(id, value) {
-  itemsConsumo[id] = parseFloat(value)
-  somaConsumo = sumValues(itemsConsumo)
-  $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
-  $('#inputEmmConsumo')[0].value = parseFloat(somaConsumo / 12).toFixed(2)
-  var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
-  var addConsumo = parseFloat($('#inputAddConsumo')[0].value)
-  var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
-  var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
-  $('#inputGerConsumo')[0].value = ((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100
+  if (value != '') {
+    itemsConsumo[id] = parseFloat(value)
+    var somaItens = Object.keys(itemsConsumo).length
+    somaConsumo = sumValues(itemsConsumo)
+    $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
+    $('#inputEmmConsumo')[0].value = parseFloat(somaConsumo / somaItens).toFixed(2)
+    var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
+    var addConsumo = $('#inputAddConsumo')[0].value
+    if (addConsumo == '') {
+      addConsumo = 0
+    } else {
+      addConsumo = parseFloat($('#inputAddConsumo')[0].value)
+    }
+    var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
+    var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
+    $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
+    $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
+    $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100) / 1.3).toFixed(2)
+  }
 
 }
-
+//Dados da tabela de Irradiação
 async function loadTableData(items) {
   const table = document.getElementById("tableIrradiacao");
   items.forEach(item => {
@@ -109,11 +109,11 @@ async function loadTableData(items) {
     anu.innerHTML = parseFloat(item.annual) / 1000;
   });
 }
-
+// Cálculo "TETO.MAT" do Excel
 async function ceilLat(x, s) {
   return s * Math.ceil(parseFloat(x) / s)
 }
-
+// Dados de cliente
 async function buscaCliente() {
   var nome = document.getElementById("inputCliente").value
   const data = await fecthPost('/clienteData?name=' + nome)
@@ -154,7 +154,7 @@ async function buscaCliente() {
   document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
   document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
 }
-
+// Dados de Latitude e Longitude
 async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
   var numero = document.getElementById('inputNumeroDadoTec').value
@@ -174,7 +174,7 @@ async function getLocation() {
   document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
 
 }
-
+// Ao abrir a página, carrega os clientes do banco de dados
 async function onLoad() {
   //DADOS DE CLIENTES
   var data = await fecthGet("/cliente")
@@ -235,6 +235,7 @@ async function onLoad() {
   document.getElementById('dadosModulo').style.display = 'none'
   document.getElementById('dadosInversor').style.display = 'none'
 }
+
 //#region MÓDULOS
 // PREENCHER AS DATALISTS DA PARTE DE MÓDULO
 async function fillMdl(wish, option) {
@@ -823,10 +824,27 @@ element11.addEventListener('change', async function () {
 })
 //#endregion
 
+// Função que chama 'onLoad'
 window.onload = async function (event) {
   await onLoad()
 };
-var fatorKdata = ''
+var items = document.getElementsByName('tabNew');
+for (var i = 0; i < items.length; i++) {
+  items[i].addEventListener('click', printDetails);
+}
+
+function printDetails(e) {
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].classList.contains("active")) {
+      items[i].classList.toggle("active")
+      items[i].ariaSelected = "false"
+    }
+  }
+  this.classList.add("active");
+  this.ariaSelected = "true"
+
+}
+// Dados de Fator K e de Posicionamento do telhado
 async function fatorK() {
   if (element12.value == 'SOLO') {
     element13.value = await ceilLat(Math.abs(element14.value), 5)
@@ -914,3 +932,19 @@ element20.addEventListener('change', async function () {
   await checkTemp()
 })
 
+let element30 = document.getElementById('inputAddConsumo')
+element30.addEventListener('change', async function () {
+  somaConsumo = sumValues(itemsConsumo)
+  var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
+  var addConsumo = $('#inputAddConsumo')[0].value
+  if (addConsumo == '') {
+    addConsumo = 0
+  } else {
+    addConsumo = parseFloat($('#inputAddConsumo')[0].value)
+  }
+  var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
+  var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
+  $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
+  $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
+  $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100) / 1.3).toFixed(2)
+})
