@@ -18,6 +18,7 @@ body {
   padding: 3rem 0;
 
   color: var(--text-primary);
+  text-shadow: 1px 1px var(--field-text-shadow)
 }
 
 .app-subtitle {
@@ -27,6 +28,7 @@ body {
   font-size: 1.4rem;
 
   color: var(--text-secondary);
+  text-shadow: 1px 1px var(--field-text-shadow)
 }
 
 /* CONTAINERS */

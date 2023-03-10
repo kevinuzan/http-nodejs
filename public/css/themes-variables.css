@@ -1,3 +1,7 @@
+*{
+ transition-duration: 1s;
+}
+
 :root {
 
   /* COMMOM */
@@ -28,6 +32,9 @@
 
   --field-bg-disabled: #ECEFF0;
   --field-border-disabled: #A8B4BC;
+
+  --field-box-shadow: #ff7300;
+  --field-text-shadow:  #ffffff;
 }
 
 body.dark-theme {
@@ -51,4 +58,7 @@ body.dark-theme {
 
   --field-bg-disabled: #373737; 
   --field-border-disabled: #3F3E3E;
+
+  --field-box-shadow: #ff7700;
+  --field-text-shadow: #ff7300;
 }
