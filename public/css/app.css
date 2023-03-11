@@ -49,8 +49,8 @@ body {
 }
 
 .app-container3 {
-  width: 80%;
-  max-width: 80%;
+  width: 100%;
+  max-width: 100%;
   margin: auto;
   padding: 8px;
   /* margin-left: auto;
