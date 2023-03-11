@@ -82,7 +82,7 @@ ul {
 .teste {
   background-color: white;
   width: 500px;
-  border: 1px solid green;
-  padding: 50px;
-  margin: 2px;
+  border: 1px solid grey;
+  padding: 0px;
+  margin: 0px;
 }
