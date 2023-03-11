@@ -70,51 +70,51 @@
 				<h1 class="app-title text-center mt-4 w-50">LOGIN</h1>
 			</div>
 			
-		<div class="teste">
-			<div class="app-container" style="width: 300px;">
-				<div class="d-flex flex-wrap justify-content-center align-items-center">
-					<div class="teste">
-						<div class="field-container mr-2">
-						<!-- <div class="field-container mr-2"> -->
-
-							<label for="loginUsername" data-translate="_usuarioLogin">Usuário</label>
-							<div class="row ml-1">
-								<input type="text" id="loginUsername" style="width: 260px;"/>
+			<div class="teste">
+				<div class="app-container" style="width: 300px;">
+					<div class="d-flex flex-wrap justify-content-center align-items-center">
+						<div class="teste">
+							<div class="field-container mr-2">
+							<!-- <div class="field-container mr-2"> -->
+							
+								<label for="loginUsername" data-translate="_usuarioLogin">Usuário</label>
+								<div class="row ml-1">
+									<input type="text" id="loginUsername" style="width: 260px;"/>
+								</div>
+							
+								<label for="loginPassword" data-translate="_senhaLogin">Senha</label>
+								<div class="row ml-1">
+									<input  type="password" id="loginPassword" style="width: 210px;"/>
+									<button id="commentPortais" onclick="showPass()"
+										style="background: grey;font-size: .8rem;padding: .1rem .9rem;width: 50px;"
+										class="btn-app btn-app-sm ml-1">
+										<i id="showPassIcon" class="icon fas fa-eye"></i>
+									</button>
+								</div>
 							</div>
-
-							<label for="loginPassword" data-translate="_senhaLogin">Senha</label>
-							<div class="row ml-1">
-								<input  type="password" id="loginPassword" style="width: 210px;"/>
-								<button id="commentPortais" onclick="showPass()"
-									style="background: grey;font-size: .8rem;padding: .1rem .9rem;width: 50px;"
-									class="btn-app btn-app-sm ml-1">
-									<i id="showPassIcon" class="icon fas fa-eye"></i>
+						</div>
+					</div>
+				
+					<div class="teste">
+					
+						<div class="row justify-content-center" style="text-align: center">
+							<div class="field-container mr-2" style="width: 80%;">
+								<button id="forgotPass" type="submit" class="btn-app cancel btn-app-sm mx-2 move-rigth mt-3" onclick=abrirpg3(); id="">
+									<small data-translate="">Esqueci minha senha</small>
+									<i class="fas fa-question mr-3"></i>
 								</button>
 							</div>
 						</div>
-					</div>
-				</div>
-
-				<div class="teste">
-
-					<div class="row justify-content-center" style="text-align: center">
-						<div class="field-container mr-2" style="width: 80%;">
-							<button id="forgotPass" type="submit" class="btn-app cancel btn-app-sm mx-2 move-rigth mt-3" onclick=abrirpg3(); id="">
-								<small data-translate="">Esqueci minha senha</small>
-								<i class="fas fa-question mr-3"></i>
+					
+						<div class="row justify-content-center" style="text-align: center">
+							<button class="app-card3 text-center m-2 card-body d-flex flex-column align-items-center" onclick="login()" id="openDB" color="orange">
+								<i class="fas fa-sign-in-alt card-icon mt-2 mb-3"></i>
+								<large>LOGIN</large>
 							</button>
 						</div>
 					</div>
-
-					<div class="row justify-content-center" style="text-align: center">
-						<button class="app-card3 text-center m-2 card-body d-flex flex-column align-items-center" onclick="login()" id="openDB" color="orange">
-							<i class="fas fa-sign-in-alt card-icon mt-2 mb-3"></i>
-							<large>LOGIN</large>
-						</button>
-					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 	</body>
 
