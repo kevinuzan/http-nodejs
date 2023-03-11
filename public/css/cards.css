@@ -34,7 +34,7 @@
   border: solid 0.7px var(--field-border);
   border-radius: 3%;
   color: #F2F5F7;
-  background-color: var(--primary-500);
+  background-color: var(--orange);
   border-color: var(--primary-500);
   text-transform: uppercase;
   font-size: .8rem;
