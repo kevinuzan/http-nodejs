@@ -26,6 +26,20 @@
   font-size: .8rem;
 }
 
+.app-card3 {
+  width: 10rem;
+  max-width: 150px;
+  height: 10rem;
+  background-color: transparent;
+  border: solid 0.7px var(--field-border);
+  border-radius: 3%;
+  color: #000000;
+  background-color: #ff4f4fe3;
+  border-color: #ff4f4fe3;
+  text-transform: uppercase;
+  font-size: .8rem;
+}
+
 .app-card .card-icon {
   font-size: 3.5rem;
 }
