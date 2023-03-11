@@ -36,6 +36,8 @@
 
   --field-box-shadow: #ff7300;
   --field-text-shadow:  #ffffff;
+
+  --front-card: #ff7300;
 }
 
 body.dark-theme {
@@ -62,4 +64,6 @@ body.dark-theme {
 
   --field-box-shadow: #ff7700;
   --field-text-shadow: #ff7300;
+
+  --front-card: #ff7300;
 }
