@@ -16,7 +16,6 @@ body {
   font-weight: 600;     
   font-size: 1.8rem;
   padding: 16px;
-
   color: var(--text-primary);
   text-shadow: 1px 1px var(--field-text-shadow)
 }
@@ -44,7 +43,7 @@ body {
   width: 80%;
   max-width: 80%;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 8px;
   margin-left: auto;
   margin-right: auto;
 }
