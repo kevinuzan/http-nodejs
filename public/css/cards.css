@@ -33,7 +33,7 @@
   background-color: transparent;
   border: solid 0.7px var(--field-border);
   border-radius: 3%;
-  color: #F2F5F7;
+  color: var(--body);
   background-color: var(--front-card);
   border-color: var(--front-card);
   text-transform: uppercase;
