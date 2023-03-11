@@ -83,6 +83,7 @@ ul {
   background-color: white;
   width: 500px;
   border: 2px solid grey;
-  padding-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   margin: auto;
 }
