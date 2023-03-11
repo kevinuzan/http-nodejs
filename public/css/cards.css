@@ -82,7 +82,7 @@ ul {
 .teste {
   background-color: var(--field-bg-focus);
   width: 400px;
-  border: 2px solid black;
+  border: 2px var(--field-border-focus);
   border-radius: 10px;
   padding-bottom: 10px;
   margin: auto;
