@@ -27,7 +27,7 @@ body {
   font-weight: 600;     
   font-size: 1.8rem;
   padding: 16px;
-  color: var(--text-primary);
+  color: var(--label);
   text-shadow: 1px 1px var(--field-text-shadow)
 }
 
