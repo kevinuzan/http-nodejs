@@ -42,6 +42,7 @@
 
 .app-card3:hover {
   background: var(--primary-600);
+  background-color: var(--primary-600);
 }
 
 .app-card .card-icon {
