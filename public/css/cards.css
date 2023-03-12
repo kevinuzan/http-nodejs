@@ -41,8 +41,8 @@
 }
 
 .app-card3:hover {
-  background: var(--primary-600);
-  border-color: var(--primary-600);
+  background: var(--front-card-hover);
+  border-color: var(--front-card-hover);
 }
 
 .app-card .card-icon {
