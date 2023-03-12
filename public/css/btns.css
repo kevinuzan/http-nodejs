@@ -40,7 +40,7 @@
 
 .btn-app.btn-app-sm {
   font-size: .8rem;
-  padding: .2rem .9rem;
+  /* padding: .2rem .9rem; */
 }
 
 .btn-app:hover {
