@@ -83,6 +83,10 @@ ul {
   color: var(--field-bg-focus);
 }
 
+.esquecido {
+  color: var(--field-border-focus);
+}
+
 .teste {
   background-color: var(--field-bg-focus);
   width: 400px;
