@@ -28,7 +28,7 @@
 
 .app-card3 {
   width: 10rem;
-  max-width: 150px;
+  max-width: 130px;
   height: 130px;
   background-color: transparent;
   border: solid 0.7px var(--field-border);
