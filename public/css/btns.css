@@ -28,7 +28,6 @@
   transition: background .1s ease-in-out;
   transition: color .1s ease-in-out;
   border: 2px solid transparent;
-  
   background: var(--primary-500);
   color: white;
   box-shadow: 0 3px 10px rgba(0,0,0 .15);
