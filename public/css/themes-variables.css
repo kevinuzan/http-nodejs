@@ -38,6 +38,8 @@
   --field-text-shadow:  #0D9BE2;
 
   --front-card: #0D9BE2;
+  --front-card-hover: #0690D6;
+
   --olho: #2F2F2F;
 }
 
@@ -67,5 +69,7 @@ body.dark-theme {
   --field-text-shadow: #ff7300;
 
   --front-card: #ff7300;
+  --front-card-hover: #e96900;
+
   --olho: #cbeaff;
 }
