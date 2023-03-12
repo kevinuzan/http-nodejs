@@ -49,6 +49,9 @@
 .app-card3 .card-icon {
   font-size: 3.5rem;
 }
+.card-icon-t {
+  font-size: 1.5rem;
+}
 
 .card-abstract {
   display: flex;
