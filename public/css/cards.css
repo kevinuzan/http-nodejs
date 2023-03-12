@@ -40,6 +40,10 @@
   font-size: .8rem;
 }
 
+.app-card3:hover {
+  background: var(--primary-600);
+}
+
 .app-card .card-icon {
   font-size: 3.5rem;
 }
