@@ -79,6 +79,10 @@ ul {
   font-weight: 600;
 }
 
+.figura {
+  color: var(--field-bg-focus);
+}
+
 .teste {
   background-color: var(--field-bg-focus);
   width: 400px;
