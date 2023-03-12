@@ -57,7 +57,7 @@ body.dark-theme {
   --field-placeholder: #555C61;
   
   --field-bg-focus: #212121;
-  --field-border-focus: #C5C5C5;
+  --field-border-focus: #ffffff;
 
   --field-bg-disabled: #373737; 
   --field-border-disabled: #3F3E3E;
