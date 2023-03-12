@@ -57,25 +57,29 @@
 		<div class="row justify-content-center" style="text-align: center">
 			<img id="logo" src="/img/danig.png" width="300" height="135"/>
 		</div>
+
 		<div class="row justify-content-center" style="text-align: center">
 			<h1 class="app-title text-center mt-4 w-50">RESET DE SENHA</h1>
 		</div>
-		<div class="app-container" style="width: 300px;">
-			<div class="d-flex flex-wrap justify-content-center align-items-center">
-				<div class="field-container mr-2">
-					<label for="loginUsername">E-mail</label>
-					<div class="row ml-1">
-						<input type="text" id="loginUsername" style="width: 260px;" />
+
+		<div class="teste align-items-center">
+			<div class="app-container" style="width: 300px;">
+				<div class="d-flex flex-wrap justify-content-center align-items-center">
+					<div class="field-container mr-2">
+						<label for="loginUsername">E-mail</label>
+						<div class="row ml-1">
+							<input type="text" id="loginUsername" style="width: 260px;" />
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row justify-content-center" style="text-align: center">
-			<button class="app-card text-center m-2 card-body d-flex flex-column align-items-center"
-				onclick="resetPass($('#loginUsername')[0].value)" id="">
-				<i class="fas fa-mail-bulk card-icon mt-2 mb-3"></i>
-				<large>Enviar e-mail</large>
-			</button>
+			<div class="row justify-content-center" style="text-align: center">
+				<button class="app-card text-center m-2 card-body d-flex flex-column align-items-center"
+					onclick="resetPass($('#loginUsername')[0].value)" id="">
+					<i class="fas fa-mail-bulk card-icon mt-2 mb-3"></i>
+					<large>Enviar e-mail</large>
+				</button>
+			</div>
 		</div>
 	</div>
 </body>
