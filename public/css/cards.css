@@ -85,9 +85,11 @@ ul {
 
 .esquecido {
   color: var(--field-border-focus);
-  background: var(--field-border-focus);
 }
 
+.olho {
+  background: var(--field-border-focus);
+}
 
 .teste {
   background-color: var(--field-bg-focus);
