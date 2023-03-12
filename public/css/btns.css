@@ -58,7 +58,7 @@
 .btn-app.cancel:hover {
   background: transparent;
   border: 2px solid var(--red);
-  color: var(--red);
+  color: var(--green);
   box-shadow: 0 3px 10px rgba(0,0,0 .15);
 }
 
