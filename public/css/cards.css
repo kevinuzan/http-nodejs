@@ -29,7 +29,7 @@
 .app-card3 {
   width: 10rem;
   max-width: 150px;
-  height: 10rem;
+  height: 130px;
   background-color: transparent;
   border: solid 0.7px var(--field-border);
   border-radius: 3%;
