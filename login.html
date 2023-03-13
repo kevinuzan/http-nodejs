@@ -1,120 +1,125 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;chartset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<link rel="stylesheet" href="/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/css/fontawesome.min.css" />
-		<link rel="stylesheet" href="/css/styles.css" />
-		<script src="/js/fontawesome.min.js"></script>
-		<script src="/js/bootstrap.bundle.min.js"></script>
-		<title>DANIG</title>
-	</head>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;chartset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/fontawesome.min.css" />
+	<link rel="stylesheet" href="/css/styles.css" />
+	<script src="/js/fontawesome.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+	<title>DANIG</title>
+</head>
 
-	<body>
-		<div id="main">
-			
-			<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark mb-5">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+<body>
+	<div id="main">
+
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark mb-5">
+			<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div style="visibility: hidden;">
-					<i class="fas fa-sun mx-2 sun-color"></i>
-					<input type="checkbox" class="app-checkbox" id="" />
-					<i class="fas fa-moon mx-2 moon-color"></i>
-				</div>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="nav navbar-nav mr-auto ml-auto" role="tablist">
-	
-						<li class="nav-item">
-							<a class="nav-link app-tab-title active" data-toggle="tab" href="#dados-tab-content" role="tab" style="visibility: hidden;">
-								DADOS
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link app-tab-title" data-toggle="tab" href="#orcamento-tab-content" role="tab" style="visibility: hidden;">
-								ORÇAMENTO
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link app-tab-title" data-toggle="tab" href="#resumo-tab-content" role="tab" style="visibility: hidden;">
-								RESUMO
-							</a>
-						</li>
-					</ul>
-				</div>
-	
+				</button> -->
+			<div style="visibility: hidden;">
+				<i class="fas fa-sun mx-2 sun-color"></i>
+				<input type="checkbox" class="app-checkbox" id="" />
+				<i class="fas fa-moon mx-2 moon-color"></i>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="nav navbar-nav mr-auto ml-auto" role="tablist">
+
+					<li class="nav-item">
+						<a class="nav-link app-tab-title active" data-toggle="tab" href="#dados-tab-content" role="tab"
+							style="visibility: hidden;">
+							DADOS
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#orcamento-tab-content" role="tab"
+							style="visibility: hidden;">
+							ORÇAMENTO
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#resumo-tab-content" role="tab"
+							style="visibility: hidden;">
+							RESUMO
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div>
 				<i class="fas fa-sun mx-2 sun-color"></i>
 				<input type="checkbox" class="app-checkbox" id="theme-switcher-button" />
 				<i class="fas fa-moon mx-2 moon-color"></i>
-	
-			</nav>
-			
-			<!-- <div class="w-25 m-2 d-flex flex-column justify-content-end align-items-end">
+			</div>
+		</nav>
+
+		<!-- <div class="w-25 m-2 d-flex flex-column justify-content-end align-items-end">
 				<div class="d-flex justify-content-center align-items-center my-4 mr-4">
 					<i class="fas fa-sun mx-2 sun-color"></i>
 					<input type="checkbox" class="app-checkbox" id="theme-switcher-button" />
 					<i class="fas fa-moon mx-2 moon-color"></i>
 				</div>
 			</div> -->
-			
-			<hr>
+
+		<hr>
+		<div class="row justify-content-center" style="text-align: center">
+			<img id="logo" src="/img/danig.png" width="300" height="135" />
+		</div>
+		<br>
+
+		<div class="teste align-items-center">
+
 			<div class="row justify-content-center" style="text-align: center">
-				<img id="logo" src="/img/danig.png" width="300" height="135"/>
+				<h1 class="app-title2 text-center">LOGIN</h1>
 			</div>
-			<br>
 
-			<div class="teste align-items-center">
+			<div class="app-container3" style="width: 300px;">
+				<div class="d-flex flex-wrap justify-content-center align-items-center">
+					<div class="field-container mr-2">
+						<label for="loginUsername" data-translate="_usuarioLogin">Usuário</label>
+						<div class="row ml-1">
+							<input type="text" id="loginUsername" style="width: 280px;" />
+						</div>
 
-				<div class="row justify-content-center" style="text-align: center">
-					<h1 class="app-title2 text-center">LOGIN</h1>
-				</div>
-
-				<div class="app-container3" style="width: 300px;">
-					<div class="d-flex flex-wrap justify-content-center align-items-center">
-							<div class="field-container mr-2">
-								<label for="loginUsername" data-translate="_usuarioLogin">Usuário</label>
-								<div class="row ml-1">
-									<input type="text" id="loginUsername" style="width: 280px;"/>
-								</div>
-
-								<label for="loginPassword" data-translate="_senhaLogin">Senha</label>
-								<div class="row ml-1">
-									<input  type="password" id="loginPassword" style="width: 230px;"/>
-									<button id="commentPortais" onclick="showPass()"
-										style="font-size: 1.5rem; padding: 0px; width: 45px;"
-										class="btn-app btn-app-sm ml-1 olho">
-										<i id="showPassIcon" class="fas fa-eye figura"></i>
-									</button>
-								</div>
-							</div>
-					</div>
-
-					<div class="row justify-content-center" style="text-align: center">
-						<div class="field-container" style="width: 55%;" >
-							<button id="forgotPass" type="submit" class="btn-app cancel btn-app-sm mx-2 move-right mt-3" onclick=abrirpg3(); id="">
-								<small data-translate="" >Esqueci minha senha</small>
-								<!-- <i class="fas fa-question mr-3"></i> -->
+						<label for="loginPassword" data-translate="_senhaLogin">Senha</label>
+						<div class="row ml-1">
+							<input type="password" id="loginPassword" style="width: 230px;" />
+							<button id="commentPortais" onclick="showPass()"
+								style="font-size: 1.5rem; padding: 0px; width: 45px;"
+								class="btn-app btn-app-sm ml-1 olho">
+								<i id="showPassIcon" class="fas fa-eye figura"></i>
 							</button>
 						</div>
 					</div>
+				</div>
 
-					<div class="row justify-content-center" style="text-align: center">
-						<button class="app-card3 text-center m-2 card-body d-flex flex-column align-items-center" onclick="login()" id="openDB">
-							<i class="fas fa-sign-in-alt card-icon mt-2 mb-3 figura"></i>
-							<b class="figura">LOGIN</b>
+				<div class="row justify-content-center" style="text-align: center">
+					<div class="field-container" style="width: 55%;">
+						<button id="forgotPass" type="submit" class="btn-app cancel btn-app-sm mx-2 move-right mt-3"
+							onclick=abrirpg3(); id="">
+							<small data-translate="">Esqueci minha senha</small>
+							<!-- <i class="fas fa-question mr-3"></i> -->
 						</button>
 					</div>
 				</div>
+
+				<div class="row justify-content-center" style="text-align: center">
+					<button class="app-card3 text-center m-2 card-body d-flex flex-column align-items-center"
+						onclick="login()" id="openDB">
+						<i class="fas fa-sign-in-alt card-icon mt-2 mb-3 figura"></i>
+						<b class="figura">LOGIN</b>
+					</button>
+				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 
-	<script type="text/javascript" src="/src/login.js"></script>
-	<script type="text/javascript" src="/src/themeSwitcher.js"></script>
+<script type="text/javascript" src="/src/login.js"></script>
+<script type="text/javascript" src="/src/themeSwitcher.js"></script>
 
 </html>
 
