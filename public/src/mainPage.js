@@ -113,46 +113,110 @@ async function loadTableData(items) {
 async function ceilLat(x, s) {
   return s * Math.ceil(parseFloat(x) / s)
 }
-// Dados de cliente
-async function buscaCliente() {
-  var nome = document.getElementById("inputCliente").value
+// Buscar dados de cliente
+async function buscaCliente(tipo) {
+  var nome = document.getElementById(`inputCliente${tipo}`).value
   const data = await fecthPost('/clienteData?name=' + nome)
-  // const resp = await fetch('/clienteData?name=' + nome, {
-  //   method: 'POST',
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   }
-  // });
 
-  // Handle any errors please
-
-  // const data = await resp.json();
-
-  document.getElementById("inputTelefone").value = data[0]["telefone"]
-  document.getElementById("inputTelhado").value = data[0]["tipo_telhado"]
-  document.getElementById("inputEstado").value = data[0]["estado"]
-  document.getElementById("inputCidade").value = data[0]["cidade"]
-  document.getElementById("inputRua").value = data[0]["rua"]
-  document.getElementById("inputNumero").value = data[0]["numero"]
-  document.getElementById("inputBairro").value = data[0]["bairro"]
-  document.getElementById("inputCep").value = data[0]["cep"]
-  document.getElementById("inputVendedor").value = data[0]["vendedor"]
-  document.getElementById("inputDistribuidora").value = data[0]["distribuidora"]
-  document.getElementById("inputIcms").value = data[0]["icms"]
-  document.getElementById("inputPis").value = data[0]["pis"]
-  document.getElementById("inputCofins").value = data[0]["cofins"]
-  document.getElementById("inputPorcentagem").value = data[0]["porcentagem"]
-  document.getElementById("inputArea").value = data[0]["area"]
-  document.getElementById("inputConsumo").value = data[0]["consumo"]
-  document.getElementById("inputTaxa").value = data[0]["taxa"]
-  document.getElementById("inputIlumPub").value = data[0]["ilum_pub"]
-  document.getElementById("inputUniCons").value = data[0]["unid_consid"]
-  document.getElementById("inputBandeira").value = data[0]["bandeira"]
+  document.getElementById(`inputTelefone${tipo}`).value = data[0]["telefone"]
+  document.getElementById(`inputTelhado${tipo}`).value = data[0]["tipo_telhado"]
+  document.getElementById(`inputEstado${tipo}`).value = data[0]["estado"]
+  document.getElementById(`inputCidade${tipo}`).value = data[0]["cidade"]
+  document.getElementById(`inputRua${tipo}`).value = data[0]["rua"]
+  document.getElementById(`inputNumero${tipo}`).value = data[0]["numero"]
+  document.getElementById(`inputBairro${tipo}`).value = data[0]["bairro"]
+  document.getElementById(`inputCep${tipo}`).value = data[0]["cep"]
+  document.getElementById(`inputVendedor${tipo}`).value = data[0]["vendedor"]
+  document.getElementById(`inputDistribuidora${tipo}`).value = data[0]["distribuidora"]
+  document.getElementById(`inputIcms${tipo}`).value = data[0]["icms"]
+  document.getElementById(`inputPis${tipo}`).value = data[0]["pis"]
+  document.getElementById(`inputCofins${tipo}`).value = data[0]["cofins"]
+  document.getElementById(`inputPorcentagem${tipo}`).value = data[0]["porcentagem"]
+  document.getElementById(`inputArea${tipo}`).value = data[0]["area"]
+  document.getElementById(`inputConsumo${tipo}`).value = data[0]["consumo"]
+  document.getElementById(`inputTaxa${tipo}`).value = data[0]["taxa"]
+  document.getElementById(`inputIlumPub${tipo}`).value = data[0]["ilum_pub"]
+  document.getElementById(`inputUniCons${tipo}`).value = data[0]["unid_consid"]
+  document.getElementById(`inputBandeira${tipo}`).value = data[0]["bandeira"]
 
 
   document.getElementById('inputRuaDadoTec').value = data[0]["rua"]
   document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
   document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
+}
+// Inserir novo cliente
+async function insereCliente() {
+  var nome = document.getElementById(`inputClienteConfigInsert`).value
+  var Telefone = document.getElementById(`inputTelefoneConfigInsert`).value
+  var Telhado = document.getElementById(`inputTelhadoConfigInsert`).value
+  var Estado = document.getElementById(`inputEstadoConfigInsert`).value
+  var Cidade = document.getElementById(`inputCidadeConfigInsert`).value
+  var Rua = document.getElementById(`inputRuaConfigInsert`).value
+  var Numero = document.getElementById(`inputNumeroConfigInsert`).value
+  var Bairro = document.getElementById(`inputBairroConfigInsert`).value
+  var Cep = document.getElementById(`inputCepConfigInsert`).value
+  var Distribuidora = document.getElementById(`inputDistribuidoraConfigInsert`).value
+  var Icms = document.getElementById(`inputIcmsConfigInsert`).value
+  var Pis = document.getElementById(`inputPisConfigInsert`).value
+  var Cofins = document.getElementById(`inputCofinsConfigInsert`).value
+  var Porcentagem = document.getElementById(`inputPorcentagemConfigInsert`).value
+  var Area = document.getElementById(`inputAreaConfigInsert`).value
+  var Consumo = document.getElementById(`inputConsumoConfigInsert`).value
+  var Taxa = document.getElementById(`inputTaxaConfigInsert`).value
+  var IlumPub = document.getElementById(`inputIlumPubConfigInsert`).value
+  var UniCons = document.getElementById(`inputUniConsConfigInsert`).value
+  var Bandeira = document.getElementById(`inputBandeiraConfigInsert`).value
+  var query = `${nome};${Telefone};${Telhado};${Estado};${Cidade};${Rua};${Numero};${Bairro};${Cep};${Distribuidora};${Icms};${Pis};${Cofins};${Porcentagem};${Area};${Consumo};${Taxa};${IlumPub};${UniCons};${Bandeira};`
+  const data = await fecthPost('/clienteInsert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: CLIENTE JÁ ESTÁ CADASTRADO!")
+  } else {
+    alert("CLIENTE CADASTRADO COM SUCESSO!")
+  }
+}
+// Atualizar dados de cliente
+async function atualizaCliente() {
+  var nome = document.getElementById(`inputClienteConfigEdit`).value
+  var Telefone = document.getElementById(`inputTelefoneConfigEdit`).value
+  var Telhado = document.getElementById(`inputTelhadoConfigEdit`).value
+  var Estado = document.getElementById(`inputEstadoConfigEdit`).value
+  var Cidade = document.getElementById(`inputCidadeConfigEdit`).value
+  var Rua = document.getElementById(`inputRuaConfigEdit`).value
+  var Numero = document.getElementById(`inputNumeroConfigEdit`).value
+  var Bairro = document.getElementById(`inputBairroConfigEdit`).value
+  var Cep = document.getElementById(`inputCepConfigEdit`).value
+  var Distribuidora = document.getElementById(`inputDistribuidoraConfigEdit`).value
+  var Icms = document.getElementById(`inputIcmsConfigEdit`).value
+  var Pis = document.getElementById(`inputPisConfigEdit`).value
+  var Cofins = document.getElementById(`inputCofinsConfigEdit`).value
+  var Porcentagem = document.getElementById(`inputPorcentagemConfigEdit`).value
+  var Area = document.getElementById(`inputAreaConfigEdit`).value
+  var Consumo = document.getElementById(`inputConsumoConfigEdit`).value
+  var Taxa = document.getElementById(`inputTaxaConfigEdit`).value
+  var IlumPub = document.getElementById(`inputIlumPubConfigEdit`).value
+  var UniCons = document.getElementById(`inputUniConsConfigEdit`).value
+  var Bandeira = document.getElementById(`inputBandeiraConfigEdit`).value
+  var query = `${nome};${Telefone};${Telhado};${Estado};${Cidade};${Rua};${Numero};${Bairro};${Cep};${Distribuidora};${Icms};${Pis};${Cofins};${Porcentagem};${Area};${Consumo};${Taxa};${IlumPub};${UniCons};${Bandeira};`
+  const data = await fecthPost('/clienteUpdate?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: CLIENTE NÃO ESTÁ CADASTRADO!")
+  } else {
+    alert("CLIENTE ATUALIZADO COM SUCESSO!")
+  }
+}
+// Buscar dados de Modulos
+async function buscaModulo() {
+  var peca = $('#inputPecaModuloConfigEdit')[0].value
+  var mldGetData = `/mdlDataPeca?name=${peca}`
+  const dataMdlPeca = await fecthGet(mldGetData)
+  await fillMdlData('ConfigEdit', dataMdlPeca)
+}
+// Buscar dados de Inversores
+async function buscaInversor() {
+  var peca = $('#inputPecaInversorConfigEdit')[0].value
+  var invGetData = `/invDataPeca?name=${peca}`
+  const dataInvPeca = await fecthGet(invGetData)
+  await fillInvData('ConfigEdit', dataInvPeca)
 }
 // Dados de Latitude e Longitude
 async function getLocation() {
@@ -184,6 +248,7 @@ async function onLoad() {
     }
   });
   document.getElementById("inputClienteList").innerHTML = optionsClient
+  document.getElementById("inputClienteListConfigEdit").innerHTML = optionsClient
   //DADOS DE MÓDULOS
   var mldGetData = '/mdlData'
   const dataMdl = await fecthGet(mldGetData)
@@ -206,6 +271,8 @@ async function onLoad() {
   });
 
   await fillMdl('OLD', 'FORNECEDOR')
+  document.getElementById("inputPecaModuloListConfigEdit").innerHTML = optionsPecaMdl
+  document.getElementById("inputFabricanteModuloListConfigInsert").innerHTML = optionsFornMdl
 
   //DADOS DE INVERSORES
 
@@ -232,6 +299,8 @@ async function onLoad() {
     }
   });
   await fillInv('OLD', 'FORNECEDOR')
+  document.getElementById("inputPecaInversorListConfigEdit").innerHTML = optionsPecaInv
+  document.getElementById("inputFabricanteInversorListConfigInsert").innerHTML = optionsFornInv
   document.getElementById('dadosModulo').style.display = 'none'
   document.getElementById('dadosInversor').style.display = 'none'
 }
@@ -334,6 +403,24 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputEspessuraModulo')[0].value = ''
     $('#inputLarguraModulo')[0].value = ''
     $('#inputAlturaModulo')[0].value = ''
+  } if (option == 'ConfigEdit') {
+    $('#inputFabricanteModuloConfigEdit')[0].value = dataMdlPeca[0].fornecedor
+    $('#inputPotenciaModuloConfigEdit')[0].value = dataMdlPeca[0].pmax
+    $('#inputTipo_CelModuloConfigEdit')[0].value = dataMdlPeca[0].celulas
+    $('#inputTecnologiaModuloConfigEdit')[0].value = dataMdlPeca[0].estilo
+    $('#inputVmpModuloConfigEdit')[0].value = dataMdlPeca[0].vmp
+    $('#inputImpModuloConfigEdit')[0].value = dataMdlPeca[0].imp
+    $('#inputVocModuloConfigEdit')[0].value = dataMdlPeca[0].voc
+    $('#inputIscModuloConfigEdit')[0].value = dataMdlPeca[0].isc
+    $('#inputEficienciaModuloConfigEdit')[0].value = dataMdlPeca[0].eficiencia
+    $('#inputTPmaxModuloConfigEdit')[0].value = dataMdlPeca[0].tpmax
+    $('#inputTVocModuloConfigEdit')[0].value = dataMdlPeca[0].tvoc
+    $('#inputTIscModuloConfigEdit')[0].value = dataMdlPeca[0].tisc
+    $('#inputAreaOcupadaModuloConfigEdit')[0].value = dataMdlPeca[0].area
+    $('#inputPesoModuloConfigEdit')[0].value = dataMdlPeca[0].peso
+    $('#inputEspessuraModuloConfigEdit')[0].value = dataMdlPeca[0].espessura
+    $('#inputLarguraModuloConfigEdit')[0].value = dataMdlPeca[0].largura
+    $('#inputAlturaModuloConfigEdit')[0].value = dataMdlPeca[0].altura
   }
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
@@ -437,6 +524,19 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputCorrenteMaxCCInversor')[0].value = ''
     $('#inputCorrenteMaxCAInversor')[0].value = ''
 
+  } else if (option == 'ConfigEdit') {
+    $('#inputFabricanteInversorConfigEdit')[0].value = dataInvPeca[0].fornecedor
+    $('#inputFasesInversorConfigEdit')[0].value = dataInvPeca[0].mppt
+    $('#inputStringsInversorConfigEdit')[0].value = dataInvPeca[0].conexaoca
+    $('#inputTipoInversorConfigEdit')[0].value = dataInvPeca[0].tipo
+    $('#inputPotenciaInversorConfigEdit')[0].value = dataInvPeca[0].potnomi
+    $('#inputFaixaMPPTInversorConfigEdit')[0].value = dataInvPeca[0].faixamppt
+    $('#inputTensaoCCInversorConfigEdit')[0].value = dataInvPeca[0].tenspart
+    $('#inputMaxTensaoCCInversorConfigEdit')[0].value = dataInvPeca[0].maxtens
+    $('#inputEficienciaInversorConfigEdit')[0].value = dataInvPeca[0].eficiencia
+    $('#inputFaixaTensaoInversorConfigEdit')[0].value = dataInvPeca[0].faixatens
+    $('#inputCorrenteMaxCCInversorConfigEdit')[0].value = dataInvPeca[0].entradaimp
+    $('#inputCorrenteMaxCAInversorConfigEdit')[0].value = dataInvPeca[0].correntesaída
   }
 }
 //#endregion
@@ -828,21 +928,28 @@ element11.addEventListener('change', async function () {
 window.onload = async function (event) {
   await onLoad()
 };
+var items2 = document.getElementsByName('configTab');
 var items = document.getElementsByName('tabNew');
+
 for (var i = 0; i < items.length; i++) {
-  items[i].addEventListener('click', printDetails);
+  items[i].addEventListener('click', activeClass(items));
+}
+for (var i = 0; i < items2.length; i++) {
+  items2[i].addEventListener('click', activeClass(items2));
 }
 
-function printDetails(e) {
-  for (var i = 0; i < items.length; i++) {
-    if (items[i].classList.contains("active")) {
-      items[i].classList.toggle("active")
-      items[i].ariaSelected = "false"
+class activeClass {
+  constructor(items) {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].classList.contains("active")) {
+        items[i].classList.toggle("active")
+        items[i].ariaSelected = "false"
+      }
     }
-  }
-  this.classList.add("active");
-  this.ariaSelected = "true"
+    this.classList.add("active")
+    this.ariaSelected = "true"
 
+  }
 }
 // Dados de Fator K e de Posicionamento do telhado
 async function fatorK() {

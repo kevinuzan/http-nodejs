@@ -23,6 +23,7 @@
 				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
 			<div style="visibility: hidden;">
 				<i class="fas fa-sun mx-2 sun-color"></i>
 				<input type="checkbox" class="app-checkbox" id="" />
@@ -33,18 +34,42 @@
 
 					<li class="nav-item">
 						<a class="nav-link app-tab-title active" data-toggle="tab" href="#dados-tab-content" role="tab">
-							DADOS
+							<i class="fas fa-desktop"></i>
+							 DADOS
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link app-tab-title" data-toggle="tab" href="#orcamento-tab-content" role="tab">
-							ORÇAMENTO
+							<i class="fas fa-money-bill"></i>
+							 ORÇAMENTO
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link app-tab-title" data-toggle="tab" href="#resumo-tab-content" role="tab">
-							RESUMO
+							<i class="fas fa-list"></i>
+							 RESUMO
 						</a>
+					</li>
+					<li class="nav-item dropdown ms-auto">
+						<a class="nav-link dropdown-toggle" id="dropdown-navbar" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-cogs"></i>
+							 CONFIGURAÇÕES
+						</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown-navbar">
+							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
+								href="#erp-tab-content-config">
+								<i class="fas fa-user"></i>
+								 Clientes</a>
+							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
+								href="#modulos-tab-content-config">
+								<i class="fas fa-table"></i>
+								 Módulos</a>
+							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
+								href="#inversores-tab-content-config">
+								<i class="fas fa-network-wired"></i>
+								 Inversores</a>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -78,7 +103,7 @@
 				<!-- ITENS MENU DE NAVEGAÇÃO -->
 				<div class="tab-content">
 					<!-- ERP -->
-					<div class="tab-pane active" id="erp-tab-content" role="tabpanel">
+					<div class="tab-pane fade show active" id="erp-tab-content" role="tabpanel">
 						<div class="app-container">
 							<h2 class="app-title">DADOS CADASTRAIS</h2>
 							<div class="container-5-columns mr-3 mb-2">
@@ -92,7 +117,7 @@
 								</div>
 								<div class="field-container mt-2 mb-2">
 									<label for="inputCliente" style="font-weight: bold"> </label>
-									<button type="button" onclick="buscaCliente()" id="buscaCliente"
+									<button type="button" onclick="buscaCliente('')" id="buscaCliente"
 										class="btn-app">BUSCA</button>
 								</div>
 
@@ -189,7 +214,7 @@
 						</div>
 					</div>
 					<!-- DADOS TÉCNICOS -->
-					<div class="tab-pane" id="dados-tecnicos-tab-content" role="tabpanel">
+					<div class="tab-pane fade show" id="dados-tecnicos-tab-content" role="tabpanel">
 						<div class="app-container">
 							<div class="container-5-columns mr-3 mb-2">
 
@@ -307,7 +332,7 @@
 						</ul>
 						<div class="tab-content">
 							<!-- MÓDULOS -->
-							<div class="tab-pane" id="modulos-tab-content" role="tabpanel">
+							<div class="tab-pane fade show" id="modulos-tab-content" role="tabpanel">
 								<div class="app-container">
 									<!-- FILTROS -->
 									<div class="container-5-columns mr-3 mb-2">
@@ -477,7 +502,7 @@
 								</div>
 							</div>
 							<!-- INVERSORES -->
-							<div class="tab-pane" id="inversores-tab-content" role="tabpanel">
+							<div class="tab-pane fade show" id="inversores-tab-content" role="tabpanel">
 								<div class="app-container">
 									<!-- DADOS DE FILTRO -->
 									<div class="container-5-columns mr-3 mb-2">
@@ -585,7 +610,7 @@
 							</div>
 
 							<!-- CONSUMO -->
-							<div class="tab-pane" id="consumo-tab-content" role="tabpanel">
+							<div class="tab-pane fade show" id="consumo-tab-content" role="tabpanel">
 								<div class="app-container">
 									<div class="container-5-columns">
 										<div class="field-container mt-2">
@@ -686,7 +711,7 @@
 						</div>
 					</div>
 					<!-- DADOS IRRADIAÇÃO -->
-					<div class="tab-pane" id="irradiacao-tab-content" role="tabpanel">
+					<div class="tab-pane fade show" id="irradiacao-tab-content" role="tabpanel">
 						<div class="app-container">
 							<div class="table-responsive">
 								<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
@@ -726,7 +751,765 @@
 			<div class="tab-pane fade show" id="resumo-tab-content" role="tabpanel">
 				<h2 class="app-subtitle">tchau</h2>
 			</div>
+			<!-- DADOS ERP CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="erp-tab-content-config" role="tabpanel">
+				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
+					<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab" href="#inserir-tab-content-config"
+								role="tab">
+								INSERIR
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab" href="#editar-tab-content-config"
+								role="tab">
+								EDITAR
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<!-- INSERIR -->
+					<div class="tab-pane fade show" id="inserir-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<h2 class="app-title">ADICIONAR NOVO CLIENTE</h2>
+							<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
+								<div class="field-container mt-2 mb-2">
+									<label for="inputClienteConfigInsert" style="font-weight: bold">CLIENTE</label>
+									<input id="inputClienteConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTelefoneConfigInsert" style="font-weight: bold">TELEFONE</label>
+									<input id="inputTelefoneConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTelhadoConfigInsert" style="font-weight: bold">TIPO DE
+										TELHADO</label>
+									<input id="inputTelhadoConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEstadoConfigInsert" style="font-weight: bold">ESTADO</label>
+									<input id="inputEstadoConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCidadeConfigInsert" style="font-weight: bold">CIDADE</label>
+									<input id="inputCidadeConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputRuaConfigInsert" style="font-weight: bold">RUA</label>
+									<input id="inputRuaConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputNumeroConfigInsert" style="font-weight: bold">NÚMERO</label>
+									<input id="inputNumeroConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBairroConfigInsert" style="font-weight: bold">BAIRRO</label>
+									<input id="inputBairroConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCepConfigInsert" style="font-weight: bold">CEP</label>
+									<input id="inputCepConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVendedorConfigInsert" style="font-weight: bold">VENDEDOR</label>
+									<input list="inputVendedorListConfigInsert" id="inputVendedorConfigInsert" />
+									<datalist id="inputVendedorListConfigInsert">
+										<option selected disabled></option>
+									</datalist>
+								</div>
+							</div>
+							<h2 class="app-title">DADOS DE FATURA</h2>
+							<div class="container-5-columns mr-3" id="faturaID">
+								<div class="field-container mt-2">
+									<label for="inputDistribuidoraConfigInsert"
+										style="font-weight: bold">DISTRIBUIDORA</label>
+									<input id="inputDistribuidoraConfigInsert" placeholder="Digite.." />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIcmsConfigInsert" style="font-weight: bold">ICMS</label>
+									<input id="inputIcmsConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPisConfigInsert" style="font-weight: bold">PIS</label>
+									<input id="inputPisConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCofinsConfigInsert" style="font-weight: bold">COFINS</label>
+									<input id="inputCofinsConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPorcentagemConfigInsert"
+										style="font-weight: bold">PORCENTAGEM</label>
+									<input id="inputPorcentagemConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAreaConfigInsert" style="font-weight: bold">ÁREA</label>
+									<input id="inputAreaConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputConsumoConfigInsert" style="font-weight: bold">CONSUMO</label>
+									<input id="inputConsumoConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTaxaConfigInsert" style="font-weight: bold">TAXA</label>
+									<input id="inputTaxaConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIlumPubConfigInsert" style="font-weight: bold">ILUMINAÇÃO
+										PÚBLICA</label>
+									<input id="inputIlumPubConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputUniConsConfigInsert" style="font-weight: bold">UNID.
+										CONSUMIDORA</label>
+									<input id="inputUniConsConfigInsert" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBandeiraConfigInsert" style="font-weight: bold">BANDEIRA</label>
+									<input id="inputBandeiraConfigInsert" placeholder="Digite..">
+								</div>
+							</div>
+							<div class="container-5-columns">
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="insereCliente()" id="insereCliente"
+										class="btn-app">INSERIR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- EDITAR -->
+					<div class="tab-pane fade show" id="editar-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<h2 class="app-title">EDITAR CLIENTE</h2>
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2 mb-2">
+									<label for="inputClienteConfigEdit" style="font-weight: bold">CLIENTE</label>
+									<input list="inputClienteListConfigEdit" id="inputClienteConfigEdit" />
+									<datalist id="inputClienteListConfigEdit">
+										<option selected disabled></option>
+									</datalist>
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="buscaCliente('ConfigEdit')" id="buscaCliente"
+										class="btn-app">BUSCA</button>
+								</div>
+
+							</div>
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputTelefoneConfigEdit" style="font-weight: bold">TELEFONE</label>
+									<input id="inputTelefoneConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTelhadoConfigEdit" style="font-weight: bold">TIPO DE
+										TELHADO</label>
+									<input id="inputTelhadoConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEstadoConfigEdit" style="font-weight: bold">ESTADO</label>
+									<input id="inputEstadoConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCidadeConfigEdit" style="font-weight: bold">CIDADE</label>
+									<input id="inputCidadeConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputRuaConfigEdit" style="font-weight: bold">RUA</label>
+									<input id="inputRuaConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputNumeroConfigEdit" style="font-weight: bold">NÚMERO</label>
+									<input id="inputNumeroConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBairroConfigEdit" style="font-weight: bold">BAIRRO</label>
+									<input id="inputBairroConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCepConfigEdit" style="font-weight: bold">CEP</label>
+									<input id="inputCepConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVendedorConfigEdit" style="font-weight: bold">VENDEDOR</label>
+									<input list="inputVendedorListConfigEdit" id="inputVendedorConfigEdit" />
+									<datalist id="inputVendedorListConfigEdit">
+										<option selected disabled></option>
+									</datalist>
+								</div>
+							</div>
+							<h2 class="app-title">DADOS DE FATURA</h2>
+							<div class="container-5-columns mr-3" id="faturaID">
+								<div class="field-container mt-2">
+									<label for="inputDistribuidoraConfigEdit"
+										style="font-weight: bold">DISTRIBUIDORA</label>
+									<input id="inputDistribuidoraConfigEdit" placeholder="Digite.." />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIcmsConfigEdit" style="font-weight: bold">ICMS</label>
+									<input id="inputIcmsConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPisConfigEdit" style="font-weight: bold">PIS</label>
+									<input id="inputPisConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCofinsConfigEdit" style="font-weight: bold">COFINS</label>
+									<input id="inputCofinsConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPorcentagemConfigEdit"
+										style="font-weight: bold">PORCENTAGEM</label>
+									<input id="inputPorcentagemConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAreaConfigEdit" style="font-weight: bold">ÁREA</label>
+									<input id="inputAreaConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputConsumoConfigEdit" style="font-weight: bold">CONSUMO</label>
+									<input id="inputConsumoConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTaxaConfigEdit" style="font-weight: bold">TAXA</label>
+									<input id="inputTaxaConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIlumPubConfigEdit" style="font-weight: bold">ILUMINAÇÃO
+										PÚBLICA</label>
+									<input id="inputIlumPubConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputUniConsConfigEdit" style="font-weight: bold">UNID.
+										CONSUMIDORA</label>
+									<input id="inputUniConsConfigEdit" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBandeiraConfigEdit" style="font-weight: bold">BANDEIRA</label>
+									<input id="inputBandeiraConfigEdit" placeholder="Digite..">
+								</div>
+							</div>
+							<div class="container-5-columns">
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizaCliente()" id="atualizaCliente"
+										class="btn-app">ATUALIZAR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- DADOS MÓDULOS CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="modulos-tab-content-config" role="tabpanel">
+				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
+					<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#inserir-modulos-tab-content-config" role="tab">
+								INSERIR
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#editar-modulos-tab-content-config" role="tab">
+								EDITAR
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<!-- INSERIR -->
+					<div class="tab-pane fade show" id="inserir-modulos-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputFabricanteModuloConfigInsert"
+										style="font-weight: bold">FABRICANTE</label>
+									<input list="inputFabricanteModuloListConfigInsert"
+										id="inputFabricanteModuloConfigInsert" />
+									<datalist id="inputFabricanteModuloListConfigInsert">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotenciaModuloConfigInsert"
+										style="font-weight: bold">POTÊNCIA</label>
+									<input id="inputPotenciaModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTipo_CelModuloConfigInsert" style="font-weight: bold">TIPO DE
+										CÉLULAS</label>
+									<input id="inputTipo_CelModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTecnologiaModuloConfigInsert"
+										style="font-weight: bold">TECNOLOGIA</label>
+									<input id="inputTecnologiaModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPecaModuloConfigInsert" style="font-weight: bold">PEÇA</label>
+									<input id="inputPecaModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVmpModuloConfigInsert" style="font-weight: bold">VMP
+										(V)</label>
+									<input id="inputVmpModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputImpModuloConfigInsert" style="font-weight: bold">IMP
+										(A)</label>
+									<input id="inputImpModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVocModuloConfigInsert" style="font-weight: bold">VOC
+										(V)</label>
+									<input id="inputVocModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIscModuloConfigInsert" style="font-weight: bold">ISC
+										(A)</label>
+									<input id="inputIscModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEficienciaModuloConfigInsert" style="font-weight: bold">EFICIÊNCIA
+										(%)</label>
+									<input id="inputEficienciaModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTPmaxModuloConfigInsert" style="font-weight: bold">Tº/ºC
+										PMAX</label>
+									<input id="inputTPmaxModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTVocModuloConfigInsert" style="font-weight: bold">Tº/ºC
+										VOC</label>
+									<input id="inputTVocModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTIscModuloConfigInsert" style="font-weight: bold">Tº/ºC
+										ISC</label>
+									<input id="inputTIscModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAreaOcupadaModuloConfigInsert" style="font-weight: bold">ÁREA
+										OCUPADA
+										(M²)</label>
+									<input id="inputAreaOcupadaModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPesoModuloConfigInsert" style="font-weight: bold">PESO
+										(KG)</label>
+									<input id="inputPesoModuloConfigInsert" />
+								</div>
+
+								<div class="field-container mt-2">
+									<label for="inputEspessuraModuloConfigInsert"
+										style="font-weight: bold">ESPESSURA</label>
+									<input id="inputEspessuraModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputLarguraModuloConfigInsert"
+										style="font-weight: bold">LARGURA</label>
+									<input id="inputLarguraModuloConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAlturaModuloConfigInsert" style="font-weight: bold">ALTURA</label>
+									<input id="inputAlturaModuloConfigInsert" />
+								</div>
+							</div>
+							<div class="container-5-columns">
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="insereModulo()" id="atualizaModulo"
+										class="btn-app">INSERIR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- EDITAR -->
+					<div class="tab-pane fade show" id="editar-modulos-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputPecaModuloConfigEdit" style="font-weight: bold">PEÇA</label>
+									<input id="inputPecaModuloConfigEdit" list="inputPecaModuloListConfigEdit" />
+									<datalist id="inputPecaModuloListConfigEdit">
+									</datalist>
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="buscaModulo()" id="buscaModulo"
+										class="btn-app">BUSCA</button>
+								</div>
+							</div>
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputFabricanteModuloConfigEdit"
+										style="font-weight: bold">FABRICANTE</label>
+									<input id="inputFabricanteModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotenciaModuloConfigEdit"
+										style="font-weight: bold">POTÊNCIA</label>
+									<input id="inputPotenciaModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTipo_CelModuloConfigEdit" style="font-weight: bold">TIPO DE
+										CÉLULAS</label>
+									<input id="inputTipo_CelModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTecnologiaModuloConfigEdit"
+										style="font-weight: bold">TECNOLOGIA</label>
+									<input id="inputTecnologiaModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVmpModuloConfigEdit" style="font-weight: bold">VMP
+										(V)</label>
+									<input id="inputVmpModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputImpModuloConfigEdit" style="font-weight: bold">IMP
+										(A)</label>
+									<input id="inputImpModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputVocModuloConfigEdit" style="font-weight: bold">VOC
+										(V)</label>
+									<input id="inputVocModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIscModuloConfigEdit" style="font-weight: bold">ISC
+										(A)</label>
+									<input id="inputIscModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEficienciaModuloConfigEdit" style="font-weight: bold">EFICIÊNCIA
+										(%)</label>
+									<input id="inputEficienciaModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTPmaxModuloConfigEdit" style="font-weight: bold">Tº/ºC
+										PMAX</label>
+									<input id="inputTPmaxModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTVocModuloConfigEdit" style="font-weight: bold">Tº/ºC
+										VOC</label>
+									<input id="inputTVocModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTIscModuloConfigEdit" style="font-weight: bold">Tº/ºC
+										ISC</label>
+									<input id="inputTIscModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAreaOcupadaModuloConfigEdit" style="font-weight: bold">ÁREA
+										OCUPADA
+										(M²)</label>
+									<input id="inputAreaOcupadaModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPesoModuloConfigEdit" style="font-weight: bold">PESO
+										(KG)</label>
+									<input id="inputPesoModuloConfigEdit" />
+								</div>
+
+								<div class="field-container mt-2">
+									<label for="inputEspessuraModuloConfigEdit"
+										style="font-weight: bold">ESPESSURA</label>
+									<input id="inputEspessuraModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputLarguraModuloConfigEdit" style="font-weight: bold">LARGURA</label>
+									<input id="inputLarguraModuloConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputAlturaModuloConfigEdit" style="font-weight: bold">ALTURA</label>
+									<input id="inputAlturaModuloConfigEdit" />
+								</div>
+							</div>
+							<div class="container-5-columns">
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizaModulo()" id="atualizaModulo"
+										class="btn-app">ATUALIZAR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- DADOS INVERSORES CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="inversores-tab-content-config" role="tabpanel">
+				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
+					<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#inserir-inversores-tab-content-config" role="tab">
+								INSERIR
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#editar-inversores-tab-content-config" role="tab">
+								EDITAR
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<!-- INSERIR -->
+					<div class="tab-pane fade show" id="inserir-inversores-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputFabricanteInversorConfigInsert"
+										style="font-weight: bold">FABRICANTE</label>
+									<input list="inputFabricanteInversorListConfigInsert"
+										id="inputFabricanteInversorConfigInsert" />
+									<datalist id="inputFabricanteInversorListConfigInsert">
+									</datalist>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFasesInversorConfigInsert" style="font-weight: bold">NÚMERO DE
+										FASES</label>
+									<input id="inputFasesInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputStringsInversorConfigInsert" style="font-weight: bold">NÚMERO DE
+										STRINGS</label>
+									<input id="inputStringsInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTipoInversorConfigInsert" style="font-weight: bold">TIPO
+										DE
+										INVERSOR</label>
+									<input id="inputTipoInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotenciaInversorConfigInsert"
+										style="font-weight: bold">POTÊNCIA</label>
+									<input id="inputPotenciaInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPecaInversorConfigInsert" style="font-weight: bold">PEÇA</label>
+									<input id="inputPecaInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFaixaMPPTInversorConfigInsert" style="font-weight: bold">FAIXA DE
+										OP
+										MPPT</label>
+									<input id="inputFaixaMPPTInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTensaoCCInversorConfigInsert" style="font-weight: bold">TENSÃO CC
+										DE
+										PARTIDA
+										(V)</label>
+									<input id="inputTensaoCCInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputMaxTensaoCCInversorConfigInsert" style="font-weight: bold">MÁX.
+										TENSÃO
+										CC
+										MPPT
+										(V)</label>
+									<input id="inputMaxTensaoCCInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEficienciaInversorConfigInsert"
+										style="font-weight: bold">EFICIÊNCIA
+										(%)</label>
+									<input id="inputEficienciaInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFaixaTensaoInversorConfigInsert" style="font-weight: bold">FAIXA
+										DE
+										TENS.
+										SAÍDA
+										CA (V)</label>
+									<input id="inputFaixaTensaoInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCorrenteMaxCCInversorConfigInsert" style="font-weight: bold">CORR.
+										MÁX.
+										INVERSOR CC (A)</label>
+									<input id="inputCorrenteMaxCCInversorConfigInsert" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCorrenteMaxCAInversorConfigInsert" style="font-weight: bold">CORR.
+										MÁX.
+										INVERSOR CA (A)</label>
+									<input id="inputCorrenteMaxCAInversorConfigInsert" />
+								</div>
+							</div>
+							<div class="container-5-columns">
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="insereInversor()" id="atualizaInversor"
+										class="btn-app">INSERIR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- EDITAR -->
+					<div class="tab-pane fade show" id="editar-inversores-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputPecaInversorConfigEdit" style="font-weight: bold">PEÇA</label>
+									<input id="inputPecaInversorConfigEdit" list="inputPecaInversorListConfigEdit" />
+									<datalist id="inputPecaInversorListConfigEdit">
+									</datalist>
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="buscaInversor()" id="buscaInversor"
+										class="btn-app">BUSCA</button>
+								</div>
+							</div>
+							<div class="container-5-columns mr-3 mb-2">
+								<div class="field-container mt-2">
+									<label for="inputFabricanteInversorConfigEdit"
+										style="font-weight: bold">FABRICANTE</label>
+									<input id="inputFabricanteInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFasesInversorConfigEdit" style="font-weight: bold">NÚMERO DE
+										FASES</label>
+									<input id="inputFasesInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputStringsInversorConfigEdit" style="font-weight: bold">NÚMERO DE
+										STRINGS</label>
+									<input id="inputStringsInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTipoInversorConfigEdit" style="font-weight: bold">TIPO
+										DE
+										INVERSOR</label>
+									<input id="inputTipoInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPotenciaInversorConfigEdit"
+										style="font-weight: bold">POTÊNCIA</label>
+									<input id="inputPotenciaInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFaixaMPPTInversorConfigEdit" style="font-weight: bold">FAIXA DE
+										OP
+										MPPT</label>
+									<input id="inputFaixaMPPTInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTensaoCCInversorConfigEdit" style="font-weight: bold">TENSÃO CC
+										DE
+										PARTIDA
+										(V)</label>
+									<input id="inputTensaoCCInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputMaxTensaoCCInversorConfigEdit" style="font-weight: bold">MÁX.
+										TENSÃO
+										CC
+										MPPT
+										(V)</label>
+									<input id="inputMaxTensaoCCInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputEficienciaInversorConfigEdit" style="font-weight: bold">EFICIÊNCIA
+										(%)</label>
+									<input id="inputEficienciaInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputFaixaTensaoInversorConfigEdit" style="font-weight: bold">FAIXA
+										DE
+										TENS.
+										SAÍDA
+										CA (V)</label>
+									<input id="inputFaixaTensaoInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCorrenteMaxCCInversorConfigEdit" style="font-weight: bold">CORR.
+										MÁX.
+										INVERSOR CC (A)</label>
+									<input id="inputCorrenteMaxCCInversorConfigEdit" />
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCorrenteMaxCAInversorConfigEdit" style="font-weight: bold">CORR.
+										MÁX.
+										INVERSOR CA (A)</label>
+									<input id="inputCorrenteMaxCAInversorConfigEdit" />
+								</div>
+							</div>
+							<div class="container-5-columns">
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2" style="visibility: hidden;">
+									<label for="" style="font-weight: bold">BANDEIRA</label>
+									<input id="" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2 mb-2">
+									<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizarInversor()" id="atualizarInversor"
+										class="btn-app">ATUALIZAR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
+	</div>
+	</div>
 	</div>
 
 	</div>

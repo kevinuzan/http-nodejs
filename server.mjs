@@ -103,6 +103,79 @@ app.post('/clienteData', async function (req, res) {
     res.json(rows)
 });
 
+app.post('/clienteInsert', async function (req, res) {
+    let cliente = req.query.name.split(';')[0];
+    var queryId = `select cliente from erp where LOWER(cliente) = LOWER('${cliente}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var queryId = 'select max(id) from erp'
+        var { rows } = await pgClient.query(queryId)
+        let id = (rows[0].max + 1)
+        let Telefone = req.query.name.split(';')[1]
+        let Telhado = req.query.name.split(';')[2]
+        let Estado = req.query.name.split(';')[3]
+        let Cidade = req.query.name.split(';')[4]
+        let Rua = req.query.name.split(';')[5]
+        let Numero = req.query.name.split(';')[6]
+        let Bairro = req.query.name.split(';')[7]
+        let Cep = req.query.name.split(';')[8]
+        let Distribuidora = req.query.name.split(';')[9]
+        let Icms = req.query.name.split(';')[10]
+        let Pis = req.query.name.split(';')[11]
+        let Cofins = req.query.name.split(';')[12]
+        let Porcentagem = req.query.name.split(';')[13]
+        let Area = req.query.name.split(';')[14]
+        let Consumo = req.query.name.split(';')[15]
+        let Taxa = req.query.name.split(';')[16]
+        let IlumPub = req.query.name.split(';')[17]
+        let UniCons = req.query.name.split(';')[18]
+        let Bandeira = req.query.name.split(';')[19]
+        var query = `insert into erp values ('${id}','${cliente}','${Telefone}','${Telhado}','${Estado}','${Cidade}','${Rua}','${Numero}','${Bairro}','${Cep}','${Distribuidora}','${Icms}','${Pis}','${Cofins}','${Porcentagem}','${Area}','${Consumo}','${Taxa}','${IlumPub}','${UniCons}','${Bandeira}')`
+        console.log(query)
+        var { rows } = await pgClient.query(query)
+        // const { rows } = await pool.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/clienteUpdate', async function (req, res) {
+    let cliente = req.query.name.split(';')[0];
+    var queryId = `select id from erp where LOWER(cliente) = LOWER('${cliente}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        let id = rows[0].id
+        let Telefone = req.query.name.split(';')[1]
+        let Telhado = req.query.name.split(';')[2]
+        let Estado = req.query.name.split(';')[3]
+        let Cidade = req.query.name.split(';')[4]
+        let Rua = req.query.name.split(';')[5]
+        let Numero = req.query.name.split(';')[6]
+        let Bairro = req.query.name.split(';')[7]
+        let Cep = req.query.name.split(';')[8]
+        let Distribuidora = req.query.name.split(';')[9]
+        let Icms = req.query.name.split(';')[10]
+        let Pis = req.query.name.split(';')[11]
+        let Cofins = req.query.name.split(';')[12]
+        let Porcentagem = req.query.name.split(';')[13]
+        let Area = req.query.name.split(';')[14]
+        let Consumo = req.query.name.split(';')[15]
+        let Taxa = req.query.name.split(';')[16]
+        let IlumPub = req.query.name.split(';')[17]
+        let UniCons = req.query.name.split(';')[18]
+        let Bandeira = req.query.name.split(';')[19]
+        var query = `update erp set id='${id}', telefone = '${Telefone}', tipo_telhado = '${Telhado}', estado = '${Estado}', cidade = '${Cidade}', rua = '${Rua}', numero = '${Numero}', bairro = '${Bairro}', cep = '${Cep}', distribuidora = '${Distribuidora}', icms = '${Icms}', pis = '${Pis}', cofins = '${Cofins}', porcentagem = '${Porcentagem}', area = '${Area}', consumo = '${Consumo}', taxa = '${Taxa}', ilum_pub = '${IlumPub}', unid_consid = '${UniCons}', bandeira = '${Bandeira}' WHERE LOWER(cliente) = LOWER('${cliente}')`
+        console.log(query)
+        var { rows } = await pgClient.query(query)
+        // const { rows } = await pool.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
+});
+
+
 app.get('/mdlData', async function (req, res) {
     var query = "SELECT * FROM modulos ORDER BY modelo ASC"
     var { rows } = await pgClient.query(query)
