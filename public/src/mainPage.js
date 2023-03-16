@@ -44,6 +44,14 @@ var somaCorrecao = 0
 
 const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
 
+var CreditoConsumoTUSD
+var CreditoConsumoTE
+var CreditoPIS
+var CreditoCOFINS
+var CreditoConsumoTUSDIcms
+var CreditoConsumoTEIcms
+var CreditoTaxaIlum
+var CreditoSomaTotal
 
 //#region REPLICAR PARA OUTROS TÓPICOS (tarifa fio b, modulos e inversores)
 var resultExcelData
@@ -113,14 +121,19 @@ async function checkBandeira(valor) {
 }
 async function sumItems(id, value) {
   if (value != '') {
-    itemsConsumo[id] = parseFloat(value)
+    if (id != 'function') {
+      itemsConsumo[id] = parseFloat(value)
+    }
     var somaItens = Object.keys(itemsConsumo).length
     somaConsumo = sumValues(itemsConsumo)
     var emmConsumo = parseFloat(somaConsumo / somaItens)
     $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
     $('#inputEmmConsumo')[0].value = emmConsumo.toFixed(2)
     $('#inputConsumoBT')[0].value = emmConsumo.toFixed(2)
+    $('#inputConsumoBT')[0].value = emmConsumo.toFixed(2)
+
     var bandeira = document.getElementById(`inputBandeira`).value
+    var ICMS = parseFloat($('#inputTarifaICMS')[0].value.replaceAll(",", "."))
     var PIS = parseFloat($('#inputTarifaPIS')[0].value.replaceAll(",", "."))
     var COFINS = parseFloat($('#inputTarifaCOFINS')[0].value.replaceAll(",", "."))
     var TUSDImp = parseFloat($('#inputTarifaTUSDImp')[0].value.replaceAll(",", "."))
@@ -143,9 +156,37 @@ async function sumItems(id, value) {
         addBand = 0.142 * emmConsumo
         break
     }
+    var baseCalc = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + TUSDImp + TEImp)) + addBand
     $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(2)
     $('#inputBandTarifa')[0].value = addBand.toFixed(2)
-    $('#inputBaseCalc')[0].value = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + TUSDImp + TEImp)) + addBand
+    $('#inputBaseCalc')[0].value = baseCalc.toFixed(2)
+    var economiaSolar = $('#inputEconomiaSolar')[0].value
+    CreditoConsumoTUSD = (emmConsumo * TUSDImp)
+    CreditoConsumoTE = (emmConsumo * TEImp)
+    CreditoPIS = (baseCalc * PIS)
+    CreditoCOFINS = (baseCalc * COFINS)
+    CreditoConsumoTUSDIcms = (emmConsumo * TUSDImp * ICMS)
+    CreditoConsumoTEIcms = (emmConsumo * TEImp * ICMS)
+    CreditoTaxaIlum = parseFloat($('#inputCreditoTaxaIlum')[0].value.toString().replaceAll(",", "."))
+
+    CreditoSomaTotal = CreditoConsumoTUSD + CreditoConsumoTE + CreditoPIS + CreditoCOFINS + CreditoConsumoTUSDIcms + CreditoConsumoTEIcms + CreditoTaxaIlum
+
+    $('#inputCreditoConsumoTUSD')[0].value = CreditoConsumoTUSD.toFixed(2)
+    $('#inputCreditoConsumoTE')[0].value = CreditoConsumoTE.toFixed(2)
+    $('#inputCreditoPIS')[0].value = CreditoPIS.toFixed(2)
+    $('#inputCreditoCOFINS')[0].value = CreditoCOFINS.toFixed(2)
+    $('#inputCreditoConsumoTUSDIcms')[0].value = CreditoConsumoTUSDIcms.toFixed(2)
+    $('#inputCreditoConsumoTEIcms')[0].value = CreditoConsumoTEIcms.toFixed(2)
+    $('#inputCreditoTotalFatura')[0].value = CreditoSomaTotal.toFixed(2)
+
+    $('#inputFaturaSSolar')[0].value = CreditoSomaTotal.toFixed(2)
+    if (economiaSolar == '') { economiaSolar = 0 } else { economiaSolar = parseFloat(economiaSolar) }
+    $('#inputResidualFatura')[0].value = (CreditoSomaTotal - economiaSolar).toFixed(2)
+    
+
+    
+
+
 
 
     var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
@@ -240,6 +281,8 @@ async function buscaCliente(tipo) {
   $('#inputTarifaICMS')[0].value = data[0]["icms"]
   $('#inputTarifaTUSD')[0].value = tarifaData[0]["tusd"]
   $('#inputTarifaTE')[0].value = tarifaData[0]["te"]
+  $('#inputCreditoTaxaIlum')[0].value = tarifaData[0]["ilum_pub"]
+
   var tarifaTusdImp = (parseFloat(tarifaData[0]["tusd"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
   var taridaTeImp = (parseFloat(tarifaData[0]["te"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
   var tarifaTotal = tarifaTusdImp + taridaTeImp
@@ -1077,7 +1120,7 @@ class activeClass {
 }
 // Dados de Fator K e de Posicionamento do telhado
 async function fatorK() {
-  
+
   if (element12.value == 'SOLO') {
     element13.value = await ceilLat(Math.abs(element14.value), 5)
   } else {
