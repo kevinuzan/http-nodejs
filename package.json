@@ -11,12 +11,14 @@
     "@googlemaps/google-maps-services-js": "^3.3.27",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "fast-csv": "^4.3.6",
+    "file-dialog": "^0.0.8",
     "firebase": "^9.17.2",
     "jquery": "^3.6.3",
     "node-geocoder": "^4.2.0",
     "node-open-geocoder": "^4.0.1",
     "path": "^0.12.7",
-    "pg": "^8.9.0",
+    "pg": "^8.10.0",
     "url": "^0.11.0"
   },
   "devDependencies": {

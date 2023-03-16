@@ -7,6 +7,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<!-- <script src="https://cdn.jsdelivr.net/read-excel-file@5.x/bundle/read-excel-file.min.js"></script> -->
+	<script type="text/javascript" src="/js/read-excel-file.min.js"></script>
 	<link rel="stylesheet" href="/css/fontawesome.min.css" />
 	<link rel="stylesheet" href="/css/styles.css" />
 	<link rel="stylesheet" href="/css/tables.css" />
@@ -95,8 +97,8 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link app-tab-title" data-toggle="tab" href="#irradiacao-tab-content" role="tab">
-							IRRADIAÇÃO
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#financeiro-tab-content" role="tab">
+							FINANCEIRO
 						</a>
 					</li>
 				</ul>
@@ -196,7 +198,12 @@
 								</div>
 								<div class="field-container mt-2">
 									<label for="inputTaxa" style="font-weight: bold">TAXA</label>
-									<input id="inputTaxa" placeholder="Digite..">
+									<select id="inputTaxa">
+										<option selected disabled value="...">...</option>
+										<option value="MONOFÁSICO">MONOFÁSICO</option>
+										<option value="BIFÁSICO">BIFÁSICO</option>
+										<option value="TRIFÁSICO">TRIFÁSICO</option>
+									</select>
 								</div>
 								<div class="field-container mt-2">
 									<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
@@ -208,6 +215,14 @@
 								</div>
 								<div class="field-container mt-2">
 									<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
+									<select id="inputBandeira" onchange="checkBandeira(this.value)">
+										<option selected disabled value="...">...</option>
+										<option value="VERDE">VERDE</option>
+										<option value="AMARELA">AMARELA</option>
+										<option value="VERMELHA I">VERMELHA I</option>
+										<option value="VERMELHA II">VERMELHA II</option>
+										<option value="ESCASSEZ HÍDRICA">ESCASSEZ HÍDRICA</option>
+									</select>
 									<input id="inputBandeira" placeholder="Digite..">
 								</div>
 							</div>
@@ -327,6 +342,12 @@
 								<a class="nav-link app-tab-title" data-toggle="tab" href="#consumo-tab-content"
 									role="tab">
 									CONSUMO
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#irradiacao-tab-content"
+									role="tab">
+									IRRADIAÇÃO
 								</a>
 							</li>
 						</ul>
@@ -708,38 +729,211 @@
 									</div>
 								</div>
 							</div>
+							<!-- DADOS IRRADIAÇÃO -->
+							<div class="tab-pane fade show" id="irradiacao-tab-content" role="tabpanel">
+								<div class="app-container">
+									<div class="table-responsive">
+										<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
+										<table class="table" id="tableIrradiacao" style="width: 870px;">
+											<thead>
+												<tr>
+													<th scope="col">LATITUDE</th>
+													<th scope="col">LONGITUDE</th>
+													<th scope="col">JAN</th>
+													<th scope="col">FEV</th>
+													<th scope="col">MAR</th>
+													<th scope="col">APR</th>
+													<th scope="col">MAY</th>
+													<th scope="col">JUN</th>
+													<th scope="col">JUL</th>
+													<th scope="col">AUG</th>
+													<th scope="col">SEP</th>
+													<th scope="col">OCT</th>
+													<th scope="col">NOV</th>
+													<th scope="col">DEC</th>
+													<th scope="col">MÉDIA ANUAL</th>
+												</tr>
+											</thead>
+											<tbody id="bodyIrradiacao">
+
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+							</div>
+
 						</div>
+
 					</div>
-					<!-- DADOS IRRADIAÇÃO -->
-					<div class="tab-pane fade show" id="irradiacao-tab-content" role="tabpanel">
-						<div class="app-container">
-							<div class="table-responsive">
-								<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
-								<table class="table" id="tableIrradiacao" style="width: 870px;">
-									<thead>
-										<tr>
-											<th scope="col">LATITUDE</th>
-											<th scope="col">LONGITUDE</th>
-											<th scope="col">JAN</th>
-											<th scope="col">FEV</th>
-											<th scope="col">MAR</th>
-											<th scope="col">APR</th>
-											<th scope="col">MAY</th>
-											<th scope="col">JUN</th>
-											<th scope="col">JUL</th>
-											<th scope="col">AUG</th>
-											<th scope="col">SEP</th>
-											<th scope="col">OCT</th>
-											<th scope="col">NOV</th>
-											<th scope="col">DEC</th>
-											<th scope="col">MÉDIA ANUAL</th>
-										</tr>
-									</thead>
-									<tbody id="bodyIrradiacao">
+					<div class="tab-pane fade show" id="financeiro-tab-content" role="tabpanel">
+						<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#tarifas-tab-content"
+									role="tab">
+									TARIFA
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#fatura-tab-content"
+									role="tab">
+									FATURA
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content">
 
-									</tbody>
-								</table>
+							<!-- DADOS TARIFA -->
+							<div class="tab-pane fade show" id="tarifas-tab-content" role="tabpanel">
+								<div class="app-container">
+									<div class="container-5-columns">
+										<div class="field-container mt-2">
+											<label for="inputTarifaTUSD" style="font-weight: bold">TARIFA TUSD</label>
+											<input id="inputTarifaTUSD" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaTE" style="font-weight: bold">TARIFA TE</label>
+											<input id="inputTarifaTE" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaPIS" style="font-weight: bold">PIS</label>
+											<input id="inputTarifaPIS" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaCOFINS" style="font-weight: bold">COFINS</label>
+											<input id="inputTarifaCOFINS" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaICMS" style="font-weight: bold">ICMS</label>
+											<input id="inputTarifaICMS" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaTUSDImp" style="font-weight: bold">TARIFA TUSD C/
+												IMPOSTO</label>
+											<input id="inputTarifaTUSDImp" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaTEImp" style="font-weight: bold">TARIFA TE C/
+												IMPOSTO</label>
+											<input id="inputTarifaTEImp" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTarifaTotal" style="font-weight: bold">TARIFA TOTAL C/
+												IMPOSTO</label>
+											<input id="inputTarifaTotal" placeholder="Digite..">
+										</div>
+									</div>
+									<div class="table-responsive mt-2">
+										<h4 class="app-subtitle">TARIFA</h4>
+										<table class="table" id="tableTarifa" style="width: 870px;">
+											<thead>
+												<tr>
+													<th scope="col">LATITUDE</th>
+													<th scope="col">LONGITUDE</th>
+													<th scope="col">JAN</th>
+													<th scope="col">FEV</th>
+													<th scope="col">MAR</th>
+													<th scope="col">APR</th>
+													<th scope="col">MAY</th>
+													<th scope="col">JUN</th>
+													<th scope="col">JUL</th>
+													<th scope="col">AUG</th>
+													<th scope="col">SEP</th>
+													<th scope="col">OCT</th>
+													<th scope="col">NOV</th>
+													<th scope="col">DEC</th>
+													<th scope="col">MÉDIA ANUAL</th>
+												</tr>
+											</thead>
+											<tbody id="bodyTarifa">
 
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- DADOS FATURA -->
+							<div class="tab-pane fade show" id="fatura-tab-content" role="tabpanel">
+								<div class="app-container">
+									<h4 class="app-subtitle">DADOS PARA FATURA</h4>
+									<div class="container-5-columns">
+										<div class="field-container mt-2">
+											<label for="inputConsumoBT" style="font-weight: bold">CONSUMO BAIXA TENSÃO
+											</label>
+											<input id="inputConsumoBT" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputTipoSistema" style="font-weight: bold">TIPO DE
+												SISTEMA</label>
+											<input id="inputTipoSistema" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputBaseCalc" style="font-weight: bold">BASE DE CALCULO</label>
+											<input id="inputBaseCalc" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputFaturaSSolar" style="font-weight: bold">FATURA SEM
+												SOLAR</label>
+											<input id="inputFaturaSSolar" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputEconomiaSolar" style="font-weight: bold">ECONOMIA
+												SOLAR</label>
+											<input id="inputEconomiaSolar" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputResidualFatura" style="font-weight: bold">RESIDUAL
+												FATURA</label>
+											<input id="inputResidualFatura" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputBandTarifa" style="font-weight: bold">ADICI. BAND.
+												TARIFARIA</label>
+											<input id="inputBandTarifa" placeholder="Digite..">
+										</div>
+									</div>
+									<h4 class="app-subtitle">CRÉDITO DA FATURA</h4>
+									<div class="container-5-columns">
+										<div class="field-container mt-2">
+											<label for="inputCreditoConsumoTUSD" style="font-weight: bold">CONSUMO TUSD
+											</label>
+											<input id="inputCreditoConsumoTUSD" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoConsumoTE" style="font-weight: bold">CONSUMO TE</label>
+											<input id="inputCreditoConsumoTE" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoPIS" style="font-weight: bold">PIS</label>
+											<input id="inputCreditoPIS" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoCOFINS" style="font-weight: bold">COFINS</label>
+											<input id="inputCreditoCOFINS" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoConsumoTUSDIcms" style="font-weight: bold">ICMS TUSD</label>
+											<input id="inputCreditoConsumoTUSDIcms" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoConsumoTEIcms" style="font-weight: bold">ICMS TE</label>
+											<input id="inputCreditoConsumoTEIcms" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoBandTarifa" style="font-weight: bold">ADICI. BAND.
+												TARIFARIA</label>
+											<input id="inputCreditoBandTarifa" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoTaxaIlum" style="font-weight: bold">TAXA DE ILUMINAÇÃO</label>
+											<input id="inputCreditoTaxaIlum" placeholder="Digite..">
+										</div>
+										<div class="field-container mt-2">
+											<label for="inputCreditoTotalFatura" style="font-weight: bold">TOTAL FATURA</label>
+											<input id="inputCreditoTotalFatura" placeholder="Digite..">
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -771,7 +965,7 @@
 				</div>
 				<div class="tab-content">
 					<!-- INSERIR -->
-					<div class="tab-pane fade show" id="inserir-tab-content-config" role="tabpanel">
+					<div class="tab-pane fade show active" id="inserir-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<h2 class="app-title">ADICIONAR NOVO CLIENTE</h2>
 							<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
@@ -825,7 +1019,11 @@
 								<div class="field-container mt-2">
 									<label for="inputDistribuidoraConfigInsert"
 										style="font-weight: bold">DISTRIBUIDORA</label>
-									<input id="inputDistribuidoraConfigInsert" placeholder="Digite.." />
+									<input id="inputDistribuidoraConfigInsert" list="inputDistribuidoraListConfigInsert"
+										placeholder="Digite.." />
+									<datalist id="inputDistribuidoraListConfigInsert">
+										<option selected disabled></option>
+									</datalist>
 								</div>
 								<div class="field-container mt-2">
 									<label for="inputIcmsConfigInsert" style="font-weight: bold">ICMS</label>
@@ -954,7 +1152,11 @@
 								<div class="field-container mt-2">
 									<label for="inputDistribuidoraConfigEdit"
 										style="font-weight: bold">DISTRIBUIDORA</label>
-									<input id="inputDistribuidoraConfigEdit" placeholder="Digite.." />
+									<input id="inputDistribuidoraConfigEdit" placeholder="Digite.."
+										list="inputDistribuidoraListConfigEdit" />
+									<datalist id="inputDistribuidoraListConfigEdit">
+										<option selected disabled></option>
+									</datalist>
 								</div>
 								<div class="field-container mt-2">
 									<label for="inputIcmsConfigEdit" style="font-weight: bold">ICMS</label>
@@ -1039,7 +1241,7 @@
 				</div>
 				<div class="tab-content">
 					<!-- INSERIR -->
-					<div class="tab-pane fade show" id="inserir-modulos-tab-content-config" role="tabpanel">
+					<div class="tab-pane fade show active" id="inserir-modulos-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<div class="container-5-columns mr-3 mb-2">
 								<div class="field-container mt-2">
@@ -1256,20 +1458,23 @@
 									<input id="inputAlturaModuloConfigEdit" />
 								</div>
 							</div>
-							<div class="container-5-columns">
+							<div class="container-4-columns">
 								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
+									<label for="excelDataMdl" style="font-weight: bold">BANDEIRA</label>
+									<input type="file" id="excelDataMdl" style="visibility: hidden;" />
 								</div>
 								<div class="field-container mt-2 mb-2">
 									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
 									<button type="button" onclick="atualizaModulo()" id="atualizaModulo"
 										class="btn-app">ATUALIZAR</button>
 								</div>
+
+								<div class="field-container mt-2 mb-2">
+									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="document.getElementById('excelDataMdl').click()"
+										id="atualizaModulo" class="btn-app">ATUALIZAR EM MASSA</button>
+								</div>
+
 							</div>
 						</div>
 					</div>
@@ -1296,7 +1501,7 @@
 				</div>
 				<div class="tab-content">
 					<!-- INSERIR -->
-					<div class="tab-pane fade show" id="inserir-inversores-tab-content-config" role="tabpanel">
+					<div class="tab-pane fade show active" id="inserir-inversores-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<div class="container-5-columns mr-3 mb-2">
 								<div class="field-container mt-2">
@@ -1313,7 +1518,8 @@
 									<input id="inputFasesInversorConfigInsert" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputStringsInversorConfigInsert" style="font-weight: bold">NÚMERO DE
+									<label for="inputStringsInversorConfigInsert" style="font-weight: bold">NÚMERO
+										DE
 										STRINGS</label>
 									<input id="inputStringsInversorConfigInsert" />
 								</div>
@@ -1333,13 +1539,15 @@
 									<input id="inputPecaInversorConfigInsert" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputFaixaMPPTInversorConfigInsert" style="font-weight: bold">FAIXA DE
+									<label for="inputFaixaMPPTInversorConfigInsert" style="font-weight: bold">FAIXA
+										DE
 										OP
 										MPPT</label>
 									<input id="inputFaixaMPPTInversorConfigInsert" />
 								</div>
 								<div class="field-container mt-2">
-									<label for="inputTensaoCCInversorConfigInsert" style="font-weight: bold">TENSÃO CC
+									<label for="inputTensaoCCInversorConfigInsert" style="font-weight: bold">TENSÃO
+										CC
 										DE
 										PARTIDA
 										(V)</label>
@@ -1514,6 +1722,7 @@
 
 	</div>
 </body>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	crossorigin="anonymous"></script>

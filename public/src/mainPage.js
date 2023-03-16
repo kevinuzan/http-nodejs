@@ -24,6 +24,7 @@ var optionsPoteInvNew = ''
 var optionsPecaInvNew = ''
 
 var fatorKdata = ''
+var optionsDistribuidora = ''
 
 var itemsConsumo = {
 
@@ -43,19 +44,110 @@ var somaCorrecao = 0
 
 const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
 
+
+//#region REPLICAR PARA OUTROS TÓPICOS (tarifa fio b, modulos e inversores)
+var resultExcelData
+var input = document.getElementById('excelDataMdl');
+input.addEventListener('change', async function () {
+  console.log
+  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+      data.shift()
+      return data
+    })
+    var dataToSend = JSON.stringify(resultExcelData)
+    var resp = await fecthGet(`/updateTask?name=tarifab3;${dataToSend}`)
+    console.log(resp)
+  } else {
+    alert('Por favor, selecione um arquivo de extensão xlsx')
+  }
+})
+async function updateTarifaB3() {
+  var data = await fecthGet(`/updateTask?name=tarifab3`)
+  console.log(data)
+}
+async function updateModulos() {
+  var data = await fecthGet(`/updateTask?name=modulos`)
+  console.log(data)
+}
+async function updateInversores() {
+  var data = await fecthGet(`/updateTask?name=inversores`)
+  console.log(data)
+}
+async function updateTarifaFioB() {
+  var data = await fecthGet(`/updateTask?name=tarifafiob`)
+  console.log(data)
+}
+//#endregion
+
+
 async function fatorCorrecao(id, value) {
   itemsCorrecao[id] = parseFloat(value)
   somaCorrecao = sumValues(itemsCorrecao)
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
 }
-
+async function checkBandeira(valor) {
+  var emmConsumo = $('#inputEmmConsumo')[0].value
+  var bandeira = valor
+  var addBand = 0
+  switch (bandeira) {
+    case 'VERDE':
+      addBand = 0
+      break
+    case 'AMARELA':
+      addBand = 0.01872 * emmConsumo
+      break
+    case 'VERMELHA I':
+      addBand = 0.03971 * emmConsumo
+      break
+    case 'VEMRELHA II':
+      addBand = 0.0949 * emmConsumo
+      break
+    case 'ESCASSEZ HÍDRICA':
+      addBand = 0.142 * emmConsumo
+      break
+  }
+  $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(2)
+  $('#inputBandTarifa')[0].value = addBand.toFixed(2)
+  $('#inputBaseCalc')[0].value = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + TUSDImp + TEImp)) + addBand
+}
 async function sumItems(id, value) {
   if (value != '') {
     itemsConsumo[id] = parseFloat(value)
     var somaItens = Object.keys(itemsConsumo).length
     somaConsumo = sumValues(itemsConsumo)
+    var emmConsumo = parseFloat(somaConsumo / somaItens)
     $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
-    $('#inputEmmConsumo')[0].value = parseFloat(somaConsumo / somaItens).toFixed(2)
+    $('#inputEmmConsumo')[0].value = emmConsumo.toFixed(2)
+    $('#inputConsumoBT')[0].value = emmConsumo.toFixed(2)
+    var bandeira = document.getElementById(`inputBandeira`).value
+    var PIS = parseFloat($('#inputTarifaPIS')[0].value.replaceAll(",", "."))
+    var COFINS = parseFloat($('#inputTarifaCOFINS')[0].value.replaceAll(",", "."))
+    var TUSDImp = parseFloat($('#inputTarifaTUSDImp')[0].value.replaceAll(",", "."))
+    var TEImp = parseFloat($('#inputTarifaTEImp')[0].value.replaceAll(",", "."))
+    var addBand = 0
+    switch (bandeira) {
+      case 'VERDE':
+        addBand = 0
+        break
+      case 'AMARELA':
+        addBand = 0.01872 * emmConsumo
+        break
+      case 'VERMELHA I':
+        addBand = 0.03971 * emmConsumo
+        break
+      case 'VEMRELHA II':
+        addBand = 0.0949 * emmConsumo
+        break
+      case 'ESCASSEZ HÍDRICA':
+        addBand = 0.142 * emmConsumo
+        break
+    }
+    $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(2)
+    $('#inputBandTarifa')[0].value = addBand.toFixed(2)
+    $('#inputBaseCalc')[0].value = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + TUSDImp + TEImp)) + addBand
+
+
     var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
     var addConsumo = $('#inputAddConsumo')[0].value
     if (addConsumo == '') {
@@ -63,7 +155,6 @@ async function sumItems(id, value) {
     } else {
       addConsumo = parseFloat($('#inputAddConsumo')[0].value)
     }
-    var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
     var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
     $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
     $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
@@ -139,10 +230,36 @@ async function buscaCliente(tipo) {
   document.getElementById(`inputUniCons${tipo}`).value = data[0]["unid_consid"]
   document.getElementById(`inputBandeira${tipo}`).value = data[0]["bandeira"]
 
-
   document.getElementById('inputRuaDadoTec').value = data[0]["rua"]
   document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
   document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
+
+  const tarifaData = await fecthPost(`/tarifaData?name=${data[0]["distribuidora"]}`)
+  $('#inputTarifaPIS')[0].value = data[0]["pis"]
+  $('#inputTarifaCOFINS')[0].value = data[0]["cofins"]
+  $('#inputTarifaICMS')[0].value = data[0]["icms"]
+  $('#inputTarifaTUSD')[0].value = tarifaData[0]["tusd"]
+  $('#inputTarifaTE')[0].value = tarifaData[0]["te"]
+  var tarifaTusdImp = (parseFloat(tarifaData[0]["tusd"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
+  var taridaTeImp = (parseFloat(tarifaData[0]["te"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
+  var tarifaTotal = tarifaTusdImp + taridaTeImp
+  $('#inputTarifaTUSDImp')[0].value = tarifaTusdImp.toFixed(2)
+  $('#inputTarifaTEImp')[0].value = taridaTeImp.toFixed(2)
+  $('#inputTarifaTotal')[0].value = tarifaTotal.toFixed(2)
+  var tipoSis = 0
+  switch (data[0]["taxa"]) {
+    case 'MONOFÁSICO':
+      tipoSis = 30
+      break
+    case 'BIFÁSICO':
+      tipoSis = 50
+      break
+    case 'TRIFÁSICO':
+      tipoSis = 100
+      break
+  }
+  $('#inputTipoSistema')[0].value = tipoSis.toFixed(2)
+
 }
 // Inserir novo cliente
 async function insereCliente() {
@@ -238,6 +355,10 @@ async function getLocation() {
   document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
 
 }
+// Função que chama 'onLoad'
+window.onload = async function (event) {
+  await onLoad()
+};
 // Ao abrir a página, carrega os clientes do banco de dados
 async function onLoad() {
   //DADOS DE CLIENTES
@@ -247,6 +368,16 @@ async function onLoad() {
       optionsClient += '<option value="' + item["cliente"] + '" />';
     }
   });
+  //DADOS DE DISTRIBUIDORAS
+  var distribuidora = await fecthGet("/distribuidoraData")
+  distribuidora.forEach(function (item) {
+    if (optionsDistribuidora.indexOf(item["distribuidora"]) == -1) {
+      optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
+    }
+  });
+
+  document.getElementById("inputDistribuidoraListConfigInsert").innerHTML = optionsDistribuidora
+  document.getElementById("inputDistribuidoraListConfigEdit").innerHTML = optionsDistribuidora
   document.getElementById("inputClienteList").innerHTML = optionsClient
   document.getElementById("inputClienteListConfigEdit").innerHTML = optionsClient
   //DADOS DE MÓDULOS
@@ -924,19 +1055,12 @@ element11.addEventListener('change', async function () {
 })
 //#endregion
 
-// Função que chama 'onLoad'
-window.onload = async function (event) {
-  await onLoad()
-};
-var items2 = document.getElementsByName('configTab');
 var items = document.getElementsByName('tabNew');
 
 for (var i = 0; i < items.length; i++) {
   items[i].addEventListener('click', activeClass(items));
 }
-for (var i = 0; i < items2.length; i++) {
-  items2[i].addEventListener('click', activeClass(items2));
-}
+
 
 class activeClass {
   constructor(items) {
@@ -953,6 +1077,7 @@ class activeClass {
 }
 // Dados de Fator K e de Posicionamento do telhado
 async function fatorK() {
+  
   if (element12.value == 'SOLO') {
     element13.value = await ceilLat(Math.abs(element14.value), 5)
   } else {
@@ -969,6 +1094,7 @@ let element13 = document.getElementById('inputLatitudeCorDadoTec')
 let element14 = document.getElementById("inputLatitudeOngDadoTec")
 let element15 = document.getElementById("inputAngTelhaDadoTec")
 element12.addEventListener('change', async function () {
+  console.log("oi")
   await fatorK()
 })
 element15.addEventListener('change', async function () {

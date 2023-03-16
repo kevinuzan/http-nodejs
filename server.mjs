@@ -10,6 +10,9 @@ import bodyParser from "body-parser";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
+import fs, { futimesSync } from "fs"
+
+
 const firebaseConfig = {
     apiKey: process.env.apiFirebase,
     authDomain: process.env.authDomainFirebase,
@@ -68,10 +71,118 @@ const __dirname = path.dirname(__filename);
 var apiMapsCode = process.env.apiMaps
 var server = createServer(app);
 
-// server.listen(process.env.PORT);
+// FUNÇÃO QUE FAZ UPDATE NO SERVIDOR
+async function updatePostgre(csv, query, data) {
+    var queryAux = ''
+    try {
+        data.forEach(element => {
+            if (element.length > 1) {
+                if (csv == 'distribuidora_TB3.csv') {
+                    queryAux += 'update tarifab3 set '
+                    if (element[0] != '') {
+                        queryAux += `estado='${element[0]}',`
+                    }
+                    if (element[2] != '') {
+                        queryAux += `tusd='${element[2]}',`
+                    }
+                    if (element[3] != '') {
+                        queryAux += `te='${element[3]}',`
+                    }
+                    if (element[4] != '') {
+                        queryAux += `s_imposto='${element[4]}',`
+                    }
+                    if (element[1] != '') {
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where distribuidora='${element[1]}'; `
+                    }
+                }
+                if (csv == 'modulos.csv') {
+                    queryAux += 'update modulos set '
+                    if (element[0] != '') {
+                        queryAux += `fornecedor = '${element[0]}'`
+                    }
+                    if (element[1] != '') {
+                        queryAux += `codigo = '${element[1]}'`
+                    }
+                    if (element[3] != '') {
+                        queryAux += `pmax = '${element[3]}'`
+                    }
+                    if (element[4] != '') {
+                        queryAux += `vmp = '${element[4]}'`
+                    }
+                    if (element[5] != '') {
+                        queryAux += `imp = '${element[5]}'`
+                    }
+                    if (element[6] != '') {
+                        queryAux += `voc = '${element[6]}'`
+                    }
+                    if (element[7] != '') {
+                        queryAux += `isc = '${element[7]}'`
+                    }
+                    if (element[8] != '') {
+                        queryAux += `eficiencia = '${element[8]}'`
+                    }
+                    if (element[9] != '') {
+                        queryAux += `tpmax = '${element[9]}'`
+                    }
+                    if (element[10] != '') {
+                        queryAux += `tvoc = '${element[10]}'`
+                    }
+                    if (element[11] != '') {
+                        queryAux += `tisc = '${element[11]}'`
+                    }
+                    if (element[12] != '') {
+                        queryAux += `altura = '${element[12]}'`
+                    }
+                    if (element[13] != '') {
+                        queryAux += `largura = '${element[13]}'`
+                    }
+                    if (element[14] != '') {
+                        queryAux += `espessura = '${element[14]}'`
+                    }
+                    if (element[15] != '') {
+                        queryAux += `area = '${element[15]}'`
+                    }
+                    if (element[16] != '') {
+                        queryAux += `celulas = '${element[16]}'`
+                    }
+                    if (element[17] != '') {
+                        queryAux += `estilo = '${element[17]}'`
+                    }
+                    if (element[18] != '') {
+                        queryAux += `peso = '${element[18]}'`
+                    }
+                    if (element[2] != '') {
+                        queryAux += `where modelo = '${element[2]}'`
+                    }
+                }
+                //queryAux = queryAux.slice(0, -1)
+
+            } else {
+                return
+            }
+        });
+        // queryAux = queryAux.slice(0, -2)
+        var queryFinal = query + queryAux
+        try {
+            var { rows } = await pgClient.query(queryFinal)
+            return true
+        } catch (e) {
+            console.log(e)
+            return e
+        }
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+
 server.listen(process.env.PORT || 3000);
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/src', express.static(path.join(__dirname, 'public/src')));
 app.use('/html', express.static(path.join(__dirname, 'public/html')));
 app.use('/', express.static(path.join(__dirname, '/login.html')));
@@ -83,6 +194,30 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 });
+
+app.get('/updateTask', async function (req, res) {
+
+    var option = req.query.name.split(";")[0];
+    var data = JSON.parse(req.query.name.split(";")[1])
+    var csv = ''
+    var query = ''
+    console.log(option == 'tarifab3')
+    if (option == 'tarifab3') {
+        csv = 'distribuidora_TB3.csv'
+        query = ""
+    } else if (option == 'modulo') {
+        csv = 'modulos.csv'
+        query = "";
+    } else if (option == 'inversor') {
+        csv = 'inversores.csv'
+        query = "";
+    } else if (option == 'tarifafiob') {
+        csv = 'TarifaFioB.csv'
+        query = "";
+    }
+    var data = await updatePostgre(csv, query, data)
+    res.json(data)
+})
 
 app.get('/firstPage', function (req, res) {
     res.sendFile(__dirname + '/login.html');
@@ -102,6 +237,14 @@ app.post('/clienteData', async function (req, res) {
     // const { rows } = await pool.query(query)
     res.json(rows)
 });
+
+app.post('/tarifaData', async function (req, res) {
+    let name = req.query.name;
+    var query = `SELECT * FROM tarifab3 where distribuidora = '${name}'`
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+})
 
 app.post('/clienteInsert', async function (req, res) {
     let cliente = req.query.name.split(';')[0];
@@ -175,6 +318,12 @@ app.post('/clienteUpdate', async function (req, res) {
     }
 });
 
+app.get('/distribuidoraData', async function (req, res) {
+    var query = "SELECT distribuidora FROM tarifafiob group by distribuidora"
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
 
 app.get('/mdlData', async function (req, res) {
     var query = "SELECT * FROM modulos ORDER BY modelo ASC"
