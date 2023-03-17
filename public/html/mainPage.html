@@ -175,6 +175,7 @@
 										<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
 										<input id="inputDistribuidora" placeholder="Digite.." />
 
+<<<<<<< HEAD
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputIcms" style="font-weight: bold">ICMS</label>
@@ -229,6 +230,60 @@
 										</select>
 										<input id="inputBandeira" placeholder="Digite..">
 									</div>
+=======
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIcms" style="font-weight: bold">ICMS</label>
+									<input id="inputIcms" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPis" style="font-weight: bold">PIS</label>
+									<input id="inputPis" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputCofins" style="font-weight: bold">COFINS</label>
+									<input id="inputCofins" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
+									<input id="inputPorcentagem" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputArea" style="font-weight: bold">ÁREA</label>
+									<input id="inputArea" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputConsumo" style="font-weight: bold">CONSUMO</label>
+									<input id="inputConsumo" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputTaxa" style="font-weight: bold">TAXA</label>
+									<select id="inputTaxa">
+										<option selected disabled value="...">...</option>
+										<option value="MONOFÁSICO">MONOFÁSICO</option>
+										<option value="BIFÁSICO">BIFÁSICO</option>
+										<option value="TRIFÁSICO">TRIFÁSICO</option>
+									</select>
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputIlumPub" style="font-weight: bold">ILUMINAÇÃO PÚBLICA</label>
+									<input id="inputIlumPub" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputUniCons" style="font-weight: bold">UNID. CONSUMIDORA</label>
+									<input id="inputUniCons" placeholder="Digite..">
+								</div>
+								<div class="field-container mt-2">
+									<label for="inputBandeira" style="font-weight: bold">BANDEIRA</label>
+									<select id="inputBandeira" onchange="checkBandeira(this.value)">
+										<option selected disabled value="...">...</option>
+										<option value="VERDE">VERDE</option>
+										<option value="AMARELA">AMARELA</option>
+										<option value="VERMELHA I">VERMELHA I</option>
+										<option value="VERMELHA II">VERMELHA II</option>
+										<option value="ESCASSEZ HÍDRICA">ESCASSEZ HÍDRICA</option>
+									</select>
+>>>>>>> 3893be190ffc3a1b5d6e4e16e97fbcc8536733ae
 								</div>
 							</div>
 						</div>
@@ -772,7 +827,7 @@
 
 					</div>
 					<div class="tab-pane fade show" id="financeiro-tab-content" role="tabpanel">
-						<ul class="nav nav-tabs justify-content-center mt-3 mb-2" role="tablist">
+						<ul class="nav nav-tabs justify-content-center" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link app-tab-title" data-toggle="tab" href="#tarifas-tab-content"
 									role="tab">
