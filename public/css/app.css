@@ -96,7 +96,7 @@ body {
 .container-5-columns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 2rem 1.2rem;
+  gap: 10px 10px;
 }
 
 .container-7-columns {

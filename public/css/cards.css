@@ -100,11 +100,21 @@ ul {
   background: var(--front-card-hover);
 }
 
-.teste {
+.outerbox {
   background-color: var(--field-bg-focus);
-  width: 400px;
+  width: 380px;
   border: 2px solid var(--field-border-focus);
   border-radius: 10px;
   padding-bottom: 10px;
+  margin: auto;
+}
+
+.outerboxmain {
+  background-color: var(--field-bg-focus);
+  width: 100%;
+  border: 2px solid var(--field-border-focus);
+  border-radius: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
   margin: auto;
 }
