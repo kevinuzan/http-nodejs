@@ -248,6 +248,7 @@ app.post('/tarifaData', async function (req, res) {
 
 app.post('/clienteInsert', async function (req, res) {
     let cliente = req.query.name.split(';')[0];
+    console.log(req.query.name)
     var queryId = `select cliente from erp where LOWER(cliente) = LOWER('${cliente}')`
     var { rows } = await pgClient.query(queryId)
     if (rows.length == 0) {

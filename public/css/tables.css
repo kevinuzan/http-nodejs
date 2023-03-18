@@ -6,6 +6,8 @@
   border-spacing: 0px;
   max-height: 200px;
   overflow: scroll;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .table tbody {
@@ -18,8 +20,8 @@
 .table thead {
   display: block;
   position: relative;
-  min-width: 170px;
-  max-width: 170px;
+  min-width: 75px;
+  max-width: auto;
  
 }
 
@@ -34,8 +36,8 @@
   font-size: .75rem;
   font-weight: 700;
   padding: 1rem 0;
-  min-width: 170px;
-  max-width: 170px;
+  min-width: 75px;
+  max-width: auto;
   border-bottom: 2px solid var(--text-primary) !important;
   border-top: 2px solid var(--text-primary) !important;
   color: black;
@@ -49,8 +51,8 @@
   font-family: 'Open sans', sans-serif;
   font-size: .75rem;
   font-weight: 400;
-  min-width: 170px;
-  max-width: 170px;
+  min-width: 75px;
+  max-width: auto;
   border-bottom: 1px solid var(--text-secondary) !important;
   color: var(--text-secondary);
 }
