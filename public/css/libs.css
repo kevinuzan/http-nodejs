@@ -23,7 +23,7 @@
 }
 
 .navbar .nav-item .nav-link:hover {
-  color: var(--primary-500);
+  color: var(--front-card-hover);
 }
 
 

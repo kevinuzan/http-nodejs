@@ -1,22 +1,5 @@
 /* BOTAO PADRAO - COR AZUL */
 
-.btn-app23 {
-  font-size: 1.2rem;
-  font-family: 'Open Sans', sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  padding: .4rem .4rem;
-  border-radius: .2rem;
-  font-weight: 600;
-  transition: background .1s ease-in-out;
-  transition: color .1s ease-in-out;
-  border: 2px solid transparent;
-  
-  background: var(--primary-500);
-  color: white;
-  box-shadow: 0 3px 10px rgba(0,0,0 .15);
-}
-
 .btn-app {
   font-size: 1.2rem;
   font-family: 'Open Sans', sans-serif;
@@ -28,7 +11,7 @@
   transition: background .1s ease-in-out;
   transition: color .1s ease-in-out;
   border: 2px solid transparent;
-  background: var(--primary-500);
+  background: var(--front-card);
   color: white;
   box-shadow: 0 3px 10px rgba(0,0,0 .15);
 }
@@ -43,9 +26,9 @@
   padding: .2rem .9rem;
 }
 
-/* .btn-app:hover {
-  background: var(--primary-600);
-} */
+.btn-app:hover {
+  background: var(--front-card-hover);
+}
 
 /* BOTAO DE CANCELAR - TRANSAPRENT NO HOVER FICA VERMELHO */
 
