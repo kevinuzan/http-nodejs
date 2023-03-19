@@ -17,6 +17,7 @@
   --moon-color: #a5a5a2;
 
   --body: #cbeaff;
+  --body2: #e7f5ff;
   --text-primary: #414749;
   --text-secondary: #72797B;
   
@@ -48,6 +49,7 @@ body.dark-theme {
   --moon-color: #ecece4;
   
   --body: #2F2F2F;
+  --body2: #494949;
   --text-primary: #FFFFFF;
   --text-secondary: #E9E9E9;
 
