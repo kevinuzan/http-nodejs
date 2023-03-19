@@ -41,6 +41,16 @@ body {
   text-shadow: 1px 1px var(--field-text-shadow)
 }
 
+.app-subtitle-sub {
+  display: block;
+  width: 100%;
+  font-weight: 600;     
+  font-size: 1.0rem;
+
+  color: var(--text-secondary);
+  text-shadow: 1px 1px var(--field-text-shadow)
+}
+
 /* CONTAINERS */
 
 .app-container2 {

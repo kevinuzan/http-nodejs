@@ -130,14 +130,15 @@ async function sumItems(id, value) {
     $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
     $('#inputEmmConsumo')[0].value = emmConsumo.toFixed(2)
     $('#inputConsumoBT')[0].value = emmConsumo.toFixed(2)
-    $('#inputConsumoBT')[0].value = emmConsumo.toFixed(2)
+    $('#inputEMMCalculo')[0].value = emmConsumo.toFixed(2)
+    $('#inputEnergiaMediaDiariaCalculo')[0].value = (emmConsumo / 30).toFixed(2)
 
     var bandeira = document.getElementById(`inputBandeira`).value
-    var ICMS = parseFloat($('#inputTarifaICMS')[0].value.replaceAll(",", "."))
-    var PIS = parseFloat($('#inputTarifaPIS')[0].value.replaceAll(",", "."))
-    var COFINS = parseFloat($('#inputTarifaCOFINS')[0].value.replaceAll(",", "."))
-    var TUSDImp = parseFloat($('#inputTarifaTUSDImp')[0].value.replaceAll(",", "."))
-    var TEImp = parseFloat($('#inputTarifaTEImp')[0].value.replaceAll(",", "."))
+    var ICMS = parseFloat(valNum($('#inputTarifaICMS')[0].value))
+    var PIS = parseFloat(valNum($('#inputTarifaPIS')[0].value))
+    var COFINS = parseFloat(valNum($('#inputTarifaCOFINS')[0].value))
+    var TUSDImp = parseFloat(valNum($('#inputTarifaTUSDImp')[0].value))
+    var TEImp = parseFloat(valNum($('#inputTarifaTEImp')[0].value))
     var addBand = 0
     switch (bandeira) {
       case 'VERDE':
@@ -167,7 +168,7 @@ async function sumItems(id, value) {
     CreditoCOFINS = (baseCalc * COFINS)
     CreditoConsumoTUSDIcms = (emmConsumo * TUSDImp * ICMS)
     CreditoConsumoTEIcms = (emmConsumo * TEImp * ICMS)
-    CreditoTaxaIlum = parseFloat($('#inputCreditoTaxaIlum')[0].value.toString().replaceAll(",", "."))
+    CreditoTaxaIlum = parseFloat(valNum($('#inputCreditoTaxaIlum')[0].value))
 
     CreditoSomaTotal = CreditoConsumoTUSD + CreditoConsumoTE + CreditoPIS + CreditoCOFINS + CreditoConsumoTUSDIcms + CreditoConsumoTEIcms + CreditoTaxaIlum
 
@@ -182,9 +183,6 @@ async function sumItems(id, value) {
     $('#inputFaturaSSolar')[0].value = CreditoSomaTotal.toFixed(2)
     if (economiaSolar == '') { economiaSolar = 0 } else { economiaSolar = parseFloat(economiaSolar) }
     $('#inputResidualFatura')[0].value = (CreditoSomaTotal - economiaSolar).toFixed(2)
-    
-
-    
 
 
 
@@ -197,9 +195,12 @@ async function sumItems(id, value) {
       addConsumo = parseFloat($('#inputAddConsumo')[0].value)
     }
     var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
-    $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
-    $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
-    $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100) / 1.3).toFixed(2)
+    $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / fatConsumo) * porcentagem).toFixed(2)
+    $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / fatConsumo) * porcentagem).toFixed(2)
+    $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / fatConsumo) * porcentagem) / 1.3).toFixed(2)
+    element50.value = (((emmConsumo + addConsumo) / fatConsumo) * porcentagem).toFixed(2)
+
+    await energiaInversor()
   }
 
 }
@@ -331,9 +332,28 @@ async function insereCliente() {
   if (data == 'existe') {
     alert("ERRO: CLIENTE JÁ ESTÁ CADASTRADO!")
   } else {
+    //DADOS DE CLIENTES
+    var dataCliente = await fecthGet("/cliente")
+
+    dataCliente.forEach(function (item) {
+      if (optionsClient.indexOf(item["cliente"]) == -1) {
+        optionsClient += '<option value="' + item["cliente"] + '" />';
+      }
+    });
+    document.getElementById("inputClienteList").innerHTML = optionsClient
+    document.getElementById("inputClienteListConfigEdit").innerHTML = optionsClient
     alert("CLIENTE CADASTRADO COM SUCESSO!")
   }
 }
+
+$("input").on('keypress', function (e) {
+  var chr = String.fromCharCode(e.which);
+  if ("%".indexOf(chr) != -1) {
+    return false;
+  }
+}).on('input', function (e) {
+  this.value = this.value.replaceAll("%", "")
+});
 // Atualizar dados de cliente
 async function atualizaCliente() {
   var nome = document.getElementById(`inputClienteConfigEdit`).value
@@ -361,6 +381,13 @@ async function atualizaCliente() {
   if (data == 'nexiste') {
     alert("ERRO: CLIENTE NÃO ESTÁ CADASTRADO!")
   } else {
+    //DADOS DE CLIENTES
+    var dataCliente = await fecthGet("/cliente")
+    dataCliente.forEach(function (item) {
+      if (optionsClient.indexOf(item["cliente"]) == -1) {
+        optionsClient += '<option value="' + item["cliente"] + '" />';
+      }
+    });
     alert("CLIENTE ATUALIZADO COM SUCESSO!")
   }
 }
@@ -396,6 +423,7 @@ async function getLocation() {
   console.log(dataIrr)
   await loadTableData(dataIrr)
   document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
+  document.getElementById('inputHSPCalculo').value = parseFloat(dataIrr[0].annual) / 1000
 
 }
 // Função que chama 'onLoad'
@@ -596,6 +624,8 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputLarguraModuloConfigEdit')[0].value = dataMdlPeca[0].largura
     $('#inputAlturaModuloConfigEdit')[0].value = dataMdlPeca[0].altura
   }
+  await qtdeMdl()
+  await protDimenCabos()
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
 async function checkTemp() {
@@ -612,6 +642,12 @@ async function checkTemp() {
   itemsCorrecao['inputTIscPerModulo'] = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
   somaCorrecao = sumValues(itemsCorrecao)
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+  console.log(Number($('#inputVocModulo')[0].value.replaceAll(",", ".")), (Number($('#inputTVocModulo')[0].value.replaceAll(",", "."))), tempMedia, 100)
+  element31.value = (Number($('#inputPotenciaModulo')[0].value.replaceAll(",", ".")) * (1 + (Number($('#inputTPmaxModulo')[0].value.replaceAll(",", ".")) * tempMedia))).toFixed(3)
+  element32.value = (Number($('#inputVocModulo')[0].value.replaceAll(",", ".")) * (1 + (Number($('#inputTVocModulo')[0].value.replaceAll(",", ".")) * tempMedia))).toFixed(3)
+  element33.value = (Number($('#inputIscModulo')[0].value.replaceAll(",", ".")) * (1 + (Number($('#inputTIscModulo')[0].value.replaceAll(",", ".")) * tempMedia))).toFixed(3)
+
+  await qtdeMdl()
 }
 //#endregion
 
@@ -712,6 +748,8 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputCorrenteMaxCCInversorConfigEdit')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversorConfigEdit')[0].value = dataInvPeca[0].correntesaída
   }
+  await qtdeMdl()
+  await protDimenCabos()
 }
 //#endregion
 
@@ -720,7 +758,7 @@ async function fecthGet(url) {
   const resp = await fetch(url, {
     method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=UTF-8;",
     }
   });
 
@@ -734,7 +772,7 @@ async function fecthPost(url) {
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=UTF-8;",
     }
   });
 
@@ -1104,53 +1142,129 @@ for (var i = 0; i < items.length; i++) {
   items[i].addEventListener('click', activeClass(items));
 }
 
+let element34 = document.getElementById('inputQuantMdlCalculo')
+let element35 = document.getElementById('inputQuantMdlMinSerieCalculo')
+let element36 = document.getElementById('inputQuantMdlMaxSerieCalculo')
+let element37 = document.getElementById('inputQuantMdlMaxParaleloCalculo')
+let element38 = document.getElementById('inputVmpModulo')
+let element39 = document.getElementById('inputTensaoCCInversor')
+let element40 = document.getElementById('inputMaxTensaoCCInversor')
+let element41 = document.getElementById('inputCorrenteMaxCCInversor')
+async function qtdeMdl() {
+  element34.value = await ceilLat(valNum(element18_1.value) * 1000 / valNum(element31.value), 1)
+  element35.value = await ceilLat(valNum(element39.value) / valNum(element38.value), 1)
+  element36.value = parseInt(Math.floor(valNum(element40.value) / valNum(element40.value)))
+  element37.value = await ceilLat(valNum(element41.value) / valNum(element33.value), 1)
 
-class activeClass {
-  constructor(items) {
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].classList.contains("active")) {
-        items[i].classList.toggle("active")
-        items[i].ariaSelected = "false"
-      }
-    }
-    this.classList.add("active")
-    this.ariaSelected = "true"
-
-  }
+  element51.value = await ceilLat(valNum(element18_1.value) * 1000 / valNum(element31.value), 1)
+  element53.value = await ceilLat(valNum(element18_1.value) * 1000 / valNum(element31.value), 1)
 }
-// Dados de Fator K e de Posicionamento do telhado
-async function fatorK() {
-
-  if (element12.value == 'SOLO') {
-    element13.value = await ceilLat(Math.abs(element14.value), 5)
-  } else {
-    element13.value = element15.value
+let element42 = document.getElementById('inputCorrenteDisjCACalculo')
+let element43 = document.getElementById('inputDisjEscolhaCACalculo')
+let element44 = document.getElementById('inpuCaboEscolhaCACalculo')
+let element45 = document.getElementById('inputCorrenteMaxCAInversor')
+let element46 = document.getElementById('inputImpModulo')
+let element47 = document.getElementById('inputCorrenteNomiCCCalculo')
+let element48 = document.getElementById('inputCaboEscolhaCCCalculo')
+let element49 = document.getElementById('inpuFusivelCCCalculo')
+async function protDimenCabos() {
+  element42.value = Math.floor(valNum(element45.value) * 1.2).toFixed(2)
+  var corrDisj = valNum(element42.value)
+  switch (corrDisj) {
+    case corrDisj < 10:
+      element43.value = 10
+      break
+    case corrDisj >= 10 && corrDisj < 16:
+      element43.value = 16
+      break
+    case corrDisj >= 16 && corrDisj < 20:
+      element43.value = 20
+      break
+    case corrDisj >= 20 && corrDisj < 25:
+      element43.value = 25
+      break
+    case corrDisj >= 25 && corrDisj < 32:
+      element43.value = 32
+      break
+    case corrDisj >= 32 && corrDisj < 40:
+      element43.value = 40
+      break
+    case corrDisj >= 40 && corrDisj < 50:
+      element43.value = 50
+      break
+    case corrDisj >= 50 && corrDisj < 63:
+      element43.value = 63
+      break
+    case corrDisj >= 63 && corrDisj < 80:
+      element43.value = 80
+      break
+    case corrDisj >= 80 && corrDisj < 90:
+      element43.value = 90
+      break
+    case corrDisj >= 90 && corrDisj < 100:
+      element43.value = 100
+      break
+    case corrDisj >= 100 && corrDisj < 125:
+      element43.value = 125
+      break
+    case corrDisj >= 125 && corrDisj < 150:
+      element43.value = 150
+      break
+    case corrDisj >= 150 && corrDisj < 160:
+      element43.value = 160
+      break
   }
-  fatorKdata = await fecthGet(`/fatorK?name=${element29.value};${element13.value}`)
-  element28.value = fatorKdata[0].media
+  switch (corrDisj) {
+    case corrDisj < 24:
+      element44.value = 2.5
+      break
+    case corrDisj >= 24 && corrDisj < 28:
+      element44.value = 4
+      break
+    case corrDisj >= 28 && corrDisj < 36:
+      element44.value = 6
+      break
+    case corrDisj >= 36 && corrDisj < 50:
+      element44.value = 10
+      break
+    case corrDisj >= 50 && corrDisj < 68:
+      element44.value = 16
+      break
+    case corrDisj >= 68 && corrDisj < 89:
+      element44.value = 25
+      break
+    case corrDisj >= 89 && corrDisj < 110:
+      element44.value = 35
+      break
+    case corrDisj >= 110 && corrDisj < 134:
+      element44.value = 50
+      break
+    case corrDisj >= 134 && corrDisj < 171:
+      element44.value = 70
+      break
+    case corrDisj >= 171 && corrDisj < 207:
+      element44.value = 95
+      break
+  }
+  element47.value = (valNum(element37.value) * valNum(element46.value)).toFixed(2)
+  var corrNomi = valNum(element47.value)
+  switch (corrNomi) {
+    case corrNomi < 35:
+      element48.value = 4
+      break
+    case corrNomi >= 35 && corrNomi < 44:
+      element48.value = 6
+      break
+    case corrNomi >= 44 && corrNomi < 61:
+      element48.value = 10
+      break
+    case corrNomi >= 61 && corrNomi < 79:
+      element48.value = 16
+      break
+  }
+  element49.value = (valNum(element41.value) * 0.9).toFixed(2)
 }
-
-let element28 = document.getElementById('inputFatorKDadoTec')
-let element29 = document.getElementById("inputLatitudeIntDadoTec")
-let element12 = document.getElementById('inputTipoTelhaDadoTec')
-let element13 = document.getElementById('inputLatitudeCorDadoTec')
-let element14 = document.getElementById("inputLatitudeOngDadoTec")
-let element15 = document.getElementById("inputAngTelhaDadoTec")
-element12.addEventListener('change', async function () {
-  console.log("oi")
-  await fatorK()
-})
-element15.addEventListener('change', async function () {
-  await fatorK()
-})
-
-let element16 = document.getElementById('inputPosicionamentoDadoTec')
-let element17 = document.getElementById('inputHSPPerdasDadoTec')
-let element18 = document.getElementById('inputHSPDadoTec')
-let element19 = document.getElementById('inputPosTelhado')
-var porcentagemHSP = 0
-var hsp = 0
-element16.addEventListener('change', async function () {
+async function energiaInversor() {
   switch (element16.value) {
     case 'NORTE':
       porcentagemHSP = 1
@@ -1180,11 +1294,111 @@ element16.addEventListener('change', async function () {
   if (element18.value != '') {
     hsp = parseFloat(element18.value)
   }
+  if (element17_3.value != '') {
+    sujeira = valNum(element17_3.value)
+  }
+  if (element17_4.value != '') {
+    fatorKVal = valNum(element17_4.value)
+  }
+  if (element17_9.value != '') {
+    emmDiario = valNum(element17_9.value)
+  }
+
   element17.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
+  element17_1.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
+  element17_2.value = parseFloat(porcentagemHSP * hsp * (1 + sujeira)).toFixed(2)
+  hspFinal = parseFloat(porcentagemHSP * hsp * (1 + sujeira) * fatorKVal)
+  element17_5.value = hspFinal.toFixed(2)
+  element17_6.value = hspFinal.toFixed(2)
+  element17_7.value = hspFinal.toFixed(2)
+  element17_8.value = (emmDiario / hspFinal).toFixed(2)
+  element18_3.value = (await ceilLat((1.2 * emmDiario / hspFinal), 0.01)).toFixed(2)
+  element18_1.value = (emmDiario / hspFinal) / (Number(valNum(element18_2.value)) / 100)
   element19.value = Math.round(-(1 - porcentagemHSP) * 100)
   itemsCorrecao['inputPosTelhado'] = parseFloat(element19.value)
   somaCorrecao = sumValues(itemsCorrecao)
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+
+  element52.value = (emmDiario / hspFinal) / (Number(valNum(element18_2.value)) / 100)
+}
+let element50 = document.getElementById('inputMediaAnualCalculo')
+let element51 = document.getElementById('inputNumModulosCalculo')
+let element52 = document.getElementById('inpuPotenciaComPerdasCalculo')
+let element53 = document.getElementById('inputNumModulosEscolhaCalculo')
+
+async function valNum(valor) {
+  var resposta = Number(valor.toString().replaceAll(",", "."))
+  return resposta
+}
+
+class activeClass {
+  constructor(items) {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].classList.contains("active")) {
+        items[i].classList.toggle("active")
+        items[i].ariaSelected = "false"
+      }
+    }
+    this.classList.add("active")
+    this.ariaSelected = "true"
+
+  }
+}
+// Dados de Fator K e de Posicionamento do telhado
+async function fatorK() {
+
+  if (element12.value == 'SOLO') {
+    element13.value = await ceilLat(Math.abs(element14.value), 5)
+  } else {
+    element13.value = element15.value
+  }
+  fatorKdata = await fecthGet(`/fatorK?name=${element29.value};${element13.value}`)
+  element28.value = fatorKdata[0].media
+}
+
+async function changeQtdInversor(valor) {
+  element18_4.value = valor
+}
+
+let element28 = document.getElementById('inputFatorKDadoTec')
+let element29 = document.getElementById("inputLatitudeIntDadoTec")
+let element12 = document.getElementById('inputTipoTelhaDadoTec')
+let element13 = document.getElementById('inputLatitudeCorDadoTec')
+let element14 = document.getElementById("inputLatitudeOngDadoTec")
+let element15 = document.getElementById("inputAngTelhaDadoTec")
+element12.addEventListener('change', async function () {
+  await fatorK()
+})
+element15.addEventListener('change', async function () {
+  await fatorK()
+})
+
+let element16 = document.getElementById('inputPosicionamentoDadoTec')
+let element17 = document.getElementById('inputHSPPerdasDadoTec')
+let element17_1 = document.getElementById('inputPerdasIrrCalculo')
+let element17_2 = document.getElementById('inpuHSPCorrSujCalculo')
+let element17_3 = document.getElementById('inputSujeira')
+let element17_4 = document.getElementById('inputFatorKDadoTec')
+let element17_5 = document.getElementById('inputHSPCorrFatorKCalculo')
+let element17_6 = document.getElementById('inputHPSFinalCalculo')
+let element17_7 = document.getElementById('inputHSPCorrCalculo')
+let element17_8 = document.getElementById('inputPotenciaPicoCalculo')
+let element17_9 = document.getElementById('inputEnergiaMediaDiariaCalculo')
+let element18_1 = document.getElementById('inputPotenciaPicoRealCalculo')
+let element18_2 = document.getElementById('inputEficienciaInversor')
+let element18_3 = document.getElementById('inputPotenciaNominalInvCalculo')
+let element18_4 = document.getElementById('inputQuantInvCalculo')
+
+let element18 = document.getElementById('inputHSPDadoTec')
+let element19 = document.getElementById('inputPosTelhado')
+var porcentagemHSP = 0
+var hsp = 0
+var sujeira = 0
+var fatorKVal = 0
+var emmDiario = 0
+var hspFinal = 0
+element16.addEventListener('change', async function () {
+  await energiaInversor()
 })
 element18.addEventListener('change', async function () {
   if (element18.value != '') {
@@ -1224,3 +1438,7 @@ element30.addEventListener('change', async function () {
   $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
   $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100) / 1.3).toFixed(2)
 })
+
+let element31 = document.getElementById('inputPmaxCorrModulo')
+let element32 = document.getElementById('inputVocCorrModulo')
+let element33 = document.getElementById('inputIscCorrModulo')
