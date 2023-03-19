@@ -105,7 +105,7 @@ body {
 
 .container-5-columns {
   display: grid;
-  grid-template-columns: repeat(5, 19.5%);
+  grid-template-columns: repeat(5, 19.65%);
   gap: 10px 10px;
 }
 
