@@ -23,6 +23,54 @@ var optionsInveInvNew = ''
 var optionsPoteInvNew = ''
 var optionsPecaInvNew = ''
 
+async function deletaDepois() {
+  var listConsumo = [
+    23960,
+    24240,
+    24280,
+    27540,
+    23080,
+    21360,
+    22680,
+    24000,
+    19720,
+    20720,
+    22800,
+    24920,
+  ]
+  var listInputs = [
+    'inputJanConsumo',
+    'inputFevConsumo',
+    'inputMarConsumo',
+    'inputAbrConsumo',
+    'inputMaiConsumo',
+    'inputJunConsumo',
+    'inputJulConsumo',
+    'inputAgoConsumo',
+    'inputSetConsumo',
+    'inputOutConsumo',
+    'inputNovConsumo',
+    'inputDezConsumo',
+  ]
+  $('#inputJanConsumo')[0].value = listConsumo[0]
+  $('#inputFevConsumo')[0].value = listConsumo[1]
+  $('#inputMarConsumo')[0].value = listConsumo[2]
+  $('#inputAbrConsumo')[0].value = listConsumo[3]
+  $('#inputMaiConsumo')[0].value = listConsumo[4]
+  $('#inputJunConsumo')[0].value = listConsumo[5]
+  $('#inputJulConsumo')[0].value = listConsumo[6]
+  $('#inputAgoConsumo')[0].value = listConsumo[7]
+  $('#inputSetConsumo')[0].value = listConsumo[8]
+  $('#inputOutConsumo')[0].value = listConsumo[9]
+  $('#inputNovConsumo')[0].value = listConsumo[10]
+  $('#inputDezConsumo')[0].value = listConsumo[11]
+  for (let i = 0; i < listInputs.length; i++) {
+    itemsConsumo[listInputs[i]] = parseFloat(listConsumo[i])
+  }
+  await sumItems('function', 123)
+}
+
+
 var fatorKdata = ''
 var optionsDistribuidora = ''
 
@@ -84,7 +132,6 @@ async function updateInversores() {
 }
 async function updateTarifaFioB() {
   var data = await fecthGet(`/updateTask?name=tarifafiob`)
-  console.log(data)
 }
 //#endregion
 
@@ -92,33 +139,40 @@ async function updateTarifaFioB() {
 async function fatorCorrecao(id, value) {
   itemsCorrecao[id] = parseFloat(value)
   somaCorrecao = sumValues(itemsCorrecao)
-  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(4)
 }
+var valorBandeira
 async function checkBandeira(valor) {
-  var emmConsumo = $('#inputEmmConsumo')[0].value
   var bandeira = valor
   var addBand = 0
   switch (bandeira) {
     case 'VERDE':
       addBand = 0
+      valorBandeira = 0
       break
     case 'AMARELA':
       addBand = 0.01872 * emmConsumo
+      valorBandeira = 0.01872
       break
     case 'VERMELHA I':
       addBand = 0.03971 * emmConsumo
+      valorBandeira = 0.03971
       break
     case 'VEMRELHA II':
       addBand = 0.0949 * emmConsumo
+      valorBandeira = 0.0949
       break
     case 'ESCASSEZ HÍDRICA':
       addBand = 0.142 * emmConsumo
+      valorBandeira = 0.142
       break
   }
-  $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(2)
-  $('#inputBandTarifa')[0].value = addBand.toFixed(2)
-  $('#inputBaseCalc')[0].value = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + TUSDImp + TEImp)) + addBand
+  $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(4)
+  $('#inputBandTarifa')[0].value = addBand.toFixed(4)
+  $('#inputBaseCalc')[0].value = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + tarifaTusdImp + tarifaTeImp)) + addBand
 }
+var gerConsumo
+var emmConsumo
 async function sumItems(id, value) {
   if (value != '') {
     if (id != 'function') {
@@ -126,68 +180,7 @@ async function sumItems(id, value) {
     }
     var somaItens = Object.keys(itemsConsumo).length
     somaConsumo = sumValues(itemsConsumo)
-    var emmConsumo = parseFloat(somaConsumo / somaItens)
-    $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
-    $('#inputEmmConsumo')[0].value = emmConsumo.toFixed(2)
-    $('#inputConsumoBT')[0].value = emmConsumo.toFixed(2)
-    $('#inputEMMCalculo')[0].value = emmConsumo.toFixed(2)
-    $('#inputEnergiaMediaDiariaCalculo')[0].value = (emmConsumo / 30).toFixed(2)
-
-    var bandeira = document.getElementById(`inputBandeira`).value
-    var ICMS = parseFloat(valNum($('#inputTarifaICMS')[0].value))
-    var PIS = parseFloat(valNum($('#inputTarifaPIS')[0].value))
-    var COFINS = parseFloat(valNum($('#inputTarifaCOFINS')[0].value))
-    var TUSDImp = parseFloat(valNum($('#inputTarifaTUSDImp')[0].value))
-    var TEImp = parseFloat(valNum($('#inputTarifaTEImp')[0].value))
-    var addBand = 0
-    switch (bandeira) {
-      case 'VERDE':
-        addBand = 0
-        break
-      case 'AMARELA':
-        addBand = 0.01872 * emmConsumo
-        break
-      case 'VERMELHA I':
-        addBand = 0.03971 * emmConsumo
-        break
-      case 'VEMRELHA II':
-        addBand = 0.0949 * emmConsumo
-        break
-      case 'ESCASSEZ HÍDRICA':
-        addBand = 0.142 * emmConsumo
-        break
-    }
-    var baseCalc = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + TUSDImp + TEImp)) + addBand
-    $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(2)
-    $('#inputBandTarifa')[0].value = addBand.toFixed(2)
-    $('#inputBaseCalc')[0].value = baseCalc.toFixed(2)
-    var economiaSolar = $('#inputEconomiaSolar')[0].value
-    CreditoConsumoTUSD = (emmConsumo * TUSDImp)
-    CreditoConsumoTE = (emmConsumo * TEImp)
-    CreditoPIS = (baseCalc * PIS)
-    CreditoCOFINS = (baseCalc * COFINS)
-    CreditoConsumoTUSDIcms = (emmConsumo * TUSDImp * ICMS)
-    CreditoConsumoTEIcms = (emmConsumo * TEImp * ICMS)
-    CreditoTaxaIlum = parseFloat(valNum($('#inputCreditoTaxaIlum')[0].value))
-
-    CreditoSomaTotal = CreditoConsumoTUSD + CreditoConsumoTE + CreditoPIS + CreditoCOFINS + CreditoConsumoTUSDIcms + CreditoConsumoTEIcms + CreditoTaxaIlum
-
-    $('#inputCreditoConsumoTUSD')[0].value = CreditoConsumoTUSD.toFixed(2)
-    $('#inputCreditoConsumoTE')[0].value = CreditoConsumoTE.toFixed(2)
-    $('#inputCreditoPIS')[0].value = CreditoPIS.toFixed(2)
-    $('#inputCreditoCOFINS')[0].value = CreditoCOFINS.toFixed(2)
-    $('#inputCreditoConsumoTUSDIcms')[0].value = CreditoConsumoTUSDIcms.toFixed(2)
-    $('#inputCreditoConsumoTEIcms')[0].value = CreditoConsumoTEIcms.toFixed(2)
-    $('#inputCreditoTotalFatura')[0].value = CreditoSomaTotal.toFixed(2)
-
-    $('#inputFaturaSSolar')[0].value = CreditoSomaTotal.toFixed(2)
-    if (economiaSolar == '') { economiaSolar = 0 } else { economiaSolar = parseFloat(economiaSolar) }
-    $('#inputResidualFatura')[0].value = (CreditoSomaTotal - economiaSolar).toFixed(2)
-
-
-
-
-    var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
+    emmConsumo = parseFloat(somaConsumo / somaItens)
     var addConsumo = $('#inputAddConsumo')[0].value
     if (addConsumo == '') {
       addConsumo = 0
@@ -195,62 +188,221 @@ async function sumItems(id, value) {
       addConsumo = parseFloat($('#inputAddConsumo')[0].value)
     }
     var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
-    $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / fatConsumo) * porcentagem).toFixed(2)
-    $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / fatConsumo) * porcentagem).toFixed(2)
-    $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / fatConsumo) * porcentagem) / 1.3).toFixed(2)
-    element50.value = (((emmConsumo + addConsumo) / fatConsumo) * porcentagem).toFixed(2)
+    gerConsumo = ((emmConsumo + addConsumo) / fatConsumo) * porcentagem
+    $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(4)
+    $('#inputEmmConsumo')[0].value = emmConsumo.toFixed(4)
+    $('#inputConsumoBT')[0].value = emmConsumo.toFixed(4)
+    $('#inputEMMCalculo')[0].value = gerConsumo.toFixed(4)
+    $('#inputEnergiaMediaDiariaCalculo')[0].value = (gerConsumo / 30).toFixed(4)
+
+    var bandeira = document.getElementById(`inputBandeira`).value
+    var ICMS = parseFloat(icms) / 100
+    var PIS = parseFloat(pis) / 100
+    var COFINS = parseFloat(cofins) / 100
+    var addBand = 0
+    switch (bandeira) {
+      case 'VERDE':
+        addBand = 0
+        valorBandeira = 0
+        break
+      case 'AMARELA':
+        addBand = 0.01872 * emmConsumo
+        valorBandeira = 0.01872
+        break
+      case 'VERMELHA I':
+        addBand = 0.03971 * emmConsumo
+        valorBandeira = 0.03971
+        break
+      case 'VEMRELHA II':
+        addBand = 0.0949 * emmConsumo
+        valorBandeira = 0.0949
+        break
+      case 'ESCASSEZ HÍDRICA':
+        addBand = 0.142 * emmConsumo
+        valorBandeira = 0.142
+        break
+    }
+    var baseCalc = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + tarifaTusdImp + tarifaTeImp)) + addBand
+    $('#inputCreditoBandTarifa')[0].value = addBand.toFixed(4)
+    $('#inputBandTarifa')[0].value = addBand.toFixed(4)
+    $('#inputBaseCalc')[0].value = baseCalc.toFixed(4)
+    var economiaSolar = $('#inputEconomiaSolar')[0].value
+    CreditoConsumoTUSD = (emmConsumo * tarifaTusdImp)
+    CreditoConsumoTE = (emmConsumo * tarifaTeImp)
+    CreditoPIS = (baseCalc * PIS)
+    CreditoCOFINS = (baseCalc * COFINS)
+    CreditoConsumoTUSDIcms = (emmConsumo * tarifaTusdImp * ICMS)
+    CreditoConsumoTEIcms = (emmConsumo * tarifaTeImp * ICMS)
+    CreditoTaxaIlum = parseFloat(ilum_pub)
+
+    CreditoSomaTotal = CreditoConsumoTUSD + CreditoConsumoTE + CreditoPIS + CreditoCOFINS + CreditoTaxaIlum + addBand
+
+    $('#inputCreditoConsumoTUSD')[0].value = CreditoConsumoTUSD.toFixed(4)
+    $('#inputCreditoConsumoTE')[0].value = CreditoConsumoTE.toFixed(4)
+    $('#inputCreditoPIS')[0].value = CreditoPIS.toFixed(4)
+    $('#inputCreditoCOFINS')[0].value = CreditoCOFINS.toFixed(4)
+    $('#inputCreditoConsumoTUSDIcms')[0].value = CreditoConsumoTUSDIcms.toFixed(4)
+    $('#inputCreditoConsumoTEIcms')[0].value = CreditoConsumoTEIcms.toFixed(4)
+    $('#inputCreditoTotalFatura')[0].value = CreditoSomaTotal.toFixed(4)
+
+    $('#inputFaturaSSolar')[0].value = CreditoSomaTotal.toFixed(4)
+    if (economiaSolar == '') { economiaSolar = 0 } else { economiaSolar = parseFloat(economiaSolar) }
+    $('#inputResidualFatura')[0].value = (CreditoSomaTotal - economiaSolar).toFixed(4)
+
+
+
+
+
+    $('#inputGerConsumo')[0].value = gerConsumo.toFixed(4)
+    $('#inputPotConsumo')[0].value = gerConsumo.toFixed(4)
+    $('#inputDemConsumo')[0].value = (gerConsumo / 1.3).toFixed(4)
+    element50.value = gerConsumo.toFixed(4)
 
     await energiaInversor()
+    await tableTaxacaoFioB()
   }
 
 }
+async function tableTaxacaoFioB() {
+  var tarifafiob = await fecthGet(`/tarifafiobData`)
+  console.log(tarifafiob)
+  var tusd_fiob = Number(tarifafiob[0].tusd_fiob)
+  var valConsumo = Number(s_imposto)
+  $('#inputValConsumoTaxacaoFioB')[0].value = s_imposto.toFixed(3)
+  var custoDispon = Number(tipoSis * s_imposto)
+  $('#inputCustoDispoTaxacaoFioB')[0].value = custoDispon.toFixed(3)
+
+  var listAno = [
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+  ]
+  var listTaxa = [
+    0.15,
+    0.30,
+    0.45,
+    0.60,
+    0.75,
+    0.90,
+    1.00,
+  ]
+  var listFinalTaxacao = []
+  var listFinalGeracao = []
+  for (let i = 0; i < listTaxa.length; i++) {
+    var custoDisponTable = 0
+    var fiobInjetadaTable = tusd_fiob * listTaxa[i]
+    var energiaInjetadaTable = valConsumo - fiobInjetadaTable
+    var pagoFioBTable = emmConsumo * (1 - (Number(consumoInst) / 100)) * Number(tarifafiob[0].tusd_fiob) * listTaxa[i]
+    if (pagoFioBTable < custoDispon) {
+      custoDisponTable = custoDispon
+    } else {
+      custoDisponTable = pagoFioBTable
+    }
+    listFinalTaxacao.push([
+      listAno[i],
+      listTaxa[i],
+      fiobInjetadaTable,
+      energiaInjetadaTable,
+      pagoFioBTable,
+      custoDisponTable,
+      0
+    ])
+    var tarifaicms = custoDisponTable * (1 + (icms / 100))
+    var tarifapis = custoDisponTable * (pis / 100)
+    var tarifacofins = custoDisponTable * (cofins / 100)
+    var tarifabandeira = custoDisponTable * valorBandeira
+    var tarifaTotal = 0
+    if (porcentagem == 100) {
+      tarifaTotal = tarifaicms + tarifapis + tarifacofins + tarifabandeira
+    } else {
+      tarifaTotal = CreditoSomaTotal * (1 - (porcentagem / 100))
+    }
+    listFinalGeracao.push([
+      listAno[i],
+      custoDisponTable,
+      tarifaicms,
+      tarifapis,
+      tarifacofins,
+      tarifabandeira,
+      tarifaTotal
+    ])
+  }
+  await loadTableData(listFinalTaxacao, 'tabletaxacao')
+}
 //Dados da tabela de Irradiação
-async function loadTableData(items) {
-  const table = document.getElementById("tableIrradiacao");
-  items.forEach(item => {
-    console.log(item)
-    let row = table.insertRow();
-    let lat = row.insertCell(0);
-    lat.innerHTML = parseFloat(item.lat);
-    let lon = row.insertCell(1);
-    lon.innerHTML = parseFloat(item.lon);
-    let jan = row.insertCell(2);
-    jan.innerHTML = parseFloat(item.jan) / 1000;
-    let feb = row.insertCell(3);
-    feb.innerHTML = parseFloat(item.feb) / 1000;
-    let mar = row.insertCell(4);
-    mar.innerHTML = parseFloat(item.mar) / 1000;
-    let apr = row.insertCell(5);
-    apr.innerHTML = parseFloat(item.apr) / 1000;
-    let may = row.insertCell(6);
-    may.innerHTML = parseFloat(item.may) / 1000;
-    let jun = row.insertCell(7);
-    jun.innerHTML = parseFloat(item.jun) / 1000;
-    let jul = row.insertCell(8);
-    jul.innerHTML = parseFloat(item.jul) / 1000;
-    let aug = row.insertCell(9);
-    aug.innerHTML = parseFloat(item.aug) / 1000;
-    let sep = row.insertCell(10);
-    sep.innerHTML = parseFloat(item.sep) / 1000;
-    let oct = row.insertCell(11);
-    oct.innerHTML = parseFloat(item.oct) / 1000;
-    let nov = row.insertCell(12);
-    nov.innerHTML = parseFloat(item.nov) / 1000;
-    let dez = row.insertCell(13);
-    dez.innerHTML = parseFloat(item.dec) / 1000;
-    let anu = row.insertCell(14);
-    anu.innerHTML = parseFloat(item.annual) / 1000;
-  });
+async function loadTableData(items, tabelaId) {
+  const table = document.getElementById(tabelaId);
+  if (tabelaId == "tableIrradiacao") {
+    items.forEach(item => {
+      let row = table.insertRow();
+      let lat = row.insertCell(0);
+      lat.innerHTML = parseFloat(item.lat);
+      let lon = row.insertCell(1);
+      lon.innerHTML = parseFloat(item.lon);
+      let jan = row.insertCell(2);
+      jan.innerHTML = parseFloat(item.jan) / 1000;
+      let feb = row.insertCell(3);
+      feb.innerHTML = parseFloat(item.feb) / 1000;
+      let mar = row.insertCell(4);
+      mar.innerHTML = parseFloat(item.mar) / 1000;
+      let apr = row.insertCell(5);
+      apr.innerHTML = parseFloat(item.apr) / 1000;
+      let may = row.insertCell(6);
+      may.innerHTML = parseFloat(item.may) / 1000;
+      let jun = row.insertCell(7);
+      jun.innerHTML = parseFloat(item.jun) / 1000;
+      let jul = row.insertCell(8);
+      jul.innerHTML = parseFloat(item.jul) / 1000;
+      let aug = row.insertCell(9);
+      aug.innerHTML = parseFloat(item.aug) / 1000;
+      let sep = row.insertCell(10);
+      sep.innerHTML = parseFloat(item.sep) / 1000;
+      let oct = row.insertCell(11);
+      oct.innerHTML = parseFloat(item.oct) / 1000;
+      let nov = row.insertCell(12);
+      nov.innerHTML = parseFloat(item.nov) / 1000;
+      let dez = row.insertCell(13);
+      dez.innerHTML = parseFloat(item.dec) / 1000;
+      let anu = row.insertCell(14);
+      anu.innerHTML = parseFloat(item.annual) / 1000;
+    });
+  } else if (tabelaId == "tabletaxacao") {
+    items.forEach(item => {
+      let row = table.insertRow();
+      var i = 0
+      item.forEach(itemFinal => {
+        let lat = row.insertCell(i);
+        lat.innerHTML = itemFinal.toFixed(2);
+        i++
+      })
+    });
+  } else if (tabelaId == "tableGeracaoBT") {
+    items.forEach(item => {
+      let row = table.insertRow();
+      var i = 0
+      item.forEach(itemFinal => {
+        let lat = row.insertCell(i);
+        lat.innerHTML = itemFinal.toFixed(2);
+        i++
+      })
+    });
+  }
 }
 // Cálculo "TETO.MAT" do Excel
 async function ceilLat(x, s) {
   return s * Math.ceil(parseFloat(x) / s)
 }
+var consumoInst
+var porcentagem
 // Buscar dados de cliente
 async function buscaCliente(tipo) {
   var nome = document.getElementById(`inputCliente${tipo}`).value
   const data = await fecthPost('/clienteData?name=' + nome)
-
+  consumoInst = data[0]["consumo"]
   document.getElementById(`inputTelefone${tipo}`).value = data[0]["telefone"]
   document.getElementById(`inputTelhado${tipo}`).value = data[0]["tipo_telhado"]
   document.getElementById(`inputEstado${tipo}`).value = data[0]["estado"]
@@ -276,21 +428,31 @@ async function buscaCliente(tipo) {
   document.getElementById('inputNumeroDadoTec').value = data[0]["numero"]
   document.getElementById('inputBairroDadoTec').value = data[0]["bairro"]
 
-  const tarifaData = await fecthPost(`/tarifaData?name=${data[0]["distribuidora"]}`)
-  $('#inputTarifaPIS')[0].value = data[0]["pis"]
-  $('#inputTarifaCOFINS')[0].value = data[0]["cofins"]
-  $('#inputTarifaICMS')[0].value = data[0]["icms"]
-  $('#inputTarifaTUSD')[0].value = tarifaData[0]["tusd"]
-  $('#inputTarifaTE')[0].value = tarifaData[0]["te"]
-  $('#inputCreditoTaxaIlum')[0].value = tarifaData[0]["ilum_pub"]
 
-  var tarifaTusdImp = (parseFloat(tarifaData[0]["tusd"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
-  var taridaTeImp = (parseFloat(tarifaData[0]["te"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
-  var tarifaTotal = tarifaTusdImp + taridaTeImp
-  $('#inputTarifaTUSDImp')[0].value = tarifaTusdImp.toFixed(2)
-  $('#inputTarifaTEImp')[0].value = taridaTeImp.toFixed(2)
-  $('#inputTarifaTotal')[0].value = tarifaTotal.toFixed(2)
-  var tipoSis = 0
+  document.getElementById(`inputDistribuidoraTaxacaoFioB`).value = data[0]["distribuidora"]
+  porcentagem = data[0]["porcentagem"]
+  const tarifaData = await fecthPost(`/tarifaData?name=${data[0]["distribuidora"]}`)
+  pis = data[0]["pis"]
+  cofins = data[0]["cofins"]
+  icms = data[0]["icms"]
+  tusd = tarifaData[0]["tusd"]
+  te = tarifaData[0]["te"]
+  ilum_pub = data[0]["ilum_pub"]
+  s_imposto = tarifaData[0]["s_imposto"]
+  $('#inputTarifaPIS')[0].value = pis.toFixed(4)
+  $('#inputTarifaCOFINS')[0].value = cofins.toFixed(4)
+  $('#inputTarifaICMS')[0].value = icms.toFixed(4)
+  $('#inputTarifaTUSD')[0].value = tusd.toFixed(4)
+  $('#inputTarifaTE')[0].value = te.toFixed(4)
+  $('#inputCreditoTaxaIlum')[0].value = ilum_pub.toFixed(4)
+
+  tarifaTusdImp = (parseFloat(tarifaData[0]["tusd"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
+  tarifaTeImp = (parseFloat(tarifaData[0]["te"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
+  var tarifaTotal = tarifaTusdImp + tarifaTeImp
+  $('#inputTarifaTUSDImp')[0].value = tarifaTusdImp.toFixed(4)
+  $('#inputTarifaTEImp')[0].value = tarifaTeImp.toFixed(4)
+  $('#inputTarifaTotal')[0].value = tarifaTotal.toFixed(4)
+  tipoSis = 0
   switch (data[0]["taxa"]) {
     case 'MONOFÁSICO':
       tipoSis = 30
@@ -302,9 +464,19 @@ async function buscaCliente(tipo) {
       tipoSis = 100
       break
   }
-  $('#inputTipoSistema')[0].value = tipoSis.toFixed(2)
+  $('#inputTipoSistema')[0].value = tipoSis.toFixed(4)
 
 }
+var tipoSis = 0
+var tarifaTusdImp
+var tarifaTeImp
+var pis
+var cofins
+var icms
+var tusd
+var te
+var ilum_pub
+var s_imposto
 // Inserir novo cliente
 async function insereCliente() {
   var nome = document.getElementById(`inputClienteConfigInsert`).value
@@ -421,7 +593,7 @@ async function getLocation() {
   var address = `/irradiationLat_Lon?name=${data.lat};${data.lng}`
   const dataIrr = await fecthGet(address)
   console.log(dataIrr)
-  await loadTableData(dataIrr)
+  await loadTableData(dataIrr, "tableIrradiacao")
   document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
   document.getElementById('inputHSPCalculo').value = parseFloat(dataIrr[0].annual) / 1000
 
@@ -626,6 +798,7 @@ async function fillMdlData(option, dataMdlPeca) {
   }
   await qtdeMdl()
   await protDimenCabos()
+  await energiaInversor()
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
 async function checkTemp() {
@@ -641,7 +814,7 @@ async function checkTemp() {
   itemsCorrecao['inputTVocPerModulo'] = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
   itemsCorrecao['inputTIscPerModulo'] = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
   somaCorrecao = sumValues(itemsCorrecao)
-  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(4)
   console.log(Number($('#inputVocModulo')[0].value.replaceAll(",", ".")), (Number($('#inputTVocModulo')[0].value.replaceAll(",", "."))), tempMedia, 100)
   element31.value = (Number($('#inputPotenciaModulo')[0].value.replaceAll(",", ".")) * (1 + (Number($('#inputTPmaxModulo')[0].value.replaceAll(",", ".")) * tempMedia))).toFixed(3)
   element32.value = (Number($('#inputVocModulo')[0].value.replaceAll(",", ".")) * (1 + (Number($('#inputTVocModulo')[0].value.replaceAll(",", ".")) * tempMedia))).toFixed(3)
@@ -750,6 +923,7 @@ async function fillInvData(option, dataInvPeca) {
   }
   await qtdeMdl()
   await protDimenCabos()
+  await energiaInversor()
 }
 //#endregion
 
@@ -1151,13 +1325,14 @@ let element39 = document.getElementById('inputTensaoCCInversor')
 let element40 = document.getElementById('inputMaxTensaoCCInversor')
 let element41 = document.getElementById('inputCorrenteMaxCCInversor')
 async function qtdeMdl() {
-  element34.value = await ceilLat(valNum(element18_1.value) * 1000 / valNum(element31.value), 1)
-  element35.value = await ceilLat(valNum(element39.value) / valNum(element38.value), 1)
-  element36.value = parseInt(Math.floor(valNum(element40.value) / valNum(element40.value)))
-  element37.value = await ceilLat(valNum(element41.value) / valNum(element33.value), 1)
+  console.log(await valNum(element18_1.value), await valNum(element31.value), await ceilLat(await valNum(element18_1.value) * 1000 / await valNum(element31.value), 1))
+  element34.value = await ceilLat(await valNum(element18_1.value) * 1000 / await valNum(element31.value), 1)
+  element35.value = await ceilLat(await valNum(element39.value) / await valNum(element38.value), 1)
+  element36.value = parseInt(Math.floor(await valNum(element40.value) / await valNum(element38.value)))
+  element37.value = await ceilLat(await valNum(element41.value) / await valNum(element33.value), 1)
 
-  element51.value = await ceilLat(valNum(element18_1.value) * 1000 / valNum(element31.value), 1)
-  element53.value = await ceilLat(valNum(element18_1.value) * 1000 / valNum(element31.value), 1)
+  element51.value = await ceilLat(await valNum(element18_1.value) * 1000 / await valNum(element31.value), 1)
+  element53.value = await ceilLat(await valNum(element18_1.value) * 1000 / await valNum(element31.value), 1)
 }
 let element42 = document.getElementById('inputCorrenteDisjCACalculo')
 let element43 = document.getElementById('inputDisjEscolhaCACalculo')
@@ -1168,101 +1343,103 @@ let element47 = document.getElementById('inputCorrenteNomiCCCalculo')
 let element48 = document.getElementById('inputCaboEscolhaCCCalculo')
 let element49 = document.getElementById('inpuFusivelCCCalculo')
 async function protDimenCabos() {
-  element42.value = Math.floor(valNum(element45.value) * 1.2).toFixed(2)
-  var corrDisj = valNum(element42.value)
-  switch (corrDisj) {
-    case corrDisj < 10:
+  element42.value = Math.floor(await valNum(element45.value) * 1.2).toFixed(4)
+  var corrDisj = await valNum(element42.value)
+  console.log(corrDisj, corrDisj >= 125, corrDisj < 150, corrDisj >= 125 && corrDisj < 150)
+  switch (true) {
+    case (corrDisj < 10):
       element43.value = 10
       break
-    case corrDisj >= 10 && corrDisj < 16:
+    case (corrDisj >= 10 && corrDisj < 16):
       element43.value = 16
       break
-    case corrDisj >= 16 && corrDisj < 20:
+    case (corrDisj >= 16 && corrDisj < 20):
       element43.value = 20
       break
-    case corrDisj >= 20 && corrDisj < 25:
+    case (corrDisj >= 20 && corrDisj < 25):
       element43.value = 25
       break
-    case corrDisj >= 25 && corrDisj < 32:
+    case (corrDisj >= 25 && corrDisj < 32):
       element43.value = 32
       break
-    case corrDisj >= 32 && corrDisj < 40:
+    case (corrDisj >= 32 && corrDisj < 40):
       element43.value = 40
       break
-    case corrDisj >= 40 && corrDisj < 50:
+    case (corrDisj >= 40 && corrDisj < 50):
       element43.value = 50
       break
-    case corrDisj >= 50 && corrDisj < 63:
+    case (corrDisj >= 50 && corrDisj < 63):
       element43.value = 63
       break
-    case corrDisj >= 63 && corrDisj < 80:
+    case (corrDisj >= 63 && corrDisj < 80):
       element43.value = 80
       break
-    case corrDisj >= 80 && corrDisj < 90:
+    case (corrDisj >= 80 && corrDisj < 90):
       element43.value = 90
       break
-    case corrDisj >= 90 && corrDisj < 100:
+    case (corrDisj >= 90 && corrDisj < 100):
       element43.value = 100
       break
-    case corrDisj >= 100 && corrDisj < 125:
+    case (corrDisj >= 100 && corrDisj < 125):
       element43.value = 125
       break
-    case corrDisj >= 125 && corrDisj < 150:
+    case (corrDisj >= 125 && corrDisj < 150):
+      console.log("é pra ir")
       element43.value = 150
       break
-    case corrDisj >= 150 && corrDisj < 160:
+    case (corrDisj >= 150 && corrDisj < 160):
       element43.value = 160
       break
   }
-  switch (corrDisj) {
-    case corrDisj < 24:
+  switch (true) {
+    case (corrDisj < 24):
       element44.value = 2.5
       break
-    case corrDisj >= 24 && corrDisj < 28:
+    case (corrDisj >= 24 && corrDisj < 28):
       element44.value = 4
       break
-    case corrDisj >= 28 && corrDisj < 36:
+    case (corrDisj >= 28 && corrDisj < 36):
       element44.value = 6
       break
-    case corrDisj >= 36 && corrDisj < 50:
+    case (corrDisj >= 36 && corrDisj < 50):
       element44.value = 10
       break
-    case corrDisj >= 50 && corrDisj < 68:
+    case (corrDisj >= 50 && corrDisj < 68):
       element44.value = 16
       break
-    case corrDisj >= 68 && corrDisj < 89:
+    case (corrDisj >= 68 && corrDisj < 89):
       element44.value = 25
       break
-    case corrDisj >= 89 && corrDisj < 110:
+    case (corrDisj >= 89 && corrDisj < 110):
       element44.value = 35
       break
-    case corrDisj >= 110 && corrDisj < 134:
+    case (corrDisj >= 110 && corrDisj < 134):
       element44.value = 50
       break
-    case corrDisj >= 134 && corrDisj < 171:
+    case (corrDisj >= 134 && corrDisj < 171):
       element44.value = 70
       break
-    case corrDisj >= 171 && corrDisj < 207:
+    case (corrDisj >= 171 && corrDisj < 207):
       element44.value = 95
       break
   }
-  element47.value = (valNum(element37.value) * valNum(element46.value)).toFixed(2)
-  var corrNomi = valNum(element47.value)
-  switch (corrNomi) {
-    case corrNomi < 35:
+  element47.value = (await valNum(element37.value) * await valNum(element46.value)).toFixed(4)
+  var corrNomi = await valNum(element47.value)
+  switch (true) {
+    case (corrNomi < 35):
       element48.value = 4
       break
-    case corrNomi >= 35 && corrNomi < 44:
+    case (corrNomi >= 35 && corrNomi < 44):
       element48.value = 6
       break
-    case corrNomi >= 44 && corrNomi < 61:
+    case (corrNomi >= 44 && corrNomi < 61):
       element48.value = 10
       break
-    case corrNomi >= 61 && corrNomi < 79:
+    case (corrNomi >= 61 && corrNomi < 79):
       element48.value = 16
       break
   }
-  element49.value = (valNum(element41.value) * 0.9).toFixed(2)
+  element49.value = (await valNum(element41.value) * 0.9).toFixed(4)
 }
 async function energiaInversor() {
   switch (element16.value) {
@@ -1295,31 +1472,34 @@ async function energiaInversor() {
     hsp = parseFloat(element18.value)
   }
   if (element17_3.value != '') {
-    sujeira = valNum(element17_3.value)
+    sujeira = await valNum(element17_3.value) / 100
   }
   if (element17_4.value != '') {
-    fatorKVal = valNum(element17_4.value)
+    fatorKVal = await valNum(element17_4.value)
+    console.log(fatorKVal)
   }
   if (element17_9.value != '') {
-    emmDiario = valNum(element17_9.value)
+    emmDiario = await valNum(element17_9.value)
   }
 
-  element17.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
-  element17_1.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
-  element17_2.value = parseFloat(porcentagemHSP * hsp * (1 + sujeira)).toFixed(2)
+  element17.value = parseFloat(porcentagemHSP * hsp).toFixed(4)
+  element17_1.value = parseFloat(porcentagemHSP * hsp).toFixed(4)
+  element17_2.value = parseFloat(porcentagemHSP * hsp * (1 + sujeira)).toFixed(4)
   hspFinal = parseFloat(porcentagemHSP * hsp * (1 + sujeira) * fatorKVal)
-  element17_5.value = hspFinal.toFixed(2)
-  element17_6.value = hspFinal.toFixed(2)
-  element17_7.value = hspFinal.toFixed(2)
-  element17_8.value = (emmDiario / hspFinal).toFixed(2)
-  element18_3.value = (await ceilLat((1.2 * emmDiario / hspFinal), 0.01)).toFixed(2)
-  element18_1.value = (emmDiario / hspFinal) / (Number(valNum(element18_2.value)) / 100)
+  element17_5.value = hspFinal.toFixed(4)
+  element17_6.value = hspFinal.toFixed(4)
+  element17_7.value = hspFinal.toFixed(4)
+  element17_8.value = (emmDiario / hspFinal).toFixed(4)
+  element18_3.value = (await ceilLat((1.2 * emmDiario / hspFinal), 0.01)).toFixed(4)
+  console.log(emmDiario, hspFinal, element18_2.value)
+  element18_1.value = ((emmDiario / hspFinal) / (Number(await valNum(element18_2.value)) / 100)).toFixed(4)
   element19.value = Math.round(-(1 - porcentagemHSP) * 100)
   itemsCorrecao['inputPosTelhado'] = parseFloat(element19.value)
   somaCorrecao = sumValues(itemsCorrecao)
-  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(4)
 
-  element52.value = (emmDiario / hspFinal) / (Number(valNum(element18_2.value)) / 100)
+  element52.value = (emmDiario / hspFinal) / (Number(await valNum(element18_2.value)) / 100)
+  await qtdeMdl()
 }
 let element50 = document.getElementById('inputMediaAnualCalculo')
 let element51 = document.getElementById('inputNumModulosCalculo')
@@ -1406,7 +1586,7 @@ element18.addEventListener('change', async function () {
   } else {
     hsp = 0
   }
-  element17.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
+  element17.value = parseFloat(porcentagemHSP * hsp).toFixed(4)
 })
 
 let element20 = document.getElementById('inputTempMediaModulo')
@@ -1424,19 +1604,20 @@ element20.addEventListener('change', async function () {
 
 let element30 = document.getElementById('inputAddConsumo')
 element30.addEventListener('change', async function () {
-  somaConsumo = sumValues(itemsConsumo)
-  var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
-  var addConsumo = $('#inputAddConsumo')[0].value
-  if (addConsumo == '') {
-    addConsumo = 0
-  } else {
-    addConsumo = parseFloat($('#inputAddConsumo')[0].value)
-  }
-  var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
-  var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
-  $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
-  $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100).toFixed(2)
-  $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / porcentagem) * fatConsumo / 100) / 1.3).toFixed(2)
+  await sumItems('function', 123)
+  // somaConsumo = sumValues(itemsConsumo)
+  // var porcentagem = parseFloat($('#inputPorcentagem')[0].value)
+  // var addConsumo = $('#inputAddConsumo')[0].value
+  // if (addConsumo == '') {
+  //   addConsumo = 0
+  // } else {
+  //   addConsumo = parseFloat($('#inputAddConsumo')[0].value)
+  // }
+  // var emmConsumo = parseFloat($('#inputEmmConsumo')[0].value)
+  // var fatConsumo = parseFloat($('#inputFatorCorr')[0].value)
+  // $('#inputGerConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo).toFixed(4)
+  // $('#inputPotConsumo')[0].value = (((emmConsumo + addConsumo) / porcentagem) * fatConsumo).toFixed(4)
+  // $('#inputDemConsumo')[0].value = ((((emmConsumo + addConsumo) / porcentagem) * fatConsumo) / 1.3).toFixed(4)
 })
 
 let element31 = document.getElementById('inputPmaxCorrModulo')

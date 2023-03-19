@@ -326,6 +326,13 @@ app.get('/distribuidoraData', async function (req, res) {
     res.json(rows)
 });
 
+app.get('/tarifafiobData', async function (req, res) {
+    var query = "SELECT tusd_fiob FROM tarifafiob"
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
+
 app.get('/mdlData', async function (req, res) {
     var query = "SELECT * FROM modulos ORDER BY modelo ASC"
     var { rows } = await pgClient.query(query)

@@ -950,6 +950,7 @@
 
 					</div>
 					<br>
+					<!-- FINANCEIRO -->
 					<div class="tab-pane fade show" id="financeiro-tab-content" role="tabpanel">
 						<ul class="nav nav-tabs justify-content-center" role="tablist">
 							<li class="nav-item">
@@ -1012,33 +1013,89 @@
 										</div>
 									</div>
 									<br>
-									<div class="outerboxmain align-items-center">
-										<div class="table-responsive mt-2">
-											<h4 class="app-subtitle">TARIFA</h4>
-											<table class="table" id="tableTarifa" style="width: 870px;">
-												<thead>
-													<tr>
-														<th scope="col">LATITUDE</th>
-														<th scope="col">LONGITUDE</th>
-														<th scope="col">JAN</th>
-														<th scope="col">FEV</th>
-														<th scope="col">MAR</th>
-														<th scope="col">APR</th>
-														<th scope="col">MAY</th>
-														<th scope="col">JUN</th>
-														<th scope="col">JUL</th>
-														<th scope="col">AUG</th>
-														<th scope="col">SEP</th>
-														<th scope="col">OCT</th>
-														<th scope="col">NOV</th>
-														<th scope="col">DEC</th>
-														<th scope="col">MÉDIA ANUAL</th>
-													</tr>
-												</thead>
-												<tbody id="bodyTarifa">
+								</div>
+								<ul class="nav nav-tabs justify-content-center" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link app-tab-title" data-toggle="tab"
+											href="#taxacao-fiob-tab-content" role="tab">
+											TAXAÇÃO FIO B
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link app-tab-title" data-toggle="tab"
+											href="#geracao-bt-tab-content" role="tab">
+											GERAÇÃO BT
+										</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane fade show active" id="taxacao-fiob-tab-content"
+										role="tabpanel">
+										<div class="app-container">
+											<div class="outerboxmain align-items-center">
+												<div class="container-3-columns mr-3 mb-2">
+													<div class="field-container mt-2">
+														<label for="inputDistribuidoraTaxacaoFioB"
+															style="font-weight: bold">CONCESSIONÁRIA</label>
+														<input id="inputDistribuidoraTaxacaoFioB"
+															placeholder="Digite..">
+													</div>
+													<div class="field-container mt-2">
+														<label for="inputValConsumoTaxacaoFioB"
+															style="font-weight: bold">VALOR CONSUMO DA REDE</label>
+														<input id="inputValConsumoTaxacaoFioB" placeholder="Digite..">
+													</div>
+													<div class="field-container mt-2">
+														<label for="inputCustoDispoTaxacaoFioB"
+															style="font-weight: bold">CUSTO DE DISPONIBILIDADE</label>
+														<input id="inputCustoDispoTaxacaoFioB" placeholder="Digite..">
+													</div>
+												</div>
+												<div class="table-responsive mt-2">
+													<h4 class="app-subtitle">TAXAÇÃO FIO B</h4>
+													<table class="table" id="tabletaxacao" style="width: 870px;">
+														<thead>
+															<tr>
+																<th scope="col">ANO</th>
+																<th scope="col">PORCENTAGEM DA TAXAÇÃO</th>
+																<th scope="col">TARIFA TUSD_FIO B INJETADA</th>
+																<th scope="col">TARIFA ENERGIA INJETADA</th>
+																<th scope="col">VALOR PAGO PELO FIO B POR kWh</th>
+																<th scope="col">CUSTO DE DISPONIBILIDADE</th>
+																<th scope="col">TOTAL FATURA C/GERAÇÃO FV</th>
+															</tr>
+														</thead>
+														<tbody id="bodyTaxacao">
 
-												</tbody>
-											</table>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade show" id="geracao-bt-tab-content" role="tabpanel">
+										<div class="app-container">
+											<div class="outerboxmain align-items-center">
+												<div class="table-responsive mt-2">
+													<h4 class="app-subtitle">GERAÇÃO BT</h4>
+													<table class="table" id="tableGeracaoBT" style="width: 870px;">
+														<thead>
+															<tr>
+																<th scope="col">ANO</th>
+																<th scope="col">TARIFA</th>
+																<th scope="col">TARIFA COM IMPOSTO</th>
+																<th scope="col">PIS</th>
+																<th scope="col">COFINS</th>
+																<th scope="col">BANDEIRA TARIFÁRIA</th>
+																<th scope="col">TOTAL FATURA</th>
+															</tr>
+														</thead>
+														<tbody id="bodyGeracao">
+
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1487,7 +1544,8 @@
 										<input id="inputPotenciaModuloConfigInsert" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputTipo_CelModuloConfigInsert" style="font-weight: bold">TIPO DE
+										<label for="inputTipo_CelModuloConfigInsert" style="font-weight: bold">TIPO
+											DE
 											CÉLULAS</label>
 										<input id="inputTipo_CelModuloConfigInsert" />
 									</div>
@@ -1718,7 +1776,6 @@
 					</div>
 				</div>
 			</div>
-
 			<!-- DADOS INVERSORES CONFIGURAÇÕES -->
 			<div class="tab-pane fade show" id="inversores-tab-content-config" role="tabpanel">
 				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
@@ -1753,7 +1810,8 @@
 										</datalist>
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputFasesInversorConfigInsert" style="font-weight: bold">NÚMERO DE
+										<label for="inputFasesInversorConfigInsert" style="font-weight: bold">NÚMERO
+											DE
 											FASES</label>
 										<input id="inputFasesInversorConfigInsert" />
 									</div>
@@ -1876,12 +1934,14 @@
 										<input id="inputFabricanteInversorConfigEdit" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputFasesInversorConfigEdit" style="font-weight: bold">NÚMERO DE
+										<label for="inputFasesInversorConfigEdit" style="font-weight: bold">NÚMERO
+											DE
 											FASES</label>
 										<input id="inputFasesInversorConfigEdit" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputStringsInversorConfigEdit" style="font-weight: bold">NÚMERO DE
+										<label for="inputStringsInversorConfigEdit" style="font-weight: bold">NÚMERO
+											DE
 											STRINGS</label>
 										<input id="inputStringsInversorConfigEdit" />
 									</div>
