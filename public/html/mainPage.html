@@ -110,23 +110,23 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">DADOS CADASTRAIS</h2>
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 
-									<div class="field-container mt-2 mb-2">
+									<div class="field-container mt-2 ">
 										<label for="inputCliente" style="font-weight: bold">CLIENTE</label>
 										<input list="inputClienteList" id="inputCliente" />
 										<datalist id="inputClienteList">
 											<option selected disabled></option>
 										</datalist>
 									</div>
-									<div class="field-container mt-2 mb-2">
+									<div class="field-container mt-2 ">
 										<label for="inputCliente" style="font-weight: bold"> </label>
 										<button type="button" onclick="buscaCliente('')" id="buscaCliente"
 											class="btn-app">BUSCA</button>
 									</div>
 
 								</div>
-								<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
+								<div class="container-5-columns" id="cadastraisID">
 									<div class="field-container mt-2">
 										<label for="inputTelefone" style="font-weight: bold">TELEFONE</label>
 										<input id="inputTelefone" placeholder="Digite..">
@@ -171,7 +171,7 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">DADOS DE FATURA</h2>
-								<div class="container-5-columns mr-3" id="faturaID">
+								<div class="container-5-columns " id="faturaID">
 									<div class="field-container mt-2">
 										<label for="inputDistribuidora" style="font-weight: bold">DISTRIBUIDORA</label>
 										<input id="inputDistribuidora" placeholder="Digite.." />
@@ -237,7 +237,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputRuaDadoTec" style="font-weight: bold">RUA</label>
 										<input id="inputRuaDadoTec" placeholder="Digite..">
@@ -250,14 +250,14 @@
 										<label for="inputBairroDadoTec" style="font-weight: bold">BAIRRO</label>
 										<input id="inputBairroDadoTec" placeholder="Digite..">
 									</div>
-									<div class="field-container mt-2 mb-2">
+									<div class="field-container mt-2 ">
 										<label for="buscaCliente" style="font-weight: bold"> </label>
 										<button type="button" onclick="getLocation()" id="buscaCliente"
 											class="btn-app">BUSCAR
 											POSIÇÃO</button>
 									</div>
 								</div>
-								<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
+								<div class="container-5-columns" id="cadastraisID">
 									<div class="field-container mt-2">
 										<label for="inputTipoTelhaDadoTec" style="font-weight: bold">TIPO DE
 											TELHADO</label>
@@ -366,7 +366,7 @@
 									<!-- FILTROS -->
 									<br>
 									<div class="outerboxmain align-items-center">
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputFabricanteModulo"
 													style="font-weight: bold">FABRICANTE</label>
@@ -409,7 +409,7 @@
 										</div>
 										<br>
 										<h4 class="app-subtitle">FATOR DE CORREÇÃO</h4>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputSujeira" style="font-weight: bold">SUJEIRA (%)</label>
 												<input id="inputSujeira" onchange="fatorCorrecao(this.id,this.value)" />
@@ -450,7 +450,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="container-5-columns mr-3 mb-2">
+									<div class="container-5-columns">
 										<button id="showModulo" onclick="showModulo()"
 											style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
 											class="btn-app btn-app-sm ml-2">
@@ -459,7 +459,7 @@
 									</div>
 									<!-- DADOS -->
 									<div class="outerboxmain align-items-center" id="dadosModulo">
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputVmpModulo" style="font-weight: bold">VMP (V)</label>
 												<input id="inputVmpModulo" />
@@ -544,7 +544,7 @@
 									<!-- DADOS DE FILTRO -->
 									<br>
 									<div class="outerboxmain align-items-center">
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputFabricanteInversor"
 													style="font-weight: bold">FABRICANTE</label>
@@ -595,7 +595,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="container-5-columns mr-3 mb-2">
+									<div class="container-5-columns">
 										<button id="showInversor" onclick="showInversor()"
 											style="background: rgb(16, 124, 16);font-size: .8rem;padding: .1rem .3rem;width: 30%;"
 											class="btn-app btn-app-sm ml-2">
@@ -603,7 +603,7 @@
 										</button>
 									</div>
 									<div class="outerboxmain align-items-center" id="dadosInversor">
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputFaixaMPPTInversor" style="font-weight: bold">FAIXA DE
 													OP
@@ -660,7 +660,7 @@
 								<div class="app-container">
 									<br>
 									<div class="outerboxmain align-items-center">
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputJanConsumo" style="font-weight: bold">JANEIRO</label>
 												<input id="inputJanConsumo" placeholder="Digite.."
@@ -798,7 +798,7 @@
 									<div class="outerboxmain align-items-center">
 										<br>
 										<h2 class="app-subtitle">HSP</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputHSPCalculo" style="font-weight: bold">HSP
 													(KWH/M².DIA)</label>
@@ -827,7 +827,7 @@
 										</div>
 										<br>
 										<h2 class="app-subtitle">ENERGIA E INVERSOR</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputEMMCalculo" style="font-weight: bold">EMM (ENERGIA
 													MÉDIA MENSAL KWH)</label>
@@ -866,7 +866,7 @@
 										</div>
 										<br>
 										<h2 class="app-subtitle">QUANTIDADE DE MÓDULOS</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputQuantMdlCalculo" style="font-weight: bold">QUANTIDADE
 													DE MÓDULOS</label>
@@ -891,7 +891,7 @@
 										<br>
 										<h2 class="app-subtitle">PROTEÇÃO E DIMENSIONAMENTO CABOS</h2>
 										<h2 class="app-subtitle-sub">Dimensionamento CA</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputCorrenteDisjCACalculo"
 													style="font-weight: bold">CORRENTE DISJUNTOR CA (A)</label>
@@ -908,8 +908,9 @@
 												<input id="inpuCaboEscolhaCACalculo" placeholder="Digite.." />
 											</div>
 										</div>
+										<br>
 										<h2 class="app-subtitle-sub">Dimensionamento CA</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputCorrenteNomiCCCalculo" style="font-weight: bold">CORR.
 													NOMINAL POR STR. (A)</label>
@@ -928,7 +929,7 @@
 										</div>
 										<br>
 										<h2 class="app-subtitle">POTÊNCIA DO SISTEMA</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputMediaAnualCalculo" style="font-weight: bold">MÉDIA DA
 													POTÊNCIAL ANUAL (KWH)</label>
@@ -978,7 +979,7 @@
 								<div class="app-container">
 									<br>
 									<div class="outerboxmain align-items-center">
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputTarifaTUSD" style="font-weight: bold">TARIFA
 													TUSD</label>
@@ -1055,7 +1056,7 @@
 									<br>
 									<div class="outerboxmain align-items-center">
 										<h2 class="app-title">DADOS PARA FATURA</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputConsumoBT" style="font-weight: bold">CONSUMO BAIXA
 													TENSÃO
@@ -1097,7 +1098,7 @@
 									<br>
 									<div class="outerboxmain align-items-center">
 										<h2 class="app-title">CRÉDITO DA FATURA</h2>
-										<div class="container-5-columns mr-3 mb-2">
+										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputCreditoConsumoTUSD" style="font-weight: bold">CONSUMO
 													TUSD
@@ -1182,8 +1183,8 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">ADICIONAR NOVO CLIENTE</h2>
-								<div class="container-5-columns mr-3 mt-2" id="cadastraisID">
-									<div class="field-container mt-2 mb-2">
+								<div class="container-5-columns" id="cadastraisID">
+									<div class="field-container mt-2 ">
 										<label for="inputClienteConfigInsert" style="font-weight: bold">CLIENTE</label>
 										<input id="inputClienteConfigInsert" />
 									</div>
@@ -1234,7 +1235,7 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">DADOS DE FATURAS</h2>
-								<div class="container-5-columns mr-3" id="faturaID">
+								<div class="container-5-columns " id="faturaID">
 									<div class="field-container mt-2">
 										<label for="inputDistribuidoraConfigInsert"
 											style="font-weight: bold">DISTRIBUIDORA</label>
@@ -1295,20 +1296,10 @@
 									</div>
 								</div>
 							</div>
-							<div class="container-5-columns">
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2 mb-2">
-									<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="insereCliente()" id="insereCliente"
-										class="btn-app">INSERIR</button>
-								</div>
+							<div class="field-container">
+								<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="insereCliente()" id="insereCliente"
+									class="btn-app btn-fp">INSERIR</button>
 							</div>
 						</div>
 					</div>
@@ -1318,21 +1309,21 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">EDITAR CLIENTE</h2>
-								<div class="container-5-columns mr-3 mb-2">
-									<div class="field-container mt-2 mb-2">
+								<div class="container-5-columns">
+									<div class="field-container mt-2 ">
 										<label for="inputClienteConfigEdit" style="font-weight: bold">CLIENTE</label>
 										<input list="inputClienteListConfigEdit" id="inputClienteConfigEdit" />
 										<datalist id="inputClienteListConfigEdit">
 											<option selected disabled></option>
 										</datalist>
 									</div>
-									<div class="field-container mt-2 mb-2">
+									<div class="field-container mt-2">
 										<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
 										<button type="button" onclick="buscaCliente('ConfigEdit')" id="buscaCliente"
 											class="btn-app">BUSCA</button>
 									</div>
 								</div>
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputTelefoneConfigEdit" style="font-weight: bold">TELEFONE</label>
 										<input id="inputTelefoneConfigEdit" placeholder="Digite..">
@@ -1378,7 +1369,7 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">DADOS DE FATURA</h2>
-								<div class="container-5-columns mr-3" id="faturaID">
+								<div class="container-5-columns " id="faturaID">
 									<div class="field-container mt-2">
 										<label for="inputDistribuidoraConfigEdit"
 											style="font-weight: bold">DISTRIBUIDORA</label>
@@ -1438,20 +1429,10 @@
 									</div>
 								</div>
 							</div>
-							<div class="container-5-columns">
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2 mb-2">
-									<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="atualizaCliente()" id="atualizaCliente"
-										class="btn-app">ATUALIZAR</button>
-								</div>
+							<div class="field-container">
+								<label for="inputClienteConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="atualizaCliente()" id="atualizaCliente"
+									class="btn-app btn-fp">ATUALIZAR</button>
 							</div>
 						</div>
 					</div>
@@ -1481,7 +1462,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputFabricanteModuloConfigInsert"
 											style="font-weight: bold">FABRICANTE</label>
@@ -1579,20 +1560,10 @@
 									</div>
 								</div>
 							</div>
-							<div class="container-5-columns">
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2 mb-2">
-									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="insereModulo()" id="atualizaModulo"
-										class="btn-app">INSERIR</button>
-								</div>
+							<div class="field-container">
+								<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="insereModulo()" id="atualizaModulo"
+									class="btn-app btn-fp">INSERIR</button>
 							</div>
 						</div>
 					</div>
@@ -1601,20 +1572,20 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputPecaModuloConfigEdit" style="font-weight: bold">PEÇA</label>
 										<input id="inputPecaModuloConfigEdit" list="inputPecaModuloListConfigEdit" />
 										<datalist id="inputPecaModuloListConfigEdit">
 										</datalist>
 									</div>
-									<div class="field-container mt-2 mb-2">
+									<div class="field-container mt-2">
 										<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
 										<button type="button" onclick="buscaModulo()" id="buscaModulo"
 											class="btn-app">BUSCA</button>
 									</div>
 								</div>
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputFabricanteModuloConfigEdit"
 											style="font-weight: bold">FABRICANTE</label>
@@ -1705,23 +1676,15 @@
 									</div>
 								</div>
 							</div>
-							<div class="container-4-columns">
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="excelDataMdl" style="font-weight: bold">BANDEIRA</label>
-									<input type="file" id="excelDataMdl" style="visibility: hidden;" />
-								</div>
-								<div class="field-container mt-2 mb-2">
-									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="atualizaModulo()" id="atualizaModulo"
-										class="btn-app">ATUALIZAR</button>
-								</div>
-
-								<div class="field-container mt-2 mb-2">
-									<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="document.getElementById('excelDataMdl').click()"
-										id="atualizaModulo" class="btn-app">ATUALIZAR EM MASSA</button>
-								</div>
-
+							<div class="field-container">
+								<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="atualizaModulo()" id="atualizaModulo"
+									class="btn-app btn-fp">ATUALIZAR</button>
+							</div>
+							<div class="field-container">
+								<label for="inputModuloConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="document.getElementById('excelDataMdl').click()"
+									id="atualizaModulo" class="btn-app btn-fp">ATUALIZAR EM MASSA</button>
 							</div>
 						</div>
 					</div>
@@ -1752,7 +1715,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputFabricanteInversorConfigInsert"
 											style="font-weight: bold">FABRICANTE</label>
@@ -1842,20 +1805,10 @@
 									</div>
 								</div>
 							</div>
-							<div class="container-5-columns">
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2 mb-2">
-									<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="insereInversor()" id="atualizaInversor"
-										class="btn-app">INSERIR</button>
-								</div>
+							<div class="field-container">
+								<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="insereInversor()" id="atualizaInversor"
+									class="btn-app btn-fp">INSERIR</button>
 							</div>
 						</div>
 					</div>
@@ -1864,7 +1817,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputPecaInversorConfigEdit" style="font-weight: bold">PEÇA</label>
 										<input id="inputPecaInversorConfigEdit"
@@ -1872,17 +1825,17 @@
 										<datalist id="inputPecaInversorListConfigEdit">
 										</datalist>
 									</div>
-									<div class="field-container mt-2 mb-2">
+									<div class="field-container mt-2">
 										<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
 										<button type="button" onclick="buscaInversor()" id="buscaInversor"
 											class="btn-app">BUSCA</button>
 									</div>
 								</div>
-								<div class="container-5-columns mr-3 mb-2">
+								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputFabricanteInversorConfigEdit"
 											style="font-weight: bold">FABRICANTE</label>
-										<input id="inputFabricanteInversorConfigEdit" />
+										<input id="inputFabricanteInversorConfigEdit"/>
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputFasesInversorConfigEdit" style="font-weight: bold">NÚMERO DE
@@ -1956,20 +1909,10 @@
 									</div>
 								</div>
 							</div>
-							<div class="container-5-columns">
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2" style="visibility: hidden;">
-									<label for="" style="font-weight: bold">BANDEIRA</label>
-									<input id="" placeholder="Digite..">
-								</div>
-								<div class="field-container mt-2 mb-2">
-									<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
-									<button type="button" onclick="atualizarInversor()" id="atualizarInversor"
-										class="btn-app">ATUALIZAR</button>
-								</div>
+							<div class="field-container">
+								<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
+								<button type="button" onclick="atualizarInversor()" id="atualizarInversor"
+									class="btn-app btn-fp">ATUALIZAR</button>
 							</div>
 						</div>
 					</div>

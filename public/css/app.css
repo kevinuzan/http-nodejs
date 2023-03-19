@@ -61,8 +61,8 @@ body {
 }
 
 .app-container {
-  width: 80%;
-  max-width: 80%;
+  width: 95%;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
   margin-left: auto;
@@ -105,8 +105,8 @@ body {
 
 .container-5-columns {
   display: grid;
-  grid-template-columns: repeat(5, 19.65%);
-  gap: 10px 10px;
+  grid-template-columns: repeat(5, 19%);
+  gap: 0px 1.25%;
 }
 
 .container-7-columns {

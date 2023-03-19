@@ -1,4 +1,4 @@
-/* BOTAO PADRAO - COR AZUL */
+/* BOTAO PADRAO*/
 
 .btn-app {
   font-size: 1.2rem;
@@ -45,38 +45,9 @@
   box-shadow: 0 3px 10px rgba(0,0,0 .15);
 }
 
-/* BOTAO DE VERDE */
+/* CONFIGURAÇÃO DO BOTÂO DE FIM DA PÁGINA*/
 
-.btn-app.success {
-  background: var(--green);
-
-}
-
-.btn-app.success:hover {
-  background: var(--green-dark);
-
-}
-
-.btn-app.success.outline {
-  background: transparent;
-  border: 2px solid var(--green);
-  color: var(--green);
-}
-
-.btn-app.success.outline:hover {
-  background: var(--green);
-  color: white;
-}
-
-.btn-app.delete {
-  background: var(--red);
-  color: var(--body);
-  box-shadow: 0 0 0 rgba(0,0,0 .15);
-}
-
-.btn-app.delete:hover {
-  background: transparent;
-  border: 2px solid var(--red);
-  color: var(--red);
-  box-shadow: 0 3px 10px rgba(0,0,0 .15)
+.btn-fp {
+  width: 25%; 
+  margin: auto;
 }
