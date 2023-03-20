@@ -432,13 +432,13 @@ async function buscaCliente(tipo) {
   document.getElementById(`inputDistribuidoraTaxacaoFioB`).value = data[0]["distribuidora"]
   porcentagem = data[0]["porcentagem"]
   const tarifaData = await fecthPost(`/tarifaData?name=${data[0]["distribuidora"]}`)
-  pis = data[0]["pis"]
-  cofins = data[0]["cofins"]
-  icms = data[0]["icms"]
-  tusd = tarifaData[0]["tusd"]
-  te = tarifaData[0]["te"]
-  ilum_pub = data[0]["ilum_pub"]
-  s_imposto = tarifaData[0]["s_imposto"]
+  pis = Number(data[0]["pis"])
+  cofins = Number(data[0]["cofins"])
+  icms = Number(data[0]["icms"])
+  tusd = Number(tarifaData[0]["tusd"])
+  te = Number(tarifaData[0]["te"])
+  ilum_pub = Number(data[0]["ilum_pub"])
+  s_imposto = Number(tarifaData[0]["s_imposto"])
   $('#inputTarifaPIS')[0].value = pis.toFixed(4)
   $('#inputTarifaCOFINS')[0].value = cofins.toFixed(4)
   $('#inputTarifaICMS')[0].value = icms.toFixed(4)
