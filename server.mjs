@@ -327,7 +327,8 @@ app.get('/distribuidoraData', async function (req, res) {
 });
 
 app.get('/tarifafiobData', async function (req, res) {
-    var query = "SELECT tusd_fiob FROM tarifafiob"
+    let distribuidora = req.query.name;
+    var query = `SELECT tusd_fiob FROM tarifafiob where distribuidora = '${distribuidora}'`
     var { rows } = await pgClient.query(query)
     // const { rows } = await pool.query(query)
     res.json(rows)
@@ -470,4 +471,31 @@ app.get('/fatorK', async function (req, res) {
     var query = `SELECT MEDIA FROM fatork where latitude = 'Latitude ${latInt}${latCor}'`
     var { rows } = await pgClient.query(query)
     res.json(rows)
+})
+
+app.get('/greener', async function (req, res) {
+    var query = `SELECT * FROM greener_orca`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+})
+
+app.get('/updateGreener', async function (req, res) {
+    try {
+        var greenerData = JSON.parse(req.query.name)
+        console.log(greenerData)
+        var sizeGreener = Object.keys(greenerData)
+        var queryAux = `update greener_orca as g set 
+            value = u.value from (values `
+        for (let i = 0; i < sizeGreener.length; i++) {
+            queryAux += `('${sizeGreener[i]}', '${greenerData[sizeGreener[i]]}'),`
+        }
+        queryAux = queryAux.slice(0, -1)
+        queryAux += `) as u(name, value)
+            where g.name = u.name`
+        console.log(queryAux)
+        var { rows } = await pgClient.query(queryAux)
+        res.json(true)
+    } catch (err) {
+        res.json(err)
+    }
 })

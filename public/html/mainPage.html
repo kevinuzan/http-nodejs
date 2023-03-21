@@ -161,10 +161,33 @@
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
-										<input list="inputVendedorList" id="inputVendedor" />
+										<input list="inputVendedorList" id="inputVendedor" placeholder="Digite.." />
 										<datalist id="inputVendedorList">
 											<option selected disabled></option>
 										</datalist>
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputVendedorTelefone" style="font-weight: bold">EMAIL
+											VENDEDOR</label>
+										<input id="inputVendedorTelefone" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputVendedorEmail" style="font-weight: bold">TELEFONE
+											VENDEDOR</label>
+										<input id="inputVendedorEmail" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputAno" style="font-weight: bold">ANO</label>
+										<select id="inputAno">
+											<option selected disabled value="...">...</option>
+											<option value="2023">2023</option>
+											<option value="2024">2024</option>
+											<option value="2025">2025</option>
+											<option value="2026">2026</option>
+											<option value="2027">2027</option>
+											<option value="2028">2028</option>
+											<option value="2029">2029</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -654,7 +677,6 @@
 									</div>
 								</div>
 							</div>
-
 							<!-- CONSUMO -->
 							<div class="tab-pane fade show" id="consumo-tab-content" role="tabpanel">
 								<div class="app-container">
@@ -792,6 +814,7 @@
 									</div>
 								</div>
 							</div>
+							<!-- CÁLCULOS -->
 							<div class="tab-pane fade show" id="calculo-tab-content" role="tabpanel">
 								<div class="app-container">
 									<br>
@@ -972,9 +995,14 @@
 									FATURA
 								</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#resultados-tab-content"
+									role="tab">
+									RESULTADOS
+								</a>
+							</li>
 						</ul>
 						<div class="tab-content">
-
 							<!-- DADOS TARIFA -->
 							<div class="tab-pane fade show active" id="tarifas-tab-content" role="tabpanel">
 								<div class="app-container">
@@ -1071,7 +1099,6 @@
 																<th scope="col">TARIFA ENERGIA INJETADA</th>
 																<th scope="col">VALOR PAGO PELO FIO B POR kWh</th>
 																<th scope="col">CUSTO DE DISPONIBILIDADE</th>
-																<th scope="col">TOTAL FATURA C/GERAÇÃO FV</th>
 															</tr>
 														</thead>
 														<tbody id="bodyTaxacao">
@@ -1085,6 +1112,23 @@
 										<div class="app-container">
 											<br>
 											<div class="outerboxmain align-items-center">
+												<div class="container-3-columns mr-3 mb-2">
+													<div class="field-container mt-2">
+														<label for="inputIcmsGeracaoBt"
+															style="font-weight: bold">ICMS</label>
+														<input id="inputIcmsGeracaoBt" placeholder="Digite..">
+													</div>
+													<div class="field-container mt-2">
+														<label for="inputConstEscHidGeracaoBt"
+															style="font-weight: bold">CONST. ESCASSEZ HÍDRICA</label>
+														<input id="inputConstEscHidGeracaoBt" placeholder="Digite..">
+													</div>
+													<div class="field-container mt-2">
+														<label for="inputIlumPubGeracaoBt"
+															style="font-weight: bold">ILUM. PÚBLICA</label>
+														<input id="inputIlumPubGeracaoBt" placeholder="Digite..">
+													</div>
+												</div>
 												<div class="table-responsive mt-2">
 													<h4 class="app-subtitle">GERAÇÃO BT</h4>
 													<table class="table2" id="tableGeracaoBT" style="width: 870px;">
@@ -1114,7 +1158,7 @@
 								<div class="app-container">
 									<br>
 									<div class="outerboxmain align-items-center">
-										<h2 class="app-title">DADOS PARA FATURA</h2>
+										<h2 class="app-subtitle">DADOS PARA FATURA</h2>
 										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputConsumoBT" style="font-weight: bold">CONSUMO BAIXA
@@ -1156,7 +1200,7 @@
 									</div>
 									<br>
 									<div class="outerboxmain align-items-center">
-										<h2 class="app-title">CRÉDITO DA FATURA</h2>
+										<h2 class="app-subtitle">CRÉDITO DA FATURA</h2>
 										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputCreditoConsumoTUSD" style="font-weight: bold">CONSUMO
@@ -1205,6 +1249,80 @@
 											</div>
 										</div>
 									</div>
+									<br>
+									<div class="outerboxmain align-items-center">
+										<h4 class="app-subtitle">TOTAL DE ECONOMIA POR ANO</h4>
+										<div class="container-3-columns mr-3 mb-2">
+											<div class="field-container mt-2">
+												<label for="inputEconomiaMediaEconomia"
+													style="font-weight: bold">ECONOMIA
+													MÉDIA ANUAL</label>
+												<input id="inputEconomiaMediaEconomia" placeholder="Digite..">
+											</div>
+										</div>
+										<div class="table-responsive mt-2">
+											<table class="table2" id="tableEconomia" style="width: 870px;">
+												<thead>
+													<tr>
+														<th scope="col">ANO</th>
+														<th scope="col">TOTAL ECONOMIA MÊS</th>
+														<th scope="col">TOTAL ECONOMIA ANO</th>
+													</tr>
+												</thead>
+												<tbody id="bodyEconomia">
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- DADOS RESULTADOS -->
+							<div class="tab-pane fade show" id="resultados-tab-content" role="tabpanel">
+								<div class="app-container">
+									<br>
+									<div class="outerboxmain align-items-center">
+										<h2 class="app-subtitle">FLUXO DE CAIXA</h2>
+										<div class="container-4-columns">
+											<div class="field-container mt-2">
+												<label for="inputEconomiaAnualFluxo" style="font-weight: bold">ECONOMIA
+													ANUAL
+												</label>
+												<input id="inputEconomiaAnualFluxo" placeholder="Digite..">
+											</div>
+											<div class="field-container mt-2">
+												<label for="inputInvestInicialFluxo"
+													style="font-weight: bold">INVESTIMENTO INICIAL</label>
+												<input id="inputInvestInicialFluxo" placeholder="Digite..">
+											</div>
+											<div class="field-container mt-2">
+												<label for="inputTaxaDescontoFluxo" style="font-weight: bold">TAXA DE
+													DESCONTO</label>
+												<input id="inputTaxaDescontoFluxo" placeholder="Digite..">
+											</div>
+											<div class="field-container mt-2">
+												<label for="inputInflacaoEletricaFluxo"
+													style="font-weight: bold">INFLAÇÃO DA ENERGIA ELÉTRICA</label>
+												<input id="inputInflacaoEletricaFluxo" placeholder="Digite..">
+											</div>
+										</div>
+
+										<div class="table-responsive mt-2">
+											<table class="table2" id="tableFluxo" style="width: 870px;">
+												<thead>
+													<tr>
+														<th scope="col">ANO</th>
+														<th scope="col">FLUXO DE CAIXA</th>
+														<th scope="col">VALOR PRESENTE</th>
+														<th scope="col">VALOR PRESENTE ACUM.</th>
+													</tr>
+												</thead>
+												<tbody id="bodyFluxo">
+
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -1212,7 +1330,196 @@
 				</div>
 			</div>
 			<div class="tab-pane fade show" id="orcamento-tab-content" role="tabpanel">
-				<h2 class="app-subtitle">oi</h2>
+				<ul class="nav nav-tabs justify-content-center" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#dados-orca-tab-content" role="tab">
+							DADOS ORÇAMENTO
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#orca-final-tab-content" role="tab">
+							ORÇAMENTO FINAL
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#financiamento-tab-content"
+							role="tab">
+							FINANCIAMENTO
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="dados-orca-tab-content" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-subtitle">Greener / Mão de Obra</h2>
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="input2potOrca" style="font-weight: bold">2 kWp</label>
+										<input id="input2potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input4potOrca" style="font-weight: bold">4 kWp</label>
+										<input id="input4potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input8potOrca" style="font-weight: bold">8 kWp</label>
+										<input id="input8potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input12potOrca" style="font-weight: bold">12 kWp</label>
+										<input id="input12potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input30potOrca" style="font-weight: bold">30 kWp</label>
+										<input id="input30potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input50potOrca" style="font-weight: bold">50 kWp</label>
+										<input id="input50potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input75potOrca" style="font-weight: bold">75 kWp</label>
+										<input id="input75potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input150potOrca" style="font-weight: bold">150 kWp</label>
+										<input id="input150potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input300potOrca" style="font-weight: bold">300 kWp</label>
+										<input id="input300potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input500potOrca" style="font-weight: bold">500 kWp</label>
+										<input id="input500potOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="input1000potOrca" style="font-weight: bold">1000 kWp</label>
+										<input id="input1000potOrca" placeholder="Digite..">
+									</div>
+
+									<div class="field-container mt-2">
+										<label for="inputMoTerceiroOrca" style="font-weight: bold">VALOR MO TERCEIRO</label>
+										<input id="inputMoTerceiroOrca" placeholder="Digite..">
+									</div>
+									
+									<div class="field-container mt-2 ">
+										<label for="saveGreener" style="font-weight: bold"> </label>
+										<button type="button" onclick="saveGreener()" id="saveGreener"
+											class="btn-app">SALVAR</button>
+									</div>
+								</div>
+
+							</div>
+							<br>
+							<div class="outerboxmain align-items-center">
+								<div class="container-3-columns">
+									<div class="field-container mt-2">
+										<label for="inputNumMdlOrca" style="font-weight: bold">N° DE MÓDULOS</label>
+										<input id="inputNumMdlOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputTelhadoOrca" style="font-weight: bold">TELHADO</label>
+										<input id="inputTelhadoOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPorcentagemFornOrca" style="font-weight: bold">PORCENT. FORNECEDOR (%)</label>
+										<input id="inputPorcentagemFornOrca" placeholder="Digite.." value="5">
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="outerboxmain align-items-center">
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="inputPotTotalOrca" style="font-weight: bold">POTÊNCIA TOTAL
+											kWp</label>
+										<input id="inputPotTotalOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPotPerdaOrca" style="font-weight: bold">POT. DO SIST. COM
+											PERDAS kWp</label>
+										<input id="inputPotPerdaOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputProjHomOrca"
+											style="font-weight: bold">PROJETO+HOMOLOGAÇÃO</label>
+										<input id="inputProjHomOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputMaoObraOrca" style="font-weight: bold">MÃO DE OBRA
+											TERCEIRA</label>
+										<input id="inputMaoObraOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputMatFotovOrca" style="font-weight: bold">MATERIAL
+											FOTOVOLTAICO</label>
+										<input id="inputMatFotovOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPainelProtOrca" style="font-weight: bold">PAINEL DE PROTEÇÃO
+											CA</label>
+										<input id="inputPainelProtOrca" placeholder="Digite.." onchange="updateLucro()">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputStringBoxOrca" style="font-weight: bold">STRING BOX CC</label>
+										<input id="inputStringBoxOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputMaterialCaOrca" style="font-weight: bold">MATERIAL CA</label>
+										<input id="inputMaterialCaOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputEstruCobertOrca" style="font-weight: bold">ESTRUTURA
+											COBERTURA</label>
+										<input id="inputEstruCobertOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputEletrodutoOrca" style="font-weight: bold">ELETRODUTO</label>
+										<input id="inputEletrodutoOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputCustoViagemOrca" style="font-weight: bold">CUSTO VIAGEM</label>
+										<input id="inputCustoViagemOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputLucroOrca" style="font-weight: bold">LUCRO</label>
+										<input id="inputLucroOrca" placeholder="Digite.." onchange="updateLucro()">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputLucroMgOrca" style="font-weight: bold">LUCRO (MG
+											CONTRIB.)</label>
+										<input id="inputLucroMgOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputComissaoOrca" style="font-weight: bold">COMISSÃO</label>
+										<input id="inputComissaoOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputImpostoOrca" style="font-weight: bold">IMPOSTO</label>
+										<input id="inputImpostoOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputFornOrca" style="font-weight: bold">FORNECEDOR</label>
+										<input id="inputFornOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputFabriMdlOrca" style="font-weight: bold">FABRICANTE
+											MÓDULO</label>
+										<input id="inputFabriMdlOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputFabriInvOrca" style="font-weight: bold">FABRICANTE
+											INVERSOR</label>
+										<input id="inputFabriInvOrca" placeholder="Digite..">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="tab-pane fade show" id="resumo-tab-content" role="tabpanel">
 				<h2 class="app-subtitle">tchau</h2>
@@ -1896,7 +2203,7 @@
 									<div class="field-container mt-2">
 										<label for="inputFabricanteInversorConfigEdit"
 											style="font-weight: bold">FABRICANTE</label>
-										<input id="inputFabricanteInversorConfigEdit"/>
+										<input id="inputFabricanteInversorConfigEdit" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputFasesInversorConfigEdit" style="font-weight: bold">NÚMERO
@@ -1981,7 +2288,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 	</div>
