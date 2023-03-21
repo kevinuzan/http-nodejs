@@ -1,4 +1,4 @@
-/* TABELA */
+/* TABELA IRRADIAÇÃO */
 
 .table {
   border-collapse: collapse;
@@ -22,7 +22,6 @@
   position: relative;
   min-width: 75px;
   max-width: auto;
- 
 }
 
 .header {
@@ -67,3 +66,42 @@ td div {
   text-transform: uppercase;
 }
 
+/* TABELA DIFERENTE */
+
+.table2 {
+  border-collapse: collapse;
+  width: 80%;
+  border-spacing: 0px;
+  max-height: 200px;
+  overflow: scroll;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.table2 th {
+  background-color: var(--body);
+  font-family: 'Open sans', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 0px;
+  min-width: 250px;
+  max-width: 250px;
+  border: 2px solid var(--text-primary) !important;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  text-align: center; 
+}
+
+.table2 td {
+  background-color: var(--body2);
+  text-transform: uppercase;
+  font-family: 'Open sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  min-width: 250px;
+  max-width: 250px;
+  padding: 2px;
+  border: 2px solid var(--text-secondary) !important;
+  color: var(--text-primary);
+  text-align: center;
+}
