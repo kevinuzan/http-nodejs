@@ -245,7 +245,7 @@ var lucro
 var porcentForn
 var painelCA
 async function updateLucro() {
-  porcentForn = await valNum($('#inputPorcentagemFornOrca')[0].value)
+  porcentForn = await valNum($('#inputPorcentagemFornOrca')[0].value) / 100
   lucro = await valNum($('#inputLucroOrca')[0].value)
   painelCA = await valNum($('#inputPainelProtOrca')[0].value)
   lucroMargem = projeHomo + (painelCA * porcentForn) + lucro - moTerceira
@@ -374,7 +374,7 @@ async function sumItems(id, value) {
     $('#inputGerConsumo')[0].value = gerConsumo.toFixed(2)
     $('#inputPotConsumo')[0].value = gerConsumo.toFixed(2)
     $('#inputDemConsumo')[0].value = (gerConsumo / 1.3).toFixed(2)
-    element50.value = gerConsumo.toFixed(2)
+    element50.value = emmConsumo.toFixed(2)
 
     await energiaInversor()
     await tableTaxacaoFioB()
