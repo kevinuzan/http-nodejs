@@ -223,6 +223,21 @@ app.get('/firstPage', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 });
 
+app.get('/vendedores', async function (req, res) {
+    var query = "SELECT nome FROM vendedores ORDER BY nome ASC"
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
+
+app.get('/vendedoresData', async function (req, res) {
+    var name = req.query.name;
+    var query = `SELECT * FROM vendedores where nome = '${name}'`
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
+
 app.get('/cliente', async function (req, res) {
     var query = "SELECT CLIENTE FROM ERP ORDER BY CLIENTE ASC"
     var { rows } = await pgClient.query(query)

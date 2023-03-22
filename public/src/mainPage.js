@@ -771,12 +771,36 @@ async function getLocation() {
   document.getElementById('inputHSPCalculo').value = parseFloat(dataIrr[0].annual) / 1000
 
 }
+async function getVendedor() {
+  var nome = $('#inputVendedor')[0].value
+  if (nome != '') {
+    var data = await fecthGet(`/vendedoresData?name=${nome}`)
+    var email = data[0].email
+    var telefone = data[0].telefone
+    $('#inputVendedorTelefone')[0].value = email
+    $('#inputVendedorEmail')[0].value = telefone
+  } else {
+    $('#inputVendedorTelefone')[0].value = ''
+    $('#inputVendedorEmail')[0].value = ''
+  }
+
+}
 // Função que chama 'onLoad'
 window.onload = async function (event) {
   await onLoad()
 };
+var optionsVendedores = '`<option selected disabled value= "...">...</option>`'
 // Ao abrir a página, carrega os clientes do banco de dados
 async function onLoad() {
+  //DADOS DE VENDEDORES
+  var data = await fecthGet("/vendedores")
+  console.log(data)
+  data.forEach(function (item) {
+    if (optionsVendedores.indexOf(item["nome"]) == -1) {
+      optionsVendedores += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
+    }
+  });
+  document.getElementById("inputVendedor").innerHTML = optionsVendedores
   //DADOS DE CLIENTES
   var data = await fecthGet("/cliente")
   data.forEach(function (item) {

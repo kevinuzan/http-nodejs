@@ -161,10 +161,12 @@
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputVendedor" style="font-weight: bold">VENDEDOR</label>
-										<input list="inputVendedorList" id="inputVendedor" placeholder="Digite.." />
+										<select id="inputVendedor" placeholder="Digite.." onchange="getVendedor()">
+										</select>
+										<!-- <input list="inputVendedorList" id="inputVendedor" placeholder="Digite.." onchange="getVendedor()"/>
 										<datalist id="inputVendedorList">
 											<option selected disabled></option>
-										</datalist>
+										</datalist> -->
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputVendedorTelefone" style="font-weight: bold">EMAIL
@@ -1588,14 +1590,6 @@
 										<label for="inputCepConfigInsert" style="font-weight: bold">CEP</label>
 										<input id="inputCepConfigInsert" placeholder="Digite..">
 									</div>
-									<div class="field-container mt-2">
-										<label for="inputVendedorConfigInsert"
-											style="font-weight: bold">VENDEDOR</label>
-										<input list="inputVendedorListConfigInsert" id="inputVendedorConfigInsert" />
-										<datalist id="inputVendedorListConfigInsert">
-											<option selected disabled></option>
-										</datalist>
-									</div>
 								</div>
 							</div>
 							<br>
@@ -1722,13 +1716,6 @@
 									<div class="field-container mt-2">
 										<label for="inputCepConfigEdit" style="font-weight: bold">CEP</label>
 										<input id="inputCepConfigEdit" placeholder="Digite..">
-									</div>
-									<div class="field-container mt-2">
-										<label for="inputVendedorConfigEdit" style="font-weight: bold">VENDEDOR</label>
-										<input list="inputVendedorListConfigEdit" id="inputVendedorConfigEdit" />
-										<datalist id="inputVendedorListConfigEdit">
-											<option selected disabled></option>
-										</datalist>
 									</div>
 								</div>
 							</div>
