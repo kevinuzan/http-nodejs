@@ -1316,6 +1316,16 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputLarguraModulo')[0].value = dataMdlPeca[0].largura
     $('#inputAlturaModulo')[0].value = dataMdlPeca[0].altura
     await checkTemp()
+    vmp = await valNum(dataMdlPeca[0].vmp)
+    pmax = await valNum(dataMdlPeca[0].pmax)
+    voc = await valNum(dataMdlPeca[0].voc)
+    isc = await valNum(dataMdlPeca[0].isc)
+    tpmax = await valNum(dataMdlPeca[0].tpmax)
+    tvoc = await valNum(dataMdlPeca[0].tvoc)
+    tisc = await valNum(dataMdlPeca[0].tisc)
+    imp = await valNum(dataMdlPeca[0].imp)
+    fornecedorMdl = dataMdlPeca[0].fornecedor
+    $('#inputFabriMdlOrca')[0].value = fornecedorMdl
   } else if (option == 'CLEAR') {
     $('#inputVmpModulo')[0].value = ''
     $('#inputImpModulo')[0].value = ''
@@ -1352,16 +1362,6 @@ async function fillMdlData(option, dataMdlPeca) {
   await qtdeMdl()
   await protDimenCabos()
   await energiaInversor()
-  vmp = await valNum(dataMdlPeca[0].vmp)
-  pmax = await valNum(dataMdlPeca[0].pmax)
-  voc = await valNum(dataMdlPeca[0].voc)
-  isc = await valNum(dataMdlPeca[0].isc)
-  tpmax = await valNum(dataMdlPeca[0].tpmax)
-  tvoc = await valNum(dataMdlPeca[0].tvoc)
-  tisc = await valNum(dataMdlPeca[0].tisc)
-  imp = await valNum(dataMdlPeca[0].imp)
-  fornecedorMdl = dataMdlPeca[0].fornecedor
-  $('#inputFabriMdlOrca')[0].value = fornecedorMdl
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
 var tpmax
@@ -1382,12 +1382,12 @@ async function checkTemp() {
   } else {
     tempMedia = 0
   }
-  element21.value = tempMedia * parseFloat(element24.value.replaceAll(",", ".")) * 100
-  element22.value = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
-  element23.value = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
-  itemsCorrecao['inputTPmaxPerModulo'] = tempMedia * parseFloat(element24.value.replaceAll(",", ".")) * 100
-  itemsCorrecao['inputTVocPerModulo'] = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
-  itemsCorrecao['inputTIscPerModulo'] = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
+  element21.value = (tempMedia * await valNum(tpmax) * 100).toFixed(2)
+  element22.value = (tempMedia * await valNum(tvoc) * 100).toFixed(2)
+  element23.value = (tempMedia * await valNum(tisc) * 100).toFixed(2)
+  itemsCorrecao['inputTPmaxPerModulo'] = tempMedia * valNum(tpmax) * 100
+  itemsCorrecao['inputTVocPerModulo'] = tempMedia * valNum(tvoc) * 100
+  itemsCorrecao['inputTIscPerModulo'] = tempMedia * valNum(tisc) * 100
   somaCorrecao = sumValues(itemsCorrecao)
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
   pmaxCorr = pmax * (1 + (tpmax * tempMedia))
@@ -1481,6 +1481,13 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputFaixaTensaoInversor')[0].value = dataInvPeca[0].faixatens
     $('#inputCorrenteMaxCCInversor')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversor')[0].value = dataInvPeca[0].correntesaída
+    tensaoCCinversor = await valNum(dataInvPeca[0].tenspart)
+    eficienciaInv = await valNum(dataInvPeca[0].eficiencia)
+    maxTensaoCCinversor = await valNum(dataInvPeca[0].maxtens)
+    maxCorrenteCCinversor = await valNum(dataInvPeca[0].entradaimp)
+    maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
+    fornecedorInv = dataInvPeca[0].fornecedor
+    $('#inputFabriInvOrca')[0].value = fornecedorInv
   } else if (option == 'CLEAR') {
     $('#inputFaixaMPPTInversor')[0].value = ''
     $('#inputTensaoCCInversor')[0].value = ''
@@ -1504,16 +1511,11 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputCorrenteMaxCCInversorConfigEdit')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversorConfigEdit')[0].value = dataInvPeca[0].correntesaída
   }
-  tensaoCCinversor = await valNum(dataInvPeca[0].tenspart)
-  eficienciaInv = await valNum(dataInvPeca[0].eficiencia)
-  maxTensaoCCinversor = await valNum(dataInvPeca[0].maxtens)
-  maxCorrenteCCinversor = await valNum(dataInvPeca[0].entradaimp)
-  maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
-  fornecedorInv = dataInvPeca[0].fornecedor
+
   await qtdeMdl()
   await protDimenCabos()
   await energiaInversor()
-  $('#inputFabriInvOrca')[0].value = fornecedorInv
+  
 }
 //#endregion
 
