@@ -383,6 +383,12 @@
 									CÁLCULOS
 								</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link app-tab-title" data-toggle="tab" href="#geracao-consumo-tab-content"
+									role="tab">
+									GERAÇÃO E CONSUMO
+								</a>
+							</li>
 						</ul>
 						<div class="tab-content">
 							<!-- MÓDULOS -->
@@ -979,6 +985,30 @@
 									</div>
 								</div>
 							</div>
+							<!-- GERAÇÃO E CONSUMO -->
+							<div class="tab-pane fade show" id="geracao-consumo-tab-content" role="tabpanel">
+								<div class="app-container">
+									<br>
+									<div class="outerboxmain align-items-center">
+										<br>
+										<div class="table-responsive">
+											<h4 class="app-subtitle">GERAÇÃO E CONSUMO</h4>
+											<table class="table2" id="tableGeracaoConsumo">
+												<thead>
+													<tr>
+														<th scope="col">MÊS</th>
+														<th scope="col">GERAÇÃO (KW)</th>
+														<th scope="col">CONSUMO (KWH)</th>
+														<th scope="col">CONSUMO SEM ADIÇÃO (KWH)</th>
+													</tr>
+												</thead>
+												<tbody id="bodyGeracaoConsumo">
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<br>
@@ -997,12 +1027,7 @@
 									FATURA
 								</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link app-tab-title" data-toggle="tab" href="#resultados-tab-content"
-									role="tab">
-									RESULTADOS
-								</a>
-							</li>
+
 						</ul>
 						<div class="tab-content">
 							<!-- DADOS TARIFA -->
@@ -1279,54 +1304,7 @@
 									</div>
 								</div>
 							</div>
-							<!-- DADOS RESULTADOS -->
-							<div class="tab-pane fade show" id="resultados-tab-content" role="tabpanel">
-								<div class="app-container">
-									<br>
-									<div class="outerboxmain align-items-center">
-										<h2 class="app-subtitle">FLUXO DE CAIXA</h2>
-										<div class="container-4-columns">
-											<div class="field-container mt-2">
-												<label for="inputEconomiaAnualFluxo" style="font-weight: bold">ECONOMIA
-													ANUAL
-												</label>
-												<input id="inputEconomiaAnualFluxo" placeholder="Digite..">
-											</div>
-											<div class="field-container mt-2">
-												<label for="inputInvestInicialFluxo"
-													style="font-weight: bold">INVESTIMENTO INICIAL</label>
-												<input id="inputInvestInicialFluxo" placeholder="Digite..">
-											</div>
-											<div class="field-container mt-2">
-												<label for="inputTaxaDescontoFluxo" style="font-weight: bold">TAXA DE
-													DESCONTO</label>
-												<input id="inputTaxaDescontoFluxo" placeholder="Digite..">
-											</div>
-											<div class="field-container mt-2">
-												<label for="inputInflacaoEletricaFluxo"
-													style="font-weight: bold">INFLAÇÃO DA ENERGIA ELÉTRICA</label>
-												<input id="inputInflacaoEletricaFluxo" placeholder="Digite..">
-											</div>
-										</div>
 
-										<div class="table-responsive mt-2">
-											<table class="table2" id="tableFluxo" style="width: 870px;">
-												<thead>
-													<tr>
-														<th scope="col">ANO</th>
-														<th scope="col">FLUXO DE CAIXA</th>
-														<th scope="col">VALOR PRESENTE</th>
-														<th scope="col">VALOR PRESENTE ACUM.</th>
-													</tr>
-												</thead>
-												<tbody id="bodyFluxo">
-
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -1344,6 +1322,11 @@
 						</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#resultados-tab-content" role="tab">
+							RESULTADOS
+						</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link app-tab-title" data-toggle="tab" href="#financiamento-tab-content"
 							role="tab">
 							FINANCIAMENTO
@@ -1351,6 +1334,7 @@
 					</li>
 				</ul>
 				<div class="tab-content">
+					<!-- DADOS ORÇAMENTO -->
 					<div class="tab-pane fade show active" id="dados-orca-tab-content" role="tabpanel">
 						<div class="app-container">
 							<br>
@@ -1403,10 +1387,11 @@
 									</div>
 
 									<div class="field-container mt-2">
-										<label for="inputMoTerceiroOrca" style="font-weight: bold">VALOR MO TERCEIRO</label>
+										<label for="inputMoTerceiroOrca" style="font-weight: bold">VALOR MO
+											TERCEIRO</label>
 										<input id="inputMoTerceiroOrca" placeholder="Digite..">
 									</div>
-									
+
 									<div class="field-container mt-2 ">
 										<label for="saveGreener" style="font-weight: bold"> </label>
 										<button type="button" onclick="saveGreener()" id="saveGreener"
@@ -1427,7 +1412,8 @@
 										<input id="inputTelhadoOrca" placeholder="Digite..">
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputPorcentagemFornOrca" style="font-weight: bold">PORCENT. FORNECEDOR (%)</label>
+										<label for="inputPorcentagemFornOrca" style="font-weight: bold">PORCENT.
+											FORNECEDOR (%)</label>
 										<input id="inputPorcentagemFornOrca" placeholder="Digite.." value="5">
 									</div>
 								</div>
@@ -1458,37 +1444,45 @@
 									<div class="field-container mt-2">
 										<label for="inputMatFotovOrca" style="font-weight: bold">MATERIAL
 											FOTOVOLTAICO</label>
-										<input id="inputMatFotovOrca" placeholder="Digite..">
+										<input id="inputMatFotovOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputPainelProtOrca" style="font-weight: bold">PAINEL DE PROTEÇÃO
 											CA</label>
-										<input id="inputPainelProtOrca" placeholder="Digite.." onchange="updateLucro()">
+										<input id="inputPainelProtOrca" placeholder="Digite.." value="0"
+											onchange="updateLucro();getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputStringBoxOrca" style="font-weight: bold">STRING BOX CC</label>
-										<input id="inputStringBoxOrca" placeholder="Digite..">
+										<input id="inputStringBoxOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputMaterialCaOrca" style="font-weight: bold">MATERIAL CA</label>
-										<input id="inputMaterialCaOrca" placeholder="Digite..">
+										<input id="inputMaterialCaOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputEstruCobertOrca" style="font-weight: bold">ESTRUTURA
 											COBERTURA</label>
-										<input id="inputEstruCobertOrca" placeholder="Digite..">
+										<input id="inputEstruCobertOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputEletrodutoOrca" style="font-weight: bold">ELETRODUTO</label>
-										<input id="inputEletrodutoOrca" placeholder="Digite..">
+										<input id="inputEletrodutoOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputCustoViagemOrca" style="font-weight: bold">CUSTO VIAGEM</label>
-										<input id="inputCustoViagemOrca" placeholder="Digite..">
+										<input id="inputCustoViagemOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputLucroOrca" style="font-weight: bold">LUCRO</label>
-										<input id="inputLucroOrca" placeholder="Digite.." onchange="updateLucro()">
+										<input id="inputLucroOrca" placeholder="Digite.." value="0"
+											onchange="updateLucro();getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputLucroMgOrca" style="font-weight: bold">LUCRO (MG
@@ -1496,12 +1490,14 @@
 										<input id="inputLucroMgOrca" placeholder="Digite..">
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputComissaoOrca" style="font-weight: bold">COMISSÃO</label>
-										<input id="inputComissaoOrca" placeholder="Digite..">
+										<label for="inputComissaoOrca" style="font-weight: bold">COMISSÃO (%)</label>
+										<input id="inputComissaoOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputImpostoOrca" style="font-weight: bold">IMPOSTO</label>
-										<input id="inputImpostoOrca" placeholder="Digite..">
+										<label for="inputImpostoOrca" style="font-weight: bold">IMPOSTO (%)</label>
+										<input id="inputImpostoOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputFornOrca" style="font-weight: bold">FORNECEDOR</label>
@@ -1516,6 +1512,310 @@
 										<label for="inputFabriInvOrca" style="font-weight: bold">FABRICANTE
 											INVERSOR</label>
 										<input id="inputFabriInvOrca" placeholder="Digite..">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- DADOS ORÇAMENTO FINAL -->
+					<div class="tab-pane fade show" id="orca-final-tab-content" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-subtitle">ORÇAMENTO FINAL</h2>
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="inputTotalOrcaFinal" style="font-weight: bold">TOTAL GERAL</label>
+										<input id="inputTotalOrcaFinal" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputDescontoOrcaFinal" style="font-weight: bold">DESCONTO
+											(%)</label>
+										<input id="inputDescontoOrcaFinal" placeholder="Digite.." value="0"
+											onchange="descontoOrcaFinal();fluxoCaixa()">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputTotalCDescOrcaFinal" style="font-weight: bold">TOTAL C/
+											DESCONTO</label>
+										<input id="inputTotalCDescOrcaFinal" placeholder="Digite..">
+									</div>
+								</div>
+								<div class="table-responsive mt-2">
+									<table class="table2" id="tableOrcaFinal" style="width: 870px;">
+										<thead>
+											<tr>
+												<th scope="col">ESCOPO</th>
+												<th scope="col">VALOR (R$)</th>
+												<th scope="col">PERCENTUAL (%)</th>
+												<th scope="col">R$/Wp (%)</th>
+											</tr>
+										</thead>
+										<tbody id="bodyOrcaFinal">
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- DADOS RESULTADOS -->
+					<div class="tab-pane fade show" id="resultados-tab-content" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-subtitle">RESULTADO FINANCEIRO</h2>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputTirResultado" style="font-weight: bold">TIR</label>
+										<input disabled id="inputTirResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPaybackAnoResultado" style="font-weight: bold">PAYBACK
+											(ANOS)</label>
+										<input disabled id="inputPaybackAnoResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPaybackCompletoResultado" style="font-weight: bold">PAYBACK
+											COMPLETO</label>
+										<input disabled id="inputPaybackCompletoResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPaybackAnualResultado" style="font-weight: bold">PAYBACK
+											CLIENTE ANUAL (%)</label>
+										<input disabled id="inputPaybackAnualResultado" placeholder="Digite..">
+									</div>
+								</div>
+								<br>
+								<h2 class="app-subtitle">RESULTADO AMBIENTAL</h2>
+								<div class="container-3-columns">
+									<div class="field-container mt-2">
+										<label for="inputKmRodadosResultado" style="font-weight: bold">KM
+											RODADOS</label>
+										<input disabled id="inputKmRodadosResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputArvoresResultado" style="font-weight: bold">ÁRVORES
+											POUPADAS</label>
+										<input disabled id="inputArvoresResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputCo2Resultado" style="font-weight: bold">CO2 EVITADOS</label>
+										<input disabled id="inputCo2Resultado" placeholder="Digite..">
+									</div>
+								</div>
+								<br>
+								<h2 class="app-subtitle">RESULTADOS PARA 25 ANOS</h2>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputSomaVpResultado" style="font-weight: bold">SOMA VP</label>
+										<input disabled id="inputSomaVpResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputVplProjetoResultado" style="font-weight: bold">VPL DO
+											PROJETO</label>
+										<input disabled id="inputVplProjetoResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputTaxaLucraResultado" style="font-weight: bold">TAXA DE
+											LUCRATIVIDADE</label>
+										<input disabled id="inputTaxaLucraResultado" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputRoiResultado" style="font-weight: bold">ROI</label>
+										<input disabled id="inputRoiResultado" placeholder="Digite..">
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-subtitle">FLUXO DE CAIXA</h2>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputEconomiaAnualFluxo" style="font-weight: bold">ECONOMIA
+											ANUAL
+										</label>
+										<input disabled id="inputEconomiaAnualFluxo" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputInvestInicialFluxo" style="font-weight: bold">INVESTIMENTO
+											INICIAL</label>
+										<input disabled id="inputInvestInicialFluxo" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputTaxaDescontoFluxo" style="font-weight: bold">TAXA DE
+											DESCONTO (%)</label>
+										<input disabled id="inputTaxaDescontoFluxo" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputInflacaoEletricaFluxo" style="font-weight: bold">INFLAÇÃO DA
+											ENERGIA ELÉTRICA (%)</label>
+										<input id="inputInflacaoEletricaFluxo" placeholder="Digite.."
+											onchange="fluxoCaixa()">
+									</div>
+								</div>
+
+								<div class="table-responsive mt-2">
+									<table class="table2" id="tableFluxo" style="width: 870px;">
+										<thead>
+											<tr>
+												<th scope="col">ANO</th>
+												<th scope="col">FLUXO DE CAIXA</th>
+												<th scope="col">VALOR PRESENTE</th>
+												<th scope="col">VALOR PRESENTE ACUM.</th>
+											</tr>
+										</thead>
+										<tbody id="bodyFluxo">
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- DADOS FINANCIAMENTO -->
+					<div class="tab-pane fade show" id="financiamento-tab-content" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-subtitle">FINANCIAMENTO</h2>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputValorFinanciamento" style="font-weight: bold">VALOR A SER
+											FINANCIADO</label>
+										<input disabled id="inputValorFinanciamento" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputNumeroParcelasFinanciamento" style="font-weight: bold">N°
+											PARCELAS POR MÊS</label>
+										<select id="inputNumeroParcelasFinanciamento" onchange="valFinanciamento()">
+											<option selected value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+											<option value="11">11</option>
+											<option value="12">12</option>
+											<option value="13">13</option>
+											<option value="14">14</option>
+											<option value="15">15</option>
+											<option value="16">16</option>
+											<option value="17">17</option>
+											<option value="18">18</option>
+											<option value="19">19</option>
+											<option value="20">20</option>
+											<option value="21">21</option>
+											<option value="22">22</option>
+											<option value="23">23</option>
+											<option value="24">24</option>
+											<option value="25">25</option>
+											<option value="26">26</option>
+											<option value="27">27</option>
+											<option value="28">28</option>
+											<option value="29">29</option>
+											<option value="30">30</option>
+											<option value="31">31</option>
+											<option value="32">32</option>
+											<option value="33">33</option>
+											<option value="34">34</option>
+											<option value="35">35</option>
+											<option value="36">36</option>
+											<option value="37">37</option>
+											<option value="38">38</option>
+											<option value="39">39</option>
+											<option value="40">40</option>
+											<option value="41">41</option>
+											<option value="42">42</option>
+											<option value="43">43</option>
+											<option value="44">44</option>
+											<option value="45">45</option>
+											<option value="46">46</option>
+											<option value="47">47</option>
+											<option value="48">48</option>
+											<option value="49">49</option>
+											<option value="50">50</option>
+											<option value="51">51</option>
+											<option value="52">52</option>
+											<option value="53">53</option>
+											<option value="54">54</option>
+											<option value="55">55</option>
+											<option value="56">56</option>
+											<option value="57">57</option>
+											<option value="58">58</option>
+											<option value="59">59</option>
+											<option value="60">60</option>
+											<option value="61">61</option>
+											<option value="62">62</option>
+											<option value="63">63</option>
+											<option value="64">64</option>
+											<option value="65">65</option>
+											<option value="66">66</option>
+											<option value="67">67</option>
+											<option value="68">68</option>
+											<option value="69">69</option>
+											<option value="70">70</option>
+											<option value="71">71</option>
+											<option value="72">72</option>
+										</select>
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputJurosMesFinanciamento" style="font-weight: bold">TAXA DE JUROS
+											AO MÊS (%)</label>
+										<input id="inputJurosMesFinanciamento" placeholder="Digite.."
+											onchange="valFinanciamento()" value="1,5">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputValorFinalFinanciamento" style="font-weight: bold">VALOR DO
+											FINANCIAMENTO</label>
+										<input disabled id="inputValorFinalFinanciamento" placeholder="Digite..">
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-subtitle">KPI's</h2>
+								<div class="container-3-columns">
+									<div class="field-container mt-2">
+										<label for="inputLucroBrutoValorOrcaFinal" style="font-weight: bold">LUCRO
+											BRUTO</label>
+										<input id="inputLucroBrutoValorOrcaFinal" placeholder="Digite..">
+										<input id="inputLucroBrutoPercentualOrcaFinal" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputComissaoValorOrcaFinal"
+											style="font-weight: bold">COMISSÃO</label>
+										<input id="inputComissaoValorOrcaFinal" placeholder="Digite..">
+										<input id="inputComissaoPercentualOrcaFinal" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputLucroLiqValorOrcaFinal" style="font-weight: bold">LUCRO
+											LÍQUIDO</label>
+										<input id="inputLucroLiqValorOrcaFinal" placeholder="Digite..">
+										<input id="inputLucroLiqPercentualOrcaFinal" placeholder="Digite..">
+									</div>
+								</div>
+								<div class="container-3-columns mt-2">
+									<div class="field-container mt-2">
+										<label for="inputPrecoKwpValorOrcaFinal" style="font-weight: bold">PREÇO POR
+											KWP</label>
+										<input id="inputPrecoKwpValorOrcaFinal" placeholder="Digite..">
+										<input id="inputPrecoKwpPercentualOrcaFinal" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPrecoServKwpValorOrcaFinal" style="font-weight: bold">PREÇO
+											SERVIÇO POR KWP</label>
+										<input id="inputPrecoServKwpValorOrcaFinal" placeholder="Digite..">
+										<input id="inputPrecoServKwpPercentualOrcaFinal" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputPrecoMatKwpValorOrcaFinal" style="font-weight: bold">PREÇO KWP
+											MATERIAL</label>
+										<input id="inputPrecoMatKwpValorOrcaFinal" placeholder="Digite..">
+										<input id="inputPrecoMatKwpPercentualOrcaFinal" placeholder="Digite..">
 									</div>
 								</div>
 							</div>

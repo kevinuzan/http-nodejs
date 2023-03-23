@@ -23,6 +23,20 @@ var optionsInveInvNew = ''
 var optionsPoteInvNew = ''
 var optionsPecaInvNew = ''
 
+var listInputs = [
+  'inputJanConsumo',
+  'inputFevConsumo',
+  'inputMarConsumo',
+  'inputAbrConsumo',
+  'inputMaiConsumo',
+  'inputJunConsumo',
+  'inputJulConsumo',
+  'inputAgoConsumo',
+  'inputSetConsumo',
+  'inputOutConsumo',
+  'inputNovConsumo',
+  'inputDezConsumo',
+]
 async function deletaDepois() {
   var listConsumo = [
     23960,
@@ -37,20 +51,6 @@ async function deletaDepois() {
     20720,
     22800,
     24920,
-  ]
-  var listInputs = [
-    'inputJanConsumo',
-    'inputFevConsumo',
-    'inputMarConsumo',
-    'inputAbrConsumo',
-    'inputMaiConsumo',
-    'inputJunConsumo',
-    'inputJulConsumo',
-    'inputAgoConsumo',
-    'inputSetConsumo',
-    'inputOutConsumo',
-    'inputNovConsumo',
-    'inputDezConsumo',
   ]
   $('#inputJanConsumo')[0].value = listConsumo[0]
   $('#inputFevConsumo')[0].value = listConsumo[1]
@@ -199,6 +199,148 @@ async function saveGreener() {
   }
 }
 //#endregion
+var paybackCompleto
+var dictValorFluxo = []
+var vpTotal
+async function fluxoCaixa() {
+  dictValorFluxo = []
+  var vp
+  var vpa
+  var checkVpa = false
+  vpTotal = 0
+  var inflacao = await valNum($('#inputInflacaoEletricaFluxo')[0].value) / 100
+  for (i = 0; i <= 25; i++) {
+    if (i == 0) {
+      dictValorFluxo.push({
+        ano: i,
+        fluxo: -totalGeralOrcaFinal,
+        vp: -totalGeralOrcaFinal,
+        vpa: -totalGeralOrcaFinal
+      })
+    } else {
+      vp = mediaAnualEconomia * Math.pow((1 + inflacao), i)
+      vpa = dictValorFluxo[i - 1].vpa + vp
+      dictValorFluxo.push({
+        ano: i,
+        fluxo: dictValorFluxo[i - 1].vpa,
+        vp: vp,
+        vpa: vpa
+      })
+      vpTotal += vp
+    }
+    if (vpa > 0 && checkVpa == false) {
+      var payback = (-dictValorFluxo[i].fluxo / dictValorFluxo[i].vp) + i - 1
+      var anoPayback = Math.floor(payback)
+      var mesPayback = Math.floor((payback - anoPayback) * 12)
+      var diaPayback = Math.floor((((payback - anoPayback) * 12) - mesPayback) * 30)
+      paybackCompleto = `${anoPayback} Anos ${mesPayback} Meses ${diaPayback} Dias`
+      $('#inputPaybackAnoResultado')[0].value = payback.toFixed(2)
+      $('#inputPaybackCompletoResultado')[0].value = paybackCompleto
+      $('#inputPaybackAnualResultado')[0].value = (1 / payback).toFixed(2) + '%'
+      checkVpa = true
+    }
+  }
+  await loadTableData(dictValorFluxo, "bodyFluxo")
+  $('#inputSomaVpResultado')[0].value = brlBrazil.format(vpTotal)
+  $('#inputVplProjetoResultado')[0].value = brlBrazil.format(vpTotal - totalGeralOrcaFinal)
+  $('#inputTaxaLucraResultado')[0].value = (vpTotal / totalGeralOrcaFinal).toFixed(2)
+  $('#inputRoiResultado')[0].value = (((mediaAnualEconomia * 25) - totalGeralOrcaFinal) / totalGeralOrcaFinal).toFixed(2)
+}
+var dictGeracaoConsumo = []
+var meses = [
+  'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
+]
+var mesesPt = [
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+]
+var geracaoTotal = 0
+var geracaoMedia = 0
+var consumoAddTotal = 0
+var consumoAddMedia = 0
+var consumoTotal = 0
+var consumoMedia = 0
+async function geracaoConsumo() {
+  dictGeracaoConsumo = []
+  geracaoTotal = 0
+  for (let i = 0; i < meses.length; i++) {
+    var geracao = (emmConsumo * (await valNum(dataIrr[0][meses[i]]) / 1000) * 30 * (fatConsumo / 100)) / 100
+    var consumoAdd = await valNum(itemsConsumo[listInputs[i]]) + addConsumo
+    var consumo = await valNum(itemsConsumo[listInputs[i]])
+    dictGeracaoConsumo.push({
+      mes: mesesPt[i],
+      geracao: geracao,
+      consumoAdd: consumoAdd,
+      consumo: consumo
+    })
+    geracaoTotal += geracao
+    consumoAddTotal += consumoAdd
+    consumoTotal += consumo
+  }
+  geracaoMedia = geracaoTotal / 12
+  consumoAddMedia = consumoAddTotal / 12
+  consumoMedia = consumoTotal / 12
+  dictGeracaoConsumo.push({
+    mes: 'MÉDIA KWH',
+    geracao: geracaoMedia,
+    consumoAdd: consumoAddMedia,
+    consumo: consumoMedia
+  })
+  dictGeracaoConsumo.push({
+    mes: 'ANUAL KWH',
+    geracao: geracaoTotal,
+    consumoAdd: consumoAddTotal,
+    consumo: consumoTotal
+  })
+  await loadTableData(dictGeracaoConsumo, 'bodyGeracaoConsumo')
+}
+
+async function pgto(taxa, parcelas, valor) {
+  return valor * (taxa) / (1 - (Math.pow(1 + taxa, -parcelas)));
+}
+var finalFinanciamento
+async function valFinanciamento() {
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento')[0].value) / 100
+  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento')[0].value = brlBrazil.format(finalFinanciamento)
+}
+
+var somaOrcaFinal = 0
+var impostoOrcaFinal = 0
+var totalGeralOrcaFinal = 0
+
+var MatFotov = 0
+var PainelProt = 0
+var StringBox = 0
+var MaterialCa = 0
+var EstruCobert = 0
+var Eletroduto = 0
+var CustoViagem = 0
+var Lucro = 0
+var LucroMg = 0
+async function sumOrcaFinal() {
+  MatFotov = await valNum($('#inputMatFotovOrca')[0].value)
+  PainelProt = await valNum($('#inputPainelProtOrca')[0].value)
+  StringBox = await valNum($('#inputStringBoxOrca')[0].value)
+  MaterialCa = await valNum($('#inputMaterialCaOrca')[0].value)
+  EstruCobert = await valNum($('#inputEstruCobertOrca')[0].value)
+  Eletroduto = await valNum($('#inputEletrodutoOrca')[0].value)
+  CustoViagem = await valNum($('#inputCustoViagemOrca')[0].value)
+  Lucro = await valNum($('#inputLucroOrca')[0].value)
+  LucroMg = lucroMargem
+  somaOrcaFinal = (projeHomo - moTerceira) + moTerceira + MatFotov + PainelProt + StringBox + MaterialCa + EstruCobert + Eletroduto + CustoViagem
+
+  var inputImpostoOrca = await valNum($('#inputImpostoOrca')[0].value)
+  impostoOrcaFinal = (somaOrcaFinal / (1 - (inputImpostoOrca / 100))) * (inputImpostoOrca / 100)
+  totalGeralOrcaFinal = somaOrcaFinal + impostoOrcaFinal
+  $('#inputTotalOrcaFinal')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputInvestInicialFluxo')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  await descontoOrcaFinal()
+  await valFinanciamento()
+  await fluxoCaixa()
+}
 
 var projeHomo
 async function getProjetoHomo() {
@@ -251,7 +393,79 @@ async function updateLucro() {
   lucroMargem = projeHomo + (painelCA * porcentForn) + lucro - moTerceira
   $('#inputLucroMgOrca')[0].value = brlBrazil.format(lucroMargem)
 }
-
+async function getDataOrcaFinal() {
+  await getProjetoHomo() //projeHomo
+  await sumOrcaFinal()
+  dictValorOrca.forEach(element => {
+    if (element.titulo == 'PROJETO + HOMOLOGAÇÃO') {
+      element.valor = projeHomo - moTerceira
+      element.percentual = ((projeHomo - moTerceira) / totalGeralOrcaFinal) * 100
+      element.valorWp = (projeHomo - moTerceira) / potPicoReal / 1000
+    } else if (element.titulo == 'MÃO DE OBRA TERCEIRA') {
+      element.valor = moTerceira
+      element.percentual = (moTerceira / totalGeralOrcaFinal) * 100
+      element.valorWp = moTerceira / potPicoReal / 1000
+    } else if (element.titulo == 'MATERIAL FOTOVOLTAICO') {
+      element.valor = MatFotov
+      element.percentual = (MatFotov / totalGeralOrcaFinal) * 100
+      element.valorWp = MatFotov / potPicoReal / 1000
+    } else if (element.titulo == 'PAINEL DE PROTEÇÃO CA') {
+      element.valor = PainelProt
+      element.percentual = (PainelProt / totalGeralOrcaFinal) * 100
+      element.valorWp = PainelProt / potPicoReal / 1000
+    } else if (element.titulo == 'STRING BOX CC') {
+      element.valor = StringBox
+      element.percentual = (StringBox / totalGeralOrcaFinal) * 100
+      element.valorWp = StringBox / potPicoReal / 1000
+    } else if (element.titulo == 'MATERIAL CA') {
+      element.valor = MaterialCa
+      element.percentual = (MaterialCa / totalGeralOrcaFinal) * 100
+      element.valorWp = MaterialCa / potPicoReal / 1000
+    } else if (element.titulo == 'ESTRUTURA COBERTURA') {
+      element.valor = EstruCobert
+      element.percentual = (EstruCobert / totalGeralOrcaFinal) * 100
+      element.valorWp = EstruCobert / potPicoReal / 1000
+    } else if (element.titulo == 'ELETRODUTO') {
+      element.valor = Eletroduto
+      element.percentual = (Eletroduto / totalGeralOrcaFinal) * 100
+      element.valorWp = Eletroduto / potPicoReal / 1000
+    } else if (element.titulo == 'CUSTO VIAGEM') {
+      element.valor = CustoViagem
+      element.percentual = (CustoViagem / totalGeralOrcaFinal) * 100
+      element.valorWp = CustoViagem / potPicoReal / 1000
+    } else if (element.titulo == 'LUCRO') {
+      element.valor = lucro
+      element.percentual = (lucro / totalGeralOrcaFinal) * 100
+      element.valorWp = lucro / potPicoReal / 1000
+    } else if (element.titulo == 'LUCRO BRUTO(R$)') {
+      element.valor = lucroMargem
+      element.percentual = (lucroMargem / totalGeralOrcaFinal) * 100
+      element.valorWp = lucroMargem / potPicoReal / 1000
+    } else if (element.titulo == 'TOTAL DE CUSTOS') {
+      element.valor = somaOrcaFinal
+      element.percentual = (somaOrcaFinal / totalGeralOrcaFinal) * 100
+      element.valorWp = somaOrcaFinal / potPicoReal / 1000
+    } else if (element.titulo == 'IMPOSTOS') {
+      element.valor = impostoOrcaFinal
+      element.percentual = (impostoOrcaFinal / totalGeralOrcaFinal) * 100
+      element.valorWp = impostoOrcaFinal / potPicoReal / 1000
+    } else if (element.titulo == 'TOTAL GERAL') {
+      element.valor = totalGeralOrcaFinal
+      element.percentual = 100
+      element.valorWp = (impostoOrcaFinal / potPicoReal / 1000) + (totalGeralOrcaFinal / potPicoReal / 1000)
+    }
+  });
+  console.log(dictValorOrca)
+  loadTableData(dictValorOrca, 'bodyOrcaFinal')
+}
+var totalDescontoOrcaFinal
+var descontoOrca
+async function descontoOrcaFinal() {
+  descontoOrca = await valNum($('#inputDescontoOrcaFinal')[0].value)
+  totalDescontoOrcaFinal = totalGeralOrcaFinal * (1 - await valNum($('#inputDescontoOrcaFinal')[0].value) / 100)
+  $('#inputTotalCDescOrcaFinal')[0].value = brlBrazil.format(totalDescontoOrcaFinal)
+  $('#inputTaxaDescontoFluxo')[0].value = descontoOrca.toFixed(2) + '%'
+}
 async function fatorCorrecao(id, value) {
   itemsCorrecao[id] = parseFloat(value)
   somaCorrecao = sumValues(itemsCorrecao)
@@ -291,6 +505,7 @@ async function checkBandeira(valor) {
 var gerConsumo
 var emmConsumo
 var fatConsumo
+var addConsumo
 async function sumItems(id, value) {
   if (value != '') {
     if (id != 'function') {
@@ -299,7 +514,7 @@ async function sumItems(id, value) {
     var somaItens = Object.keys(itemsConsumo).length
     somaConsumo = sumValues(itemsConsumo)
     emmConsumo = parseFloat(somaConsumo / somaItens)
-    var addConsumo = $('#inputAddConsumo')[0].value
+    addConsumo = $('#inputAddConsumo')[0].value
     if (addConsumo == '') {
       addConsumo = 0
     } else {
@@ -378,13 +593,108 @@ async function sumItems(id, value) {
 
     await energiaInversor()
     await tableTaxacaoFioB()
+    await geracaoConsumo()
   }
+
+}
+var listTituloOrcaFinal = [
+  'PROJETO + HOMOLOGAÇÃO',
+  'MÃO DE OBRA TERCEIRA',
+  'MATERIAL FOTOVOLTAICO',
+  'PAINEL DE PROTEÇÃO CA',
+  'STRING BOX CC',
+  'MATERIAL CA',
+  'ESTRUTURA COBERTURA',
+  'ELETRODUTO',
+  'CUSTO VIAGEM',
+  'LUCRO',
+  'LUCRO BRUTO(R$)',
+  'TOTAL DE CUSTOS',
+  'IMPOSTOS',
+]
+var dictValorOrca = [
+  {
+    titulo: 'PROJETO + HOMOLOGAÇÃO',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'MÃO DE OBRA TERCEIRA',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'MATERIAL FOTOVOLTAICO',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'PAINEL DE PROTEÇÃO CA',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'STRING BOX CC',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'MATERIAL CA',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'ESTRUTURA COBERTURA',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'ELETRODUTO',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'CUSTO VIAGEM',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'LUCRO',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'LUCRO BRUTO(R$)',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'TOTAL DE CUSTOS',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'IMPOSTOS',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'TOTAL GERAL',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }]
+async function tableOrcaFinal() {
+
+
 
 }
 
 var listFinalTaxacao = []
 var listFinalGeracao = []
 var listFinalEconomia = []
+var economiaAnual
+var mediaAnualEconomia
 async function tableTaxacaoFioB() {
   var tarifafiob = await fecthGet(`/tarifafiobData?name=${distribuidora}`)
   console.log(tarifafiob)
@@ -455,7 +765,7 @@ async function tableTaxacaoFioB() {
       tarifaTotal
     ])
     var economiaMensal = CreditoSomaTotal - tarifaTotal
-    var economiaAnual = economiaMensal * 12
+    economiaAnual = economiaMensal * 12
     listFinalEconomia.push([
       listAno[i],
       economiaMensal,
@@ -469,11 +779,13 @@ async function tableTaxacaoFioB() {
       somaItens++
     }
   }
-  var media = somaEconomiaAnual / somaItens
-  $('#inputEconomiaMediaEconomia')[0].value = brlBrazil.format(media)
+  mediaAnualEconomia = somaEconomiaAnual / somaItens
+  $('#inputEconomiaMediaEconomia')[0].value = brlBrazil.format(mediaAnualEconomia)
+  $('#inputEconomiaAnualFluxo')[0].value = brlBrazil.format(mediaAnualEconomia)
   await loadTableData(listFinalTaxacao, 'bodyTaxacao')
   await loadTableData(listFinalGeracao, 'bodyGeracao')
   await loadTableData(listFinalEconomia, 'bodyEconomia')
+  await fluxoCaixa()
 }
 //Dados da tabela de Irradiação
 async function loadTableData(items, tabelaId) {
@@ -556,6 +868,42 @@ async function loadTableData(items, tabelaId) {
         }
         i++
       })
+    });
+  } else if (tabelaId == "bodyOrcaFinal") {
+    items.forEach(item => {
+      let row = table.insertRow();
+      let titulo = row.insertCell(0);
+      titulo.innerHTML = item.titulo;
+      let valor = row.insertCell(1);
+      valor.innerHTML = brlBrazil.format(item.valor);
+      let percentual = row.insertCell(2);
+      percentual.innerHTML = item.percentual.toFixed(2) + " %";
+      let valorWp = row.insertCell(3);
+      valorWp.innerHTML = brlBrazil.format(item.valorWp);
+    });
+  } else if (tabelaId == "bodyFluxo") {
+    items.forEach(item => {
+      let row = table.insertRow();
+      let ano = row.insertCell(0);
+      ano.innerHTML = item.ano;
+      let fluxo = row.insertCell(1);
+      fluxo.innerHTML = brlBrazil.format(item.fluxo);
+      let vp = row.insertCell(2);
+      vp.innerHTML = brlBrazil.format(item.vp);
+      let vpa = row.insertCell(3);
+      vpa.innerHTML = brlBrazil.format(item.vpa);
+    });
+  } else if (tabelaId == "bodyGeracaoConsumo") {
+    items.forEach(item => {
+      let row = table.insertRow();
+      let mes = row.insertCell(0);
+      mes.innerHTML = item.mes;
+      let geracao = row.insertCell(1);
+      geracao.innerHTML = item.geracao.toFixed(2);
+      let consumoAdd = row.insertCell(2);
+      consumoAdd.innerHTML = item.consumoAdd.toFixed(2);
+      let consumo = row.insertCell(3);
+      consumo.innerHTML = item.consumo.toFixed(2);
     });
   }
 }
@@ -749,6 +1097,7 @@ async function buscaInversor() {
   const dataInvPeca = await fecthGet(invGetData)
   await fillInvData('ConfigEdit', dataInvPeca)
 }
+var dataIrr
 // Dados de Latitude e Longitude
 async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
@@ -763,13 +1112,12 @@ async function getLocation() {
   document.getElementById("inputLatitudeIntDadoTec").value = `${Math.abs(Math.ceil(data.lat))}`
   document.getElementById("inputLongitudeDadoTec").value = data.lng
   var address = `/irradiationLat_Lon?name=${data.lat};${data.lng}`
-  const dataIrr = await fecthGet(address)
-  console.log(dataIrr)
+  dataIrr = await fecthGet(address)
   await loadTableData(dataIrr, "bodyIrradiacao")
   hsp = parseFloat(dataIrr[0].annual) / 1000
   document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
   document.getElementById('inputHSPCalculo').value = parseFloat(dataIrr[0].annual) / 1000
-
+  await geracaoConsumo()
 }
 async function getVendedor() {
   var nome = $('#inputVendedor')[0].value
