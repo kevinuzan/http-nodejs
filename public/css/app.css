@@ -78,6 +78,14 @@ body {
   margin-right: auto; */
 }
 
+.container-2-columns {
+  display: grid;
+  width: 80%;
+  margin: auto;
+  grid-template-columns: repeat(2, 0fr);
+  gap: 0rem 0rem;
+}
+
 .container-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
