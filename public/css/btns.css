@@ -30,22 +30,20 @@
   background: var(--front-card-hover);
 }
 
-/* BOTAO DE CANCELAR - TRANSAPRENT NO HOVER FICA VERMELHO */
+/* BOTAO DE ESQUECI A SENHA */
 
 .btn-app.cancel {
   background: transparent;
   color: var(--field-border-focus);
-  box-shadow: 0 0 0 rgba(0,0,0 .15);
 }
 
 .btn-app.cancel:hover {
   background: transparent;
   border: 2px solid var(--red);
   color: var(--red);
-  box-shadow: 0 3px 10px rgba(0,0,0 .15);
 }
 
-/* CONFIGURAÇÃO DO BOTÂO DE FIM DA PÁGINA*/
+/* CONFIGURAÇÃO DO BOTÃO NO FIM DA PÁGINA*/
 
 .btn-fp {
   width: 25%; 
@@ -55,4 +53,16 @@
 .btn-fp2 {
   width: 80%; 
   margin: auto;
+}
+
+.olho {
+  background: var(--front-card);
+}
+
+.olho:hover {
+  background: var(--front-card-hover);
+}
+
+.esquecido {
+  color: var(--field-border-focus);
 }

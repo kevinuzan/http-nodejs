@@ -92,14 +92,6 @@ ul {
   color: var(--field-border-focus);
 }
 
-.olho {
-  background: var(--front-card);
-}
-
-.olho:hover {
-  background: var(--front-card-hover);
-}
-
 .outerbox {
   background-color: var(--field-bg-focus);
   width: 380px;
