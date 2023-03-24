@@ -70,6 +70,15 @@ async function deletaDepois() {
   await sumItems('function', 123)
 }
 
+async function deletaDepoisPlotly() {
+  var TESTER = document.getElementById('tester');
+  Plotly.newPlot(TESTER, [{
+    x: [1, 2, 3, 4, 5],
+    y: [1, 2, 4, 8, 16]
+  }], {
+    margin: { t: 0 }
+  });
+}
 
 var fatorKdata = ''
 var optionsDistribuidora = ''
@@ -199,15 +208,87 @@ async function saveGreener() {
   }
 }
 //#endregion
+
+function IRR(values, guess) {
+  // Credits: algorithm inspired by Apache OpenOffice
+
+  // Calculates the resulting amount
+  var irrResult = function (values, dates, rate) {
+    var r = rate + 1;
+    var result = values[0];
+    for (var i = 1; i < values.length; i++) {
+      result += values[i] / Math.pow(r, (dates[i] - dates[0]) / 365);
+    }
+    return result;
+  }
+
+  // Calculates the first derivation
+  var irrResultDeriv = function (values, dates, rate) {
+    var r = rate + 1;
+    var result = 0;
+    for (var i = 1; i < values.length; i++) {
+      var frac = (dates[i] - dates[0]) / 365;
+      result -= frac * values[i] / Math.pow(r, frac + 1);
+    }
+    return result;
+  }
+
+  // Initialize dates and check that values contains at least one positive value and one negative value
+  var dates = [];
+  var positive = false;
+  var negative = false;
+  for (var i = 0; i < values.length; i++) {
+    dates[i] = (i === 0) ? 0 : dates[i - 1] + 365;
+    if (values[i] > 0) positive = true;
+    if (values[i] < 0) negative = true;
+  }
+
+  // Return error if values does not contain at least one positive value and one negative value
+  if (!positive || !negative) return '#NUM!';
+
+  // Initialize guess and resultRate
+  var guess = (typeof guess === 'undefined') ? 0.1 : guess;
+  var resultRate = guess;
+
+  // Set maximum epsilon for end of iteration
+  var epsMax = 1e-10;
+
+  // Set maximum number of iterations
+  var iterMax = 50;
+
+  // Implement Newton's method
+  var newRate, epsRate, resultValue;
+  var iteration = 0;
+  var contLoop = true;
+  do {
+    resultValue = irrResult(values, dates, resultRate);
+    newRate = resultRate - resultValue / irrResultDeriv(values, dates, resultRate);
+    epsRate = Math.abs(newRate - resultRate);
+    resultRate = newRate;
+    contLoop = (epsRate > epsMax) && (Math.abs(resultValue) > epsMax);
+  } while (contLoop && (++iteration < iterMax));
+
+  if (contLoop) return '#NUM!';
+
+  // Return internal rate of return
+  return resultRate;
+}
+
 var paybackCompleto
 var dictValorFluxo = []
 var vpTotal
+var soma25Anos = 0
+var tir25Anos = []
+var kmRodado
+var arvorePoupada
+var co2Evitado
 async function fluxoCaixa() {
   dictValorFluxo = []
   var vp
   var vpa
   var checkVpa = false
   vpTotal = 0
+  tir25Anos = []
   var inflacao = await valNum($('#inputInflacaoEletricaFluxo')[0].value) / 100
   for (i = 0; i <= 25; i++) {
     if (i == 0) {
@@ -236,15 +317,25 @@ async function fluxoCaixa() {
       paybackCompleto = `${anoPayback} Anos ${mesPayback} Meses ${diaPayback} Dias`
       $('#inputPaybackAnoResultado')[0].value = payback.toFixed(2)
       $('#inputPaybackCompletoResultado')[0].value = paybackCompleto
-      $('#inputPaybackAnualResultado')[0].value = (1 / payback).toFixed(2) + '%'
+      $('#inputPaybackAnualResultado')[0].value = (1 / payback).toFixed(2) + ' %'
       checkVpa = true
     }
+    tir25Anos.push(dictValorFluxo[i].fluxo)
   }
   await loadTableData(dictValorFluxo, "bodyFluxo")
   $('#inputSomaVpResultado')[0].value = brlBrazil.format(vpTotal)
   $('#inputVplProjetoResultado')[0].value = brlBrazil.format(vpTotal - totalGeralOrcaFinal)
   $('#inputTaxaLucraResultado')[0].value = (vpTotal / totalGeralOrcaFinal).toFixed(2)
   $('#inputRoiResultado')[0].value = (((mediaAnualEconomia * 25) - totalGeralOrcaFinal) / totalGeralOrcaFinal).toFixed(2)
+  console.log(tir25Anos, await IRR(tir25Anos,))
+  $('#inputTirResultado')[0].value = ((await IRR(tir25Anos,)) * 100).toFixed(2) + ' %'
+
+  kmRodado = ((geracaoTotal * 25) * 0.7097)
+  arvorePoupada = ((geracaoTotal * 25) * 5.04 * 10000)
+  co2Evitado = ((gerConsumo * 5.3622972))
+  $('#inputKmRodadosResultado')[0].value = kmRodado.toFixed(2)
+  $('#inputArvoresResultado')[0].value = arvorePoupada.toFixed(2)
+  $('#inputCo2Resultado')[0].value = co2Evitado.toFixed(2)
 }
 var dictGeracaoConsumo = []
 var meses = [
@@ -386,12 +477,38 @@ var lucroMargem
 var lucro
 var porcentForn
 var painelCA
+var comissao
+var comissaoValor
+var lucroLiq
+var precoKwp
+var precoPorServKwp
+var precoPorMatKwp
 async function updateLucro() {
   porcentForn = await valNum($('#inputPorcentagemFornOrca')[0].value) / 100
+  comissao = await valNum($('#inputComissaoOrca')[0].value) / 100
+  comissaoValor = comissao * totalGeralOrcaFinal
+  lucroLiq = lucroMargem - comissaoValor
   lucro = await valNum($('#inputLucroOrca')[0].value)
   painelCA = await valNum($('#inputPainelProtOrca')[0].value)
   lucroMargem = projeHomo + (painelCA * porcentForn) + lucro - moTerceira
   $('#inputLucroMgOrca')[0].value = brlBrazil.format(lucroMargem)
+  $('#inputLucroBrutoValorOrcaFinal')[0].value = brlBrazil.format(lucroMargem)
+  $('#inputLucroBrutoPercentualOrcaFinal')[0].value = (lucroMargem / totalGeralOrcaFinal).toFixed(2) + ' %'
+  $('#inputComissaoValorOrcaFinal')[0].value = brlBrazil.format(comissaoValor)
+  $('#inputComissaoPercentualOrcaFinal')[0].value = (comissaoValor / totalGeralOrcaFinal).toFixed(2) + ' %'
+  $('#inputLucroLiqValorOrcaFinal')[0].value = brlBrazil.format(lucroLiq)
+  $('#inputLucroLiqPercentualOrcaFinal')[0].value = (lucroLiq / totalGeralOrcaFinal).toFixed(2) + ' %'
+
+  precoKwp = totalGeralOrcaFinal / gerConsumo
+  precoPorServKwp = (somaOrcaFinal - Eletroduto - StringBox) / gerConsumo
+  precoPorMatKwp = (LucroMg + Eletroduto + StringBox) / gerConsumo
+  $('#inputPrecoKwpValorOrcaFinal')[0].value = brlBrazil.format(precoKwp)
+  $('#inputPrecoKwpPercentualOrcaFinal')[0].value = brlBrazil.format(precoKwp / 1000)
+  $('#inputPrecoServKwpValorOrcaFinal')[0].value = brlBrazil.format(precoPorServKwp)
+  $('#inputPrecoServKwpPercentualOrcaFinal')[0].value = brlBrazil.format(precoPorServKwp / 1000)
+  $('#inputPrecoMatKwpValorOrcaFinal')[0].value = brlBrazil.format(precoPorMatKwp)
+  $('#inputPrecoMatKwpPercentualOrcaFinal')[0].value = brlBrazil.format(precoPorMatKwp / 1000)
+
 }
 async function getDataOrcaFinal() {
   await getProjetoHomo() //projeHomo
@@ -456,7 +573,8 @@ async function getDataOrcaFinal() {
     }
   });
   console.log(dictValorOrca)
-  loadTableData(dictValorOrca, 'bodyOrcaFinal')
+  await loadTableData(dictValorOrca, 'bodyOrcaFinal')
+  await updateLucro()
 }
 var totalDescontoOrcaFinal
 var descontoOrca
@@ -464,10 +582,12 @@ async function descontoOrcaFinal() {
   descontoOrca = await valNum($('#inputDescontoOrcaFinal')[0].value)
   totalDescontoOrcaFinal = totalGeralOrcaFinal * (1 - await valNum($('#inputDescontoOrcaFinal')[0].value) / 100)
   $('#inputTotalCDescOrcaFinal')[0].value = brlBrazil.format(totalDescontoOrcaFinal)
-  $('#inputTaxaDescontoFluxo')[0].value = descontoOrca.toFixed(2) + '%'
+  $('#inputTaxaDescontoFluxo')[0].value = descontoOrca.toFixed(2) + ' %'
 }
 async function fatorCorrecao(id, value) {
-  itemsCorrecao[id] = parseFloat(value)
+  if (id != 'function') {
+    itemsCorrecao[id] = parseFloat(value)
+  }
   somaCorrecao = sumValues(itemsCorrecao)
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
   fatConsumo = (1 + (somaCorrecao / 100)) * 100
@@ -511,6 +631,7 @@ async function sumItems(id, value) {
     if (id != 'function') {
       itemsConsumo[id] = parseFloat(value)
     }
+    //await fatorCorrecao('function', 123)
     var somaItens = Object.keys(itemsConsumo).length
     somaConsumo = sumValues(itemsConsumo)
     emmConsumo = parseFloat(somaConsumo / somaItens)
@@ -520,6 +641,7 @@ async function sumItems(id, value) {
     } else {
       addConsumo = parseFloat($('#inputAddConsumo')[0].value)
     }
+    console.log(fatConsumo)
     gerConsumo = ((emmConsumo + addConsumo) / fatConsumo) * porcentagem
     $('#inputSumConsumo')[0].value = parseFloat(somaConsumo).toFixed(2)
     $('#inputEmmConsumo')[0].value = emmConsumo.toFixed(2)
@@ -581,10 +703,6 @@ async function sumItems(id, value) {
     $('#inputFaturaSSolar')[0].value = CreditoSomaTotal.toFixed(2)
     if (economiaSolar == '') { economiaSolar = 0 } else { economiaSolar = parseFloat(economiaSolar) }
     $('#inputResidualFatura')[0].value = (CreditoSomaTotal - economiaSolar).toFixed(2)
-
-
-
-
 
     $('#inputGerConsumo')[0].value = gerConsumo.toFixed(2)
     $('#inputPotConsumo')[0].value = gerConsumo.toFixed(2)
@@ -1315,6 +1433,16 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputEspessuraModulo')[0].value = dataMdlPeca[0].espessura
     $('#inputLarguraModulo')[0].value = dataMdlPeca[0].largura
     $('#inputAlturaModulo')[0].value = dataMdlPeca[0].altura
+    vmp = await valNum(dataMdlPeca[0].vmp)
+    pmax = await valNum(dataMdlPeca[0].pmax)
+    voc = await valNum(dataMdlPeca[0].voc)
+    isc = await valNum(dataMdlPeca[0].isc)
+    tpmax = await valNum(dataMdlPeca[0].tpmax)
+    tvoc = await valNum(dataMdlPeca[0].tvoc)
+    tisc = await valNum(dataMdlPeca[0].tisc)
+    imp = await valNum(dataMdlPeca[0].imp)
+    fornecedorMdl = dataMdlPeca[0].fornecedor
+    $('#inputFabriMdlOrca')[0].value = fornecedorMdl
     await checkTemp()
   } else if (option == 'CLEAR') {
     $('#inputVmpModulo')[0].value = ''
@@ -1352,16 +1480,6 @@ async function fillMdlData(option, dataMdlPeca) {
   await qtdeMdl()
   await protDimenCabos()
   await energiaInversor()
-  vmp = await valNum(dataMdlPeca[0].vmp)
-  pmax = await valNum(dataMdlPeca[0].pmax)
-  voc = await valNum(dataMdlPeca[0].voc)
-  isc = await valNum(dataMdlPeca[0].isc)
-  tpmax = await valNum(dataMdlPeca[0].tpmax)
-  tvoc = await valNum(dataMdlPeca[0].tvoc)
-  tisc = await valNum(dataMdlPeca[0].tisc)
-  imp = await valNum(dataMdlPeca[0].imp)
-  fornecedorMdl = dataMdlPeca[0].fornecedor
-  $('#inputFabriMdlOrca')[0].value = fornecedorMdl
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
 var tpmax
@@ -1382,14 +1500,14 @@ async function checkTemp() {
   } else {
     tempMedia = 0
   }
-  element21.value = tempMedia * parseFloat(element24.value.replaceAll(",", ".")) * 100
-  element22.value = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
-  element23.value = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
-  itemsCorrecao['inputTPmaxPerModulo'] = tempMedia * parseFloat(element24.value.replaceAll(",", ".")) * 100
-  itemsCorrecao['inputTVocPerModulo'] = tempMedia * parseFloat(element25.value.replaceAll(",", ".")) * 100
-  itemsCorrecao['inputTIscPerModulo'] = tempMedia * parseFloat(element26.value.replaceAll(",", ".")) * 100
+  element21.value = (tempMedia * tpmax * 100).toFixed(2)
+  element22.value = (tempMedia * tvoc * 100).toFixed(2)
+  element23.value = (tempMedia * tisc * 100).toFixed(2)
+  itemsCorrecao['inputTPmaxPerModulo'] = tempMedia * tpmax * 100
+  itemsCorrecao['inputTVocPerModulo'] = tempMedia * tvoc * 100
+  itemsCorrecao['inputTIscPerModulo'] = tempMedia * tisc * 100
   somaCorrecao = sumValues(itemsCorrecao)
-  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
+  fatConsumo = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
   pmaxCorr = pmax * (1 + (tpmax * tempMedia))
   vocCorr = voc * (1 + (tvoc * tempMedia))
   iscCorr = isc * (1 + (tisc * tempMedia))
@@ -1481,6 +1599,13 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputFaixaTensaoInversor')[0].value = dataInvPeca[0].faixatens
     $('#inputCorrenteMaxCCInversor')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversor')[0].value = dataInvPeca[0].correntesaída
+    tensaoCCinversor = await valNum(dataInvPeca[0].tenspart)
+    eficienciaInv = await valNum(dataInvPeca[0].eficiencia)
+    maxTensaoCCinversor = await valNum(dataInvPeca[0].maxtens)
+    maxCorrenteCCinversor = await valNum(dataInvPeca[0].entradaimp)
+    maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
+    fornecedorInv = dataInvPeca[0].fornecedor
+    $('#inputFabriInvOrca')[0].value = fornecedorInv
   } else if (option == 'CLEAR') {
     $('#inputFaixaMPPTInversor')[0].value = ''
     $('#inputTensaoCCInversor')[0].value = ''
@@ -1504,16 +1629,11 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputCorrenteMaxCCInversorConfigEdit')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversorConfigEdit')[0].value = dataInvPeca[0].correntesaída
   }
-  tensaoCCinversor = await valNum(dataInvPeca[0].tenspart)
-  eficienciaInv = await valNum(dataInvPeca[0].eficiencia)
-  maxTensaoCCinversor = await valNum(dataInvPeca[0].maxtens)
-  maxCorrenteCCinversor = await valNum(dataInvPeca[0].entradaimp)
-  maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
-  fornecedorInv = dataInvPeca[0].fornecedor
+
   await qtdeMdl()
   await protDimenCabos()
   await energiaInversor()
-  $('#inputFabriInvOrca')[0].value = fornecedorInv
+
 }
 //#endregion
 
@@ -2089,8 +2209,8 @@ async function energiaInversor() {
   element19.value = Math.round(-(1 - porcentagemHSP) * 100)
   itemsCorrecao['inputPosTelhado'] = parseFloat(element19.value)
   somaCorrecao = sumValues(itemsCorrecao)
-  element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
-
+  fatConsumo = parseFloat(1 + (somaCorrecao / 100)) * 100
+  element27.value = fatConsumo.toFixed(2)
   element52.value = potPicoReal.toFixed(2)
   $('#inputPotPerdaOrca')[0].value = potPicoReal.toFixed(2)
   await qtdeMdl()
@@ -2102,7 +2222,11 @@ let element52 = document.getElementById('inpuPotenciaComPerdasCalculo')
 let element53 = document.getElementById('inputNumModulosEscolhaCalculo')
 
 async function valNum(valor) {
-  var resposta = Number(valor.toString().replaceAll(",", "."))
+  try {
+    var resposta = Number(valor.toString().replaceAll(",", "."))
+  } catch {
+    var resposta = 0
+  }
   return resposta
 }
 
@@ -2121,7 +2245,6 @@ class activeClass {
 }
 // Dados de Fator K e de Posicionamento do telhado
 async function fatorK() {
-
   if (element12.value == 'SOLO') {
     element13.value = await ceilLat(Math.abs(element14.value), 5)
   } else {
@@ -2136,6 +2259,12 @@ async function changeQtdInversor(valor) {
   element18_4.value = valor
 }
 
+async function updateDataBegin() {
+  await fatorK()
+  await energiaInversor()
+  await sumItems('function', 123)
+}
+
 let element28 = document.getElementById('inputFatorKDadoTec')
 let element29 = document.getElementById("inputLatitudeIntDadoTec")
 let element12 = document.getElementById('inputTipoTelhaDadoTec')
@@ -2143,10 +2272,10 @@ let element13 = document.getElementById('inputLatitudeCorDadoTec')
 let element14 = document.getElementById("inputLatitudeOngDadoTec")
 let element15 = document.getElementById("inputAngTelhaDadoTec")
 element12.addEventListener('change', async function () {
-  await fatorK()
+  await updateDataBegin()
 })
 element15.addEventListener('change', async function () {
-  await fatorK()
+  await updateDataBegin()
 })
 
 let element16 = document.getElementById('inputPosicionamentoDadoTec')
@@ -2174,7 +2303,7 @@ var fatorKVal = 0
 var emmDiario = 0
 var hspFinal = 0
 element16.addEventListener('change', async function () {
-  await energiaInversor()
+  await updateDataBegin()
 })
 element18.addEventListener('change', async function () {
   element17.value = parseFloat(porcentagemHSP * hsp).toFixed(2)
@@ -2191,6 +2320,7 @@ let element27 = document.getElementById('inputFatorCorr')
 var tempMedia = 0
 element20.addEventListener('change', async function () {
   await checkTemp()
+  await updateDataBegin()
 })
 
 let element30 = document.getElementById('inputAddConsumo')
