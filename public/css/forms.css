@@ -49,9 +49,6 @@
   box-shadow: 2px 2px var(--field-box-shadow);
 }
 
-
-
-
 .field-container textarea {
   height: 80px;
 }
@@ -92,15 +89,9 @@
   padding: 0 .5rem;
   outline: none;
   transition: all 0.1s ease-in-out;
-
-  /* background: transparent; */
   color: black;
   border: 2px solid var(--field-border);
 }
-
-/* .field-container select{
-  width: 100px;
-} */
 
 .field2-container {
   width: 100%;
@@ -150,7 +141,6 @@
   border: 2px solid var(--field-border-disabled);
   background: var(--field-bg-disabled);
 }
-
 
 .app-checkbox {
   --width-switch: 50px;

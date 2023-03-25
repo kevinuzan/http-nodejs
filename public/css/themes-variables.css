@@ -17,8 +17,6 @@
   --body2: #e7f5ff;
   --text-primary: #414749;
   --text-secondary: #72797B;
-  
-  --card-bg: #FDFDFD;
 
   --label: black;
 
@@ -49,8 +47,6 @@ body.dark-theme {
   --body2: #494949;
   --text-primary: #FFFFFF;
   --text-secondary: #E9E9E9;
-
-  --card-bg: #555555;
  
   --label: #ffffff;
 

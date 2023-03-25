@@ -9,6 +9,18 @@ body {
 
 /* TITULOS E TEXTOS */
 
+.app-tab-title {
+  text-decoration: none;
+  color: var(--text-primary);
+  border-color: green;
+  font-weight: 600;
+}
+
+.app-tab-title:hover {
+  text-decoration: none;
+  color: var(--front-card-hover);
+}
+
 .app-title {
   display: block;
   width: 100%;
