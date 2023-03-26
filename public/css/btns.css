@@ -50,9 +50,23 @@
   margin: auto;
 }
 
+@media(max-width: 800px) {
+  .btn-fp {
+    width: 100%;
+    margin: auto;
+  }
+}
+
 .btn-fp2 {
   width: 80%; 
   margin: auto;
+}
+
+@media(max-width: 800px) {
+  .btn-fp2 {
+    width: 100%;
+    margin: auto;
+  }
 }
 
 .olho {

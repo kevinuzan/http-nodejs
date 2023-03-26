@@ -141,6 +141,14 @@ body {
   gap: 2rem 1.2rem;
 }
 
+@media(max-width: 800px) {
+  .container-2-columns {
+    width: 100%;
+    gap: 1rem 1.2rem;
+    margin: auto;
+  }
+}
+
 @media(max-width: 1300px) {
   .container-5-columns {
      grid-template-columns: repeat(4, 24.3%);
