@@ -70,70 +70,49 @@ async function deletaDepois() {
   await sumItems('function', 123)
 }
 
-var docs = document.getElementById("doc");
-async function exportData() {
-  var reader = new FileReader();
-  if (docs.files.length === 0) {
-    alert("No files selected");
+function base64ToArrayBuffer(base64) {
+  var binaryString = window.atob(base64);
+  var binaryLen = binaryString.length;
+  var bytes = new Uint8Array(binaryLen);
+  for (var i = 0; i < binaryLen; i++) {
+    var ascii = binaryString.charCodeAt(i);
+    bytes[i] = ascii;
   }
-  reader.readAsBinaryString(docs.files.item(0));
+  return bytes;
+}
+function saveByteArray(reportName, byte) {
+  var blob = new Blob([byte], { type: "image/png" });
+  var link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  var fileName = reportName;
+  link.download = fileName;
+  link.click();
+};
 
-  reader.onerror = function (evt) {
-    console.log("error reading file", evt);
-    alert("error reading file" + evt);
-  };
-  reader.onload = function (evt) {
-    const content = evt.target.result;
-    //Below the options that will be passed to ImageModule instance
-    var opts = {}
-    opts.centered = false; //Set to true to always center images
-    opts.fileType = "docx"; //Or pptx
-
-    //Pass your image loader
-    opts.getImage = function (tagValue, tagName) {
-      return fs.readFileSync(tagValue);
-    }
-
-    //Pass the function that return image size
-    opts.getSize = function (img, tagValue, tagName) {
-      return [150, 150];
-    }
-
-    var ImageModule = require('docxtemplater-image-module-free');
-    const TableModule = require("docxtemplater-table-module");
-    const HtmlModule = require("docxtemplater-html-module");
-    var zip = new PizZip(content);
-    var doc;
-
-    var imageModule = new ImageModule(opts);
-    try {
-      doc = new Docxtemplater(zip, {
-        modules: [new ImageModule(opts)]
-      })
-        .render({
-          DadosTecnicos: escopoDadosExport
-        });
-
-    } catch (error) {
-      // Catch compilation errors
-      // (errors caused by the compilation of the template: misplaced tags)
-      errorHandler(error);
-    }
-
-
-    var blob = doc.getZip().generate({
-      type: "blob",
-      mimeType:
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      // compression: DEFLATE adds a compression step.
-      // For a 50MB output document, expect 500ms additional CPU time
-      compression: "DEFLATE",
-    });
-    // Output the document using Data-URI
-    saveAs(blob, "output.docx");
-  }
+async function downloadImage() {
+  var sampleArr = base64ToArrayBuffer(data);
+  saveByteArray("teste.jpg", sampleArr);
+  // var dataUrl = `opi`
+  // var pathName = 'graficoConsumoGeracao'
+  // var mldGetData = `/downloadImage?name=${dataUrl};${pathName}`
+  // const dataMdlForn = await fecthGet(mldGetData)
+  // console.log(dataMdlForn)
 }
 
+async function exportData() {
+  var mldGetData = '/docxTemplater'
+  const dataMdlForn = await fecthGet(mldGetData)
+  console.log(dataMdlForn)
+}
+
+async function exportChart() {
+  Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 800, height: 600 }).then(
+    function (dataUrl) {
+      console.log(dataUrl.split(',')[1])
+      var sampleArr = base64ToArrayBuffer(dataUrl.split(',')[1]);
+      saveByteArray("/temp_folder/graficoConsumoGeracao.png", sampleArr);
+    })
+}
 
 async function createCharts() {
   var config = { responsive: true }

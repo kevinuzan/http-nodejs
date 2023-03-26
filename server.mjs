@@ -11,7 +11,11 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 import fs, { futimesSync } from "fs"
-
+import ImageModule from 'docxtemplater-image-module-free'
+import PizZip from "pizzip"
+import Docxtemplater from "docxtemplater"
+import sizeOf from "image-size"
+import request from 'request'
 
 const firebaseConfig = {
     apiKey: process.env.apiFirebase,
@@ -185,11 +189,122 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/src', express.static(path.join(__dirname, 'public/src')));
 app.use('/html', express.static(path.join(__dirname, 'public/html')));
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
+app.use('/temp_folder', express.static(path.join(__dirname, 'public/temp_folder')));
 app.use('/', express.static(path.join(__dirname, '/login.html')));
 
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+var download = function (uri, filename, callback) {
+    request.head(uri, function (err, res, body) {
+        console.log('content-type:', res.headers['content-type']);
+        console.log('content-length:', res.headers['content-length']);
+
+        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+    });
+};
+
+
+
+app.get('/downloadImage', function (req, res) {
+    console.log(req)
+    var url = req.query.name.split(";")[0]
+    var nameFile = req.query.name.split(";")[1]
+    var pathFileName = path.join(__dirname + `/public/temp_folder/${nameFile}.jpg`)
+    download(url, pathFileName, function () {
+        res.json('ok')
+    });
+})
+
+app.get('/docxTemplater', function (req, res) {
+    const content = fs.readFileSync(
+        path.join(__dirname + '/public/resourceFiles/modelo_proposta_DANIG.docx'),
+        "binary"
+    );
+
+    //Below the options that will be passed to ImageModule instance
+    var opts = {}
+    opts.centered = false; //Set to true to always center images
+    opts.fileType = "docx"; //Or pptx
+
+    //Pass your image loader
+    opts.getImage = function (tagValue, tagName) {
+        return fs.readFileSync(tagValue);
+    }
+
+    //Pass the function that return image size
+    opts.getSize = function (img, tagValue, tagName) {
+        const sizeObj = sizeOf(img);
+        const forceWidth = 600;
+        const ratio = forceWidth / sizeObj.width;
+        return [
+            forceWidth,
+            // calculate height taking into account aspect ratio
+            Math.round(sizeObj.height * ratio),
+        ];
+    }
+
+    // var imageModule = new ImageModule(opts);
+
+    const zip = new PizZip(content);
+
+    const doc = new Docxtemplater(zip, {
+        modules: [new ImageModule(opts)]
+    });
+
+    // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
+    doc.render({
+        cliente: "cliente",
+        vendedor: "vendedor",
+        validade: "dias",
+        vendedor_tel: "vendedor_tel",
+        vendedor_email: "vendedor_email",
+        endereco: "endereco",
+        cep: "cep",
+        estimativa_mes: "estimativa_mes",
+        tipo_telhado: "tipo_telhado",
+        porcentagem_sistema: "porcentagem_sistema",
+        tamanho: "tamanho",
+        economia_ano: "economia_ano",
+        investimento_inicial: "investimento_inicial",
+        payback: "payback",
+        gasto_antigo: "gasto_antigo",
+        gasto_novo: "gasto_novo",
+        retorno_anual: "retorno_anual",
+        qtde_modulos: "qtde_modulos",
+        fabricante_inversor: "fabricante_inversor",
+        qtde_inversor: "qtde_inversor",
+        estrutura_fixa: "estrutura_fixa",
+        area: "area",
+        fator_simultaneidade: "fator_simultaneidade",
+        fator_injetado: "fator_injetado",
+        tarifa_imposto: "tarifa_imposto",
+        degradacao_anual: "degradacao_anual",
+        geracao_anual: "geracao_anual",
+        km: "km",
+        arvores: "arvores",
+        co2: "co2",
+        desconto: "desconto",
+        valor_desconto: "valor_desconto",
+        finan_12: "finan_12",
+        finan_48: "finan_48",
+        finan_60: "finan_60",
+        finan_120: "finan_120",
+        finan_150: "finan_150",
+        grafico_payback: "C:\\Users\\Kevin\\Downloads\\danig.jpg",
+        grafico_cons_gera: "C:\\Users\\Kevin\\Downloads\\danig.jpg",
+    });
+
+    var buffer = doc
+        .getZip()
+        .generate({
+            type: "nodebuffer",
+        });
+
+    fs.writeFileSync("C:\\Users\\Kevin\\Downloads\\test.docx", buffer);
+})
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/login.html');
