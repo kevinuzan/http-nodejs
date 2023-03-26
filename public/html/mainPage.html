@@ -7,6 +7,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.36.1/docxtemplater.js"></script>
+	<script src="https://unpkg.com/pizzip@3.1.4/dist/pizzip.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+	<script src="https://unpkg.com/pizzip@3.1.4/dist/pizzip-utils.js"></script>
+	<script src="/js/image-module.js"></script>
+
 	<script src="/js/plotly-2.18.2.min.js"></script>
 	<script src="https://cdn.plot.ly/plotly-2.18.2.min.js"></script>
 	<!-- <script src="https://cdn.jsdelivr.net/read-excel-file@5.x/bundle/read-excel-file.min.js"></script> -->
@@ -17,6 +24,7 @@
 
 	<script src="/js/fontawesome.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
+
 	<title>DANIG</title>
 </head>
 
@@ -110,7 +118,8 @@
 					<div class="tab-pane fade show active" id="erp-tab-content" role="tabpanel">
 						<div class="app-container">
 							<br>
-							<div class="outerboxmain align-items-center">
+							<div class="outerboxmain align-items-center"><input type="file" id="doc" />
+								<button onclick="exportData()">Generate document</button>
 								<h2 class="app-title">DADOS CADASTRAIS</h2>
 								<div class="container-5-columns">
 
@@ -1698,98 +1707,127 @@
 								<h2 class="app-subtitle">FINANCIAMENTO</h2>
 								<div class="container-4-columns">
 									<div class="field-container mt-2">
-										<label for="inputValorFinanciamento" style="font-weight: bold">VALOR A SER
+										<label for="inputValorFinanciamento12" style="font-weight: bold">VALOR A SER
 											FINANCIADO</label>
-										<input disabled id="inputValorFinanciamento" placeholder="Digite..">
+										<input disabled id="inputValorFinanciamento12" placeholder="Digite..">
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputNumeroParcelasFinanciamento" style="font-weight: bold">N°
+										<label for="inputNumeroParcelasFinanciamento12" style="font-weight: bold">N°
 											PARCELAS POR MÊS</label>
-										<select id="inputNumeroParcelasFinanciamento" onchange="valFinanciamento()">
-											<option selected value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
-											<option value="6">6</option>
-											<option value="7">7</option>
-											<option value="8">8</option>
-											<option value="9">9</option>
-											<option value="10">10</option>
-											<option value="11">11</option>
-											<option value="12">12</option>
-											<option value="13">13</option>
-											<option value="14">14</option>
-											<option value="15">15</option>
-											<option value="16">16</option>
-											<option value="17">17</option>
-											<option value="18">18</option>
-											<option value="19">19</option>
-											<option value="20">20</option>
-											<option value="21">21</option>
-											<option value="22">22</option>
-											<option value="23">23</option>
-											<option value="24">24</option>
-											<option value="25">25</option>
-											<option value="26">26</option>
-											<option value="27">27</option>
-											<option value="28">28</option>
-											<option value="29">29</option>
-											<option value="30">30</option>
-											<option value="31">31</option>
-											<option value="32">32</option>
-											<option value="33">33</option>
-											<option value="34">34</option>
-											<option value="35">35</option>
-											<option value="36">36</option>
-											<option value="37">37</option>
-											<option value="38">38</option>
-											<option value="39">39</option>
-											<option value="40">40</option>
-											<option value="41">41</option>
-											<option value="42">42</option>
-											<option value="43">43</option>
-											<option value="44">44</option>
-											<option value="45">45</option>
-											<option value="46">46</option>
-											<option value="47">47</option>
-											<option value="48">48</option>
-											<option value="49">49</option>
-											<option value="50">50</option>
-											<option value="51">51</option>
-											<option value="52">52</option>
-											<option value="53">53</option>
-											<option value="54">54</option>
-											<option value="55">55</option>
-											<option value="56">56</option>
-											<option value="57">57</option>
-											<option value="58">58</option>
-											<option value="59">59</option>
-											<option value="60">60</option>
-											<option value="61">61</option>
-											<option value="62">62</option>
-											<option value="63">63</option>
-											<option value="64">64</option>
-											<option value="65">65</option>
-											<option value="66">66</option>
-											<option value="67">67</option>
-											<option value="68">68</option>
-											<option value="69">69</option>
-											<option value="70">70</option>
-											<option value="71">71</option>
-											<option value="72">72</option>
-										</select>
+										<input disabled id="inputNumeroParcelasFinanciamento12"
+											onchange="valFinanciamento()" value="12" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputJurosMesFinanciamento" style="font-weight: bold">TAXA DE JUROS
+										<label for="inputJurosMesFinanciamento12" style="font-weight: bold">TAXA DE
+											JUROS
 											AO MÊS (%)</label>
-										<input id="inputJurosMesFinanciamento" placeholder="Digite.."
+										<input id="inputJurosMesFinanciamento12" placeholder="Digite.."
 											onchange="valFinanciamento()" value="1,5">
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputValorFinalFinanciamento" style="font-weight: bold">VALOR DO
+										<label for="inputValorFinalFinanciamento12" style="font-weight: bold">VALOR DO
 											FINANCIAMENTO</label>
-										<input disabled id="inputValorFinalFinanciamento" placeholder="Digite..">
+										<input disabled id="inputValorFinalFinanciamento12" placeholder="Digite..">
+									</div>
+								</div>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputValorFinanciamento48" style="font-weight: bold">VALOR A SER
+											FINANCIADO</label>
+										<input disabled id="inputValorFinanciamento48" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputNumeroParcelasFinanciamento48" style="font-weight: bold">N°
+											PARCELAS POR MÊS</label>
+										<input disabled id="inputNumeroParcelasFinanciamento48"
+											onchange="valFinanciamento()" value="48" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputJurosMesFinanciamento48" style="font-weight: bold">TAXA DE
+											JUROS
+											AO MÊS (%)</label>
+										<input id="inputJurosMesFinanciamento48" placeholder="Digite.."
+											onchange="valFinanciamento()" value="1,5">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputValorFinalFinanciamento48" style="font-weight: bold">VALOR DO
+											FINANCIAMENTO</label>
+										<input disabled id="inputValorFinalFinanciamento48" placeholder="Digite..">
+									</div>
+								</div>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputValorFinanciamento60" style="font-weight: bold">VALOR A SER
+											FINANCIADO</label>
+										<input disabled id="inputValorFinanciamento60" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputNumeroParcelasFinanciamento60" style="font-weight: bold">N°
+											PARCELAS POR MÊS</label>
+										<input disabled id="inputNumeroParcelasFinanciamento60"
+											onchange="valFinanciamento()" value="60" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputJurosMesFinanciamento60" style="font-weight: bold">TAXA DE
+											JUROS
+											AO MÊS (%)</label>
+										<input id="inputJurosMesFinanciamento60" placeholder="Digite.."
+											onchange="valFinanciamento()" value="1,5">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputValorFinalFinanciamento60" style="font-weight: bold">VALOR DO
+											FINANCIAMENTO</label>
+										<input disabled id="inputValorFinalFinanciamento60" placeholder="Digite..">
+									</div>
+								</div>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputValorFinanciamento120" style="font-weight: bold">VALOR A SER
+											FINANCIADO</label>
+										<input disabled id="inputValorFinanciamento120" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputNumeroParcelasFinanciamento120" style="font-weight: bold">N°
+											PARCELAS POR MÊS</label>
+										<input disabled id="inputNumeroParcelasFinanciamento120"
+											onchange="valFinanciamento()" value="120" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputJurosMesFinanciamento120" style="font-weight: bold">TAXA DE
+											JUROS
+											AO MÊS (%)</label>
+										<input id="inputJurosMesFinanciamento120" placeholder="Digite.."
+											onchange="valFinanciamento()" value="1,5">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputValorFinalFinanciamento120" style="font-weight: bold">VALOR DO
+											FINANCIAMENTO</label>
+										<input disabled id="inputValorFinalFinanciamento120" placeholder="Digite..">
+									</div>
+								</div>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputValorFinanciamento150" style="font-weight: bold">VALOR A SER
+											FINANCIADO</label>
+										<input disabled id="inputValorFinanciamento150" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputNumeroParcelasFinanciamento150" style="font-weight: bold">N°
+											PARCELAS POR MÊS</label>
+										<input disabled id="inputNumeroParcelasFinanciamento150"
+											onchange="valFinanciamento()" value="150" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputJurosMesFinanciamento150" style="font-weight: bold">TAXA DE
+											JUROS
+											AO MÊS (%)</label>
+										<input id="inputJurosMesFinanciamento150" placeholder="Digite.."
+											onchange="valFinanciamento()" value="1,5">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputValorFinalFinanciamento150" style="font-weight: bold">VALOR DO
+											FINANCIAMENTO</label>
+										<input disabled id="inputValorFinalFinanciamento150" placeholder="Digite..">
 									</div>
 								</div>
 							</div>
@@ -2061,7 +2099,16 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div id="tester" style="width:600px;height:250px;"></div>
+								<div class="field-container">
+									<button class="btn-app btn-fp mt-1" onclick="createCharts()">GERAR GRÁFICOS</button>
+								</div>
+							</div>
+							<br>
+							<div class="outerboxmain align-items-center">
+								<div class="row justify-content-between mt-1 ml-1 mr-1 mb-1" style="display: flex;">
+									<div id="graficoConsumoGeracao" style="width:43%;height:auto;"></div>
+									<div id="graficoPayback" style="width:43%;height:auto;"></div>
+								</div>
 							</div>
 						</div>
 					</div>

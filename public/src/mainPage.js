@@ -70,14 +70,139 @@ async function deletaDepois() {
   await sumItems('function', 123)
 }
 
-async function deletaDepoisPlotly() {
-  var TESTER = document.getElementById('tester');
-  Plotly.newPlot(TESTER, [{
-    x: [1, 2, 3, 4, 5],
-    y: [1, 2, 4, 8, 16]
-  }], {
-    margin: { t: 0 }
-  });
+var docs = document.getElementById("doc");
+async function exportData() {
+  var reader = new FileReader();
+  if (docs.files.length === 0) {
+    alert("No files selected");
+  }
+  reader.readAsBinaryString(docs.files.item(0));
+
+  reader.onerror = function (evt) {
+    console.log("error reading file", evt);
+    alert("error reading file" + evt);
+  };
+  reader.onload = function (evt) {
+    const content = evt.target.result;
+    //Below the options that will be passed to ImageModule instance
+    var opts = {}
+    opts.centered = false; //Set to true to always center images
+    opts.fileType = "docx"; //Or pptx
+
+    //Pass your image loader
+    opts.getImage = function (tagValue, tagName) {
+      return fs.readFileSync(tagValue);
+    }
+
+    //Pass the function that return image size
+    opts.getSize = function (img, tagValue, tagName) {
+      return [150, 150];
+    }
+
+    var ImageModule = require('docxtemplater-image-module-free');
+    const TableModule = require("docxtemplater-table-module");
+    const HtmlModule = require("docxtemplater-html-module");
+    var zip = new PizZip(content);
+    var doc;
+
+    var imageModule = new ImageModule(opts);
+    try {
+      doc = new Docxtemplater(zip, {
+        modules: [new ImageModule(opts)]
+      })
+        .render({
+          DadosTecnicos: escopoDadosExport
+        });
+
+    } catch (error) {
+      // Catch compilation errors
+      // (errors caused by the compilation of the template: misplaced tags)
+      errorHandler(error);
+    }
+
+
+    var blob = doc.getZip().generate({
+      type: "blob",
+      mimeType:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      // compression: DEFLATE adds a compression step.
+      // For a 50MB output document, expect 500ms additional CPU time
+      compression: "DEFLATE",
+    });
+    // Output the document using Data-URI
+    saveAs(blob, "output.docx");
+  }
+}
+
+
+async function createCharts() {
+  var config = { responsive: true }
+
+  var trace1 = {
+    x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    y: listConsumoGeracao,
+    type: 'scatter',
+    name: 'Consumo'
+  };
+
+  var trace2 = {
+    x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    y: listGeracaoConsumo,
+    type: 'bar',
+    name: 'Geração'
+  };
+  var data = [trace1, trace2];
+  var dtickUserGera = 5000
+  if (consumoTotal / 12 > 2) {
+    dtickUserGera = 5000
+  } else {
+    dtickUserGera = 2500
+  }
+  var layout = {
+    title: 'CONSUMO X GERAÇÃO',
+    xaxis: {
+      title: 'Meses do Ano',
+      autotick: false,
+      dtick: 1,
+    },
+    yaxis: {
+      title: 'Potência Gerada (kW)',
+      autotick: false,
+      dtick: dtickUserGera,
+    }
+  };
+
+  Plotly.newPlot('graficoConsumoGeracao', data, layout, config);
+
+
+  var dtickUser = 1000000
+  if (soma25Anos / 25 > 1000000) {
+    dtickUser = 1000000
+  } else {
+    dtickUser = 500000
+  }
+  var layoutPayback = {
+    title: 'PAYBACK',
+    xaxis: {
+      title: 'Ano',
+      autotick: false,
+      dtick: 1,
+    },
+    yaxis: {
+      title: 'Valor (R$)',
+      autotick: false,
+      dtick: dtickUser,
+    }
+  };
+  var dataPayback = [
+    {
+      x: listAnoPayback,
+      y: listFluxoPayback,
+      type: 'bar'
+    }
+  ];
+
+  Plotly.newPlot('graficoPayback', dataPayback, layoutPayback, config);
 }
 
 var fatorKdata = ''
@@ -282,7 +407,11 @@ var tir25Anos = []
 var kmRodado
 var arvorePoupada
 var co2Evitado
+var listAnoPayback = []
+var listFluxoPayback = []
 async function fluxoCaixa() {
+  listAnoPayback = []
+  listFluxoPayback = []
   dictValorFluxo = []
   var vp
   var vpa
@@ -308,6 +437,9 @@ async function fluxoCaixa() {
         vpa: vpa
       })
       vpTotal += vp
+      listAnoPayback.push(i)
+      listFluxoPayback.push(vpa)
+      soma25Anos += vpa
     }
     if (vpa > 0 && checkVpa == false) {
       var payback = (-dictValorFluxo[i].fluxo / dictValorFluxo[i].vp) + i - 1
@@ -350,8 +482,19 @@ var consumoAddTotal = 0
 var consumoAddMedia = 0
 var consumoTotal = 0
 var consumoMedia = 0
+var listConsumoGeracao = []
+var listGeracaoConsumo = []
 async function geracaoConsumo() {
+  listConsumoGeracao = []
+  listGeracaoConsumo = []
   dictGeracaoConsumo = []
+
+  geracaoTotal = 0
+  geracaoMedia = 0
+  consumoAddTotal = 0
+  consumoAddMedia = 0
+  consumoTotal = 0
+  consumoMedia = 0
   geracaoTotal = 0
   for (let i = 0; i < meses.length; i++) {
     var geracao = (emmConsumo * (await valNum(dataIrr[0][meses[i]]) / 1000) * 30 * (fatConsumo / 100)) / 100
@@ -367,6 +510,11 @@ async function geracaoConsumo() {
     consumoAddTotal += consumoAdd
     consumoTotal += consumo
   }
+  for (i = 0; i < dictGeracaoConsumo.length; i++) {
+    listConsumoGeracao.push(dictGeracaoConsumo[i]['consumo'])
+    listGeracaoConsumo.push(dictGeracaoConsumo[i]['geracao'])
+  }
+
   geracaoMedia = geracaoTotal / 12
   consumoAddMedia = consumoAddTotal / 12
   consumoMedia = consumoTotal / 12
@@ -382,6 +530,8 @@ async function geracaoConsumo() {
     consumoAdd: consumoAddTotal,
     consumo: consumoTotal
   })
+
+
   await loadTableData(dictGeracaoConsumo, 'bodyGeracaoConsumo')
 }
 
@@ -390,10 +540,31 @@ async function pgto(taxa, parcelas, valor) {
 }
 var finalFinanciamento
 async function valFinanciamento() {
-  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento')[0].value)
-  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento')[0].value) / 100
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento12')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento12')[0].value) / 100
   finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
-  $('#inputValorFinalFinanciamento')[0].value = brlBrazil.format(finalFinanciamento)
+  $('#inputValorFinalFinanciamento12')[0].value = brlBrazil.format(finalFinanciamento)
+
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento48')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento48')[0].value) / 100
+  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento48')[0].value = brlBrazil.format(finalFinanciamento)
+
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento60')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento60')[0].value) / 100
+  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento60')[0].value = brlBrazil.format(finalFinanciamento)
+
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento120')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento120')[0].value) / 100
+  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento120')[0].value = brlBrazil.format(finalFinanciamento)
+
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento150')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento150')[0].value) / 100
+  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento150')[0].value = brlBrazil.format(finalFinanciamento)
+
 }
 
 var somaOrcaFinal = 0
@@ -425,8 +596,11 @@ async function sumOrcaFinal() {
   impostoOrcaFinal = (somaOrcaFinal / (1 - (inputImpostoOrca / 100))) * (inputImpostoOrca / 100)
   totalGeralOrcaFinal = somaOrcaFinal + impostoOrcaFinal
   $('#inputTotalOrcaFinal')[0].value = brlBrazil.format(totalGeralOrcaFinal)
-  $('#inputValorFinanciamento')[0].value = brlBrazil.format(totalGeralOrcaFinal)
-  $('#inputValorFinanciamento')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento12')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento48')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento60')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento120')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento150')[0].value = brlBrazil.format(totalGeralOrcaFinal)
   $('#inputInvestInicialFluxo')[0].value = brlBrazil.format(totalGeralOrcaFinal)
   await descontoOrcaFinal()
   await valFinanciamento()
