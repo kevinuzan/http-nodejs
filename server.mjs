@@ -304,7 +304,8 @@ app.get('/docxTemplater', function (req, res) {
             type: "nodebuffer",
         });
 
-    fs.writeFileSync("test.docx", buffer);
+    var exportPath = path.join(__dirname + '/public/temp_folder/proposta.docx')
+    fs.writeFileSync(exportPath, buffer);
 })
 
 app.get('/', function (req, res) {
