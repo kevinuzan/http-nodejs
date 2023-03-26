@@ -108,8 +108,9 @@ async function exportData() {
 async function exportChart() {
   Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 800, height: 600 }).then(
     function (dataUrl) {
-      console.log(dataUrl.split(',')[1])
+      // console.log(dataUrl.split(',')[1])
       var sampleArr = base64ToArrayBuffer(dataUrl.split(',')[1]);
+      console.log(sampleArr)
       saveByteArray("/temp_folder/graficoConsumoGeracao.png", sampleArr);
     })
 }

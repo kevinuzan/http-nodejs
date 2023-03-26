@@ -253,7 +253,8 @@ app.get('/docxTemplater', function (req, res) {
     const doc = new Docxtemplater(zip, {
         modules: [new ImageModule(opts)]
     });
-
+    var image1 = path.join(__dirname + '/public/temp_folder/danig.jpg')
+    var image2 = path.join(__dirname + '/public/temp_folder/danig2.jpg')
     // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
     doc.render({
         cliente: "cliente",
@@ -293,8 +294,8 @@ app.get('/docxTemplater', function (req, res) {
         finan_60: "finan_60",
         finan_120: "finan_120",
         finan_150: "finan_150",
-        grafico_payback: "C:\\Users\\Kevin\\Downloads\\danig.jpg",
-        grafico_cons_gera: "C:\\Users\\Kevin\\Downloads\\danig.jpg",
+        grafico_payback: image1,
+        grafico_cons_gera: image2,
     });
 
     var buffer = doc
@@ -303,7 +304,7 @@ app.get('/docxTemplater', function (req, res) {
             type: "nodebuffer",
         });
 
-    fs.writeFileSync("C:\\Users\\Kevin\\Downloads\\test.docx", buffer);
+    fs.writeFileSync("test.docx", buffer);
 })
 
 app.get('/', function (req, res) {
