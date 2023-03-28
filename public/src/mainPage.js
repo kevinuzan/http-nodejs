@@ -90,13 +90,13 @@ function saveByteArray(reportName, byte) {
 };
 
 async function downloadImage() {
-  var sampleArr = base64ToArrayBuffer(data);
-  saveByteArray("teste.jpg", sampleArr);
-  // var dataUrl = `opi`
-  // var pathName = 'graficoConsumoGeracao'
-  // var mldGetData = `/downloadImage?name=${dataUrl};${pathName}`
-  // const dataMdlForn = await fecthGet(mldGetData)
-  // console.log(dataMdlForn)
+  // var sampleArr = base64ToArrayBuffer(data);
+  // saveByteArray("teste.jpg", sampleArr);
+  var dataUrl = `opi`
+  var pathName = 'graficoConsumoGeracao'
+  var mldGetData = `/downloadImage?name=oi;oia`
+  const dataMdlForn = await fecthGet(mldGetData)
+  console.log(dataMdlForn)
 }
 
 async function exportData() {
@@ -107,11 +107,29 @@ async function exportData() {
 
 async function exportChart() {
   Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 800, height: 600 }).then(
-    function (dataUrl) {
-      // console.log(dataUrl.split(',')[1])
-      var sampleArr = base64ToArrayBuffer(dataUrl.split(',')[1]);
-      console.log(sampleArr)
-      saveByteArray("/temp_folder/graficoConsumoGeracao.png", sampleArr);
+    async function (dataUrl) {
+      var dataUrl_Final = dataUrl.split(',')[1]
+      console.log(dataUrl.split(',')[1])
+      var i
+      var fileName = 'graficoConsumoGeracao'
+      for (i = 0; i < dataUrl_Final.length; i += 1900) {
+        var dataSent = dataUrl_Final.slice(i, (i + 1900)).replaceAll("+","*")
+        var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
+        const dataMdlForn = await fecthGet(mldGetData)
+        console.log(dataSent, dataMdlForn)
+      }
+      // console.log(i, dataUrl_Final.length)
+      // if (i > dataUrl_Final.length) {
+      //   i -= 1900
+      //   var dataSent = dataUrl_Final.slice(i)
+      //   var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
+      //   const dataMdlForn = await fecthGet(mldGetData)
+      //   console.log(dataSent, "final", dataMdlForn)
+      // }
+      // var sampleArr = base64ToArrayBuffer(dataUrl.split(',')[1]);
+      // console.log(JSON.stringify(sampleArr))
+      // // new File([new Uint8Array(sampleArr)], '/graficoConsumoGeracao.png', {type: 'mimeType'})
+      // saveByteArray("/temp_folder/graficoConsumoGeracao.png", sampleArr);
     })
 }
 

@@ -197,26 +197,40 @@ app.use('/', express.static(path.join(__dirname, '/login.html')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-var download = function (uri, filename, callback) {
-    request.head(uri, function (err, res, body) {
-        console.log('content-type:', res.headers['content-type']);
-        console.log('content-length:', res.headers['content-length']);
-
-        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-    });
-};
 
 
-
+var dataTotalGrafico = ''
 app.get('/downloadImage', function (req, res) {
-    console.log(req)
-    var url = req.query.name.split(";")[0]
-    var nameFile = req.query.name.split(";")[1]
-    var pathFileName = path.join(__dirname + `/public/temp_folder/${nameFile}.jpg`)
-    download(url, pathFileName, function () {
-        res.json('ok')
-    });
+    var size = req.query.name.split(';')[0]
+    var filename = req.query.name.split(';')[1]
+    var data = req.query.name.split(';')[2].replaceAll("*", "+")
+    if (dataTotalGrafico.length < Number(size)) {
+        dataTotalGrafico += data.replaceAll(" ", "").replaceAll("\n", "")
+        res.json(false)
+    }
+    if (dataTotalGrafico.length == Number(size)) {
+        var base64Data = dataTotalGrafico
+        fs.writeFile(path.join(__dirname + `/public/temp_folder/${filename}.png`), base64Data, 'base64', function (err) {
+            console.log(err);
+        });
+        dataTotalGrafico = ''
+        res.json(true)
+    }
 })
+
+function base64ToArrayBuffer(base64) {
+
+    // var binaryString = window.atob(base64);
+    var binaryString = Buffer.from(base64).toString('base64')
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+        var ascii = binaryString.charCodeAt(i);
+        bytes[i] = ascii;
+    }
+    // console.log(bytes)
+    return bytes;
+}
 
 app.get('/docxTemplater', function (req, res) {
     const content = fs.readFileSync(
