@@ -266,6 +266,36 @@ async function updatePostgre(csv, query, data) {
                         queryAux += `where distribuidora = '${element[1]}';`
                     }
                 }
+
+                //  A FAZER
+                if (csv == 'vendedores.csv') {
+                    queryAux += 'update tarifafiob set '
+                    if (element[0] != '') {
+                        queryAux += `estado = '${element[0]}',`
+                    }
+                    if (element[2] != '') {
+                        queryAux += `tusd_fiob = '${element[2]}',`
+                    }
+                    if (element[0] != '') {
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where distribuidora = '${element[1]}';`
+                    }
+                }
+                if (csv == 'clientes.csv') {
+                    queryAux += 'update tarifafiob set '
+                    if (element[0] != '') {
+                        queryAux += `estado = '${element[0]}',`
+                    }
+                    if (element[2] != '') {
+                        queryAux += `tusd_fiob = '${element[2]}',`
+                    }
+                    if (element[0] != '') {
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where distribuidora = '${element[1]}';`
+                    }
+                }
+                //  A FAZER
+                
                 //queryAux = queryAux.slice(0, -1)
 
             } else {
