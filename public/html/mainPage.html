@@ -812,7 +812,6 @@
 								<div class="app-container">
 									<br>
 									<div class="outerboxmain align-items-center">
-										<br>
 										<div class="table-responsive">
 											<h4 class="app-subtitle">IRRADIAÇÃO MENSAL (KWP/M².DIA)</h4>
 											<table class="table" id="tableIrradiacao" style="width: 870px;">
@@ -847,7 +846,6 @@
 								<div class="app-container">
 									<br>
 									<div class="outerboxmain align-items-center">
-										<br>
 										<h2 class="app-subtitle">HSP</h2>
 										<div class="container-5-columns">
 											<div class="field-container mt-2">
@@ -1020,7 +1018,6 @@
 								<div class="app-container">
 									<br>
 									<div class="outerboxmain align-items-center">
-										<br>
 										<div class="table-responsive">
 											<h4 class="app-subtitle">GERAÇÃO E CONSUMO</h4>
 											<table class="table2" id="tableGeracaoConsumo">
@@ -1620,7 +1617,9 @@
 										<input disabled id="inputPaybackAnualResultado" placeholder="Digite..">
 									</div>
 								</div>
-								<br>
+							</div>
+							<br>
+							<div class="outerboxmain align-items-center">
 								<h2 class="app-subtitle">RESULTADO AMBIENTAL</h2>
 								<div class="container-3-columns">
 									<div class="field-container mt-2">
@@ -1638,7 +1637,9 @@
 										<input disabled id="inputCo2Resultado" placeholder="Digite..">
 									</div>
 								</div>
+							</div>
 								<br>
+								<div class="outerboxmain align-items-center">
 								<h2 class="app-subtitle">RESULTADOS PARA 25 ANOS</h2>
 								<div class="container-4-columns">
 									<div class="field-container mt-2">
@@ -2106,16 +2107,14 @@
 					<div class="tab-pane fade show" id="graficos-resumo-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<br>
-							<div class="outerboxmain align-items-center">
-								<div class="field-container">
-									<button class="btn-app btn-fp mt-1" onclick="createCharts()">GERAR GRÁFICOS</button>
-								</div>
+							<div class="field-container">
+								<button class="btn-app btn-fp mt-1" onclick="createCharts()">GERAR GRÁFICOS</button>
 							</div>
 							<br>
 							<div class="outerboxmain align-items-center">
-								<div class="row justify-content-between mt-1 ml-1 mr-1 mb-1" style="display: flex;">
-									<div id="graficoConsumoGeracao" style="width:43%;height:auto;"></div>
-									<div id="graficoPayback" style="width:43%;height:auto;"></div>
+								<div class="row justify-content-between mt-2 ml-1 mr-1" style="display: flex;">
+									<div id="graficoConsumoGeracao" class="graph"></div>
+									<div id="graficoPayback" class="graph"></div>
 								</div>
 							</div>
 						</div>

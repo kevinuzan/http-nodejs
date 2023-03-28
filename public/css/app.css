@@ -48,6 +48,7 @@ body {
   width: 100%;
   font-weight: 600;     
   font-size: 1.4rem;
+  padding-top: 10px;
 
   color: var(--text-secondary);
   text-shadow: 1px 1px var(--field-text-shadow)
@@ -149,6 +150,18 @@ body {
   }
 }
 
+.graph {
+  width: 49%;
+  height: auto;
+}
+
+@media(max-width: 800px) {
+  .graph {
+    width: 100%;
+    height: auto;
+  }
+}
+
 @media(max-width: 1300px) {
   .container-5-columns {
      grid-template-columns: repeat(4, 24.3%);
@@ -188,6 +201,7 @@ body {
      grid-template-columns: 1fr;
   }
 }
+
 @media(max-width: 650px) {
   .container-5-columns {
      grid-template-columns: repeat(1, 100%);
