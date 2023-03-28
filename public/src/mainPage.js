@@ -106,30 +106,33 @@ async function exportData() {
 }
 
 async function exportChart() {
-  Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 800, height: 600 }).then(
+  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 700, height: 450 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
-      console.log(dataUrl.split(',')[1])
       var i
       var fileName = 'graficoConsumoGeracao'
+      console.log(dataUrl_Final)
       for (i = 0; i < dataUrl_Final.length; i += 1900) {
-        var dataSent = dataUrl_Final.slice(i, (i + 1900)).replaceAll("+","*")
+        var dataSent = dataUrl_Final.slice(i, (i + 1900)).replaceAll("+", "*")
         var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
         const dataMdlForn = await fecthGet(mldGetData)
-        console.log(dataSent, dataMdlForn)
+        console.log(dataMdlForn)
       }
-      // console.log(i, dataUrl_Final.length)
-      // if (i > dataUrl_Final.length) {
-      //   i -= 1900
-      //   var dataSent = dataUrl_Final.slice(i)
-      //   var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
-      //   const dataMdlForn = await fecthGet(mldGetData)
-      //   console.log(dataSent, "final", dataMdlForn)
-      // }
-      // var sampleArr = base64ToArrayBuffer(dataUrl.split(',')[1]);
-      // console.log(JSON.stringify(sampleArr))
-      // // new File([new Uint8Array(sampleArr)], '/graficoConsumoGeracao.png', {type: 'mimeType'})
-      // saveByteArray("/temp_folder/graficoConsumoGeracao.png", sampleArr);
+    })
+}
+
+async function exportChart2() {
+  await Plotly.toImage('graficoPayback', { format: 'png', width: 700, height: 450 }).then(
+    async function (dataUrl) {
+      var dataUrl_Final = dataUrl.split(',')[1]
+      var i
+      var fileName = 'graficoPayback'
+      for (i = 0; i < dataUrl_Final.length; i += 1900) {
+        var dataSent = dataUrl_Final.slice(i, (i + 1900)).replaceAll("+", "*")
+        var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
+        const dataMdlForn = await fecthGet(mldGetData)
+        console.log(dataMdlForn)
+      }
     })
 }
 

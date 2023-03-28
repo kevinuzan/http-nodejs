@@ -182,6 +182,19 @@ async function updatePostgre(csv, query, data) {
     }
 }
 
+function base64ToArrayBuffer(base64) {
+
+    // var binaryString = window.atob(base64);
+    var binaryString = Buffer.from(base64).toString('base64')
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+        var ascii = binaryString.charCodeAt(i);
+        bytes[i] = ascii;
+    }
+    // console.log(bytes)
+    return bytes;
+}
 
 server.listen(process.env.PORT || 3000);
 
@@ -208,7 +221,8 @@ app.get('/downloadImage', function (req, res) {
         dataTotalGrafico += data.replaceAll(" ", "").replaceAll("\n", "")
         res.json(false)
     }
-    if (dataTotalGrafico.length == Number(size)) {
+    console.log(dataTotalGrafico.length, Number(size))
+    if (dataTotalGrafico.length >= Number(size)) {
         var base64Data = dataTotalGrafico
         fs.writeFile(path.join(__dirname + `/public/temp_folder/${filename}.png`), base64Data, 'base64', function (err) {
             console.log(err);
@@ -217,20 +231,6 @@ app.get('/downloadImage', function (req, res) {
         res.json(true)
     }
 })
-
-function base64ToArrayBuffer(base64) {
-
-    // var binaryString = window.atob(base64);
-    var binaryString = Buffer.from(base64).toString('base64')
-    var binaryLen = binaryString.length;
-    var bytes = new Uint8Array(binaryLen);
-    for (var i = 0; i < binaryLen; i++) {
-        var ascii = binaryString.charCodeAt(i);
-        bytes[i] = ascii;
-    }
-    // console.log(bytes)
-    return bytes;
-}
 
 app.get('/docxTemplater', function (req, res) {
     const content = fs.readFileSync(
@@ -267,8 +267,8 @@ app.get('/docxTemplater', function (req, res) {
     const doc = new Docxtemplater(zip, {
         modules: [new ImageModule(opts)]
     });
-    var image1 = path.join(__dirname + '/public/temp_folder/danig.jpg')
-    var image2 = path.join(__dirname + '/public/temp_folder/danig2.jpg')
+    var image1 = path.join(__dirname + '/public/temp_folder/graficoConsumoGeracao.png')
+    var image2 = path.join(__dirname + '/public/temp_folder/graficoPayback.png')
     // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
     doc.render({
         cliente: "cliente",
