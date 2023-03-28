@@ -247,8 +247,17 @@ input.addEventListener('change', async function () {
       return data
     })
     var dataToSend = JSON.stringify(resultExcelData)
-    var resp = await fecthGet(`/updateTask?name=tarifab3;${dataToSend}`)
-    console.log(resp)
+    var typeFile = 'fatork'
+    var size = dataToSend.length
+    var i
+    for (i = 0; i < size; i += 1900) {
+      var dataToSend_final = dataToSend.slice(i, (i + 1900))
+      var resp = await fecthGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      // const dataMdlForn = await fecthGet(mldGetData)
+      console.log(resp)
+    }
+    // var resp = await fecthGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
+    //console.log(resp)
   } else {
     alert('Por favor, selecione um arquivo de extensão xlsx')
   }

@@ -103,163 +103,167 @@ async function updatePostgre(csv, query, data) {
                 if (csv == 'modulos.csv') {
                     queryAux += 'update modulos set '
                     if (element[0] != '') {
-                        queryAux += `fornecedor = '${element[0]}'`
+                        queryAux += `fornecedor = '${element[0]}',`
                     }
                     if (element[1] != '') {
-                        queryAux += `codigo = '${element[1]}'`
+                        queryAux += `codigo = '${element[1]}',`
                     }
                     if (element[3] != '') {
-                        queryAux += `pmax = '${element[3]}'`
+                        queryAux += `pmax = '${element[3]}',`
                     }
                     if (element[4] != '') {
-                        queryAux += `vmp = '${element[4]}'`
+                        queryAux += `vmp = '${element[4]}',`
                     }
                     if (element[5] != '') {
-                        queryAux += `imp = '${element[5]}'`
+                        queryAux += `imp = '${element[5]}',`
                     }
                     if (element[6] != '') {
-                        queryAux += `voc = '${element[6]}'`
+                        queryAux += `voc = '${element[6]}',`
                     }
                     if (element[7] != '') {
-                        queryAux += `isc = '${element[7]}'`
+                        queryAux += `isc = '${element[7]}',`
                     }
                     if (element[8] != '') {
-                        queryAux += `eficiencia = '${element[8]}'`
+                        queryAux += `eficiencia = '${element[8]}',`
                     }
                     if (element[9] != '') {
-                        queryAux += `tpmax = '${element[9]}'`
+                        queryAux += `tpmax = '${element[9]}',`
                     }
                     if (element[10] != '') {
-                        queryAux += `tvoc = '${element[10]}'`
+                        queryAux += `tvoc = '${element[10]}',`
                     }
                     if (element[11] != '') {
-                        queryAux += `tisc = '${element[11]}'`
+                        queryAux += `tisc = '${element[11]}',`
                     }
                     if (element[12] != '') {
-                        queryAux += `altura = '${element[12]}'`
+                        queryAux += `altura = '${element[12]}',`
                     }
                     if (element[13] != '') {
-                        queryAux += `largura = '${element[13]}'`
+                        queryAux += `largura = '${element[13]}',`
                     }
                     if (element[14] != '') {
-                        queryAux += `espessura = '${element[14]}'`
+                        queryAux += `espessura = '${element[14]}',`
                     }
                     if (element[15] != '') {
-                        queryAux += `area = '${element[15]}'`
+                        queryAux += `area = '${element[15]}',`
                     }
                     if (element[16] != '') {
-                        queryAux += `celulas = '${element[16]}'`
+                        queryAux += `celulas = '${element[16]}',`
                     }
                     if (element[17] != '') {
-                        queryAux += `estilo = '${element[17]}'`
+                        queryAux += `estilo = '${element[17]}',`
                     }
                     if (element[18] != '') {
-                        queryAux += `peso = '${element[18]}'`
+                        queryAux += `peso = '${element[18]}',`
                     }
                     if (element[2] != '') {
-                        queryAux += `where modelo = '${element[2]}'`
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where modelo = '${element[2]}';`
                     }
                 }
                 if (csv == 'inversores.csv') {
                     queryAux += 'update inversores set '
                     if (element[0] != '') {
-                        queryAux += `fornecedor = '${element[0]}'`
+                        queryAux += `fornecedor = '${element[0]}',`
                     }
                     if (element[1] != '') {
-                        queryAux += `codigo = '${element[1]}'`
+                        queryAux += `codigo = '${element[1]}',`
                     }
                     if (element[2] != '') {
-                        queryAux += `tipo = '${element[3]}'`
+                        queryAux += `tipo = '${element[2]}',`
                     }
                     if (element[4] != '') {
-                        queryAux += `potnomi = '${element[4]}'`
+                        queryAux += `potnomi = '${element[4]}',`
                     }
                     if (element[5] != '') {
-                        queryAux += `faixamppt = '${element[5]}'`
+                        queryAux += `faixamppt = '${element[5]}',`
                     }
                     if (element[6] != '') {
-                        queryAux += `tenspart = '${element[6]}'`
+                        queryAux += `tenspart = '${element[6]}',`
                     }
                     if (element[7] != '') {
-                        queryAux += `maxtens = '${element[7]}'`
+                        queryAux += `maxtens = '${element[7]}',`
                     }
                     if (element[8] != '') {
-                        queryAux += `entradaimp = '${element[8]}'`
+                        queryAux += `entradaimp = '${element[8]}',`
                     }
                     if (element[9] != '') {
-                        queryAux += `eficiencia = '${element[9]}'`
+                        queryAux += `eficiencia = '${element[9]}',`
                     }
                     if (element[10] != '') {
-                        queryAux += `conexaoca = '${element[10]}'`
+                        queryAux += `conexaoca = '${element[10]}',`
                     }
                     if (element[11] != '') {
-                        queryAux += `correntesaída = '${element[11]}'`
+                        queryAux += `correntesaída = '${element[11]}',`
                     }
                     if (element[12] != '') {
-                        queryAux += `faixatens = '${element[12]}'`
+                        queryAux += `faixatens = '${element[12]}',`
                     }
                     if (element[13] != '') {
-                        queryAux += `mppt = '${element[13]}'`
+                        queryAux += `mppt = '${element[13]}',`
                     }
                     if (element[3] != '') {
-                        queryAux += `where modelo = '${element[2]}'`
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where modelo = '${element[3]}';`
                     }
                 }
                 if (csv == 'fatork.csv') {
                     queryAux += 'update fatork set '
                     if (element[1] != '') {
-                        queryAux += `jan = '${element[0]}'`
+                        queryAux += `jan = '${element[1]}',`
                     }
                     if (element[2] != '') {
-                        queryAux += `fev = '${element[1]}'`
+                        queryAux += `fev = '${element[2]}',`
                     }
                     if (element[3] != '') {
-                        queryAux += `mar = '${element[3]}'`
+                        queryAux += `mar = '${element[3]}',`
                     }
                     if (element[4] != '') {
-                        queryAux += `abr = '${element[4]}'`
+                        queryAux += `abr = '${element[4]}',`
                     }
                     if (element[5] != '') {
-                        queryAux += `mai = '${element[5]}'`
+                        queryAux += `mai = '${element[5]}',`
                     }
                     if (element[6] != '') {
-                        queryAux += `jun = '${element[6]}'`
+                        queryAux += `jun = '${element[6]}',`
                     }
                     if (element[7] != '') {
-                        queryAux += `jul = '${element[7]}'`
+                        queryAux += `jul = '${element[7]}',`
                     }
                     if (element[8] != '') {
-                        queryAux += `ago = '${element[8]}'`
+                        queryAux += `ago = '${element[8]}',`
                     }
                     if (element[9] != '') {
-                        queryAux += `set = '${element[9]}'`
+                        queryAux += `set = '${element[9]}',`
                     }
                     if (element[10] != '') {
-                        queryAux += `out = '${element[10]}'`
+                        queryAux += `out = '${element[10]}',`
                     }
                     if (element[11] != '') {
-                        queryAux += `nov = '${element[11]}'`
+                        queryAux += `nov = '${element[11]}',`
                     }
                     if (element[12] != '') {
-                        queryAux += `dez = '${element[12]}'`
+                        queryAux += `dez = '${element[12]}',`
                     }
                     if (element[13] != '') {
-                        queryAux += `media = '${element[13]}'`
+                        queryAux += `media = '${element[13]}',`
                     }
                     if (element[0] != '') {
-                        queryAux += `where latitude = '${element[2]}'`
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where latitude = '${element[0]}';`
                     }
                 }
                 if (csv == 'tarifafiob.csv') {
                     queryAux += 'update tarifafiob set '
                     if (element[0] != '') {
-                        queryAux += `estado = '${element[0]}'`
+                        queryAux += `estado = '${element[0]}',`
                     }
                     if (element[2] != '') {
-                        queryAux += `tusd_fiob = '${element[1]}'`
+                        queryAux += `tusd_fiob = '${element[2]}',`
                     }
                     if (element[0] != '') {
-                        queryAux += `where distribuidora = '${element[2]}'`
+                        queryAux = queryAux.slice(0, -1)
+                        queryAux += `where distribuidora = '${element[1]}';`
                     }
                 }
                 //queryAux = queryAux.slice(0, -1)
@@ -270,8 +274,10 @@ async function updatePostgre(csv, query, data) {
         });
         // queryAux = queryAux.slice(0, -2)
         var queryFinal = query + queryAux
+        console.log(queryFinal)
         try {
             var { rows } = await pgClient.query(queryFinal)
+            console.log("oi")
             return true
         } catch (e) {
             console.log(e)
@@ -319,9 +325,10 @@ app.get('/downloadImage', function (req, res) {
     var size = req.query.name.split(';')[0]
     var filename = req.query.name.split(';')[1]
     var data = req.query.name.split(';')[2].replaceAll("*", "+")
+    var resposta = false
     if (dataTotalGrafico.length < Number(size)) {
         dataTotalGrafico += data.replaceAll(" ", "").replaceAll("\n", "")
-        res.json(false)
+        resposta = false
     }
     console.log(dataTotalGrafico.length, Number(size))
     if (dataTotalGrafico.length >= Number(size)) {
@@ -330,8 +337,9 @@ app.get('/downloadImage', function (req, res) {
             console.log(err);
         });
         dataTotalGrafico = ''
-        res.json(true)
+        resposta = true
     }
+    res.json(resposta)
 })
 
 app.get('/docxTemplater', function (req, res) {
@@ -427,29 +435,49 @@ app.get('/docxTemplater', function (req, res) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 });
-
+var dataTotalUpdate = ''
 app.get('/updateTask', async function (req, res) {
-
-    var option = req.query.name.split(";")[0];
-    var data = JSON.parse(req.query.name.split(";")[1])
-    var csv = ''
-    var query = ''
-    console.log(option == 'tarifab3')
-    if (option == 'tarifab3') {
-        csv = 'distribuidora_TB3.csv'
-        query = ""
-    } else if (option == 'modulo') {
-        csv = 'modulos.csv'
-        query = "";
-    } else if (option == 'inversor') {
-        csv = 'inversores.csv'
-        query = "";
-    } else if (option == 'tarifafiob') {
-        csv = 'TarifaFioB.csv'
-        query = "";
+    var option = req.query.name.split(';')[0]
+    var size = req.query.name.split(';')[1]
+    var data = req.query.name.split(";")[2]
+    var resposta = false
+    if (dataTotalUpdate.length < Number(size)) {
+        dataTotalUpdate += data
+        resposta = false
     }
-    var data = await updatePostgre(csv, query, data)
-    res.json(data)
+    console.log(dataTotalUpdate, dataTotalUpdate.length, Number(size))
+    if (dataTotalUpdate.length >= Number(size)) {
+        // console.log(dataTotalUpdate)
+        dataTotalUpdate = JSON.parse(dataTotalUpdate)
+        var csv = ''
+        var query = ''
+        console.log(option)
+        if (option == 'tarifab3') {
+            csv = 'distribuidora_TB3.csv'
+            query = ""
+        } else if (option == 'modulo') {
+            csv = 'modulos.csv'
+            query = "";
+        } else if (option == 'inversor') {
+            csv = 'inversores.csv'
+            query = "";
+        } else if (option == 'tarifafiob') {
+            csv = 'TarifaFioB.csv'
+            query = "";
+        } else if (option == 'fatork') {
+            csv = 'fatork.csv'
+            query = "";
+        }
+        var data = await updatePostgre(csv, query, dataTotalUpdate)
+        dataTotalUpdate = ''
+        resposta = true
+        // dataTotalUpdate = ''
+        // res.json(true)
+    }
+    res.json(resposta)
+    // var option = req.query.name.split(";")[0];
+    // var data = JSON.parse(req.query.name.split(";")[1])
+
 })
 
 app.get('/firstPage', function (req, res) {
