@@ -100,9 +100,54 @@ async function downloadImage() {
 }
 
 async function exportData() {
-  var mldGetData = '/docxTemplater'
+  await createCharts()
+  await exportChart()
+  await exportChart2()
+  var cliente = $('#inputCliente')[0].value
+  var vendedor = $('#inputVendedor')[0].value
+  var validade = 10
+  var vendedor_tel = $('#inputVendedorTelefone')[0].value
+  var vendedor_email = $('#inputVendedorEmail')[0].value
+  var endereco = $('#inputRua')[0].value + " " + $('#inputNumero')[0].value + " " + $('#inputBairro')[0].value
+  var cep = $('#inputCep')[0].value
+  var estimativa_mes = ''
+  var tipo_telhado = $('#inputTelhado')[0].value
+  var porcentagem_sistema = $('#inputPorcentagem')[0].value
+  var tamanho = ''
+  var economia_ano = ''
+  var investimento_inicial = ''
+  var payback = paybackCompleto
+  var gasto_antigo = ''
+  var gasto_novo = ''
+  var retorno_anual = ''
+  var qtde_modulos = qtdeMdlCalc.toFixed(2)
+  var fabricante_inversor = ''
+  var qtde_inversor = inversoresResumo.toFixed(2)
+  var estrutura_fixa = ''
+  var area = areaTotalResumo
+  var fator_simultaneidade = ''
+  var fator_injetado = ''
+  var tarifa_imposto = ''
+  var degradacao_anual = ''
+  var geracao_anual = ''
+
+  var km = kmRodadoResumo.toFixed(2)
+  var arvores = arvorePoupadaResumo.toFixed(2)
+  var co2 = co2EvitadoResumo.toFixed(2)
+
+  var desconto = descontoOrca.toFixed(2)
+  var valor_desconto = totalDescontoOrcaFinal.toFixed(2)
+
+  var finan_12 = finalFinanciamento12.toFixed(2)
+  var finan_48 = finalFinanciamento48.toFixed(2)
+  var finan_60 = finalFinanciamento60.toFixed(2)
+  var finan_120 = finalFinanciamento120.toFixed(2)
+  var finan_150 = finalFinanciamento150.toFixed(2)
+    
+  var mldGetData = `/docxTemplater?name=${cliente};${vendedor};${validade};${vendedor_tel};${vendedor_email};${endereco};${cep};${estimativa_mes};${tipo_telhado};${porcentagem_sistema};${tamanho};${economia_ano};${investimento_inicial};${payback};${gasto_antigo};${gasto_novo};${retorno_anual};${qtde_modulos};${fabricante_inversor};${qtde_inversor};${estrutura_fixa};${area};${fator_simultaneidade};${fator_injetado};${tarifa_imposto};${degradacao_anual};${geracao_anual};${km};${arvores};${co2};${desconto};${valor_desconto};${finan_12};${finan_48};${finan_60};${finan_120};${finan_150}`
   const dataMdlForn = await fecthGet(mldGetData)
   console.log(dataMdlForn)
+  $('#downloadProposta')[0].click()
 }
 
 async function exportChart() {
@@ -205,7 +250,125 @@ async function createCharts() {
 
   Plotly.newPlot('graficoPayback', dataPayback, layoutPayback, config);
 }
+var potenciaResumo = 0
+var modulosResumo = 0
+var areaTotalResumo = 0
+var pesoTotalResumo = 0
+var fornecedorMdlResumo = 0
+var modeloMdlResumo = 0
+var fornecedorInvResumo = 0
+var modeloInvResumo = 0
+var inversoresResumo = 0
+var geracaoMensalResumo = 0
+var geracaoAnualResumo = 0
+var percentualGerConResumo = 0
+var economia25anosResumo = 0
+var tirResumo = 0
+var rentabilidadeMensalResumo = 0
+var paybackResumo = 0
+var investimentoResumo = 0
+var valorFinanciamento1xResumo = 0
 
+var kmRodadoResumo = 0
+var arvorePoupadaResumo = 0
+var co2EvitadoResumo = 0
+
+var faturaBTSSolarResumo = 0
+var demandaSSolarResumo = 0
+var impostosSSolarResumo = 0
+var valorFaturaAtualSSolarResumo = 0
+var faturaBTCSolarResumo = 0
+var demandaCSolarResumo = 0
+var impostoCSSolarResumo = 0
+var valorFaturaAtualCSolarResumo = 0
+var economiaEnergiaMensalResumo = 0
+var economiaPercentualResumo = 0
+
+async function resumoFill() {
+  potenciaResumo = potTotalOrca
+  modulosResumo = qtdeMdlCalc
+  areaTotalResumo = (qtdeMdlCalc * areaMdl).toFixed(2)
+  pesoTotalResumo = (qtdeMdlCalc * pesoMdl).toFixed(2)
+  fornecedorMdlResumo = fornecedorMdl
+  modeloMdlResumo = element5.value
+  fornecedorInvResumo = fornecedorInv
+  modeloInvResumo = element11.value
+  inversoresResumo = $('#inputQtdeInversor')[0].value
+  geracaoMensalResumo = (geracaoMedia).toFixed(2)
+  geracaoAnualResumo = (geracaoTotal).toFixed(2)
+  percentualGerConResumo = (geracaoMedia / consumoMedia).toFixed(2) + ' %'
+  if (dictValorFluxo.length > 0) {
+    economia25anosResumo = dictValorFluxo[24].vpa
+  } else {
+    economia25anosResumo = 0
+  }
+  tirResumo = (tirResultado).toFixed(2) + ' %'
+  rentabilidadeMensalResumo = ((Math.pow((1 + (tirResultado / 100)), (1 / 12)) - 1) * 100).toFixed(2) + ' %'
+  paybackResumo = paybackCompleto
+  investimentoResumo = totalDescontoOrcaFinal
+  valorFinanciamento1xResumo = finalFinanciamento1
+
+  kmRodadoResumo = (kmRodado).toFixed(2)
+  arvorePoupadaResumo = (arvorePoupada).toFixed(2)
+  co2EvitadoResumo = (co2Evitado).toFixed(2)
+
+  faturaBTSSolarResumo = CreditoSomaTotal
+  demandaSSolarResumo = ''
+  impostosSSolarResumo = CreditoPIS + CreditoCOFINS + CreditoConsumoTUSDIcms + CreditoConsumoTEIcms
+  valorFaturaAtualSSolarResumo = CreditoSomaTotal
+
+  faturaBTCSolarResumo = CreditoSomaTotal
+  demandaCSolarResumo = ''
+  impostoCSSolarResumo = CreditoPIS + CreditoCOFINS + CreditoConsumoTUSDIcms + CreditoConsumoTEIcms
+  for (i = 0; i < listFinalGeracao.length; i++) {
+    if (anoAtual == listFinalGeracao[i][0]) {
+      tarifaTotalCSolarResumo = Number(listFinalGeracao[i][6])
+    }
+  }
+  valorFaturaAtualCSolarResumo = tarifaTotalCSolarResumo
+
+  economiaEnergiaMensalResumo = CreditoSomaTotal - tarifaTotalCSolarResumo
+  economiaPercentualResumo = (CreditoSomaTotal - tarifaTotalCSolarResumo) / CreditoSomaTotal
+
+  $('#inputPotenciaResumo')[0].value = potenciaResumo
+  $('#inputNumeroMdlResumo')[0].value = modulosResumo
+  $('#inputAreaResumo')[0].value = areaTotalResumo
+  $('#inputPesoResumo')[0].value = pesoTotalResumo
+  $('#inputFabricanteMdlResumo')[0].value = fornecedorMdlResumo
+  $('#inputPecaMdlResumo')[0].value = modeloMdlResumo
+  $('#inputFabricanteInvResumo')[0].value = fornecedorInvResumo
+  $('#inputPecaInvResumo')[0].value = modeloInvResumo
+  $('#inputNumeroInvResumo')[0].value = inversoresResumo
+  $('#inputGeracaoMensalResumo')[0].value = geracaoMensalResumo
+  $('#inputGeracaoAnualResumo')[0].value = geracaoAnualResumo
+  $('#inputGeracaoXConsumo')[0].value = percentualGerConResumo
+
+  $('#inputKmRodadosResumo')[0].value = kmRodadoResumo
+  $('#inputArvoresPoupadasResumo')[0].value = arvorePoupadaResumo
+  $('#inputTonCo2Resumo')[0].value = co2EvitadoResumo
+
+  $('#inputEconomiaAnualResumo')[0].value = ''
+  $('#inputEconomia25Resumo')[0].value = brlBrazil.format(economia25anosResumo)
+  $('#inputTirResumo')[0].value = tirResumo
+  $('#inputRentabilidadeMensalResumo')[0].value = rentabilidadeMensalResumo
+  $('#inputPaybackResumo')[0].value = paybackResumo
+  $('#inputValorInvestimentoResumo')[0].value = brlBrazil.format(investimentoResumo)
+  $('#inputParcelaFinanciamentoResumo')[0].value = brlBrazil.format(valorFinanciamento1xResumo)
+
+  $('#inputFaturaSSolarResumo')[0].value = brlBrazil.format(faturaBTSSolarResumo)
+  $('#inputFaturaCSolarResumo')[0].value = brlBrazil.format(faturaBTCSolarResumo)
+  $('#inputDemandaSSolarResumo')[0].value = brlBrazil.format(demandaSSolarResumo)
+  $('#inputDemandaCSolarResumo')[0].value = brlBrazil.format(demandaCSolarResumo)
+  $('#inputImpostosSSolarResumo')[0].value = brlBrazil.format(impostosSSolarResumo)
+  $('#inputImpostosCSolarResumo')[0].value = brlBrazil.format(impostoCSSolarResumo)
+  $('#inputValFaturaSSolarResumo')[0].value = brlBrazil.format(valorFaturaAtualSSolarResumo)
+  $('#inputImpostosCSolarResumo')[0].value = brlBrazil.format(valorFaturaAtualCSolarResumo)
+
+  $('#inputEconomiaEnergiaMensalResumo')[0].value = brlBrazil.format(economiaEnergiaMensalResumo)
+  $('#inputEconomiaPercentualResumo')[0].value = economiaPercentualResumo
+  await createCharts()
+}
+var tarifaTotalCSolarResumo = 0
 var fatorKdata = ''
 var optionsDistribuidora = ''
 
@@ -227,17 +390,17 @@ var somaCorrecao = 0
 
 const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
 
-var CreditoConsumoTUSD
-var CreditoConsumoTE
-var CreditoPIS
-var CreditoCOFINS
-var CreditoConsumoTUSDIcms
-var CreditoConsumoTEIcms
-var CreditoTaxaIlum
-var CreditoSomaTotal
+var CreditoConsumoTUSD = 0
+var CreditoConsumoTE = 0
+var CreditoPIS = 0
+var CreditoCOFINS = 0
+var CreditoConsumoTUSDIcms = 0
+var CreditoConsumoTEIcms = 0
+var CreditoTaxaIlum = 0
+var CreditoSomaTotal = 0
 
 //#region REPLICAR PARA OUTROS TÓPICOS (tarifa fio b, modulos e inversores)
-var resultExcelData
+var resultExcelData = 0
 var input = document.getElementById('excelDataMdl');
 input.addEventListener('change', async function () {
   console.log
@@ -409,16 +572,17 @@ function IRR(values, guess) {
   return resultRate;
 }
 
-var paybackCompleto
+var paybackCompleto = 0
 var dictValorFluxo = []
-var vpTotal
+var vpTotal = 0
 var soma25Anos = 0
 var tir25Anos = []
-var kmRodado
-var arvorePoupada
-var co2Evitado
+var kmRodado = 0
+var arvorePoupada = 0
+var co2Evitado = 0
 var listAnoPayback = []
 var listFluxoPayback = []
+var tirResultado = 0
 async function fluxoCaixa() {
   listAnoPayback = []
   listFluxoPayback = []
@@ -470,14 +634,16 @@ async function fluxoCaixa() {
   $('#inputTaxaLucraResultado')[0].value = (vpTotal / totalGeralOrcaFinal).toFixed(2)
   $('#inputRoiResultado')[0].value = (((mediaAnualEconomia * 25) - totalGeralOrcaFinal) / totalGeralOrcaFinal).toFixed(2)
   console.log(tir25Anos, await IRR(tir25Anos,))
-  $('#inputTirResultado')[0].value = ((await IRR(tir25Anos,)) * 100).toFixed(2) + ' %'
+  tirResultado = (await IRR(tir25Anos,)) * 100
+  $('#inputTirResultado')[0].value = (tirResultado).toFixed(2) + ' %'
 
   kmRodado = ((geracaoTotal * 25) * 0.7097)
-  arvorePoupada = ((geracaoTotal * 25) * 5.04 * 10000)
+  arvorePoupada = ((geracaoTotal * 25) * 5.04 * 0.0001)
   co2Evitado = ((gerConsumo * 5.3622972))
   $('#inputKmRodadosResultado')[0].value = kmRodado.toFixed(2)
   $('#inputArvoresResultado')[0].value = arvorePoupada.toFixed(2)
   $('#inputCo2Resultado')[0].value = co2Evitado.toFixed(2)
+  await resumoFill()
 }
 var dictGeracaoConsumo = []
 var meses = [
@@ -543,38 +709,50 @@ async function geracaoConsumo() {
 
 
   await loadTableData(dictGeracaoConsumo, 'bodyGeracaoConsumo')
+  await resumoFill()
 }
 
 async function pgto(taxa, parcelas, valor) {
   return valor * (taxa) / (1 - (Math.pow(1 + taxa, -parcelas)));
 }
-var finalFinanciamento
+var finalFinanciamento1 = 0
+var finalFinanciamento12 = 0
+var finalFinanciamento48 = 0
+var finalFinanciamento60 = 0
+var finalFinanciamento120 = 0
+var finalFinanciamento150 = 0
 async function valFinanciamento() {
+  var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento1')[0].value)
+  var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento1')[0].value) / 100
+  finalFinanciamento1 = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento1')[0].value = brlBrazil.format(finalFinanciamento1)
+
   var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento12')[0].value)
   var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento12')[0].value) / 100
-  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
-  $('#inputValorFinalFinanciamento12')[0].value = brlBrazil.format(finalFinanciamento)
+  finalFinanciamento12 = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento12')[0].value = brlBrazil.format(finalFinanciamento12)
 
   var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento48')[0].value)
   var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento48')[0].value) / 100
-  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
-  $('#inputValorFinalFinanciamento48')[0].value = brlBrazil.format(finalFinanciamento)
+  finalFinanciamento48 = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento48')[0].value = brlBrazil.format(finalFinanciamento48)
 
   var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento60')[0].value)
   var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento60')[0].value) / 100
-  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
-  $('#inputValorFinalFinanciamento60')[0].value = brlBrazil.format(finalFinanciamento)
+  finalFinanciamento60 = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento60')[0].value = brlBrazil.format(finalFinanciamento60)
 
   var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento120')[0].value)
   var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento120')[0].value) / 100
-  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
-  $('#inputValorFinalFinanciamento120')[0].value = brlBrazil.format(finalFinanciamento)
+  finalFinanciamento120 = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento120')[0].value = brlBrazil.format(finalFinanciamento120)
 
   var parcelasFinanciamento = await valNum($('#inputNumeroParcelasFinanciamento150')[0].value)
   var inputJurosMesFinanciamento = await valNum($('#inputJurosMesFinanciamento150')[0].value) / 100
-  finalFinanciamento = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
-  $('#inputValorFinalFinanciamento150')[0].value = brlBrazil.format(finalFinanciamento)
+  finalFinanciamento150 = await pgto(inputJurosMesFinanciamento, parcelasFinanciamento, totalGeralOrcaFinal)
+  $('#inputValorFinalFinanciamento150')[0].value = brlBrazil.format(finalFinanciamento150)
 
+  await resumoFill()
 }
 
 var somaOrcaFinal = 0
@@ -606,6 +784,7 @@ async function sumOrcaFinal() {
   impostoOrcaFinal = (somaOrcaFinal / (1 - (inputImpostoOrca / 100))) * (inputImpostoOrca / 100)
   totalGeralOrcaFinal = somaOrcaFinal + impostoOrcaFinal
   $('#inputTotalOrcaFinal')[0].value = brlBrazil.format(totalGeralOrcaFinal)
+  $('#inputValorFinanciamento1')[0].value = brlBrazil.format(totalGeralOrcaFinal)
   $('#inputValorFinanciamento12')[0].value = brlBrazil.format(totalGeralOrcaFinal)
   $('#inputValorFinanciamento48')[0].value = brlBrazil.format(totalGeralOrcaFinal)
   $('#inputValorFinanciamento60')[0].value = brlBrazil.format(totalGeralOrcaFinal)
@@ -615,6 +794,7 @@ async function sumOrcaFinal() {
   await descontoOrcaFinal()
   await valFinanciamento()
   await fluxoCaixa()
+  await resumoFill()
 }
 
 var projeHomo
@@ -655,18 +835,19 @@ async function getProjetoHomo() {
       break
   }
   $('#inputProjHomOrca')[0].value = brlBrazil.format(projeHomo)
+  await resumoFill()
 }
-var moTerceira
-var lucroMargem
-var lucro
-var porcentForn
-var painelCA
-var comissao
-var comissaoValor
-var lucroLiq
-var precoKwp
-var precoPorServKwp
-var precoPorMatKwp
+var moTerceira = 0
+var lucroMargem = 0
+var lucro = 0
+var porcentForn = 0
+var painelCA = 0
+var comissao = 0
+var comissaoValor = 0
+var lucroLiq = 0
+var precoKwp = 0
+var precoPorServKwp = 0
+var precoPorMatKwp = 0
 async function updateLucro() {
   porcentForn = await valNum($('#inputPorcentagemFornOrca')[0].value) / 100
   comissao = await valNum($('#inputComissaoOrca')[0].value) / 100
@@ -760,8 +941,8 @@ async function getDataOrcaFinal() {
   await loadTableData(dictValorOrca, 'bodyOrcaFinal')
   await updateLucro()
 }
-var totalDescontoOrcaFinal
-var descontoOrca
+var totalDescontoOrcaFinal = 0
+var descontoOrca = 0
 async function descontoOrcaFinal() {
   descontoOrca = await valNum($('#inputDescontoOrcaFinal')[0].value)
   totalDescontoOrcaFinal = totalGeralOrcaFinal * (1 - await valNum($('#inputDescontoOrcaFinal')[0].value) / 100)
@@ -776,7 +957,7 @@ async function fatorCorrecao(id, value) {
   element27.value = (parseFloat(1 + (somaCorrecao / 100)) * 100).toFixed(2)
   fatConsumo = (1 + (somaCorrecao / 100)) * 100
 }
-var valorBandeira
+var valorBandeira = 0
 async function checkBandeira(valor) {
   var bandeira = valor
   var addBand = 0
@@ -806,10 +987,10 @@ async function checkBandeira(valor) {
   $('#inputBandTarifa')[0].value = addBand.toFixed(2)
   $('#inputBaseCalc')[0].value = (parseFloat(somaConsumo / somaItens) * (PIS + COFINS + tarifaTusdImp + tarifaTeImp)) + addBand
 }
-var gerConsumo
-var emmConsumo
-var fatConsumo
-var addConsumo
+var gerConsumo = 0
+var emmConsumo = 0
+var fatConsumo = 0
+var addConsumo = 0
 async function sumItems(id, value) {
   if (value != '') {
     if (id != 'function') {
@@ -896,6 +1077,7 @@ async function sumItems(id, value) {
     await energiaInversor()
     await tableTaxacaoFioB()
     await geracaoConsumo()
+    await resumoFill()
   }
 
 }
@@ -995,8 +1177,9 @@ async function tableOrcaFinal() {
 var listFinalTaxacao = []
 var listFinalGeracao = []
 var listFinalEconomia = []
-var economiaAnual
-var mediaAnualEconomia
+var economiaAnual = 0
+var mediaAnualEconomia = 0
+var anoAtual = 0
 async function tableTaxacaoFioB() {
   var tarifafiob = await fecthGet(`/tarifafiobData?name=${distribuidora}`)
   console.log(tarifafiob)
@@ -1073,7 +1256,7 @@ async function tableTaxacaoFioB() {
       economiaMensal,
       economiaAnual
     ])
-    var anoAtual = Number($('#inputAno')[0].value)
+    anoAtual = Number($('#inputAno')[0].value)
     var somaEconomiaAnual = 0
     var somaItens = 0
     if (listAno[i] >= anoAtual) {
@@ -1290,15 +1473,17 @@ async function buscaCliente(tipo) {
 
 }
 var tipoSis = 0
-var tarifaTusdImp
-var tarifaTeImp
-var pis
-var cofins
-var icms
-var tusd
-var te
-var ilum_pub
-var s_imposto
+var tarifaTusdImp = 0
+var tarifaTeImp = 0
+var pis = 0
+var cofins = 0
+var icms = 0
+var tusd = 0
+var te = 0
+var ilum_pub = 0
+var s_imposto = 0
+
+// #region CONFIGURAÇÕES
 // Inserir novo cliente
 async function insereCliente() {
   var nome = document.getElementById(`inputClienteConfigInsert`).value
@@ -1339,15 +1524,6 @@ async function insereCliente() {
     alert("CLIENTE CADASTRADO COM SUCESSO!")
   }
 }
-
-$("input").on('keypress', function (e) {
-  var chr = String.fromCharCode(e.which);
-  if ("%".indexOf(chr) != -1) {
-    return false;
-  }
-}).on('input', function (e) {
-  this.value = this.value.replaceAll("%", "")
-});
 // Atualizar dados de cliente
 async function atualizaCliente() {
   var nome = document.getElementById(`inputClienteConfigEdit`).value
@@ -1385,6 +1561,131 @@ async function atualizaCliente() {
     alert("CLIENTE ATUALIZADO COM SUCESSO!")
   }
 }
+
+// Inserir novo vendedor
+async function insereVendedor() {
+  var vendedor = document.getElementById(`inputVendedorInserir`).value
+  var telefone = document.getElementById(`inputVendedorTelefoneInserir`).value
+  var email = document.getElementById(`inputVendedorEmailInserir`).value
+  var query = `${vendedor};${telefone};${email}`
+  const data = await fecthPost('/vendedorInsert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: VENDEDOR JÁ ESTÁ CADASTRADO!")
+  } else {
+    //DADOS DE VENDEDOR
+    var dataVendedor = await fecthGet("/vendedores")
+    dataVendedor.forEach(function (item) {
+      if (optionsVendedores.indexOf(item["nome"]) == -1) {
+        optionsVendedores += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
+      }
+    });
+    document.getElementById("inputVendedor").innerHTML = optionsVendedores
+    document.getElementById("inputVendedorEditarList").innerHTML = optionsVendedores
+    alert("VENDEDOR CADASTRADO COM SUCESSO!")
+  }
+}
+// Atualizar dados de vendedor
+async function atualizaVendedor() {
+  var vendedor = document.getElementById(`inputVendedorEditarList`).value
+  var telefone = document.getElementById(`inputVendedorTelefoneEditar`).value
+  var email = document.getElementById(`inputVendedorEmailEditar`).value
+  var query = `${vendedor};${telefone};${email}`
+  const data = await fecthPost('/vendedorUpdate?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: VENDEDOR NÃO ESTÁ CADASTRADO!")
+  } else {
+    //DADOS DE VENDEDOR
+    var dataVendedor = await fecthGet("/vendedores")
+    dataVendedor.forEach(function (item) {
+      if (optionsVendedores.indexOf(item["nome"]) == -1) {
+        optionsVendedores += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
+      }
+    });
+    document.getElementById("inputVendedor").innerHTML = optionsVendedores
+    document.getElementById("inputVendedorEditarList").innerHTML = optionsVendedores
+    alert("VENDEDOR ATUALIZADO COM SUCESSO!")
+  }
+}
+
+// Inserir novo tarifa b3
+async function insereTarifaB3() {
+  var estado = document.getElementById(`inputEstadoTarifaB3Insere`).value
+  var distribuidora = document.getElementById(`inputDistribuidoraTarifaB3Insere`).value
+  var tusd = document.getElementById(`inputTusdTarifaB3Insere`).value
+  var te = document.getElementById(`inputTeTarifaB3Insere`).value
+  var s_imposto = document.getElementById(`inputSImpostoTarifaB3Insere`).value
+  var query = `${estado};${distribuidora};${tusd};${te};${s_imposto}`
+  const data = await fecthPost('/tarifaB3Insert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: TARIFA B3 JÁ ESTÁ CADASTRADA!")
+  } else {
+    //DADOS DE VENDEDOR
+    var distribuidora = await fecthGet("/distribuidoraData")
+    distribuidora.forEach(function (item) {
+      if (optionsDistribuidora.indexOf(item["distribuidora"]) == -1) {
+        optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
+      }
+    });
+    document.getElementById("inputDistribuidoraListConfigInsert").innerHTML = optionsDistribuidora
+    document.getElementById("inputDistribuidoraListConfigEdit").innerHTML = optionsDistribuidora
+    document.getElementById("inputDistribuidoraTarifaB3Editar").innerHTML = optionsDistribuidora
+    alert("TARIFA B3 CADASTRADA COM SUCESSO!")
+  }
+}
+// Atualizar dados de tarifa b3
+async function atualizaTarifaB3() {
+  var estado = document.getElementById(`inputEstadoTarifaB3Editar`).value
+  var distribuidora = document.getElementById(`inputDistribuidoraTarifaB3Editar`).value
+  var tusd = document.getElementById(`inputTusdTarifaB3Editar`).value
+  var te = document.getElementById(`inputTeTarifaB3Editar`).value
+  var s_imposto = document.getElementById(`inputSImpostoTarifaB3Editar`).value
+  var query = `${estado};${distribuidora};${tusd};${te};${s_imposto}`
+  const data = await fecthPost('/tarifaB3Update?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: TARIFA B3 NÃO ESTÁ CADASTRADA!")
+  } else {
+    //DADOS DE VENDEDOR
+    var distribuidora = await fecthGet("/distribuidoraData")
+    distribuidora.forEach(function (item) {
+      if (optionsDistribuidora.indexOf(item["distribuidora"]) == -1) {
+        optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
+      }
+    });
+    document.getElementById("inputDistribuidoraListConfigInsert").innerHTML = optionsDistribuidora
+    document.getElementById("inputDistribuidoraListConfigEdit").innerHTML = optionsDistribuidora
+    document.getElementById("inputDistribuidoraTarifaB3Editar").innerHTML = optionsDistribuidora
+    alert("TARIFA B3 ATUALIZADA COM SUCESSO!")
+  }
+}
+
+// Inserir novo tarifa fiob
+async function insereTarifaFioB() {
+  var estado = document.getElementById(`inputEstadoTarifaFioBInsere`).value
+  var distribuidora = document.getElementById(`inputDistribuidoraTarifaFioBInsere`).value
+  var tusd = document.getElementById(`inputTusdTarifaFioBInsere`).value
+  var query = `${estado};${distribuidora};${tusd}`
+  const data = await fecthPost('/tarifaFioBInsert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: TARIFA FIO B JÁ ESTÁ CADASTRADA!")
+  } else {
+    alert("TARIFA FIO B CADASTRADA COM SUCESSO!")
+  }
+}
+// Atualizar dados de tarifa fiob
+async function atualizaTarifaFioB() {
+  var estado = document.getElementById(`inputEstadoTarifaFioBEditar`).value
+  var distribuidora = document.getElementById(`inputDistribuidoraTarifaFioBEditar`).value
+  var tusd = document.getElementById(`inputTusdTarifaFioBEditar`).value
+  var query = `${estado};${distribuidora};${tusd}`
+  const data = await fecthPost('/tarifaFioBUpdate?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: TARIFA FIO B NÃO ESTÁ CADASTRADA!")
+  } else {
+    //DADOS DE TARIFA FIOB
+    alert("TARIFA FIO B ATUALIZADA COM SUCESSO!")
+  }
+}
+
 // Buscar dados de Modulos
 async function buscaModulo() {
   var peca = $('#inputPecaModuloConfigEdit')[0].value
@@ -1399,7 +1700,37 @@ async function buscaInversor() {
   const dataInvPeca = await fecthGet(invGetData)
   await fillInvData('ConfigEdit', dataInvPeca)
 }
-var dataIrr
+// Buscar dados de Vendedor
+async function buscaVendedor() {
+  var peca = $('#inputVendedorEditar')[0].value
+  var vendedorGetData = `/vendedorEditar?name=${peca}`
+  const dataVendedor = await fecthGet(vendedorGetData)
+  document.getElementById('inputVendedorTelefoneEditar').value = dataVendedor[0].telefone
+  document.getElementById('inputVendedorEmailEditar').value = dataVendedor[0].email
+}
+// Buscar dados de Tarifa Fio B
+async function buscaTarifaFioB() {
+  var peca = $('#inputDistribuidoraTarifaFioBEditar')[0].value
+  var fiobGetData = `/tarifaFioBEditar?name=${peca}`
+  const dataFioB = await fecthGet(fiobGetData)
+  document.getElementById(`inputEstadoTarifaFioBEditar`).value = dataFioB[0].estado
+  document.getElementById(`inputTusdTarifaFioBEditar`).value = dataFioB[0].tusd_fiob
+}
+// Buscar dados de Tarifa B3
+async function buscaTarifaB3() {
+  var peca = $('#inputDistribuidoraTarifaB3Editar')[0].value
+  var b3GetData = `/tarifaB3Editar?name=${peca}`
+  const dataB3 = await fecthGet(b3GetData)
+  document.getElementById(`inputEstadoTarifaB3Editar`).value = dataB3[0].estado
+  document.getElementById(`inputTusdTarifaB3Editar`).value = dataB3[0].tusd
+  document.getElementById(`inputTeTarifaB3Editar`).value = dataB3[0].te
+  document.getElementById(`inputSImpostoTarifaB3Editar`).value = dataB3[0].s_imposto
+}
+// BUSCACLIENTE ESTÁ EM OUTRA FUNÇÃO
+//#endregion
+
+
+var dataIrr = 0
 // Dados de Latitude e Longitude
 async function getLocation() {
   var rua = document.getElementById('inputRuaDadoTec').value
@@ -1427,8 +1758,8 @@ async function getVendedor() {
     var data = await fecthGet(`/vendedoresData?name=${nome}`)
     var email = data[0].email
     var telefone = data[0].telefone
-    $('#inputVendedorTelefone')[0].value = email
-    $('#inputVendedorEmail')[0].value = telefone
+    $('#inputVendedorTelefone')[0].value = telefone
+    $('#inputVendedorEmail')[0].value = email
   } else {
     $('#inputVendedorTelefone')[0].value = ''
     $('#inputVendedorEmail')[0].value = ''
@@ -1450,7 +1781,6 @@ async function onLoad() {
       optionsVendedores += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
     }
   });
-  document.getElementById("inputVendedor").innerHTML = optionsVendedores
   //DADOS DE CLIENTES
   var data = await fecthGet("/cliente")
   data.forEach(function (item) {
@@ -1466,10 +1796,15 @@ async function onLoad() {
     }
   });
 
-  document.getElementById("inputDistribuidoraListConfigInsert").innerHTML = optionsDistribuidora
-  document.getElementById("inputDistribuidoraListConfigEdit").innerHTML = optionsDistribuidora
+  document.getElementById("inputVendedor").innerHTML = optionsVendedores
+  document.getElementById("inputVendedorEditarList").innerHTML = optionsVendedores
   document.getElementById("inputClienteList").innerHTML = optionsClient
   document.getElementById("inputClienteListConfigEdit").innerHTML = optionsClient
+  document.getElementById("inputDistribuidoraListConfigInsert").innerHTML = optionsDistribuidora
+  document.getElementById("inputDistribuidoraListConfigEdit").innerHTML = optionsDistribuidora
+  document.getElementById("inputDistribuidoraTarifaB3EditarList").innerHTML = optionsDistribuidora
+  document.getElementById("inputDistribuidoraTarifaFioBEditarList").innerHTML = optionsDistribuidora
+
   //DADOS DE MÓDULOS
   var mldGetData = '/mdlData'
   const dataMdl = await fecthGet(mldGetData)
@@ -1626,6 +1961,8 @@ async function fillMdlData(option, dataMdlPeca) {
     tisc = await valNum(dataMdlPeca[0].tisc)
     imp = await valNum(dataMdlPeca[0].imp)
     fornecedorMdl = dataMdlPeca[0].fornecedor
+    areaMdl = await valNum(dataMdlPeca[0].area)
+    pesoMdl = await valNum(dataMdlPeca[0].peso)
     $('#inputFabriMdlOrca')[0].value = fornecedorMdl
     await checkTemp()
   } else if (option == 'CLEAR') {
@@ -1666,18 +2003,20 @@ async function fillMdlData(option, dataMdlPeca) {
   await energiaInversor()
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
-var tpmax
-var tvoc
-var tisc
-var pmax
-var voc
-var isc
-var pmaxCorr
-var vocCorr
-var iscCorr
-var imp
-var vmp
-var fornecedorMdl
+var areaMdl = 0
+var pesoMdl = 0
+var tpmax = 0
+var tvoc = 0
+var tisc = 0
+var pmax = 0
+var voc = 0
+var isc = 0
+var pmaxCorr = 0
+var vocCorr = 0
+var iscCorr = 0
+var imp = 0
+var vmp = 0
+var fornecedorMdl = 0
 async function checkTemp() {
   if (element20.value != '') {
     tempMedia = element20.value
@@ -1768,11 +2107,12 @@ async function showInversor() {
     icon.classList.toggle('fa-eye')
   }
 }
-var eficienciaInv
-var tensaoCCinversor
-var maxTensaoCCinversor
-var maxCorrenteCCinversor
-var maxCorrenteCAinvesor
+var eficienciaInv = 0
+var tensaoCCinversor = 0
+var maxTensaoCCinversor = 0
+var maxCorrenteCCinversor = 0
+var maxCorrenteCAinvesor = 0
+var fornecedorInv = 0
 // PREENCHER OS INPUTS DE INVERSOR
 async function fillInvData(option, dataInvPeca) {
   if (option == 'FILL') {
@@ -2218,9 +2558,9 @@ let element38 = document.getElementById('inputVmpModulo')
 let element39 = document.getElementById('inputTensaoCCInversor')
 let element40 = document.getElementById('inputMaxTensaoCCInversor')
 let element41 = document.getElementById('inputCorrenteMaxCCInversor')
-var qtdMaxParal
-var qtdeMdlCalc
-var potTotalOrca
+var qtdMaxParal = 0
+var qtdeMdlCalc = 0
+var potTotalOrca = 0
 async function qtdeMdl() {
   element34.value = await ceilLat(potPicoReal * 1000 / pmaxCorr, 1)
   element35.value = await ceilLat(tensaoCCinversor / vmp, 1)
@@ -2237,6 +2577,7 @@ async function qtdeMdl() {
   $('#inputMaoObraOrca')[0].value = brlBrazil.format(moTerceira)
   await getProjetoHomo()
   await updateLucro()
+  await resumoFill()
 }
 let element42 = document.getElementById('inputCorrenteDisjCACalculo')
 let element43 = document.getElementById('inputDisjEscolhaCACalculo')
@@ -2246,7 +2587,7 @@ let element46 = document.getElementById('inputImpModulo')
 let element47 = document.getElementById('inputCorrenteNomiCCCalculo')
 let element48 = document.getElementById('inputCaboEscolhaCCCalculo')
 let element49 = document.getElementById('inpuFusivelCCCalculo')
-var corrNomi
+var corrNomi = 0
 async function protDimenCabos() {
   element42.value = Math.floor(maxCorrenteCAinvesor * 1.2).toFixed(2)
   var corrDisj = await valNum(element42.value)
@@ -2387,9 +2728,9 @@ async function energiaInversor() {
   element17_7.value = hspFinal.toFixed(2)
   element17_8.value = (emmDiario / hspFinal).toFixed(2)
   element18_3.value = (await ceilLat((1.2 * emmDiario / hspFinal), 0.01)).toFixed(2)
-  element18_1.value = ((emmDiario / hspFinal) / (eficienciaInv / 100)).toFixed(2)
+  element18_1.value = ((emmDiario / hspFinal) / (eficienciaInv)).toFixed(2)
   console.log(emmDiario, hspFinal, eficienciaInv)
-  potPicoReal = (emmDiario / hspFinal) / (eficienciaInv / 100)
+  potPicoReal = (emmDiario / hspFinal) / (eficienciaInv)
   element19.value = Math.round(-(1 - porcentagemHSP) * 100)
   itemsCorrecao['inputPosTelhado'] = parseFloat(element19.value)
   somaCorrecao = sumValues(itemsCorrecao)
@@ -2447,6 +2788,7 @@ async function updateDataBegin() {
   await fatorK()
   await energiaInversor()
   await sumItems('function', 123)
+  await resumoFill()
 }
 
 let element28 = document.getElementById('inputFatorKDadoTec')
@@ -2528,3 +2870,13 @@ element30.addEventListener('change', async function () {
 let element31 = document.getElementById('inputPmaxCorrModulo')
 let element32 = document.getElementById('inputVocCorrModulo')
 let element33 = document.getElementById('inputIscCorrModulo')
+
+
+$("input").on('keypress', function (e) {
+  var chr = String.fromCharCode(e.which);
+  if ("%".indexOf(chr) != -1) {
+    return false;
+  }
+}).on('input', function (e) {
+  this.value = this.value.replaceAll("%", "")
+});

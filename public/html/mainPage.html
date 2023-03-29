@@ -10,9 +10,9 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.36.1/docxtemplater.js"></script>
 	<script src="https://unpkg.com/pizzip@3.1.4/dist/pizzip.js"></script>
-	
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.js"></script>
-	
+
 	<script src="/js/jszip-utils.js"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.js"></script>
@@ -93,9 +93,13 @@
 								<i class="fas fa-network-wired"></i>
 								 Inversores</a>
 							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#tarifas-tab-content-config">
+								href="#tarifa-fiob-tab-content-config">
 								<i class="fas fa-money-bill"></i>
-								 Tarifas</a>
+								 Tarifa Fio B</a>
+							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
+								href="#tarifa-b3-tab-content-config">
+								<i class="fas fa-money-bill"></i>
+								 Tarifa B3</a>
 						</div>
 					</li>
 				</ul>
@@ -134,8 +138,6 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
-								<a href="/temp_folder/proposta.docx" download="proposed_file_name.docx">Download</a>
-								<button onclick="exportData()">Generate document</button>
 								<h2 class="app-title">DADOS CADASTRAIS</h2>
 								<div class="container-5-columns">
 
@@ -196,12 +198,12 @@
 										</datalist> -->
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputVendedorTelefone" style="font-weight: bold">EMAIL
+										<label for="inputVendedorTelefone" style="font-weight: bold">TELEFONE
 											VENDEDOR</label>
 										<input disabled id="inputVendedorTelefone" placeholder="Digite..">
 									</div>
 									<div class="field-container mt-2">
-										<label for="inputVendedorEmail" style="font-weight: bold">TELEFONE
+										<label for="inputVendedorEmail" style="font-weight: bold">EMAIL
 											VENDEDOR</label>
 										<input disabled id="inputVendedorEmail" placeholder="Digite..">
 									</div>
@@ -1646,8 +1648,8 @@
 									</div>
 								</div>
 							</div>
-								<br>
-								<div class="outerboxmain align-items-center">
+							<br>
+							<div class="outerboxmain align-items-center">
 								<h2 class="app-subtitle">RESULTADOS PARA 25 ANOS</h2>
 								<div class="container-4-columns">
 									<div class="field-container mt-2">
@@ -1722,6 +1724,31 @@
 							<br>
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-subtitle">FINANCIAMENTO</h2>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputValorFinanciamento1" style="font-weight: bold">VALOR A SER
+											FINANCIADO</label>
+										<input disabled id="inputValorFinanciamento1" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputNumeroParcelasFinanciamento1" style="font-weight: bold">N°
+											PARCELAS POR MÊS</label>
+										<input disabled id="inputNumeroParcelasFinanciamento1"
+											onchange="valFinanciamento()" value="1" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputJurosMesFinanciamento1" style="font-weight: bold">TAXA DE
+											JUROS
+											AO MÊS (%)</label>
+										<input id="inputJurosMesFinanciamento1" placeholder="Digite.."
+											onchange="valFinanciamento()" value="1,5">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputValorFinalFinanciamento1" style="font-weight: bold">VALOR DO
+											FINANCIAMENTO</label>
+										<input disabled id="inputValorFinalFinanciamento1" placeholder="Digite..">
+									</div>
+								</div>
 								<div class="container-4-columns">
 									<div class="field-container mt-2">
 										<label for="inputValorFinanciamento12" style="font-weight: bold">VALOR A SER
@@ -1911,6 +1938,12 @@
 						<a class="nav-link app-tab-title" data-toggle="tab" href="#graficos-resumo-tab-content-config"
 							role="tab">
 							GRÁFICOS
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link app-tab-title" data-toggle="tab" href="#gerar-resumo-tab-content-config"
+							role="tab">
+							GERAR
 						</a>
 					</li>
 				</ul>
@@ -2124,6 +2157,15 @@
 									<div id="graficoConsumoGeracao" class="graph"></div>
 									<div id="graficoPayback" class="graph"></div>
 								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade show" id="gerar-resumo-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<div class="field-container mt-3">
+								<button onclick="exportData()" class="btn-app btn-fp">Generate document</button>
+								<a href="/temp_folder/proposta.docx" download="proposed_file_name.docx"
+									style="visibility: hidden;" id="downloadProposta">Download</a> <!--NÃO APAGAR-->
 							</div>
 						</div>
 					</div>
@@ -2418,6 +2460,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR MÓDULO</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputFabricanteModuloConfigInsert"
@@ -2529,6 +2572,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR MÓDULO</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputPecaModuloConfigEdit" style="font-weight: bold">PEÇA</label>
@@ -2673,6 +2717,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR INVERSOR</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputFabricanteInversorConfigInsert"
@@ -2776,6 +2821,7 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR INVERSOR</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
 										<label for="inputPecaInversorConfigEdit" style="font-weight: bold">PEÇA</label>
@@ -2903,65 +2949,26 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR VENDEDOR</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD1</label>
-										<input list="" id="" />
-										<datalist id=""></datalist>
+										<label for="inputVendedorInserir" style="font-weight: bold">VENDEDOR</label>
+										<input id="inputVendedorInserir" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD2</label>
-										<input id="" />
+										<label for="inputVendedorTelefoneInserir"
+											style="font-weight: bold">TELEFONE</label>
+										<input id="inputVendedorTelefoneInserir" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD3</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD4</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD5</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD6</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD7</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD8</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD9</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD10</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD11</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD12</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD13</label>
-										<input id="" />
+										<label for="inputVendedorEmailInserir" style="font-weight: bold">EMAIL</label>
+										<input id="inputVendedorEmailInserir" />
 									</div>
 								</div>
 							</div>
 							<div class="field-container">
 								<label for="" style="font-weight: bold"> </label>
-								<button type="button" onclick="" id="atualizaVendedor"
+								<button type="button" onclick="insereVendedor()" id="insereVendedor"
 									class="btn-app btn-fp">INSERIR</button>
 							</div>
 						</div>
@@ -2971,89 +2978,53 @@
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR VENDEDOR</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD1</label>
-										<input id="" list="" />
-										<datalist id=""></datalist>
+										<label for="inputVendedorEditar" style="font-weight: bold">VENDEDOR</label>
+										<input id="inputVendedorEditar" list="inputVendedorEditarList" />
+										<datalist id="inputVendedorEditarList"></datalist>
 									</div>
 									<div class="field-container mt-2">
 										<label for="" style="font-weight: bold"> </label>
-										<button type="button" onclick="" id="buscaVendedor" class="btn-app">BUSCA</button>
+										<button type="button" onclick="buscaVendedor()" id="buscaVendedor"
+											class="btn-app">BUSCA</button>
 									</div>
 								</div>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD2</label>
-										<input id="" />
+										<label for="inputVendedorTelefoneEditar"
+											style="font-weight: bold">TELEFONE</label>
+										<input id="inputVendedorTelefoneEditar" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD3</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD4</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD5</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD6</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD7</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD8</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD9</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD10</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD11</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD12</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD13</label>
-										<input id="" />
+										<label for="inputVendedorEmailEditar" style="font-weight: bold">EMAIL</label>
+										<input id="inputVendedorEmailEditar" />
 									</div>
 								</div>
 							</div>
 							<div class="field-container">
 								<label for="" style="font-weight: bold"> </label>
-								<button type="button" onclick="" id="atualizarVendedor" class="btn-app btn-fp">ATUALIZAR</button>
+								<button type="button" onclick="atualizaVendedor()" id="atualizaVendedor"
+									class="btn-app btn-fp">ATUALIZAR</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- DADOS TARIFAS CONFIGURAÇÕES -->
-			<div class="tab-pane fade show" id="tarifas-tab-content-config" role="tabpanel">
+			<!-- DADOS TARIFAS B3 CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="tarifa-b3-tab-content-config" role="tabpanel">
 				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
 					<ul class="nav nav-tabs justify-content-center" role="tablist">
 						<li class="nav-item">
 							<a class="nav-link app-tab-title" data-toggle="tab"
-								href="#inserir-tarifas-tab-content-config" role="tab">
+								href="#inserir-tarifa-b3-tab-content-config" role="tab">
 								INSERIR
 							</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link app-tab-title" data-toggle="tab"
-								href="#editar-tarifas-tab-content-config" role="tab">
+								href="#editar-tarifa-b3-tab-content-config" role="tab">
 								EDITAR
 							</a>
 						</li>
@@ -3061,143 +3032,179 @@
 				</div>
 				<div class="tab-content">
 					<!-- INSERIR -->
-					<div class="tab-pane fade show active" id="inserir-tarifas-tab-content-config" role="tabpanel">
+					<div class="tab-pane fade show active" id="inserir-tarifa-b3-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR TARIFA B3</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD1</label>
-										<input list="" id="" />
-										<datalist id=""></datalist>
+										<label for="inputEstadoTarifaB3Insere" style="font-weight: bold">ESTADO</label>
+										<input id="inputEstadoTarifaB3Insere" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD2</label>
-										<input id="" />
+										<label for="inputDistribuidoraTarifaB3Insere"
+											style="font-weight: bold">DISTRIBUIDORA</label>
+										<input id="inputDistribuidoraTarifaB3Insere" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD3</label>
-										<input id="" />
+										<label for="inputTusdTarifaB3Insere" style="font-weight: bold">TUSD (R$)</label>
+										<input id="inputTusdTarifaB3Insere" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD4</label>
-										<input id="" />
+										<label for="inputTeTarifaB3Insere" style="font-weight: bold">TE (R$)</label>
+										<input id="inputTeTarifaB3Insere" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD5</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD6</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD7</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD8</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD9</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD10</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD11</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD12</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD13</label>
-										<input id="" />
+										<label for="inputSImpostoTarifaB3Insere" style="font-weight: bold">SEM
+											IMPOSTO</label>
+										<input id="inputSImpostoTarifaB3Insere" />
 									</div>
 								</div>
 							</div>
 							<div class="field-container">
 								<label for="" style="font-weight: bold"> </label>
-								<button type="button" onclick="" id="atualizaTarifa"
+								<button type="button" onclick="insereTarifaB3()" id="insereTarifaB3"
 									class="btn-app btn-fp">INSERIR</button>
 							</div>
 						</div>
 					</div>
 					<!-- EDITAR -->
-					<div class="tab-pane fade show" id="editar-tarifas-tab-content-config" role="tabpanel">
+					<div class="tab-pane fade show" id="editar-tarifa-b3-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<br>
 							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR TARIFA B3</h2>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD1</label>
-										<input id="" list="" />
-										<datalist id=""></datalist>
+										<label for="inputDistribuidoraTarifaB3Editar"
+											style="font-weight: bold">DISTRIBUIDORA</label>
+										<input id="inputDistribuidoraTarifaB3Editar"
+											list="inputDistribuidoraTarifaB3EditarList" />
+										<datalist id="inputDistribuidoraTarifaB3EditarList"></datalist>
 									</div>
 									<div class="field-container mt-2">
 										<label for="" style="font-weight: bold"> </label>
-										<button type="button" onclick="" id="buscaTarifa" class="btn-app">BUSCA</button>
+										<button type="button" onclick="buscaTarifaB3()" id="buscaTarifa"
+											class="btn-app">BUSCA</button>
 									</div>
 								</div>
 								<div class="container-5-columns">
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD2</label>
-										<input id="" />
+										<label for="inputEstadoTarifaB3Editar" style="font-weight: bold">ESTADO</label>
+										<input id="inputEstadoTarifaB3Editar" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD3</label>
-										<input id="" />
+										<label for="inputTusdTarifaB3Editar" style="font-weight: bold">TUSD (R$)</label>
+										<input id="inputTusdTarifaB3Editar" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD4</label>
-										<input id="" />
+										<label for="inputTeTarifaB3Editar" style="font-weight: bold">TE (R$)</label>
+										<input id="inputTeTarifaB3Editar" />
 									</div>
 									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD5</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD6</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD7</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD8</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD9</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD10</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD11</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD12</label>
-										<input id="" />
-									</div>
-									<div class="field-container mt-2">
-										<label for="" style="font-weight: bold">FIELD13</label>
-										<input id="" />
+										<label for="inputSImpostoTarifaB3Editar" style="font-weight: bold">SEM
+											IMPOSTO</label>
+										<input id="inputSImpostoTarifaB3Editar" />
 									</div>
 								</div>
 							</div>
 							<div class="field-container">
 								<label for="" style="font-weight: bold"> </label>
-								<button type="button" onclick="" id="atualizarTarifa" class="btn-app btn-fp">ATUALIZAR</button>
+								<button type="button" onclick="atualizaTarifaB3()" id="atualizarTarifaB3"
+									class="btn-app btn-fp">ATUALIZAR</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- DADOS TARIFAS FIOB CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="tarifa-fiob-tab-content-config" role="tabpanel">
+				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
+					<ul class="nav nav-tabs justify-content-center" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#inserir-tarifa-fiob-tab-content-config" role="tab">
+								INSERIR
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#editar-tarifa-fiob-tab-content-config" role="tab">
+								EDITAR
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<!-- INSERIR -->
+					<div class="tab-pane fade show active" id="inserir-tarifa-fiob-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR TARIFA FIOB</h2>
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="inputEstadoTarifaFioBInsere"
+											style="font-weight: bold">ESTADO</label>
+										<input id="inputEstadoTarifaFioBInsere" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputDistribuidoraTarifaFioBInsere"
+											style="font-weight: bold">DISTRIBUIDORA</label>
+										<input id="inputDistribuidoraTarifaFioBInsere" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputTusdTarifaFioBInsere" style="font-weight: bold">TUSD
+											(R$)</label>
+										<input id="inputTusdTarifaFioBInsere" />
+									</div>
+								</div>
+							</div>
+							<div class="field-container">
+								<label for="" style="font-weight: bold"> </label>
+								<button type="button" onclick="insereTarifaFioB()" id="insereTarifaFioB"
+									class="btn-app btn-fp">INSERIR</button>
+							</div>
+						</div>
+					</div>
+					<!-- EDITAR -->
+					<div class="tab-pane fade show" id="editar-tarifa-fiob-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR TARIFA FIOB</h2>
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="inputDistribuidoraTarifaFioBEditar"
+											style="font-weight: bold">DISTRIBUIDORA</label>
+										<input id="inputDistribuidoraTarifaFioBEditar"
+											list="inputDistribuidoraTarifaFioBEditarList" />
+										<datalist id="inputDistribuidoraTarifaFioBEditarList"></datalist>
+									</div>
+									<div class="field-container mt-2">
+										<label for="" style="font-weight: bold"> </label>
+										<button type="button" onclick="buscaTarifaFioB()" id="buscaTarifa"
+											class="btn-app">BUSCA</button>
+									</div>
+								</div>
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="inputEstadoTarifaFioBEditar"
+											style="font-weight: bold">ESTADO</label>
+										<input id="inputEstadoTarifaFioBEditar" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputTusdTarifaFioBEditar" style="font-weight: bold">TUSD
+											(R$)</label>
+										<input id="inputTusdTarifaFioBEditar" />
+									</div>
+								</div>
+							</div>
+							<div class="field-container">
+								<label for="" style="font-weight: bold"> </label>
+								<button type="button" onclick="atualizaTarifaFioB()" id="atualizarTarifaFioB"
+									class="btn-app btn-fp">ATUALIZAR</button>
 							</div>
 						</div>
 					</div>

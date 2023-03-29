@@ -267,35 +267,6 @@ async function updatePostgre(csv, query, data) {
                     }
                 }
 
-                //  A FAZER
-                if (csv == 'vendedores.csv') {
-                    queryAux += 'update tarifafiob set '
-                    if (element[0] != '') {
-                        queryAux += `estado = '${element[0]}',`
-                    }
-                    if (element[2] != '') {
-                        queryAux += `tusd_fiob = '${element[2]}',`
-                    }
-                    if (element[0] != '') {
-                        queryAux = queryAux.slice(0, -1)
-                        queryAux += `where distribuidora = '${element[1]}';`
-                    }
-                }
-                if (csv == 'clientes.csv') {
-                    queryAux += 'update tarifafiob set '
-                    if (element[0] != '') {
-                        queryAux += `estado = '${element[0]}',`
-                    }
-                    if (element[2] != '') {
-                        queryAux += `tusd_fiob = '${element[2]}',`
-                    }
-                    if (element[0] != '') {
-                        queryAux = queryAux.slice(0, -1)
-                        queryAux += `where distribuidora = '${element[1]}';`
-                    }
-                }
-                //  A FAZER
-                
                 //queryAux = queryAux.slice(0, -1)
 
             } else {
@@ -373,6 +344,44 @@ app.get('/downloadImage', function (req, res) {
 })
 
 app.get('/docxTemplater', function (req, res) {
+    var cliente = req.query.name.split(";")[0]
+    var vendedor = req.query.name.split(";")[1]
+    var validade = req.query.name.split(";")[2]
+    var vendedor_tel = req.query.name.split(";")[3]
+    var vendedor_email = req.query.name.split(";")[4]
+    var endereco = req.query.name.split(";")[5]
+    var cep = req.query.name.split(";")[6]
+    var estimativa_mes = req.query.name.split(";")[7]
+    var tipo_telhado = req.query.name.split(";")[8]
+    var porcentagem_sistema = req.query.name.split(";")[9]
+    var tamanho = req.query.name.split(";")[10]
+    var economia_ano = req.query.name.split(";")[11]
+    var investimento_inicial = req.query.name.split(";")[12]
+    var payback = req.query.name.split(";")[13]
+    var gasto_antigo = req.query.name.split(";")[14]
+    var gasto_novo = req.query.name.split(";")[15]
+    var retorno_anual = req.query.name.split(";")[16]
+    var qtde_modulos = req.query.name.split(";")[17]
+    var fabricante_inversor = req.query.name.split(";")[18]
+    var qtde_inversor = req.query.name.split(";")[19]
+    var estrutura_fixa = req.query.name.split(";")[20]
+    var area = req.query.name.split(";")[21]
+    var fator_simultaneidade = req.query.name.split(";")[22]
+    var fator_injetado = req.query.name.split(";")[23]
+    var tarifa_imposto = req.query.name.split(";")[24]
+    var degradacao_anual = req.query.name.split(";")[25]
+    var geracao_anual = req.query.name.split(";")[26]
+    var km = req.query.name.split(";")[27]
+    var arvores = req.query.name.split(";")[28]
+    var co2 = req.query.name.split(";")[29]
+    var desconto = req.query.name.split(";")[30]
+    var valor_desconto = req.query.name.split(";")[31]
+    var finan_12 = req.query.name.split(";")[32]
+    var finan_48 = req.query.name.split(";")[33]
+    var finan_60 = req.query.name.split(";")[34]
+    var finan_120 = req.query.name.split(";")[35]
+    var finan_150 = req.query.name.split(";")[36]
+
     const content = fs.readFileSync(
         path.join(__dirname + '/public/resourceFiles/modelo_proposta_DANIG.docx'),
         "binary"
@@ -411,43 +420,43 @@ app.get('/docxTemplater', function (req, res) {
     var image2 = path.join(__dirname + '/public/temp_folder/graficoPayback.png')
     // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
     doc.render({
-        cliente: "cliente",
-        vendedor: "vendedor",
-        validade: "dias",
-        vendedor_tel: "vendedor_tel",
-        vendedor_email: "vendedor_email",
-        endereco: "endereco",
-        cep: "cep",
-        estimativa_mes: "estimativa_mes",
-        tipo_telhado: "tipo_telhado",
-        porcentagem_sistema: "porcentagem_sistema",
-        tamanho: "tamanho",
-        economia_ano: "economia_ano",
-        investimento_inicial: "investimento_inicial",
-        payback: "payback",
-        gasto_antigo: "gasto_antigo",
-        gasto_novo: "gasto_novo",
-        retorno_anual: "retorno_anual",
-        qtde_modulos: "qtde_modulos",
-        fabricante_inversor: "fabricante_inversor",
-        qtde_inversor: "qtde_inversor",
-        estrutura_fixa: "estrutura_fixa",
-        area: "area",
-        fator_simultaneidade: "fator_simultaneidade",
-        fator_injetado: "fator_injetado",
-        tarifa_imposto: "tarifa_imposto",
-        degradacao_anual: "degradacao_anual",
-        geracao_anual: "geracao_anual",
-        km: "km",
-        arvores: "arvores",
-        co2: "co2",
-        desconto: "desconto",
-        valor_desconto: "valor_desconto",
-        finan_12: "finan_12",
-        finan_48: "finan_48",
-        finan_60: "finan_60",
-        finan_120: "finan_120",
-        finan_150: "finan_150",
+        cliente: cliente,
+        vendedor: vendedor,
+        validade: validade,
+        vendedor_tel: vendedor_tel,
+        vendedor_email: vendedor_email,
+        endereco: endereco,
+        cep: cep,
+        estimativa_mes: estimativa_mes,
+        tipo_telhado: tipo_telhado,
+        porcentagem_sistema: porcentagem_sistema,
+        tamanho: tamanho,
+        economia_ano: economia_ano,
+        investimento_inicial: investimento_inicial,
+        payback: payback,
+        gasto_antigo: gasto_antigo,
+        gasto_novo: gasto_novo,
+        retorno_anual: retorno_anual,
+        qtde_modulos: qtde_modulos,
+        fabricante_inversor: fabricante_inversor,
+        qtde_inversor: qtde_inversor,
+        estrutura_fixa: estrutura_fixa,
+        area: area,
+        fator_simultaneidade: fator_simultaneidade,
+        fator_injetado: fator_injetado,
+        tarifa_imposto: tarifa_imposto,
+        degradacao_anual: degradacao_anual,
+        geracao_anual: geracao_anual,
+        km: km,
+        arvores: arvores,
+        co2: co2,
+        desconto: desconto,
+        valor_desconto: valor_desconto,
+        finan_12: finan_12,
+        finan_48: finan_48,
+        finan_60: finan_60,
+        finan_120: finan_120,
+        finan_150: finan_150,
         grafico_payback: image1,
         grafico_cons_gera: image2,
     });
@@ -460,6 +469,7 @@ app.get('/docxTemplater', function (req, res) {
 
     var exportPath = path.join(__dirname + '/public/temp_folder/proposta.docx')
     fs.writeFileSync(exportPath, buffer);
+    res.json(true)
 })
 
 app.get('/', function (req, res) {
@@ -554,13 +564,12 @@ app.post('/tarifaData', async function (req, res) {
 
 app.post('/clienteInsert', async function (req, res) {
     let cliente = req.query.name.split(';')[0];
-    console.log(req.query.name)
     var queryId = `select cliente from erp where LOWER(cliente) = LOWER('${cliente}')`
     var { rows } = await pgClient.query(queryId)
     if (rows.length == 0) {
         var queryId = 'select max(id) from erp'
         var { rows } = await pgClient.query(queryId)
-        let id = (rows[0].max + 1)
+        let id = (Number(rows[0].max) + 1)
         let Telefone = req.query.name.split(';')[1]
         let Telhado = req.query.name.split(';')[2]
         let Estado = req.query.name.split(';')[3]
@@ -581,7 +590,6 @@ app.post('/clienteInsert', async function (req, res) {
         let UniCons = req.query.name.split(';')[18]
         let Bandeira = req.query.name.split(';')[19]
         var query = `insert into erp values ('${id}','${cliente}','${Telefone}','${Telhado}','${Estado}','${Cidade}','${Rua}','${Numero}','${Bairro}','${Cep}','${Distribuidora}','${Icms}','${Pis}','${Cofins}','${Porcentagem}','${Area}','${Consumo}','${Taxa}','${IlumPub}','${UniCons}','${Bandeira}')`
-        console.log(query)
         var { rows } = await pgClient.query(query)
         // const { rows } = await pool.query(query)
         res.json(rows)
@@ -616,7 +624,6 @@ app.post('/clienteUpdate', async function (req, res) {
         let UniCons = req.query.name.split(';')[18]
         let Bandeira = req.query.name.split(';')[19]
         var query = `update erp set id='${id}', telefone = '${Telefone}', tipo_telhado = '${Telhado}', estado = '${Estado}', cidade = '${Cidade}', rua = '${Rua}', numero = '${Numero}', bairro = '${Bairro}', cep = '${Cep}', distribuidora = '${Distribuidora}', icms = '${Icms}', pis = '${Pis}', cofins = '${Cofins}', porcentagem = '${Porcentagem}', area = '${Area}', consumo = '${Consumo}', taxa = '${Taxa}', ilum_pub = '${IlumPub}', unid_consid = '${UniCons}', bandeira = '${Bandeira}' WHERE LOWER(cliente) = LOWER('${cliente}')`
-        console.log(query)
         var { rows } = await pgClient.query(query)
         // const { rows } = await pool.query(query)
         res.json(rows)
@@ -624,6 +631,135 @@ app.post('/clienteUpdate', async function (req, res) {
         res.json("nexiste")
     }
 });
+
+app.post('/vendedorInsert', async function (req, res) {
+    let vendedor = req.query.name.split(';')[0];
+    var queryId = `select nome from vendedores where LOWER(nome) = LOWER('${vendedor}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var queryId = 'select max(id) from vendedores'
+        var { rows } = await pgClient.query(queryId)
+        let id = (Number(rows[0].max) + 1)
+        let telefone = req.query.name.split(';')[1]
+        let email = req.query.name.split(';')[2]
+        var query = `insert into vendedores values ('${id}','${vendedor}','${telefone}','${email}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/vendedorUpdate', async function (req, res) {
+    let vendedor = req.query.name.split(';')[0];
+    var queryId = `select id from vendedores where LOWER(nome) = LOWER('${vendedor}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        let id = rows[0].id
+        let telefone = req.query.name.split(';')[1]
+        let email = req.query.name.split(';')[2]
+
+        var query = `update vendedores set telefone = '${telefone}', email = '${email}' WHERE LOWER(nome) = LOWER('${vendedor}')`
+        var { rows } = await pgClient.query(query)
+        // const { rows } = await pool.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
+});
+app.get('/vendedorEditar', async function (req, res) {
+    var nome = req.query.name
+    var query = `SELECT * FROM vendedores WHERE nome = '${nome}'`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.post('/tarifaB3Insert', async function (req, res) {
+    let distribuidora = req.query.name.split(';')[1];
+    var queryId = `select distribuidora from tarifab3 where LOWER(distribuidora) = LOWER('${distribuidora}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var queryId = 'select max(id) from tarifab3'
+        var { rows } = await pgClient.query(queryId)
+        let id = (Number(rows[0].max) + 1)
+        let estado = req.query.name.split(';')[0]
+        let tusd = req.query.name.split(';')[2]
+        let te = req.query.name.split(';')[3]
+        let s_imposto = req.query.name.split(';')[4]
+        var query = `insert into tarifab3 values ('${id}','${estado}','${distribuidora}','${tusd}','${te}','${s_imposto}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/tarifaB3Update', async function (req, res) {
+    let distribuidora = req.query.name.split(';')[1];
+    var queryId = `select id from tarifab3 where LOWER(distribuidora) = LOWER('${distribuidora}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        let id = rows[0].id
+        let estado = req.query.name.split(';')[0]
+        let tusd = req.query.name.split(';')[2]
+        let te = req.query.name.split(';')[3]
+        let s_imposto = req.query.name.split(';')[4]
+
+        var query = `update tarifab3 set estado = '${estado}', tusd = '${tusd}', te = '${te}', s_imposto = '${s_imposto}' WHERE LOWER(distribuidora) = LOWER('${distribuidora}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
+});
+app.get('/tarifaB3Editar', async function (req, res) {
+    var distribuidora = req.query.name
+    var query = `SELECT * FROM tarifab3 WHERE distribuidora = '${distribuidora}'`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
+app.post('/tarifaFioBInsert', async function (req, res) {
+    let distribuidora = req.query.name.split(';')[1];
+    var queryId = `select distribuidora from tarifafiob where LOWER(distribuidora) = LOWER('${distribuidora}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var queryId = 'select max(index) from tarifafiob'
+        var { rows } = await pgClient.query(queryId)
+        let id = (Number(rows[0].max) + 1)
+        let estado = req.query.name.split(';')[0]
+        let tusd = req.query.name.split(';')[2]
+        var query = `insert into tarifafiob values ('${id}','${estado}','${distribuidora}','${tusd}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/tarifaFioBUpdate', async function (req, res) {
+    let distribuidora = req.query.name.split(';')[1];
+    var queryId = `select index from tarifafiob where LOWER(distribuidora) = LOWER('${distribuidora}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        let id = rows[0].id
+        let estado = req.query.name.split(';')[0]
+        let tusd = req.query.name.split(';')[2]
+
+        var query = `update tarifafiob set estado = '${estado}', tusd_fiob = '${tusd}' WHERE LOWER(distribuidora) = LOWER('${distribuidora}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
+});
+app.get('/tarifaFioBEditar', async function (req, res) {
+    var distribuidora = req.query.name
+    var query = `SELECT * FROM tarifafiob WHERE distribuidora = '${distribuidora}'`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
+});
+
 
 app.get('/distribuidoraData', async function (req, res) {
     var query = "SELECT distribuidora FROM tarifafiob group by distribuidora"
