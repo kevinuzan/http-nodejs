@@ -159,7 +159,7 @@ async function exportData() {
 }
 
 async function exportChart() {
-  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 600, height: 400 }).then(
+  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 600, height: 300 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
       var i
@@ -175,7 +175,7 @@ async function exportChart() {
 }
 
 async function exportChart2() {
-  await Plotly.toImage('graficoPayback', { format: 'png', width: 600, height: 400 }).then(
+  await Plotly.toImage('graficoPayback', { format: 'png', width: 600, height: 300 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
       var i
