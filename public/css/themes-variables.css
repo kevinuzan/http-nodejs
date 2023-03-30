@@ -7,7 +7,6 @@
   /* Unico */
   --red: #E20D0D;
   --primary-500: #0D9BE2;
-  --primary-600: #0690D6;
   /* Unico */
 
   --sun-color: #ddcc36;
@@ -35,8 +34,6 @@
 
   --front-card: #0D9BE2;
   --front-card-hover: #0690D6;
-
-  --olho: #2F2F2F;
 }
 
 body.dark-theme {
@@ -65,6 +62,4 @@ body.dark-theme {
 
   --front-card: #ff7b0f;
   --front-card-hover: #e26600;
-
-  --olho: #cbeaff;
 }
