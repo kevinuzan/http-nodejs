@@ -18,7 +18,6 @@ async function login() {
       alert(login)
     }
   } else {
-
     window.location.assign("/html/mainPage.html")
   }
 }

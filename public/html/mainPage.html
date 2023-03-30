@@ -76,30 +76,40 @@
 							 CONFIGURAÇÕES
 						</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown-navbar">
-							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#erp-tab-content-config">
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#erp-tab-content-config" id="erpConfig">
 								<i class="fas fa-user"></i>
 								 Clientes</a>
-							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#vendedores-tab-content-config">
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#vendedores-tab-content-config" id="vendedoresConfig">
 								<i class="fas fa-user-tie"></i>
 								 Vendedores</a>
-							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#modulos-tab-content-config">
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#modulos-tab-content-config" id="modulosConfig">
 								<i class="fas fa-table"></i>
 								 Módulos</a>
-							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#inversores-tab-content-config">
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#inversores-tab-content-config" id="inversoresConfig">
 								<i class="fas fa-network-wired"></i>
 								 Inversores</a>
-							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#tarifa-fiob-tab-content-config">
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#tarifa-fiob-tab-content-config" id="fiobConfig">
 								<i class="fas fa-money-bill"></i>
 								 Tarifa Fio B</a>
-							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
-								href="#tarifa-b3-tab-content-config">
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#tarifa-b3-tab-content-config" id="b3Config">
 								<i class="fas fa-money-bill"></i>
 								 Tarifa B3</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#usuarios-tab-content-config" id="usuariosConfig">
+								<i class="fas fa-money-bill"></i>
+								 Usuários</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" data-toggle="tab" role="tab" name="configTab"
+								onclick="deslogar()" id="deslogar">
+								<i class="fas fa-power-off"></i>
+								SAIR</a>
 						</div>
 					</li>
 				</ul>
@@ -2118,11 +2128,11 @@
 										<input disabled id="inputValFaturaSSolarResumo" />
 									</div>
 									<div class="field-container mt-2 ">
-										<label for="inputImpostosCSolarResumo" style="font-weight: bold">VALOR FATURA
+										<label for="inputValFaturaCSolarResumo" style="font-weight: bold">VALOR FATURA
 											ATUAL
 											C/
 											SOLAR</label>
-										<input disabled id="inputImpostosCSolarResumo" />
+										<input disabled id="inputValFaturaCSolarResumo" />
 									</div>
 								</div>
 							</div>
@@ -2473,7 +2483,7 @@
 									<div class="field-container mt-2">
 										<label for="inputPotenciaModuloConfigInsert"
 											style="font-weight: bold">POTÊNCIA</label>
-										<input id="inputPotenciaModuloConfigInsert" />
+										<input id="inputPotenciaModuloConfigInsert" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputTipo_CelModuloConfigInsert" style="font-weight: bold">TIPO
@@ -2540,23 +2550,23 @@
 									<div class="field-container mt-2">
 										<label for="inputPesoModuloConfigInsert" style="font-weight: bold">PESO
 											(KG)</label>
-										<input id="inputPesoModuloConfigInsert" />
+										<input id="inputPesoModuloConfigInsert" class="onlyDot" />
 									</div>
 
 									<div class="field-container mt-2">
 										<label for="inputEspessuraModuloConfigInsert"
 											style="font-weight: bold">ESPESSURA</label>
-										<input id="inputEspessuraModuloConfigInsert" />
+										<input id="inputEspessuraModuloConfigInsert" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputLarguraModuloConfigInsert"
 											style="font-weight: bold">LARGURA</label>
-										<input id="inputLarguraModuloConfigInsert" />
+										<input id="inputLarguraModuloConfigInsert" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputAlturaModuloConfigInsert"
 											style="font-weight: bold">ALTURA</label>
-										<input id="inputAlturaModuloConfigInsert" />
+										<input id="inputAlturaModuloConfigInsert" class="onlyDot" />
 									</div>
 								</div>
 							</div>
@@ -2595,7 +2605,7 @@
 									<div class="field-container mt-2">
 										<label for="inputPotenciaModuloConfigEdit"
 											style="font-weight: bold">POTÊNCIA</label>
-										<input id="inputPotenciaModuloConfigEdit" />
+										<input id="inputPotenciaModuloConfigEdit" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputTipo_CelModuloConfigEdit" style="font-weight: bold">TIPO DE
@@ -2652,28 +2662,28 @@
 										<label for="inputAreaOcupadaModuloConfigEdit" style="font-weight: bold">ÁREA
 											OCUPADA
 											(M²)</label>
-										<input id="inputAreaOcupadaModuloConfigEdit" />
+										<input id="inputAreaOcupadaModuloConfigEdit" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputPesoModuloConfigEdit" style="font-weight: bold">PESO
 											(KG)</label>
-										<input id="inputPesoModuloConfigEdit" />
+										<input id="inputPesoModuloConfigEdit" class="onlyDot" />
 									</div>
 
 									<div class="field-container mt-2">
 										<label for="inputEspessuraModuloConfigEdit"
 											style="font-weight: bold">ESPESSURA</label>
-										<input id="inputEspessuraModuloConfigEdit" />
+										<input id="inputEspessuraModuloConfigEdit" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputLarguraModuloConfigEdit"
 											style="font-weight: bold">LARGURA</label>
-										<input id="inputLarguraModuloConfigEdit" />
+										<input id="inputLarguraModuloConfigEdit" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputAlturaModuloConfigEdit"
 											style="font-weight: bold">ALTURA</label>
-										<input id="inputAlturaModuloConfigEdit" />
+										<input id="inputAlturaModuloConfigEdit" class="onlyDot" />
 									</div>
 								</div>
 							</div>
@@ -2688,6 +2698,7 @@
 										id="atualizaModulo" class="btn-app btn-fp2">ATUALIZAR EM MASSA</button>
 								</div>
 								<input type="file" id="excelDataMdl" style="visibility: hidden;" />
+								<input type="file" id="excelDataFatK" style="visibility: hidden;" />
 							</div>
 						</div>
 					</div>
@@ -2768,7 +2779,7 @@
 											DE
 											PARTIDA
 											(V)</label>
-										<input id="inputTensaoCCInversorConfigInsert" />
+										<input id="inputTensaoCCInversorConfigInsert" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputMaxTensaoCCInversorConfigInsert" style="font-weight: bold">MÁX.
@@ -2776,7 +2787,7 @@
 											CC
 											MPPT
 											(V)</label>
-										<input id="inputMaxTensaoCCInversorConfigInsert" />
+										<input id="inputMaxTensaoCCInversorConfigInsert" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputEficienciaInversorConfigInsert"
@@ -2876,7 +2887,7 @@
 											DE
 											PARTIDA
 											(V)</label>
-										<input id="inputTensaoCCInversorConfigEdit" />
+										<input id="inputTensaoCCInversorConfigEdit" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputMaxTensaoCCInversorConfigEdit" style="font-weight: bold">MÁX.
@@ -2884,7 +2895,7 @@
 											CC
 											MPPT
 											(V)</label>
-										<input id="inputMaxTensaoCCInversorConfigEdit" />
+										<input id="inputMaxTensaoCCInversorConfigEdit" class="onlyDot" />
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputEficienciaInversorConfigEdit"
@@ -2916,10 +2927,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="field-container">
-								<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
-								<button type="button" onclick="atualizarInversor()" id="atualizarInversor"
-									class="btn-app btn-fp">ATUALIZAR</button>
+							<div class="container-2-columns">
+								<div class="field-container">
+									<label for="inputInversorConfigEdit" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizaInversor()" id="atualizarInversor"
+										class="btn-app btn-fp2">ATUALIZAR</button>
+								</div>
+
+								<div class="field-container">
+									<button type="button" onclick="document.getElementById('excelDataInv').click()"
+										id="atualizaInversor" class="btn-app btn-fp2">ATUALIZAR EM MASSA</button>
+								</div>
+								<input type="file" id="excelDataInv" style="visibility: hidden;" />
 							</div>
 						</div>
 					</div>
@@ -3109,10 +3128,17 @@
 									</div>
 								</div>
 							</div>
-							<div class="field-container">
-								<label for="" style="font-weight: bold"> </label>
-								<button type="button" onclick="atualizaTarifaB3()" id="atualizarTarifaB3"
-									class="btn-app btn-fp">ATUALIZAR</button>
+							<div class="container-2-columns">
+								<div class="field-container">
+									<label for="" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizaTarifaB3()" id="atualizarTarifaB3"
+										class="btn-app btn-fp2">ATUALIZAR</button>
+								</div>
+								<div class="field-container">
+									<button type="button" onclick="document.getElementById('excelDataB3').click()"
+										id="atualizaB3" class="btn-app btn-fp2">ATUALIZAR EM MASSA</button>
+								</div>
+								<input type="file" id="excelDataB3" style="visibility: hidden;" />
 							</div>
 						</div>
 					</div>
@@ -3201,9 +3227,96 @@
 									</div>
 								</div>
 							</div>
+							<div class="container-2-columns">
+								<div class="field-container">
+									<label for="" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizaTarifaFioB()" id="atualizarTarifaFioB"
+										class="btn-app btn-fp2">ATUALIZAR</button>
+								</div>
+								<div class="field-container">
+									<button type="button" onclick="document.getElementById('excelDataFio').click()"
+										id="atualizaFio" class="btn-app btn-fp2">ATUALIZAR EM MASSA</button>
+								</div>
+								<input type="file" id="excelDataFio" style="visibility: hidden;" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- DADOS USUÁRIOS CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="usuarios-tab-content-config" role="tabpanel">
+				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
+					<ul class="nav nav-tabs justify-content-center" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#inserir-usuarios-tab-content-config" role="tab">
+								INSERIR
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#editar-usuarios-tab-content-config" role="tab">
+								EDITAR
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<!-- INSERIR -->
+					<div class="tab-pane fade show active" id="inserir-usuarios-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR USUARIO</h2>
+								<div class="container-3-columns">
+									<div class="field-container mt-2">
+										<label for="inputEmailUser" style="font-weight: bold">EMAIL</label>
+										<input id="inputEmailUser" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputSenhaUser" style="font-weight: bold">SENHA</label>
+										<input id="inputSenhaUser" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputCargoUser" style="font-weight: bold">CARGO</label>
+										<select id="inputCargoUser">
+											<option value="admin">admin</option>
+											<option value="usuário">usuário</option>
+										</select>
+									</div>
+								</div>
+							</div>
 							<div class="field-container">
 								<label for="" style="font-weight: bold"> </label>
-								<button type="button" onclick="atualizaTarifaFioB()" id="atualizarTarifaFioB"
+								<button type="button" onclick="insereUsuario()" id="insereUsuario"
+									class="btn-app btn-fp">INSERIR</button>
+							</div>
+						</div>
+					</div>
+					<!-- EDITAR -->
+					<div class="tab-pane fade show" id="editar-usuarios-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR USUARIO</h2>
+								<div class="container-2-columns">
+									<div class="field-container mt-2">
+										<label for="inputEmailUserEdit" style="font-weight: bold">EMAIL</label>
+										<select id="inputEmailUserEdit" onchange="getRole(this.value)">
+										</select>
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputCargoUserEdit" style="font-weight: bold">CARGO</label>
+										<select id="inputCargoUserEdit">
+											<option value="admin">admin</option>
+											<option value="usuário">usuário</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="field-container">
+								<label for="" style="font-weight: bold"> </label>
+								<button type="button" onclick="atualizaUsuario()" id="atualizaUsuario"
 									class="btn-app btn-fp">ATUALIZAR</button>
 							</div>
 						</div>
@@ -3211,6 +3324,8 @@
 				</div>
 			</div>
 		</div>
+
+	</div>
 	</div>
 	</div>
 	</div>

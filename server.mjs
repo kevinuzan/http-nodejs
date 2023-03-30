@@ -8,7 +8,7 @@ import { Client } from "@googlemaps/google-maps-services-js";
 import bodyParser from "body-parser";
 
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
 
 import fs, { futimesSync } from "fs"
 import ImageModule from 'docxtemplater-image-module-free'
@@ -16,6 +16,7 @@ import PizZip from "pizzip"
 import Docxtemplater from "docxtemplater"
 import sizeOf from "image-size"
 import request from 'request'
+import formidable from 'formidable'
 
 const firebaseConfig = {
     apiKey: process.env.apiFirebase,
@@ -46,23 +47,112 @@ app.get('/resetPass', async function (req, res) {
 
 app.get('/login', async function (req, res) {
     var login = req.query.name
-    var user = login.split(';')[0]
-    var pass = login.split(';')[1]
-    signInWithEmailAndPassword(auth, user, pass)
+    var usuario = login.split(';')[0]
+    var senha = login.split(';')[1]
+    signInWithEmailAndPassword(auth, usuario, senha)
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
+            conectado = usuario
             res.json(true)
             // ...
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            conectado = 'false'
             res.json(errorMessage)
             // ..
         });
 })
+var conectado = 'false'
+app.get('/loginVerify', async function (req, res) {
+    conectado = 'false'
+    res.json(conectado)
+})
+app.get('/loginVerifyResult', async function (req, res) {
+    res.json(conectado)
+})
 
+app.get('/createUser', async function (req, res) {
+    var login = req.query.name
+    var usuario = login.split(';')[0]
+    var senha = login.split(';')[1]
+    var role = login.split(';')[2]
+    var resultado = createUserWithEmailAndPassword(auth, usuario, senha, role)
+        .then(async (userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            var resposta = await createUserPostgre(usuario, role)
+            return resposta
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            return errorMessage
+            // ..
+        });
+    res.json(resultado)
+})
+
+app.get('/getRole', async function (req, res) {
+    var email = req.query.name
+    var resultado = await getRolePostgre(email)
+    res.json(resultado)
+})
+app.get('/getUser', async function (req, res) {
+    var resultado = await getUserPostgre()
+    res.json(resultado)
+})
+app.get('/updateUser', async function (req, res) {
+    var email = req.query.name.split(';')[0]
+    var role = req.query.name.split(';')[1]
+    var resultado = await updateUserPostgre(email, role)
+    res.json(resultado)
+})
+async function createUserPostgre(user, role) {
+    try {
+        var query = `INSERT INTO users values('${user}','${role}')`
+        var { rows } = await pgClient.query(query)
+        return true
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+
+async function getRolePostgre(email) {
+    try {
+        var query = `select role from users where LOWER(email) = LOWER('${email}')`
+        var { rows } = await pgClient.query(query)
+        return { rows }
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+
+async function getUserPostgre() {
+    try {
+        var query = `select email from users`
+        var { rows } = await pgClient.query(query)
+        return rows
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+async function updateUserPostgre(email, role) {
+    try {
+        var query = `update users set role = '${role}' where lower(email) = lower('${email}')`
+        var { rows } = await pgClient.query(query)
+        return rows
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
 const pool = new pg.Pool();
 var connectionString = process.env.DATABASE_URL
 var pgClient = new pg.Client(connectionString)
@@ -320,6 +410,18 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
+// app.post('/testeImagem', function (req, res) {
+//     const form = formidable({ multiples: true });
+
+//     form.parse(req, (err, fields, files) => {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
+//         res.json({ fields, files });
+//     });
+
+// })
 
 var dataTotalGrafico = ''
 app.get('/downloadImage', function (req, res) {
@@ -381,6 +483,12 @@ app.get('/docxTemplater', function (req, res) {
     var finan_60 = req.query.name.split(";")[34]
     var finan_120 = req.query.name.split(";")[35]
     var finan_150 = req.query.name.split(";")[36]
+    var fabricante_modulo = req.query.name.split(";")[37]
+    var modeloMdl = req.query.name.split(";")[38]
+    var modeloInv = req.query.name.split(";")[39]
+    var potencia_modulo = req.query.name.split(";")[40]
+    var potencia_inversor = req.query.name.split(";")[41]
+    var reajuste_tarifa = req.query.name.split(";")[42]
 
     const content = fs.readFileSync(
         path.join(__dirname + '/public/resourceFiles/modelo_proposta_DANIG.docx'),
@@ -437,9 +545,16 @@ app.get('/docxTemplater', function (req, res) {
         gasto_antigo: gasto_antigo,
         gasto_novo: gasto_novo,
         retorno_anual: retorno_anual,
+        fabricante_modulo: fabricante_modulo,
         qtde_modulos: qtde_modulos,
+        modeloMdl: modeloMdl,
+        potencia_modulo: potencia_modulo,
+
         fabricante_inversor: fabricante_inversor,
         qtde_inversor: qtde_inversor,
+        modeloInv: modeloInv,
+        potencia_inversor: potencia_inversor,
+
         estrutura_fixa: estrutura_fixa,
         area: area,
         fator_simultaneidade: fator_simultaneidade,
@@ -447,9 +562,12 @@ app.get('/docxTemplater', function (req, res) {
         tarifa_imposto: tarifa_imposto,
         degradacao_anual: degradacao_anual,
         geracao_anual: geracao_anual,
+        reajuste_tarifa: reajuste_tarifa,
+
         km: km,
         arvores: arvores,
         co2: co2,
+
         desconto: desconto,
         valor_desconto: valor_desconto,
         finan_12: finan_12,
@@ -824,6 +942,74 @@ app.get('/mdlDataPeca', async function (req, res) {
     res.json(rows)
 });
 
+app.post('/moduloInsert', async function (req, res) {
+    let modelo = req.query.name.split(';')[4];
+    var queryId = `select modelo from modulos where LOWER(modelo) = LOWER('${modelo}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var queryId = 'select max(index) from modulos'
+        var { rows } = await pgClient.query(queryId)
+        let id = (Number(rows[0].max) + 1)
+        var Fabricante = req.query.name.split(';')[0]
+        var Potencia = req.query.name.split(';')[1]
+        var Tipo_Cel = req.query.name.split(';')[2]
+        var Tecnologia = req.query.name.split(';')[3]
+        var Vmp = req.query.name.split(';')[5]
+        var Imp = req.query.name.split(';')[6]
+        var Voc = req.query.name.split(';')[7]
+        var Isc = req.query.name.split(';')[8]
+        var Eficiencia = req.query.name.split(';')[9]
+        var TPmax = req.query.name.split(';')[10]
+        var TVoc = req.query.name.split(';')[11]
+        var TIsc = req.query.name.split(';')[12]
+        var AreaOcupada = req.query.name.split(';')[13]
+        var Peso = req.query.name.split(';')[14]
+        var Espessura = req.query.name.split(';')[15]
+        var Largura = req.query.name.split(';')[16]
+        var Altura = req.query.name.split(';')[17]
+
+        var query = `insert into modulos values ('${id}','${Fabricante}','','${modelo}','${Potencia}','${Vmp}','${Imp}','${Voc}','${Isc}','${Eficiencia}','${TPmax}','${TVoc}','${TIsc}','${Altura}','${Largura}','${Espessura}','${AreaOcupada}','${Tipo_Cel}','${Tecnologia}','${Peso}')`
+        console.log(query)
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/moduloUpdate', async function (req, res) {
+    let modelo = req.query.name.split(';')[4];
+    var queryId = `select index from modulos where LOWER(modelo) = LOWER('${modelo}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        var Fabricante = req.query.name.split(';')[0]
+        var Potencia = req.query.name.split(';')[1]
+        var Tipo_Cel = req.query.name.split(';')[2]
+        var Tecnologia = req.query.name.split(';')[3]
+        var Vmp = req.query.name.split(';')[5]
+        var Imp = req.query.name.split(';')[6]
+        var Voc = req.query.name.split(';')[7]
+        var Isc = req.query.name.split(';')[8]
+        var Eficiencia = req.query.name.split(';')[9]
+        var TPmax = req.query.name.split(';')[10]
+        var TVoc = req.query.name.split(';')[11]
+        var TIsc = req.query.name.split(';')[12]
+        var AreaOcupada = req.query.name.split(';')[13]
+        var Peso = req.query.name.split(';')[14]
+        var Espessura = req.query.name.split(';')[15]
+        var Largura = req.query.name.split(';')[16]
+        var Altura = req.query.name.split(';')[17]
+
+        var query = `update modulos set fornecedor = '${Fabricante}', pmax = '${Potencia}', vmp = '${Vmp}', imp = '${Imp}', voc = '${Voc}', isc = '${Isc}', eficiencia = '${Eficiencia}', tpmax = '${TPmax}', tvoc = '${TVoc}', tisc = '${TIsc}', altura = '${Altura}', largura = '${Largura}', espessura = '${Espessura}', area = '${AreaOcupada}', celulas = '${Tipo_Cel}', estilo = '${Tecnologia}', peso = '${Peso}' WHERE LOWER(modelo) = LOWER('${modelo}')`
+        console.log(query)
+        var { rows } = await pgClient.query(query)
+        // const { rows } = await pool.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
+});
+
 app.get('/invData', async function (req, res) {
     var query = "SELECT * FROM inversores ORDER BY modelo ASC"
     var { rows } = await pgClient.query(query)
@@ -881,6 +1067,62 @@ app.get('/invDataPeca', async function (req, res) {
     var query = `SELECT * FROM inversores WHERE modelo = '${peca}' ORDER BY modelo ASC`
     var { rows } = await pgClient.query(query)
     res.json(rows)
+});
+
+app.post('/inversorInsert', async function (req, res) {
+    let modelo = req.query.name.split(';')[5];
+    var queryId = `select modelo from inversores where LOWER(modelo) = LOWER('${modelo}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var queryId = 'select max(index) from inversores'
+        var { rows } = await pgClient.query(queryId)
+        let id = (Number(rows[0].max) + 1)
+        var Fabricante = req.query.name.split(';')[0]
+        var Fases = req.query.name.split(';')[1]
+        var Strings = req.query.name.split(';')[2]
+        var Tipo = req.query.name.split(';')[3]
+        var Potencia = req.query.name.split(';')[4]
+        var FaixaMPPT = req.query.name.split(';')[6]
+        var TensaoCC = req.query.name.split(';')[7]
+        var MaxTensaoCC = req.query.name.split(';')[8]
+        var Eficiencia = req.query.name.split(';')[9]
+        var FaixaTensao = req.query.name.split(';')[10]
+        var CorrenteMaxCC = req.query.name.split(';')[11]
+        var CorrenteMaxCA = req.query.name.split(';')[12]
+
+        var query = `insert into inversores values ('${id}','${Fabricante}','','${Tipo}','${modelo}','${Potencia}','${FaixaMPPT}','${TensaoCC}','${MaxTensaoCC}','${CorrenteMaxCC}','${Eficiencia}','${Strings}','${CorrenteMaxCA}','${FaixaTensao}','${Fases}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/inversorUpdate', async function (req, res) {
+    let modelo = req.query.name.split(';')[5];
+    var queryId = `select index from inversores where LOWER(modelo) = LOWER('${modelo}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        var Fabricante = req.query.name.split(';')[0]
+        var Fases = req.query.name.split(';')[1]
+        var Strings = req.query.name.split(';')[2]
+        var Tipo = req.query.name.split(';')[3]
+        var Potencia = req.query.name.split(';')[4]
+        var FaixaMPPT = req.query.name.split(';')[6]
+        var TensaoCC = req.query.name.split(';')[7]
+        var MaxTensaoCC = req.query.name.split(';')[8]
+        var Eficiencia = req.query.name.split(';')[9]
+        var FaixaTensao = req.query.name.split(';')[10]
+        var CorrenteMaxCC = req.query.name.split(';')[11]
+        var CorrenteMaxCA = req.query.name.split(';')[12]
+
+        var query = `update inversores set fornecedor = '${Fabricante}', tipo = '${Tipo}', potnomi = '${Potencia}', faixamppt = '${FaixaMPPT}', tenspart = '${TensaoCC}', maxtens = '${MaxTensaoCC}', entradaimp = '${CorrenteMaxCC}', eficiencia = '${Eficiencia}', conexaoca = '${Strings}', correntesaída = '${CorrenteMaxCA}', faixatens = '${FaixaTensao}', mppt = '${Fases}' WHERE LOWER(modelo) = LOWER('${modelo}')`
+        var { rows } = await pgClient.query(query)
+        // const { rows } = await pool.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
 });
 
 app.get('/lat_lon', async function (req, res) {

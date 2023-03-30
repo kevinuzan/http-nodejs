@@ -95,7 +95,7 @@ async function downloadImage() {
   var dataUrl = `opi`
   var pathName = 'graficoConsumoGeracao'
   var mldGetData = `/downloadImage?name=oi;oia`
-  const dataMdlForn = await fecthGet(mldGetData)
+  const dataMdlForn = await fetchGet(mldGetData)
   console.log(dataMdlForn)
 }
 
@@ -110,30 +110,38 @@ async function exportData() {
   var vendedor_email = $('#inputVendedorEmail')[0].value
   var endereco = $('#inputRua')[0].value + " " + $('#inputNumero')[0].value + " " + $('#inputBairro')[0].value
   var cep = $('#inputCep')[0].value
-  var estimativa_mes = ''
+  var estimativa_mes = Number(emmConsumo).toFixed(2) + " kWh"
   var tipo_telhado = $('#inputTelhado')[0].value
   var porcentagem_sistema = $('#inputPorcentagem')[0].value
-  var tamanho = ''
-  var economia_ano = ''
-  var investimento_inicial = ''
+  var tamanho = Number(potTotalOrca).toFixed(2) + " kWp"
+  var economia_ano = brlBrazil.format(mediaAnualEconomia)
+  var investimento_inicial = brlBrazil.format(totalGeralOrcaFinal)
   var payback = paybackCompleto
-  var gasto_antigo = ''
-  var gasto_novo = ''
-  var retorno_anual = ''
+  var gasto_antigo = brlBrazil.format(valorFaturaAtualSSolarResumo)
+  var gasto_novo = brlBrazil.format(valorFaturaAtualCSolarResumo)
+  var retorno_anual = ((1 / payback_valor) * 100).toFixed(2)
+  var fabricante_modulo = fornecedorMdlResumo
   var qtde_modulos = qtdeMdlCalc.toFixed(2)
-  var fabricante_inversor = ''
-  var qtde_inversor = inversoresResumo.toFixed(2)
-  var estrutura_fixa = ''
-  var area = areaTotalResumo
-  var fator_simultaneidade = ''
-  var fator_injetado = ''
-  var tarifa_imposto = ''
-  var degradacao_anual = ''
-  var geracao_anual = ''
+  var modeloMdl = modeloMdlResumo
+  var potencia_modulo = pmax
 
-  var km = kmRodadoResumo.toFixed(2)
-  var arvores = arvorePoupadaResumo.toFixed(2)
-  var co2 = co2EvitadoResumo.toFixed(2)
+  var fabricante_inversor = fornecedorInvResumo
+  var qtde_inversor = inversoresResumo.toFixed(2)
+  var modeloInv = modeloInvResumo
+  var potencia_inversor = potenciaInv
+
+  var estrutura_fixa = $('#inputTelhado')[0].value
+  var area = areaTotalResumo
+  var fator_simultaneidade = (consumoInst * 100).toFixed(2)
+  var fator_injetado = (100 - (consumoInst * 100)).toFixed(2)
+  var tarifa_imposto = (tarifaTotal_cImposto).toFixed(2)
+  var degradacao_anual = await valNum($('#inputDegraAnual')[0].value) * 100
+  var geracao_anual = geracaoAnualResumo + " kWh"
+  var reajuste_tarifa = await valNum($('#inputInflacaoEletricaFluxo')[0].value) * 100
+
+  var km = kmRodado.toFixed(2)
+  var arvores = arvorePoupada.toFixed(2)
+  var co2 = co2Evitado.toFixed(2)
 
   var desconto = descontoOrca.toFixed(2)
   var valor_desconto = totalDescontoOrcaFinal.toFixed(2)
@@ -143,15 +151,15 @@ async function exportData() {
   var finan_60 = finalFinanciamento60.toFixed(2)
   var finan_120 = finalFinanciamento120.toFixed(2)
   var finan_150 = finalFinanciamento150.toFixed(2)
-    
-  var mldGetData = `/docxTemplater?name=${cliente};${vendedor};${validade};${vendedor_tel};${vendedor_email};${endereco};${cep};${estimativa_mes};${tipo_telhado};${porcentagem_sistema};${tamanho};${economia_ano};${investimento_inicial};${payback};${gasto_antigo};${gasto_novo};${retorno_anual};${qtde_modulos};${fabricante_inversor};${qtde_inversor};${estrutura_fixa};${area};${fator_simultaneidade};${fator_injetado};${tarifa_imposto};${degradacao_anual};${geracao_anual};${km};${arvores};${co2};${desconto};${valor_desconto};${finan_12};${finan_48};${finan_60};${finan_120};${finan_150}`
-  const dataMdlForn = await fecthGet(mldGetData)
+
+  var mldGetData = `/docxTemplater?name=${cliente};${vendedor};${validade};${vendedor_tel};${vendedor_email};${endereco};${cep};${estimativa_mes};${tipo_telhado};${porcentagem_sistema};${tamanho};${economia_ano};${investimento_inicial};${payback};${gasto_antigo};${gasto_novo};${retorno_anual};${qtde_modulos};${fabricante_inversor};${qtde_inversor};${estrutura_fixa};${area};${fator_simultaneidade};${fator_injetado};${tarifa_imposto};${degradacao_anual};${geracao_anual};${km};${arvores};${co2};${desconto};${valor_desconto};${finan_12};${finan_48};${finan_60};${finan_120};${finan_150};${fabricante_modulo};${modeloMdl};${modeloInv};${potencia_modulo};${potencia_inversor};${reajuste_tarifa}`
+  const dataMdlForn = await fetchGet(mldGetData)
   console.log(dataMdlForn)
   $('#downloadProposta')[0].click()
 }
 
 async function exportChart() {
-  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 700, height: 450 }).then(
+  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 600, height: 400 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
       var i
@@ -160,14 +168,14 @@ async function exportChart() {
       for (i = 0; i < dataUrl_Final.length; i += 1900) {
         var dataSent = dataUrl_Final.slice(i, (i + 1900)).replaceAll("+", "*")
         var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
-        const dataMdlForn = await fecthGet(mldGetData)
+        const dataMdlForn = await fetchGet(mldGetData)
         console.log(dataMdlForn)
       }
     })
 }
 
 async function exportChart2() {
-  await Plotly.toImage('graficoPayback', { format: 'png', width: 700, height: 450 }).then(
+  await Plotly.toImage('graficoPayback', { format: 'png', width: 600, height: 400 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
       var i
@@ -175,7 +183,7 @@ async function exportChart2() {
       for (i = 0; i < dataUrl_Final.length; i += 1900) {
         var dataSent = dataUrl_Final.slice(i, (i + 1900)).replaceAll("+", "*")
         var mldGetData = `/downloadImage?name=${dataUrl_Final.length};${fileName};${dataSent}`
-        const dataMdlForn = await fecthGet(mldGetData)
+        const dataMdlForn = await fetchGet(mldGetData)
         console.log(dataMdlForn)
       }
     })
@@ -250,6 +258,60 @@ async function createCharts() {
 
   Plotly.newPlot('graficoPayback', dataPayback, layoutPayback, config);
 }
+
+// // Select your input type file and store it in a variable
+// const input2 = document.getElementById('fileinput');
+// // This will upload the file after having read it
+// var options = {
+//   method: 'POST',
+//   body: input2.files[0],
+//   headers: {
+//     // Content-Type may need to be completely **omitted**
+//     // or you may need something
+//     "Content-Type": "You will perhaps need to define a content-type here"
+//   },
+// }
+
+// const upload = (file) => {
+//   delete options.headers['Content-Type'];
+//   fetch('/testeImagem', options).then(
+//     response => response.json() // if the response is a JSON object
+//   ).then(
+//     success => console.log(success) // Handle the success response object
+//   ).catch(
+//     error => console.log(error) // Handle the error response object
+//   );
+// };
+
+// // Event handler executed when a file is selected
+// const onSelectFile = () => upload(input.files[0]);
+
+// // Add a listener on your input
+// // It will be triggered when a file will be selected
+// // input2.addEventListener('change', onSelectFile, false);
+
+// input2.addEventListener('change', testeword, false);
+
+// async function testeword() {
+//   let photo = document.getElementById("fileinput").files[0];
+//   let formData = new FormData();
+//   console.log(photo, formData)
+//   formData.append("photo", photo);
+//   console.log(formData)
+//   options = {
+//     method: 'POST',
+//     body: photo,
+//     headers: {
+//       // Content-Type may need to be completely **omitted**
+//       // or you may need something
+//       "Content-Type": "multipart/form-data; boundary=--WebKitFormBoundaryfgtsKTYLsT7PNUVD"
+//     },
+//   }
+//   // delete options.headers['Content-Type'];
+//   var r = await fetch('/testeImagem', options);
+//   console.log(r)
+// }
+
 var potenciaResumo = 0
 var modulosResumo = 0
 var areaTotalResumo = 0
@@ -293,7 +355,7 @@ async function resumoFill() {
   modeloMdlResumo = element5.value
   fornecedorInvResumo = fornecedorInv
   modeloInvResumo = element11.value
-  inversoresResumo = $('#inputQtdeInversor')[0].value
+  inversoresResumo = Number($('#inputQtdeInversor')[0].value)
   geracaoMensalResumo = (geracaoMedia).toFixed(2)
   geracaoAnualResumo = (geracaoTotal).toFixed(2)
   percentualGerConResumo = (geracaoMedia / consumoMedia).toFixed(2) + ' %'
@@ -320,9 +382,12 @@ async function resumoFill() {
   faturaBTCSolarResumo = CreditoSomaTotal
   demandaCSolarResumo = ''
   impostoCSSolarResumo = CreditoPIS + CreditoCOFINS + CreditoConsumoTUSDIcms + CreditoConsumoTEIcms
+
   for (i = 0; i < listFinalGeracao.length; i++) {
     if (anoAtual == listFinalGeracao[i][0]) {
+      console.log(anoAtual, listFinalGeracao[i][0], listFinalGeracao[i][6])
       tarifaTotalCSolarResumo = Number(listFinalGeracao[i][6])
+      break
     }
   }
   valorFaturaAtualCSolarResumo = tarifaTotalCSolarResumo
@@ -362,7 +427,7 @@ async function resumoFill() {
   $('#inputImpostosSSolarResumo')[0].value = brlBrazil.format(impostosSSolarResumo)
   $('#inputImpostosCSolarResumo')[0].value = brlBrazil.format(impostoCSSolarResumo)
   $('#inputValFaturaSSolarResumo')[0].value = brlBrazil.format(valorFaturaAtualSSolarResumo)
-  $('#inputImpostosCSolarResumo')[0].value = brlBrazil.format(valorFaturaAtualCSolarResumo)
+  $('#inputValFaturaCSolarResumo')[0].value = brlBrazil.format(valorFaturaAtualCSolarResumo)
 
   $('#inputEconomiaEnergiaMensalResumo')[0].value = brlBrazil.format(economiaEnergiaMensalResumo)
   $('#inputEconomiaPercentualResumo')[0].value = economiaPercentualResumo
@@ -399,9 +464,109 @@ var CreditoConsumoTEIcms = 0
 var CreditoTaxaIlum = 0
 var CreditoSomaTotal = 0
 
-//#region REPLICAR PARA OUTROS TÓPICOS (tarifa fio b, modulos e inversores)
+//#region UPDATE EM MASSA
 var resultExcelData = 0
 var input = document.getElementById('excelDataMdl');
+input.addEventListener('change', async function () {
+  console.log
+  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+      data.shift()
+      return data
+    })
+    var dataToSend = JSON.stringify(resultExcelData)
+    var typeFile = 'modulo'
+    var size = dataToSend.length
+    var i
+    for (i = 0; i < size; i += 1900) {
+      var dataToSend_final = dataToSend.slice(i, (i + 1900))
+      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      // const dataMdlForn = await fetchGet(mldGetData)
+      console.log(resp)
+    }
+    // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
+    //console.log(resp)
+  } else {
+    alert('Por favor, selecione um arquivo de extensão xlsx')
+  }
+})
+var resultExcelData = 0
+var input = document.getElementById('excelDataInv');
+input.addEventListener('change', async function () {
+  console.log
+  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+      data.shift()
+      return data
+    })
+    var dataToSend = JSON.stringify(resultExcelData)
+    var typeFile = 'inversor'
+    var size = dataToSend.length
+    var i
+    for (i = 0; i < size; i += 1900) {
+      var dataToSend_final = dataToSend.slice(i, (i + 1900))
+      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      // const dataMdlForn = await fetchGet(mldGetData)
+      console.log(resp)
+    }
+    // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
+    //console.log(resp)
+  } else {
+    alert('Por favor, selecione um arquivo de extensão xlsx')
+  }
+})
+var resultExcelData = 0
+var input = document.getElementById('excelDataB3');
+input.addEventListener('change', async function () {
+  console.log
+  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+      data.shift()
+      return data
+    })
+    var dataToSend = JSON.stringify(resultExcelData)
+    var typeFile = 'tarifab3'
+    var size = dataToSend.length
+    var i
+    for (i = 0; i < size; i += 1900) {
+      var dataToSend_final = dataToSend.slice(i, (i + 1900))
+      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      // const dataMdlForn = await fetchGet(mldGetData)
+      console.log(resp)
+    }
+    // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
+    //console.log(resp)
+  } else {
+    alert('Por favor, selecione um arquivo de extensão xlsx')
+  }
+})
+var resultExcelData = 0
+var input = document.getElementById('excelDataFio');
+input.addEventListener('change', async function () {
+  console.log
+  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+      data.shift()
+      return data
+    })
+    var dataToSend = JSON.stringify(resultExcelData)
+    var typeFile = 'tarifafiob'
+    var size = dataToSend.length
+    var i
+    for (i = 0; i < size; i += 1900) {
+      var dataToSend_final = dataToSend.slice(i, (i + 1900))
+      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      // const dataMdlForn = await fetchGet(mldGetData)
+      console.log(resp)
+    }
+    // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
+    //console.log(resp)
+  } else {
+    alert('Por favor, selecione um arquivo de extensão xlsx')
+  }
+})
+var resultExcelData = 0
+var input = document.getElementById('excelDataFatK');
 input.addEventListener('change', async function () {
   console.log
   if (input.files[0]['name'].indexOf('.xlsx') != -1) {
@@ -415,30 +580,30 @@ input.addEventListener('change', async function () {
     var i
     for (i = 0; i < size; i += 1900) {
       var dataToSend_final = dataToSend.slice(i, (i + 1900))
-      var resp = await fecthGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
-      // const dataMdlForn = await fecthGet(mldGetData)
+      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      // const dataMdlForn = await fetchGet(mldGetData)
       console.log(resp)
     }
-    // var resp = await fecthGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
+    // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
     //console.log(resp)
   } else {
     alert('Por favor, selecione um arquivo de extensão xlsx')
   }
 })
 async function updateTarifaB3() {
-  var data = await fecthGet(`/updateTask?name=tarifab3`)
+  var data = await fetchGet(`/updateTask?name=tarifab3`)
   console.log(data)
 }
 async function updateModulos() {
-  var data = await fecthGet(`/updateTask?name=modulos`)
+  var data = await fetchGet(`/updateTask?name=modulos`)
   console.log(data)
 }
 async function updateInversores() {
-  var data = await fecthGet(`/updateTask?name=inversores`)
+  var data = await fetchGet(`/updateTask?name=inversores`)
   console.log(data)
 }
 async function updateTarifaFioB() {
-  var data = await fecthGet(`/updateTask?name=tarifafiob`)
+  var data = await fetchGet(`/updateTask?name=tarifafiob`)
 }
 //#endregion
 
@@ -498,7 +663,7 @@ async function saveGreener() {
   greenerData['MO'] = inputMoTerceiroOrca
 
   var sendData = JSON.stringify(greenerData)
-  var result = await fecthGet(`/updateGreener?name=${sendData}`)
+  var result = await fetchGet(`/updateGreener?name=${sendData}`)
   if (result) {
     alert('DADOS ATUALIZADOS')
   } else {
@@ -583,6 +748,7 @@ var co2Evitado = 0
 var listAnoPayback = []
 var listFluxoPayback = []
 var tirResultado = 0
+var payback_valor = 0
 async function fluxoCaixa() {
   listAnoPayback = []
   listFluxoPayback = []
@@ -616,14 +782,14 @@ async function fluxoCaixa() {
       soma25Anos += vpa
     }
     if (vpa > 0 && checkVpa == false) {
-      var payback = (-dictValorFluxo[i].fluxo / dictValorFluxo[i].vp) + i - 1
-      var anoPayback = Math.floor(payback)
-      var mesPayback = Math.floor((payback - anoPayback) * 12)
-      var diaPayback = Math.floor((((payback - anoPayback) * 12) - mesPayback) * 30)
+      payback_valor = (-dictValorFluxo[i].fluxo / dictValorFluxo[i].vp) + i - 1
+      var anoPayback = Math.floor(payback_valor)
+      var mesPayback = Math.floor((payback_valor - anoPayback) * 12)
+      var diaPayback = Math.floor((((payback_valor - anoPayback) * 12) - mesPayback) * 30)
       paybackCompleto = `${anoPayback} Anos ${mesPayback} Meses ${diaPayback} Dias`
-      $('#inputPaybackAnoResultado')[0].value = payback.toFixed(2)
+      $('#inputPaybackAnoResultado')[0].value = payback_valor.toFixed(2)
       $('#inputPaybackCompletoResultado')[0].value = paybackCompleto
-      $('#inputPaybackAnualResultado')[0].value = (1 / payback).toFixed(2) + ' %'
+      $('#inputPaybackAnualResultado')[0].value = (1 / payback_valor).toFixed(2) + ' %'
       checkVpa = true
     }
     tir25Anos.push(dictValorFluxo[i].fluxo)
@@ -1181,7 +1347,7 @@ var economiaAnual = 0
 var mediaAnualEconomia = 0
 var anoAtual = 0
 async function tableTaxacaoFioB() {
-  var tarifafiob = await fecthGet(`/tarifafiobData?name=${distribuidora}`)
+  var tarifafiob = await fetchGet(`/tarifafiobData?name=${distribuidora}`)
   console.log(tarifafiob)
   var tusd_fiob = await valNum(tarifafiob[0].tusd_fiob)
   var valConsumo = Number(s_imposto)
@@ -1400,9 +1566,10 @@ let brlBrazil = Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 });
-var consumoInst
-var porcentagem
-var distribuidora
+var consumoInst = 0
+var porcentagem = 0
+var distribuidora = ''
+var tarifaTotal_cImposto = 0
 // Buscar dados de cliente
 async function buscaCliente(tipo) {
   var nome = document.getElementById(`inputCliente${tipo}`).value
@@ -1453,10 +1620,10 @@ async function buscaCliente(tipo) {
 
   tarifaTusdImp = (parseFloat(tarifaData[0]["tusd"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
   tarifaTeImp = (parseFloat(tarifaData[0]["te"].replaceAll(",", ".")) / (1 - (parseFloat(data[0]["icms"].replaceAll(",", ".")) / 100)))
-  var tarifaTotal = tarifaTusdImp + tarifaTeImp
+  tarifaTotal_cImposto = tarifaTusdImp + tarifaTeImp
   $('#inputTarifaTUSDImp')[0].value = tarifaTusdImp.toFixed(2)
   $('#inputTarifaTEImp')[0].value = tarifaTeImp.toFixed(2)
-  $('#inputTarifaTotal')[0].value = tarifaTotal.toFixed(2)
+  $('#inputTarifaTotal')[0].value = tarifaTotal_cImposto.toFixed(2)
   tipoSis = 0
   switch (data[0]["taxa"]) {
     case 'MONOFÁSICO':
@@ -1512,7 +1679,7 @@ async function insereCliente() {
     alert("ERRO: CLIENTE JÁ ESTÁ CADASTRADO!")
   } else {
     //DADOS DE CLIENTES
-    var dataCliente = await fecthGet("/cliente")
+    var dataCliente = await fetchGet("/cliente")
 
     dataCliente.forEach(function (item) {
       if (optionsClient.indexOf(item["cliente"]) == -1) {
@@ -1552,7 +1719,7 @@ async function atualizaCliente() {
     alert("ERRO: CLIENTE NÃO ESTÁ CADASTRADO!")
   } else {
     //DADOS DE CLIENTES
-    var dataCliente = await fecthGet("/cliente")
+    var dataCliente = await fetchGet("/cliente")
     dataCliente.forEach(function (item) {
       if (optionsClient.indexOf(item["cliente"]) == -1) {
         optionsClient += '<option value="' + item["cliente"] + '" />';
@@ -1573,7 +1740,7 @@ async function insereVendedor() {
     alert("ERRO: VENDEDOR JÁ ESTÁ CADASTRADO!")
   } else {
     //DADOS DE VENDEDOR
-    var dataVendedor = await fecthGet("/vendedores")
+    var dataVendedor = await fetchGet("/vendedores")
     dataVendedor.forEach(function (item) {
       if (optionsVendedores.indexOf(item["nome"]) == -1) {
         optionsVendedores += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
@@ -1595,7 +1762,7 @@ async function atualizaVendedor() {
     alert("ERRO: VENDEDOR NÃO ESTÁ CADASTRADO!")
   } else {
     //DADOS DE VENDEDOR
-    var dataVendedor = await fecthGet("/vendedores")
+    var dataVendedor = await fetchGet("/vendedores")
     dataVendedor.forEach(function (item) {
       if (optionsVendedores.indexOf(item["nome"]) == -1) {
         optionsVendedores += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
@@ -1620,7 +1787,7 @@ async function insereTarifaB3() {
     alert("ERRO: TARIFA B3 JÁ ESTÁ CADASTRADA!")
   } else {
     //DADOS DE VENDEDOR
-    var distribuidora = await fecthGet("/distribuidoraData")
+    var distribuidora = await fetchGet("/distribuidoraData")
     distribuidora.forEach(function (item) {
       if (optionsDistribuidora.indexOf(item["distribuidora"]) == -1) {
         optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
@@ -1645,7 +1812,7 @@ async function atualizaTarifaB3() {
     alert("ERRO: TARIFA B3 NÃO ESTÁ CADASTRADA!")
   } else {
     //DADOS DE VENDEDOR
-    var distribuidora = await fecthGet("/distribuidoraData")
+    var distribuidora = await fetchGet("/distribuidoraData")
     distribuidora.forEach(function (item) {
       if (optionsDistribuidora.indexOf(item["distribuidora"]) == -1) {
         optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
@@ -1686,25 +1853,135 @@ async function atualizaTarifaFioB() {
   }
 }
 
+// Inserir novo inversor
+async function insereInversor() {
+  var Fabricante = $('#inputFabricanteInversorConfigInsert')[0].value
+  var Fases = $('#inputFasesInversorConfigInsert')[0].value
+  var Strings = $('#inputStringsInversorConfigInsert')[0].value
+  var Tipo = $('#inputTipoInversorConfigInsert')[0].value
+  var Potencia = $('#inputPotenciaInversorConfigInsert')[0].value
+  var Peca = $('#inputPecaInversorConfigInsert')[0].value
+  var FaixaMPPT = $('#inputFaixaMPPTInversorConfigInsert')[0].value
+  var TensaoCC = $('#inputTensaoCCInversorConfigInsert')[0].value.replaceAll(",", ".")
+  var MaxTensaoCC = $('#inputMaxTensaoCCInversorConfigInsert')[0].value.replaceAll(",", ".")
+  var Eficiencia = $('#inputEficienciaInversorConfigInsert')[0].value
+  var FaixaTensao = $('#inputFaixaTensaoInversorConfigInsert')[0].value
+  var CorrenteMaxCC = $('#inputCorrenteMaxCCInversorConfigInsert')[0].value
+  var CorrenteMaxCA = $('#inputCorrenteMaxCAInversorConfigInsert')[0].value
+
+  var query = `${Fabricante};${Fases};${Strings};${Tipo};${Potencia};${Peca};${FaixaMPPT};${TensaoCC};${MaxTensaoCC};${Eficiencia};${FaixaTensao};${CorrenteMaxCC};${CorrenteMaxCA}`
+  const data = await fecthPost('/inversorInsert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: INVERSOR JÁ ESTÁ CADASTRADO!")
+  } else {
+    alert("INVERSOR CADASTRADO COM SUCESSO!")
+  }
+}
+// Atualizar dados de inversor
+async function atualizaInversor() {
+  var Fabricante = $('#inputFabricanteInversorConfigEdit')[0].value
+  var Peca = $('#inputPecaInversorConfigEdit')[0].value
+  var Fases = $('#inputFasesInversorConfigEdit')[0].value
+  var Strings = $('#inputStringsInversorConfigEdit')[0].value
+  var Tipo = $('#inputTipoInversorConfigEdit')[0].value
+  var Potencia = $('#inputPotenciaInversorConfigEdit')[0].value
+  var FaixaMPPT = $('#inputFaixaMPPTInversorConfigEdit')[0].value
+  var TensaoCC = $('#inputTensaoCCInversorConfigInsert')[0].value.replaceAll(",", ".")
+  var MaxTensaoCC = $('#inputMaxTensaoCCInversorConfigInsert')[0].value.replaceAll(",", ".")
+  var Eficiencia = $('#inputEficienciaInversorConfigEdit')[0].value
+  var FaixaTensao = $('#inputFaixaTensaoInversorConfigEdit')[0].value
+  var CorrenteMaxCC = $('#inputCorrenteMaxCCInversorConfigEdit')[0].value
+  var CorrenteMaxCA = $('#inputCorrenteMaxCAInversorConfigEdit')[0].value
+
+  var query = `${Fabricante};${Fases};${Strings};${Tipo};${Potencia};${Peca};${FaixaMPPT};${TensaoCC};${MaxTensaoCC};${Eficiencia};${FaixaTensao};${CorrenteMaxCC};${CorrenteMaxCA}`
+  const data = await fecthPost('/inversorUpdate?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: INVERSOR NÃO ESTÁ CADASTRADO!")
+  } else {
+    //DADOS DE TARIFA FIOB
+    alert("INVERSOR ATUALIZADO COM SUCESSO!")
+  }
+}
+
+// Inserir novo modulo
+async function insereModulo() {
+  var Fabricante = $('#inputFabricanteModuloConfigInsert')[0].value
+  var Potencia = $('#inputPotenciaModuloConfigInsert')[0].value.replaceAll(",", ".")
+  var Tipo_Cel = $('#inputTipo_CelModuloConfigInsert')[0].value
+  var Tecnologia = $('#inputTecnologiaModuloConfigInsert')[0].value
+  var Peca = $('#inputPecaModuloConfigInsert')[0].value
+  var Vmp = $('#inputVmpModuloConfigInsert')[0].value
+  var Imp = $('#inputImpModuloConfigInsert')[0].value
+  var Voc = $('#inputVocModuloConfigInsert')[0].value
+  var Isc = $('#inputIscModuloConfigInsert')[0].value
+  var Eficiencia = $('#inputEficienciaModuloConfigInsert')[0].value
+  var TPmax = $('#inputTPmaxModuloConfigInsert')[0].value
+  var TVoc = $('#inputTVocModuloConfigInsert')[0].value
+  var TIsc = $('#inputTIscModuloConfigInsert')[0].value
+  var AreaOcupada = $('#inputAreaOcupadaModuloConfigInsert')[0].value
+  var Peso = $('#inputPesoModuloConfigInsert')[0].value
+  var Espessura = $('#inputEspessuraModuloConfigInsert')[0].value.replaceAll(",", ".")
+  var Largura = $('#inputLarguraModuloConfigInsert')[0].value.replaceAll(",", ".")
+  var Altura = $('#inputAlturaModuloConfigInsert')[0].value.replaceAll(",", ".")
+
+  var query = `${Fabricante};${Potencia};${Tipo_Cel};${Tecnologia};${Peca};${Vmp};${Imp};${Voc};${Isc};${Eficiencia};${TPmax};${TVoc};${TIsc};${AreaOcupada};${Peso};${Espessura};${Largura};${Altura};`
+  const data = await fecthPost('/moduloInsert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: MÓDULO JÁ ESTÁ CADASTRADO!")
+  } else {
+    alert("MÓDULO CADASTRADO COM SUCESSO!")
+  }
+}
+// Atualizar dados de modulo
+async function atualizaModulo() {
+  var Fabricante = $('#inputFabricanteModuloConfigEdit')[0].value
+  var Potencia = $('#inputPotenciaModuloConfigEdit')[0].value.replaceAll(",", ".")
+  var Tipo_Cel = $('#inputTipo_CelModuloConfigEdit')[0].value
+  var Tecnologia = $('#inputTecnologiaModuloConfigEdit')[0].value
+  var Peca = $('#inputPecaModuloConfigEdit')[0].value
+  var Vmp = $('#inputVmpModuloConfigEdit')[0].value
+  var Imp = $('#inputImpModuloConfigEdit')[0].value
+  var Voc = $('#inputVocModuloConfigEdit')[0].value
+  var Isc = $('#inputIscModuloConfigEdit')[0].value
+  var Eficiencia = $('#inputEficienciaModuloConfigEdit')[0].value
+  var TPmax = $('#inputTPmaxModuloConfigEdit')[0].value
+  var TVoc = $('#inputTVocModuloConfigEdit')[0].value
+  var TIsc = $('#inputTIscModuloConfigEdit')[0].value
+  var AreaOcupada = $('#inputAreaOcupadaModuloConfigEdit')[0].value
+  var Peso = $('#inputPesoModuloConfigEdit')[0].value
+  var Espessura = $('#inputEspessuraModuloConfigEdit')[0].value.replaceAll(",", ".")
+  var Largura = $('#inputLarguraModuloConfigEdit')[0].value.replaceAll(",", ".")
+  var Altura = $('#inputAlturaModuloConfigEdit')[0].value.replaceAll(",", ".")
+
+  var query = `${Fabricante};${Potencia};${Tipo_Cel};${Tecnologia};${Peca};${Vmp};${Imp};${Voc};${Isc};${Eficiencia};${TPmax};${TVoc};${TIsc};${AreaOcupada};${Peso};${Espessura};${Largura};${Altura};`
+  const data = await fecthPost('/moduloUpdate?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: MÓDULO NÃO ESTÁ CADASTRADO!")
+  } else {
+    //DADOS DE TARIFA FIOB
+    alert("MÓDULO ATUALIZADO COM SUCESSO!")
+  }
+}
+
 // Buscar dados de Modulos
 async function buscaModulo() {
   var peca = $('#inputPecaModuloConfigEdit')[0].value
   var mldGetData = `/mdlDataPeca?name=${peca}`
-  const dataMdlPeca = await fecthGet(mldGetData)
+  const dataMdlPeca = await fetchGet(mldGetData)
   await fillMdlData('ConfigEdit', dataMdlPeca)
 }
 // Buscar dados de Inversores
 async function buscaInversor() {
   var peca = $('#inputPecaInversorConfigEdit')[0].value
   var invGetData = `/invDataPeca?name=${peca}`
-  const dataInvPeca = await fecthGet(invGetData)
+  const dataInvPeca = await fetchGet(invGetData)
   await fillInvData('ConfigEdit', dataInvPeca)
 }
 // Buscar dados de Vendedor
 async function buscaVendedor() {
   var peca = $('#inputVendedorEditar')[0].value
   var vendedorGetData = `/vendedorEditar?name=${peca}`
-  const dataVendedor = await fecthGet(vendedorGetData)
+  const dataVendedor = await fetchGet(vendedorGetData)
   document.getElementById('inputVendedorTelefoneEditar').value = dataVendedor[0].telefone
   document.getElementById('inputVendedorEmailEditar').value = dataVendedor[0].email
 }
@@ -1712,7 +1989,7 @@ async function buscaVendedor() {
 async function buscaTarifaFioB() {
   var peca = $('#inputDistribuidoraTarifaFioBEditar')[0].value
   var fiobGetData = `/tarifaFioBEditar?name=${peca}`
-  const dataFioB = await fecthGet(fiobGetData)
+  const dataFioB = await fetchGet(fiobGetData)
   document.getElementById(`inputEstadoTarifaFioBEditar`).value = dataFioB[0].estado
   document.getElementById(`inputTusdTarifaFioBEditar`).value = dataFioB[0].tusd_fiob
 }
@@ -1720,7 +1997,7 @@ async function buscaTarifaFioB() {
 async function buscaTarifaB3() {
   var peca = $('#inputDistribuidoraTarifaB3Editar')[0].value
   var b3GetData = `/tarifaB3Editar?name=${peca}`
-  const dataB3 = await fecthGet(b3GetData)
+  const dataB3 = await fetchGet(b3GetData)
   document.getElementById(`inputEstadoTarifaB3Editar`).value = dataB3[0].estado
   document.getElementById(`inputTusdTarifaB3Editar`).value = dataB3[0].tusd
   document.getElementById(`inputTeTarifaB3Editar`).value = dataB3[0].te
@@ -1728,7 +2005,13 @@ async function buscaTarifaB3() {
 }
 // BUSCACLIENTE ESTÁ EM OUTRA FUNÇÃO
 //#endregion
-
+$('.onlyDot').on('input', function (e) {
+  this.value = this.value.replaceAll(',', '.');
+  this.value = this.value
+    .replace(/[^0-9.,]/g, '')
+    .replace(/(\..?)\../g, '$1')
+    .replace(/^0[^.]/, '0')
+});
 
 var dataIrr = 0
 // Dados de Latitude e Longitude
@@ -1738,14 +2021,14 @@ async function getLocation() {
   var bairro = document.getElementById('inputBairroDadoTec').value
   var endereco = rua + " " + numero + " " + bairro
   var address = '/lat_lon?name=' + endereco
-  const data = JSON.parse(await fecthGet(address))
+  const data = JSON.parse(await fetchGet(address))
   // var data = await httpGet("/lat_lon")
   document.getElementById("inputLatitudeDadoTec").value = data.lat
   document.getElementById("inputLatitudeOngDadoTec").value = Math.abs(parseFloat(data.lat)) - 5
   document.getElementById("inputLatitudeIntDadoTec").value = `${Math.abs(Math.ceil(data.lat))}`
   document.getElementById("inputLongitudeDadoTec").value = data.lng
   var address = `/irradiationLat_Lon?name=${data.lat};${data.lng}`
-  dataIrr = await fecthGet(address)
+  dataIrr = await fetchGet(address)
   await loadTableData(dataIrr, "bodyIrradiacao")
   hsp = parseFloat(dataIrr[0].annual) / 1000
   document.getElementById('inputHSPDadoTec').value = parseFloat(dataIrr[0].annual) / 1000
@@ -1755,7 +2038,7 @@ async function getLocation() {
 async function getVendedor() {
   var nome = $('#inputVendedor')[0].value
   if (nome != '') {
-    var data = await fecthGet(`/vendedoresData?name=${nome}`)
+    var data = await fetchGet(`/vendedoresData?name=${nome}`)
     var email = data[0].email
     var telefone = data[0].telefone
     $('#inputVendedorTelefone')[0].value = telefone
@@ -1771,10 +2054,30 @@ window.onload = async function (event) {
   await onLoad()
 };
 var optionsVendedores = '`<option selected disabled value= "...">...</option>`'
+var userConnected
+var optionsUsers = '`<option selected disabled value= "...">...</option>`'
 // Ao abrir a página, carrega os clientes do banco de dados
 async function onLoad() {
+  userConnected = await fetchGet("/loginVerifyResult")
+  if (userConnected == 'false') {
+    window.location.replace("/")
+  } else {
+    var userRole1 = await fetchGet(`/getRole?name=${userConnected}`)
+    console.log(userRole1.rows[0].role)
+    userRole = userRole1.rows[0].role
+    await disabledUser(userRole)
+    var users = await fetchGet(`/getUser`)
+    users.forEach(function (item) {
+      if (optionsUsers.indexOf(item["email"]) == -1) {
+        optionsUsers += `<option value= "${item["email"]}">${item["email"]}</option>`;
+      }
+    })
+    document.getElementById("inputEmailUserEdit").innerHTML = optionsUsers
+  }
+
+
   //DADOS DE VENDEDORES
-  var data = await fecthGet("/vendedores")
+  var data = await fetchGet("/vendedores")
   console.log(data)
   data.forEach(function (item) {
     if (optionsVendedores.indexOf(item["nome"]) == -1) {
@@ -1782,14 +2085,14 @@ async function onLoad() {
     }
   });
   //DADOS DE CLIENTES
-  var data = await fecthGet("/cliente")
+  var data = await fetchGet("/cliente")
   data.forEach(function (item) {
     if (optionsClient.indexOf(item["cliente"]) == -1) {
       optionsClient += '<option value="' + item["cliente"] + '" />';
     }
   });
   //DADOS DE DISTRIBUIDORAS
-  var distribuidora = await fecthGet("/distribuidoraData")
+  var distribuidora = await fetchGet("/distribuidoraData")
   distribuidora.forEach(function (item) {
     if (optionsDistribuidora.indexOf(item["distribuidora"]) == -1) {
       optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
@@ -1807,7 +2110,7 @@ async function onLoad() {
 
   //DADOS DE MÓDULOS
   var mldGetData = '/mdlData'
-  const dataMdl = await fecthGet(mldGetData)
+  const dataMdl = await fetchGet(mldGetData)
   dataMdl.forEach(function (item) {
     if (optionsFornMdl.indexOf(item["fornecedor"]) == -1) {
       optionsFornMdl += '<option value="' + item["fornecedor"] + '" />';
@@ -1833,7 +2136,7 @@ async function onLoad() {
   //DADOS DE INVERSORES
 
   var mldGetData = '/invData'
-  const dataInv = await fecthGet(mldGetData)
+  const dataInv = await fetchGet(mldGetData)
   dataInv.forEach(function (item) {
     if (optionsFornInv.indexOf(item["fornecedor"]) == -1) {
       optionsFornInv += '<option value="' + item["fornecedor"] + '" />';
@@ -1862,7 +2165,7 @@ async function onLoad() {
 
   //DADOS DE GREENER E MÃO DE OBRA
   var greenerQuery = '/greener'
-  const greenerDados = await fecthGet(greenerQuery)
+  const greenerDados = await fetchGet(greenerQuery)
   for (let i = 0; i < greenerDados.length; i++) {
     greenerData[greenerDados[i]['name']] = await valNum(greenerDados[i]['value'])
   }
@@ -2113,6 +2416,7 @@ var maxTensaoCCinversor = 0
 var maxCorrenteCCinversor = 0
 var maxCorrenteCAinvesor = 0
 var fornecedorInv = 0
+var potenciaInv = 0
 // PREENCHER OS INPUTS DE INVERSOR
 async function fillInvData(option, dataInvPeca) {
   if (option == 'FILL') {
@@ -2130,6 +2434,7 @@ async function fillInvData(option, dataInvPeca) {
     maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
     fornecedorInv = dataInvPeca[0].fornecedor
     $('#inputFabriInvOrca')[0].value = fornecedorInv
+    potenciaInv = await valNum(dataInvPeca[0].potnomi)
   } else if (option == 'CLEAR') {
     $('#inputFaixaMPPTInversor')[0].value = ''
     $('#inputTensaoCCInversor')[0].value = ''
@@ -2152,6 +2457,13 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputFaixaTensaoInversorConfigEdit')[0].value = dataInvPeca[0].faixatens
     $('#inputCorrenteMaxCCInversorConfigEdit')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversorConfigEdit')[0].value = dataInvPeca[0].correntesaída
+    tensaoCCinversor = await valNum(dataInvPeca[0].tenspart)
+    eficienciaInv = await valNum(dataInvPeca[0].eficiencia)
+    maxTensaoCCinversor = await valNum(dataInvPeca[0].maxtens)
+    maxCorrenteCCinversor = await valNum(dataInvPeca[0].entradaimp)
+    maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
+    fornecedorInv = dataInvPeca[0].fornecedor
+    potenciaInv = await valNum(dataInvPeca[0].potnomi)
   }
 
   await qtdeMdl()
@@ -2162,7 +2474,7 @@ async function fillInvData(option, dataInvPeca) {
 //#endregion
 
 //#region MÉTODOS
-async function fecthGet(url) {
+async function fetchGet(url) {
   const resp = await fetch(url, {
     method: 'GET',
     headers: {
@@ -2228,7 +2540,7 @@ element1.addEventListener('change', async function () {
     optionsTecnMdlNew = ''
     optionsPecaMdlNew = ''
     var mldGetData = '/mdlDataForn?name=' + element1.value
-    const dataMdlForn = await fecthGet(mldGetData)
+    const dataMdlForn = await fetchGet(mldGetData)
     dataMdlForn.forEach(function (item) {
       if (optionsPoteMdlNew.indexOf(item["pmax"]) == -1) {
         optionsPoteMdlNew += '<option value="' + item["pmax"] + '" />';
@@ -2259,7 +2571,7 @@ element2.addEventListener('change', async function () {
   optionsPecaMdlNew = ''
   if (element1.value != '' && element2.value != '') {
     var mldGetData = `/mdlDataPote?name=${element1.value};${element2.value}`
-    const dataMdlPote = await fecthGet(mldGetData)
+    const dataMdlPote = await fetchGet(mldGetData)
     dataMdlPote.forEach(function (item) {
       if (optionsTipoMdlNew.indexOf(item["celulas"]) == -1) {
         optionsTipoMdlNew += '<option value="' + item["celulas"] + '" />';
@@ -2292,7 +2604,7 @@ element3.addEventListener('change', async function () {
   optionsPecaMdlNew = ''
   if (element1.value != '' && element2.value != '' && element3.value != '') {
     var mldGetData = `/mdlDataTipo?name=${element1.value};${element2.value};${element3.value}`
-    const dataMdlTipo = await fecthGet(mldGetData)
+    const dataMdlTipo = await fetchGet(mldGetData)
     dataMdlTipo.forEach(function (item) {
       if (optionsTecnMdlNew.indexOf(item["estilo"]) == -1) {
         optionsTecnMdlNew += '<option value="' + item["estilo"] + '" />';
@@ -2319,7 +2631,7 @@ element4.addEventListener('change', async function () {
   optionsPecaMdlNew = ''
   if (element1.value != '' && element2.value != '' && element3.value != '' && element4.value != '') {
     var mldGetData = `/mdlDataTecn?name=${element1.value};${element2.value};${element3.value};${element4.value}`
-    const dataMdlTecn = await fecthGet(mldGetData)
+    const dataMdlTecn = await fetchGet(mldGetData)
     dataMdlTecn.forEach(function (item) {
       if (optionsPecaMdlNew.indexOf(item["modelo"]) == -1) {
         optionsPecaMdlNew += '<option value="' + item["modelo"] + '" />';
@@ -2341,7 +2653,7 @@ element5.addEventListener('change', async function () {
     await fillMdlData('CLEAR', '')
   } else {
     var mldGetData = `/mdlDataPeca?name=${element5.value}`
-    const dataMdlPeca = await fecthGet(mldGetData)
+    const dataMdlPeca = await fetchGet(mldGetData)
 
     element1.value = dataMdlPeca[0].fornecedor
     element2.value = dataMdlPeca[0].pmax
@@ -2377,7 +2689,7 @@ element6.addEventListener('change', async function () {
     optionsPoteInvNew = ''
     optionsPecaInvNew = ''
     var mldGetData = '/invDataForn?name=' + element6.value
-    const dataInvForn = await fecthGet(mldGetData)
+    const dataInvForn = await fetchGet(mldGetData)
     dataInvForn.forEach(function (item) {
       if (optionsFaseInvNew.indexOf(item["conexaoca"]) == -1) {
         optionsFaseInvNew += '<option value="' + item["conexaoca"] + '" />';
@@ -2413,7 +2725,7 @@ element7.addEventListener('change', async function () {
     optionsPoteInvNew = ''
     optionsPecaInvNew = ''
     var mldGetData = `/invDataFases?name=${element6.value};${element7.value}`
-    const dataInvFase = await fecthGet(mldGetData)
+    const dataInvFase = await fetchGet(mldGetData)
     dataInvFase.forEach(function (item) {
       if (optionsStriInvNew.indexOf(item["mppt"]) == -1) {
         optionsStriInvNew += '<option value="' + item["mppt"] + '" />';
@@ -2452,7 +2764,7 @@ element8.addEventListener('change', async function () {
     optionsPoteInvNew = ''
     optionsPecaInvNew = ''
     var mldGetData = `/invDataStrings?name=${element6.value};${element7.value};${element8.value}`
-    const dataInvStri = await fecthGet(mldGetData)
+    const dataInvStri = await fetchGet(mldGetData)
     dataInvStri.forEach(function (item) {
       if (optionsInveInvNew.indexOf(item["tipo"]) == -1) {
         optionsInveInvNew += '<option value="' + item["tipo"] + '" />';
@@ -2484,7 +2796,7 @@ element9.addEventListener('change', async function () {
     optionsPoteInvNew = ''
     optionsPecaInvNew = ''
     var mldGetData = `/invDataTipo?name=${element6.value};${element7.value};${element8.value};${element9.value}`
-    const dataInvTipo = await fecthGet(mldGetData)
+    const dataInvTipo = await fetchGet(mldGetData)
     dataInvTipo.forEach(function (item) {
       if (optionsPoteInvNew.indexOf(item["potnomi"]) == -1) {
         optionsPoteInvNew += '<option value="' + item["potnomi"] + '" />';
@@ -2510,7 +2822,7 @@ element10.addEventListener('change', async function () {
   if (element6.value != '' && element7.value != '' && element8.value != '' && element9.value != '' && element10.value != '') {
     optionsPecaInvNew = ''
     var mldGetData = `/invDataPote?name=${element6.value};${element7.value};${element8.value};${element9.value};${element10.value}`
-    const dataInvPote = await fecthGet(mldGetData)
+    const dataInvPote = await fetchGet(mldGetData)
     dataInvPote.forEach(function (item) {
       if (optionsPecaInvNew.indexOf(item["modelo"]) == -1) {
         optionsPecaInvNew += '<option value="' + item["modelo"] + '" />';
@@ -2532,7 +2844,7 @@ element11.addEventListener('change', async function () {
     await fillInvData('CLEAR', '')
   } else {
     var invGetData = `/invDataPeca?name=${element11.value}`
-    const dataInvPeca = await fecthGet(invGetData)
+    const dataInvPeca = await fetchGet(invGetData)
 
     element6.value = dataInvPeca[0].fornecedor
     element7.value = dataInvPeca[0].conexaoca
@@ -2775,7 +3087,7 @@ async function fatorK() {
   } else {
     element13.value = element15.value
   }
-  fatorKdata = await fecthGet(`/fatorK?name=${element29.value};${element13.value}`)
+  fatorKdata = await fetchGet(`/fatorK?name=${element29.value};${element13.value}`)
   fatorKVal = await valNum(fatorKdata[0].media)
   element28.value = fatorKdata[0].media
 }
@@ -2880,3 +3192,60 @@ $("input").on('keypress', function (e) {
 }).on('input', function (e) {
   this.value = this.value.replaceAll("%", "")
 });
+var userRole = 'user'
+async function disabledUser(userRole) {
+  console.log(userRole)
+  if (userRole == 'admin') {
+    var listDisabled = [
+      'erpConfig',
+      'vendedoresConfig',
+      'modulosConfig',
+      'inversoresConfig',
+      'fiobConfig',
+      'b3Config',
+      'usuariosConfig'
+    ]
+    for (i = 0; i < listDisabled.length; i++) {
+      var elemento = document.getElementById(listDisabled[i])
+      elemento.classList.remove("disabled");
+    }
+  }
+}
+
+async function insereUsuario() {
+  var Email = $('#inputEmailUser')[0].value
+  var Senha = $('#inputSenhaUser')[0].value
+  var Cargo = $('#inputCargoUser')[0].value
+  if (Email != '' && Senha != '' && Cargo != '') {
+    var r = await fetchGet(`/createUser?name=${Email};${Senha};${Cargo}`)
+    console.log(r)
+    if (r == true) {
+      alert('USUÁRIO CADASTRADO')
+    } else {
+      alert('ERRO: PREENCHA UM EMAIL VÁLIDO E QUE NÃO ESTEJA CADASTRADO!')
+    }
+  } else {
+    alert('POR FAVOR, PREENCHA OS DADOS CORRETAMENTE')
+  }
+}
+async function atualizaUsuario() {
+  var Email = $('#inputEmailUserEdit')[0].value
+  var Cargo = $('#inputCargoUserEdit')[0].value
+  var r = await fetchGet(`/updateUser?name=${Email};${Cargo}`)
+  if (r) {
+    alert('CARGO ATUALIZADO')
+  } else {
+    alert(r)
+  }
+}
+
+async function getRole(valor) {
+  var userRole1 = await fetchGet(`/getRole?name=${valor}`)
+  userRole = userRole1.rows[0].role
+  $('#inputCargoUserEdit')[0].value = userRole
+}
+
+async function deslogar() {
+  var r = await fetchGet(`/loginVerify`)
+  window.location.replace("/")
+}
