@@ -66,13 +66,6 @@ body {
 
 /* CONTAINERS */
 
-.app-container2 {
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
 .app-container {
   width: 95%;
   max-width: 100%;
@@ -128,12 +121,6 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 19%);
   gap: 0px 1.25%;
-}
-
-.container-7-columns {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 2rem 1.2rem;
 }
 
 .container-2-columns {
@@ -196,7 +183,6 @@ body {
   .container-3-columns {
      grid-template-columns: 1fr;
   }
-
   .container-2-columns {
      grid-template-columns: 1fr;
   }
@@ -212,7 +198,6 @@ body {
   .container-3-columns {
      grid-template-columns: 1fr;
   }
-
   .container-2-columns {
      grid-template-columns: 1fr;
   }
