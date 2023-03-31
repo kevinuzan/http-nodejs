@@ -423,6 +423,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 // })
 
+app.post('/saveErp', function(req,res){
+    console.log(req.query.name)
+})
+
 var dataTotalGrafico = ''
 app.get('/downloadImage', function (req, res) {
     var size = req.query.name.split(';')[0]
@@ -489,6 +493,7 @@ app.get('/docxTemplater', function (req, res) {
     var potencia_modulo = req.query.name.split(";")[40]
     var potencia_inversor = req.query.name.split(";")[41]
     var reajuste_tarifa = req.query.name.split(";")[42]
+    
 
     const content = fs.readFileSync(
         path.join(__dirname + '/public/resourceFiles/modelo_proposta_DANIG.docx'),
@@ -508,7 +513,7 @@ app.get('/docxTemplater', function (req, res) {
     //Pass the function that return image size
     opts.getSize = function (img, tagValue, tagName) {
         const sizeObj = sizeOf(img);
-        const forceWidth = 600;
+        const forceWidth = 500;
         const ratio = forceWidth / sizeObj.width;
         return [
             forceWidth,

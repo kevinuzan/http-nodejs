@@ -152,14 +152,17 @@ async function exportData() {
   var finan_120 = finalFinanciamento120.toFixed(2)
   var finan_150 = finalFinanciamento150.toFixed(2)
 
+  var projectName = `PMC_${Number(potTotalOrca).toFixed(2)}_${cliente}`
+
   var mldGetData = `/docxTemplater?name=${cliente};${vendedor};${validade};${vendedor_tel};${vendedor_email};${endereco};${cep};${estimativa_mes};${tipo_telhado};${porcentagem_sistema};${tamanho};${economia_ano};${investimento_inicial};${payback};${gasto_antigo};${gasto_novo};${retorno_anual};${qtde_modulos};${fabricante_inversor};${qtde_inversor};${estrutura_fixa};${area};${fator_simultaneidade};${fator_injetado};${tarifa_imposto};${degradacao_anual};${geracao_anual};${km};${arvores};${co2};${desconto};${valor_desconto};${finan_12};${finan_48};${finan_60};${finan_120};${finan_150};${fabricante_modulo};${modeloMdl};${modeloInv};${potencia_modulo};${potencia_inversor};${reajuste_tarifa}`
   const dataMdlForn = await fetchGet(mldGetData)
   console.log(dataMdlForn)
+  $('#downloadProposta').attr("download", `${projectName}.docx`);
   $('#downloadProposta')[0].click()
 }
 
 async function exportChart() {
-  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 600, height: 300 }).then(
+  await Plotly.toImage('graficoConsumoGeracao', { format: 'png', width: 500, height: 300 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
       var i
@@ -175,7 +178,7 @@ async function exportChart() {
 }
 
 async function exportChart2() {
-  await Plotly.toImage('graficoPayback', { format: 'png', width: 600, height: 300 }).then(
+  await Plotly.toImage('graficoPayback', { format: 'png', width: 500, height: 300 }).then(
     async function (dataUrl) {
       var dataUrl_Final = dataUrl.split(',')[1]
       var i
@@ -230,11 +233,7 @@ async function createCharts() {
 
 
   var dtickUser = 1000000
-  if (soma25Anos / 25 > 1000000) {
-    dtickUser = 1000000
-  } else {
-    dtickUser = 500000
-  }
+
   var layoutPayback = {
     title: 'PAYBACK',
     xaxis: {
@@ -1573,7 +1572,7 @@ var tarifaTotal_cImposto = 0
 // Buscar dados de cliente
 async function buscaCliente(tipo) {
   var nome = document.getElementById(`inputCliente${tipo}`).value
-  const data = await fecthPost('/clienteData?name=' + nome)
+  const data = await fetchPost('/clienteData?name=' + nome)
   consumoInst = await valNum(data[0]["consumo"])
   document.getElementById(`inputTelefone${tipo}`).value = data[0]["telefone"]
   document.getElementById(`inputTelhado${tipo}`).value = data[0]["tipo_telhado"]
@@ -1603,7 +1602,7 @@ async function buscaCliente(tipo) {
   document.getElementById(`inputDistribuidoraTaxacaoFioB`).value = data[0]["distribuidora"]
   porcentagem = data[0]["porcentagem"]
   distribuidora = data[0]["distribuidora"]
-  const tarifaData = await fecthPost(`/tarifaData?name=${data[0]["distribuidora"]}`)
+  const tarifaData = await fetchPost(`/tarifaData?name=${data[0]["distribuidora"]}`)
   pis = await valNum(data[0]["pis"])
   cofins = await valNum(data[0]["cofins"])
   icms = await valNum(data[0]["icms"])
@@ -1674,7 +1673,7 @@ async function insereCliente() {
   var UniCons = document.getElementById(`inputUniConsConfigInsert`).value
   var Bandeira = document.getElementById(`inputBandeiraConfigInsert`).value
   var query = `${nome};${Telefone};${Telhado};${Estado};${Cidade};${Rua};${Numero};${Bairro};${Cep};${Distribuidora};${Icms};${Pis};${Cofins};${Porcentagem};${Area};${Consumo};${Taxa};${IlumPub};${UniCons};${Bandeira};`
-  const data = await fecthPost('/clienteInsert?name=' + query)
+  const data = await fetchPost('/clienteInsert?name=' + query)
   if (data == 'existe') {
     alert("ERRO: CLIENTE JÁ ESTÁ CADASTRADO!")
   } else {
@@ -1714,7 +1713,7 @@ async function atualizaCliente() {
   var UniCons = document.getElementById(`inputUniConsConfigEdit`).value
   var Bandeira = document.getElementById(`inputBandeiraConfigEdit`).value
   var query = `${nome};${Telefone};${Telhado};${Estado};${Cidade};${Rua};${Numero};${Bairro};${Cep};${Distribuidora};${Icms};${Pis};${Cofins};${Porcentagem};${Area};${Consumo};${Taxa};${IlumPub};${UniCons};${Bandeira};`
-  const data = await fecthPost('/clienteUpdate?name=' + query)
+  const data = await fetchPost('/clienteUpdate?name=' + query)
   if (data == 'nexiste') {
     alert("ERRO: CLIENTE NÃO ESTÁ CADASTRADO!")
   } else {
@@ -1735,7 +1734,7 @@ async function insereVendedor() {
   var telefone = document.getElementById(`inputVendedorTelefoneInserir`).value
   var email = document.getElementById(`inputVendedorEmailInserir`).value
   var query = `${vendedor};${telefone};${email}`
-  const data = await fecthPost('/vendedorInsert?name=' + query)
+  const data = await fetchPost('/vendedorInsert?name=' + query)
   if (data == 'existe') {
     alert("ERRO: VENDEDOR JÁ ESTÁ CADASTRADO!")
   } else {
@@ -1757,7 +1756,7 @@ async function atualizaVendedor() {
   var telefone = document.getElementById(`inputVendedorTelefoneEditar`).value
   var email = document.getElementById(`inputVendedorEmailEditar`).value
   var query = `${vendedor};${telefone};${email}`
-  const data = await fecthPost('/vendedorUpdate?name=' + query)
+  const data = await fetchPost('/vendedorUpdate?name=' + query)
   if (data == 'nexiste') {
     alert("ERRO: VENDEDOR NÃO ESTÁ CADASTRADO!")
   } else {
@@ -1782,7 +1781,7 @@ async function insereTarifaB3() {
   var te = document.getElementById(`inputTeTarifaB3Insere`).value
   var s_imposto = document.getElementById(`inputSImpostoTarifaB3Insere`).value
   var query = `${estado};${distribuidora};${tusd};${te};${s_imposto}`
-  const data = await fecthPost('/tarifaB3Insert?name=' + query)
+  const data = await fetchPost('/tarifaB3Insert?name=' + query)
   if (data == 'existe') {
     alert("ERRO: TARIFA B3 JÁ ESTÁ CADASTRADA!")
   } else {
@@ -1807,7 +1806,7 @@ async function atualizaTarifaB3() {
   var te = document.getElementById(`inputTeTarifaB3Editar`).value
   var s_imposto = document.getElementById(`inputSImpostoTarifaB3Editar`).value
   var query = `${estado};${distribuidora};${tusd};${te};${s_imposto}`
-  const data = await fecthPost('/tarifaB3Update?name=' + query)
+  const data = await fetchPost('/tarifaB3Update?name=' + query)
   if (data == 'nexiste') {
     alert("ERRO: TARIFA B3 NÃO ESTÁ CADASTRADA!")
   } else {
@@ -1831,7 +1830,7 @@ async function insereTarifaFioB() {
   var distribuidora = document.getElementById(`inputDistribuidoraTarifaFioBInsere`).value
   var tusd = document.getElementById(`inputTusdTarifaFioBInsere`).value
   var query = `${estado};${distribuidora};${tusd}`
-  const data = await fecthPost('/tarifaFioBInsert?name=' + query)
+  const data = await fetchPost('/tarifaFioBInsert?name=' + query)
   if (data == 'existe') {
     alert("ERRO: TARIFA FIO B JÁ ESTÁ CADASTRADA!")
   } else {
@@ -1844,7 +1843,7 @@ async function atualizaTarifaFioB() {
   var distribuidora = document.getElementById(`inputDistribuidoraTarifaFioBEditar`).value
   var tusd = document.getElementById(`inputTusdTarifaFioBEditar`).value
   var query = `${estado};${distribuidora};${tusd}`
-  const data = await fecthPost('/tarifaFioBUpdate?name=' + query)
+  const data = await fetchPost('/tarifaFioBUpdate?name=' + query)
   if (data == 'nexiste') {
     alert("ERRO: TARIFA FIO B NÃO ESTÁ CADASTRADA!")
   } else {
@@ -1870,7 +1869,7 @@ async function insereInversor() {
   var CorrenteMaxCA = $('#inputCorrenteMaxCAInversorConfigInsert')[0].value
 
   var query = `${Fabricante};${Fases};${Strings};${Tipo};${Potencia};${Peca};${FaixaMPPT};${TensaoCC};${MaxTensaoCC};${Eficiencia};${FaixaTensao};${CorrenteMaxCC};${CorrenteMaxCA}`
-  const data = await fecthPost('/inversorInsert?name=' + query)
+  const data = await fetchPost('/inversorInsert?name=' + query)
   if (data == 'existe') {
     alert("ERRO: INVERSOR JÁ ESTÁ CADASTRADO!")
   } else {
@@ -1894,7 +1893,7 @@ async function atualizaInversor() {
   var CorrenteMaxCA = $('#inputCorrenteMaxCAInversorConfigEdit')[0].value
 
   var query = `${Fabricante};${Fases};${Strings};${Tipo};${Potencia};${Peca};${FaixaMPPT};${TensaoCC};${MaxTensaoCC};${Eficiencia};${FaixaTensao};${CorrenteMaxCC};${CorrenteMaxCA}`
-  const data = await fecthPost('/inversorUpdate?name=' + query)
+  const data = await fetchPost('/inversorUpdate?name=' + query)
   if (data == 'nexiste') {
     alert("ERRO: INVERSOR NÃO ESTÁ CADASTRADO!")
   } else {
@@ -1925,7 +1924,7 @@ async function insereModulo() {
   var Altura = $('#inputAlturaModuloConfigInsert')[0].value.replaceAll(",", ".")
 
   var query = `${Fabricante};${Potencia};${Tipo_Cel};${Tecnologia};${Peca};${Vmp};${Imp};${Voc};${Isc};${Eficiencia};${TPmax};${TVoc};${TIsc};${AreaOcupada};${Peso};${Espessura};${Largura};${Altura};`
-  const data = await fecthPost('/moduloInsert?name=' + query)
+  const data = await fetchPost('/moduloInsert?name=' + query)
   if (data == 'existe') {
     alert("ERRO: MÓDULO JÁ ESTÁ CADASTRADO!")
   } else {
@@ -1954,7 +1953,7 @@ async function atualizaModulo() {
   var Altura = $('#inputAlturaModuloConfigEdit')[0].value.replaceAll(",", ".")
 
   var query = `${Fabricante};${Potencia};${Tipo_Cel};${Tecnologia};${Peca};${Vmp};${Imp};${Voc};${Isc};${Eficiencia};${TPmax};${TVoc};${TIsc};${AreaOcupada};${Peso};${Espessura};${Largura};${Altura};`
-  const data = await fecthPost('/moduloUpdate?name=' + query)
+  const data = await fetchPost('/moduloUpdate?name=' + query)
   if (data == 'nexiste') {
     alert("ERRO: MÓDULO NÃO ESTÁ CADASTRADO!")
   } else {
@@ -2488,7 +2487,7 @@ async function fetchGet(url) {
   return data
 }
 
-async function fecthPost(url) {
+async function fetchPost(url) {
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
@@ -3248,4 +3247,73 @@ async function getRole(valor) {
 async function deslogar() {
   var r = await fetchGet(`/loginVerify`)
   window.location.replace("/")
+}
+
+async function salvarProposta() {
+  //ERP
+  var Cliente = $('#inputCliente')[0].value //CLIENTE  
+  var Vendedor = $('#inputVendedor')[0].value //VENDEDOR 
+  var Ano = $('#inputAno')[0].value //ANO 
+  var RuaDadoTec = $('#inputRuaDadoTec')[0].value //RUA
+  var NumeroDadoTec = $('#inputNumeroDadoTec')[0].value //NUMERO
+  var BairroDadoTec = $('#inputBairroDadoTec')[0].value //BAIRRO
+  var TipoTelhaDadoTec = $('#inputTipoTelhaDadoTec')[0].value //TIPO DE TELHADO
+  var AngTelhaDadoTec = $('#inputAngTelhaDadoTec')[0].value //ANG. DO TELHADO
+  var PosicionamentoDadoTec = $('#inputPosicionamentoDadoTec')[0].value //POSICIONAMENTO
+  //------
+  var PecaModulo = $('#inputPecaModulo')[0].value //PEÇA MÓDULO
+  var TempMediaModulo = $('#inputTempMediaModulo')[0].value //TEMPERATURA MÉDIA LOCAL
+  var Sujeira = $('#inputSujeira')[0].value //SUJEIRA
+  var DegraAnual = $('#inputDegraAnual')[0].value //DEGRADAÇÃO ANUAL
+  //------
+  var PecaInversor = $('#inputPecaInversor')[0].value //PEÇA INVERSOR
+  var QtdeInversor = $('#inputQtdeInversor')[0].value //QUANTIDADE INVERSOR
+  //------
+  var JanConsumo = $('#inputJanConsumo')[0].value //JANEIRO
+  var FevConsumo = $('#inputFevConsumo')[0].value //FEVEREIRO
+  var MarConsumo = $('#inputMarConsumo')[0].value //MARÇO
+  var AbrConsumo = $('#inputAbrConsumo')[0].value //ABRIL
+  var MaiConsumo = $('#inputMaiConsumo')[0].value //MAIO
+  var JunConsumo = $('#inputJunConsumo')[0].value //JUNHO
+  var JulConsumo = $('#inputJulConsumo')[0].value //JULHO
+  var AgoConsumo = $('#inputAgoConsumo')[0].value //AGOSTO
+  var SetConsumo = $('#inputSetConsumo')[0].value //SETEMBRO
+  var OutConsumo = $('#inputOutConsumo')[0].value //OUTUBRO
+  var NovConsumo = $('#inputNovConsumo')[0].value //NOVEMBRO
+  var DezConsumo = $('#inputDezConsumo')[0].value //DEZEMBRO
+  var AddConsumo = $('#inputAddConsumo')[0].value //ADIÇÃO
+  //------
+  //------
+  //ORÇAMENTO
+  //------
+  var PorcentagemFornOrca = $('#inputPorcentagemFornOrca')[0].value //PORCENTAGEM FORNECEDOR
+  //------
+  var MatFotovOrca = $('#inputMatFotovOrca')[0].value //MATERIAL FOTOVOLTAICO
+  var PainelProtOrca = $('#inputPainelProtOrca')[0].value //PAINEL DE PROTEÇÃO CA
+  var StringBoxOrca = $('#inputStringBoxOrca')[0].value //STRING BOX CC
+  var MaterialCaOrca = $('#inputMaterialCaOrca')[0].value //MATERIAL CA
+  var EstruCobertOrca = $('#inputEstruCobertOrca')[0].value //ESTRUTURA COBERTURA
+  var EletrodutoOrca = $('#inputEletrodutoOrca')[0].value //ELETRODUTO
+  var CustoViagemOrca = $('#inputCustoViagemOrca')[0].value //CUSTO VIAGEM
+  var LucroOrca = $('#inputLucroOrca')[0].value //LUCRO
+  var ComissaoOrca = $('#inputComissaoOrca')[0].value //COMISSÃO
+  var ImpostoOrca = $('#inputImpostoOrca')[0].value //IMPOSTO
+  var FornOrca = $('#inputFornOrca')[0].value //FORNECEDOR
+  //------
+  var DescontoOrcaFinal = $('#inputDescontoOrcaFinal')[0].value //DESCONTO
+  //------
+  var InflacaoEletricaFluxo = $('#inputInflacaoEletricaFluxo')[0].value //INFLAÇÃO DA ENERGIA ELÉTRICA (%)
+  //------
+  //TAXAS DE JUROS AO MES
+  var JurosMesFinanciamento1 = $('#inputJurosMesFinanciamento1')[0].value //TAXA JUROS AO MES 1
+  var JurosMesFinanciamento12 = $('#inputJurosMesFinanciamento12')[0].value //TAXA JUROS AO MES 12
+  var JurosMesFinanciamento48 = $('#inputJurosMesFinanciamento48')[0].value //TAXA JUROS AO MES 48
+  var JurosMesFinanciamento60 = $('#inputJurosMesFinanciamento60')[0].value //TAXA JUROS AO MES 60
+  var JurosMesFinanciamento120 = $('#inputJurosMesFinanciamento120')[0].value //TAXA JUROS AO MES 120
+  var JurosMesFinanciamento150 = $('#inputJurosMesFinanciamento150')[0].value //TAXA JUROS AO MES 150
+
+  var projectName = `PMC_${Number(potTotalOrca).toFixed(2)}_${Cliente}`
+
+  var query = `${projectName};${Cliente};${Vendedor};${Ano};${RuaDadoTec};${NumeroDadoTec};${BairroDadoTec};${TipoTelhaDadoTec};${AngTelhaDadoTec};${PosicionamentoDadoTec};${PecaModulo};${TempMediaModulo};${Sujeira};${DegraAnual};${PecaInversor};${QtdeInversor};${JanConsumo};${FevConsumo};${MarConsumo};${AbrConsumo};${MaiConsumo};${JunConsumo};${JulConsumo};${AgoConsumo};${SetConsumo};${OutConsumo};${NovConsumo};${DezConsumo};${AddConsumo};${PorcentagemFornOrca};${MatFotovOrca};${PainelProtOrca};${StringBoxOrca};${MaterialCaOrca};${EstruCobertOrca};${EletrodutoOrca};${CustoViagemOrca};${LucroOrca};${ComissaoOrca};${ImpostoOrca};${FornOrca};${DescontoOrcaFinal};${InflacaoEletricaFluxo};${JurosMesFinanciamento1};${JurosMesFinanciamento12};${JurosMesFinanciamento48};${JurosMesFinanciamento60};${JurosMesFinanciamento120};${JurosMesFinanciamento150};`
+  var r = await fetchPost(`/saveErp?name=${query}`)
 }
