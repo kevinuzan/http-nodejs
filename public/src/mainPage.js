@@ -132,8 +132,8 @@ async function exportData() {
 
   var estrutura_fixa = $('#inputTelhado')[0].value
   var area = areaTotalResumo
-  var fator_simultaneidade = (consumoInst * 100).toFixed(2)
-  var fator_injetado = (100 - (consumoInst * 100)).toFixed(2)
+  var fator_simultaneidade = (consumoInst).toFixed(2)
+  var fator_injetado = (100 - consumoInst).toFixed(2)
   var tarifa_imposto = (tarifaTotal_cImposto).toFixed(2)
   var degradacao_anual = await valNum($('#inputDegraAnual')[0].value) * 100
   var geracao_anual = geracaoAnualResumo + " kWh"
@@ -2055,6 +2055,7 @@ window.onload = async function (event) {
 var optionsVendedores = '`<option selected disabled value= "...">...</option>`'
 var userConnected
 var optionsUsers = '`<option selected disabled value= "...">...</option>`'
+var optionsProject = ''
 // Ao abrir a página, carrega os clientes do banco de dados
 async function onLoad() {
   userConnected = await fetchGet("/loginVerifyResult")
@@ -2073,7 +2074,13 @@ async function onLoad() {
     })
     document.getElementById("inputEmailUserEdit").innerHTML = optionsUsers
   }
-
+  //DADOS DE PROJETO
+  var dataProjeto = await fetchGet('/getProject')
+  dataProjeto.forEach(function (item) {
+    if (optionsProject.indexOf(item["projectname"]) == -1) {
+      optionsProject += '<option value="' + item["projectname"] + '" />';
+    }
+  })
 
   //DADOS DE VENDEDORES
   var data = await fetchGet("/vendedores")
@@ -2098,6 +2105,7 @@ async function onLoad() {
     }
   });
 
+  document.getElementById("projectDataList").innerHTML = optionsProject
   document.getElementById("inputVendedor").innerHTML = optionsVendedores
   document.getElementById("inputVendedorEditarList").innerHTML = optionsVendedores
   document.getElementById("inputClienteList").innerHTML = optionsClient
@@ -3252,68 +3260,87 @@ async function deslogar() {
 async function salvarProposta() {
   //ERP
   var Cliente = $('#inputCliente')[0].value //CLIENTE  
-  var Vendedor = $('#inputVendedor')[0].value //VENDEDOR 
-  var Ano = $('#inputAno')[0].value //ANO 
-  var RuaDadoTec = $('#inputRuaDadoTec')[0].value //RUA
-  var NumeroDadoTec = $('#inputNumeroDadoTec')[0].value //NUMERO
-  var BairroDadoTec = $('#inputBairroDadoTec')[0].value //BAIRRO
-  var TipoTelhaDadoTec = $('#inputTipoTelhaDadoTec')[0].value //TIPO DE TELHADO
-  var AngTelhaDadoTec = $('#inputAngTelhaDadoTec')[0].value //ANG. DO TELHADO
-  var PosicionamentoDadoTec = $('#inputPosicionamentoDadoTec')[0].value //POSICIONAMENTO
-  //------
-  var PecaModulo = $('#inputPecaModulo')[0].value //PEÇA MÓDULO
-  var TempMediaModulo = $('#inputTempMediaModulo')[0].value //TEMPERATURA MÉDIA LOCAL
-  var Sujeira = $('#inputSujeira')[0].value //SUJEIRA
-  var DegraAnual = $('#inputDegraAnual')[0].value //DEGRADAÇÃO ANUAL
-  //------
-  var PecaInversor = $('#inputPecaInversor')[0].value //PEÇA INVERSOR
-  var QtdeInversor = $('#inputQtdeInversor')[0].value //QUANTIDADE INVERSOR
-  //------
-  var JanConsumo = $('#inputJanConsumo')[0].value //JANEIRO
-  var FevConsumo = $('#inputFevConsumo')[0].value //FEVEREIRO
-  var MarConsumo = $('#inputMarConsumo')[0].value //MARÇO
-  var AbrConsumo = $('#inputAbrConsumo')[0].value //ABRIL
-  var MaiConsumo = $('#inputMaiConsumo')[0].value //MAIO
-  var JunConsumo = $('#inputJunConsumo')[0].value //JUNHO
-  var JulConsumo = $('#inputJulConsumo')[0].value //JULHO
-  var AgoConsumo = $('#inputAgoConsumo')[0].value //AGOSTO
-  var SetConsumo = $('#inputSetConsumo')[0].value //SETEMBRO
-  var OutConsumo = $('#inputOutConsumo')[0].value //OUTUBRO
-  var NovConsumo = $('#inputNovConsumo')[0].value //NOVEMBRO
-  var DezConsumo = $('#inputDezConsumo')[0].value //DEZEMBRO
-  var AddConsumo = $('#inputAddConsumo')[0].value //ADIÇÃO
-  //------
-  //------
-  //ORÇAMENTO
-  //------
-  var PorcentagemFornOrca = $('#inputPorcentagemFornOrca')[0].value //PORCENTAGEM FORNECEDOR
-  //------
-  var MatFotovOrca = $('#inputMatFotovOrca')[0].value //MATERIAL FOTOVOLTAICO
-  var PainelProtOrca = $('#inputPainelProtOrca')[0].value //PAINEL DE PROTEÇÃO CA
-  var StringBoxOrca = $('#inputStringBoxOrca')[0].value //STRING BOX CC
-  var MaterialCaOrca = $('#inputMaterialCaOrca')[0].value //MATERIAL CA
-  var EstruCobertOrca = $('#inputEstruCobertOrca')[0].value //ESTRUTURA COBERTURA
-  var EletrodutoOrca = $('#inputEletrodutoOrca')[0].value //ELETRODUTO
-  var CustoViagemOrca = $('#inputCustoViagemOrca')[0].value //CUSTO VIAGEM
-  var LucroOrca = $('#inputLucroOrca')[0].value //LUCRO
-  var ComissaoOrca = $('#inputComissaoOrca')[0].value //COMISSÃO
-  var ImpostoOrca = $('#inputImpostoOrca')[0].value //IMPOSTO
-  var FornOrca = $('#inputFornOrca')[0].value //FORNECEDOR
-  //------
-  var DescontoOrcaFinal = $('#inputDescontoOrcaFinal')[0].value //DESCONTO
-  //------
-  var InflacaoEletricaFluxo = $('#inputInflacaoEletricaFluxo')[0].value //INFLAÇÃO DA ENERGIA ELÉTRICA (%)
-  //------
-  //TAXAS DE JUROS AO MES
-  var JurosMesFinanciamento1 = $('#inputJurosMesFinanciamento1')[0].value //TAXA JUROS AO MES 1
-  var JurosMesFinanciamento12 = $('#inputJurosMesFinanciamento12')[0].value //TAXA JUROS AO MES 12
-  var JurosMesFinanciamento48 = $('#inputJurosMesFinanciamento48')[0].value //TAXA JUROS AO MES 48
-  var JurosMesFinanciamento60 = $('#inputJurosMesFinanciamento60')[0].value //TAXA JUROS AO MES 60
-  var JurosMesFinanciamento120 = $('#inputJurosMesFinanciamento120')[0].value //TAXA JUROS AO MES 120
-  var JurosMesFinanciamento150 = $('#inputJurosMesFinanciamento150')[0].value //TAXA JUROS AO MES 150
+  if (Cliente != '') {
+    var Vendedor = $('#inputVendedor')[0].value //VENDEDOR 
+    var Ano = $('#inputAno')[0].value //ANO 
+    var RuaDadoTec = $('#inputRuaDadoTec')[0].value //RUA
+    var NumeroDadoTec = $('#inputNumeroDadoTec')[0].value //NUMERO
+    var BairroDadoTec = $('#inputBairroDadoTec')[0].value //BAIRRO
+    var TipoTelhaDadoTec = $('#inputTipoTelhaDadoTec')[0].value //TIPO DE TELHADO
+    var AngTelhaDadoTec = $('#inputAngTelhaDadoTec')[0].value //ANG. DO TELHADO
+    var PosicionamentoDadoTec = $('#inputPosicionamentoDadoTec')[0].value //POSICIONAMENTO
+    //------
+    var PecaModulo = $('#inputPecaModulo')[0].value //PEÇA MÓDULO
+    var TempMediaModulo = $('#inputTempMediaModulo')[0].value //TEMPERATURA MÉDIA LOCAL
+    var Sujeira = $('#inputSujeira')[0].value //SUJEIRA
+    var DegraAnual = $('#inputDegraAnual')[0].value //DEGRADAÇÃO ANUAL
+    //------
+    var PecaInversor = $('#inputPecaInversor')[0].value //PEÇA INVERSOR
+    var QtdeInversor = $('#inputQtdeInversor')[0].value //QUANTIDADE INVERSOR
+    //------
+    var JanConsumo = $('#inputJanConsumo')[0].value //JANEIRO
+    var FevConsumo = $('#inputFevConsumo')[0].value //FEVEREIRO
+    var MarConsumo = $('#inputMarConsumo')[0].value //MARÇO
+    var AbrConsumo = $('#inputAbrConsumo')[0].value //ABRIL
+    var MaiConsumo = $('#inputMaiConsumo')[0].value //MAIO
+    var JunConsumo = $('#inputJunConsumo')[0].value //JUNHO
+    var JulConsumo = $('#inputJulConsumo')[0].value //JULHO
+    var AgoConsumo = $('#inputAgoConsumo')[0].value //AGOSTO
+    var SetConsumo = $('#inputSetConsumo')[0].value //SETEMBRO
+    var OutConsumo = $('#inputOutConsumo')[0].value //OUTUBRO
+    var NovConsumo = $('#inputNovConsumo')[0].value //NOVEMBRO
+    var DezConsumo = $('#inputDezConsumo')[0].value //DEZEMBRO
+    var AddConsumo = $('#inputAddConsumo')[0].value //ADIÇÃO
+    //------
+    //------
+    //ORÇAMENTO
+    //------
+    var PorcentagemFornOrca = $('#inputPorcentagemFornOrca')[0].value //PORCENTAGEM FORNECEDOR
+    //------
+    var MatFotovOrca = $('#inputMatFotovOrca')[0].value //MATERIAL FOTOVOLTAICO
+    var PainelProtOrca = $('#inputPainelProtOrca')[0].value //PAINEL DE PROTEÇÃO CA
+    var StringBoxOrca = $('#inputStringBoxOrca')[0].value //STRING BOX CC
+    var MaterialCaOrca = $('#inputMaterialCaOrca')[0].value //MATERIAL CA
+    var EstruCobertOrca = $('#inputEstruCobertOrca')[0].value //ESTRUTURA COBERTURA
+    var EletrodutoOrca = $('#inputEletrodutoOrca')[0].value //ELETRODUTO
+    var CustoViagemOrca = $('#inputCustoViagemOrca')[0].value //CUSTO VIAGEM
+    var LucroOrca = $('#inputLucroOrca')[0].value //LUCRO
+    var ComissaoOrca = $('#inputComissaoOrca')[0].value //COMISSÃO
+    var ImpostoOrca = $('#inputImpostoOrca')[0].value //IMPOSTO
+    var FornOrca = $('#inputFornOrca')[0].value //FORNECEDOR
+    //------
+    var DescontoOrcaFinal = $('#inputDescontoOrcaFinal')[0].value //DESCONTO
+    //------
+    var InflacaoEletricaFluxo = $('#inputInflacaoEletricaFluxo')[0].value //INFLAÇÃO DA ENERGIA ELÉTRICA (%)
+    //------
+    //TAXAS DE JUROS AO MES
+    var JurosMesFinanciamento1 = $('#inputJurosMesFinanciamento1')[0].value //TAXA JUROS AO MES 1
+    var JurosMesFinanciamento12 = $('#inputJurosMesFinanciamento12')[0].value //TAXA JUROS AO MES 12
+    var JurosMesFinanciamento48 = $('#inputJurosMesFinanciamento48')[0].value //TAXA JUROS AO MES 48
+    var JurosMesFinanciamento60 = $('#inputJurosMesFinanciamento60')[0].value //TAXA JUROS AO MES 60
+    var JurosMesFinanciamento120 = $('#inputJurosMesFinanciamento120')[0].value //TAXA JUROS AO MES 120
+    var JurosMesFinanciamento150 = $('#inputJurosMesFinanciamento150')[0].value //TAXA JUROS AO MES 150
 
-  var projectName = `PMC_${Number(potTotalOrca).toFixed(2)}_${Cliente}`
+    var projectName = `PMC_${Number(potTotalOrca).toFixed(2)}_${Cliente}`
 
-  var query = `${projectName};${Cliente};${Vendedor};${Ano};${RuaDadoTec};${NumeroDadoTec};${BairroDadoTec};${TipoTelhaDadoTec};${AngTelhaDadoTec};${PosicionamentoDadoTec};${PecaModulo};${TempMediaModulo};${Sujeira};${DegraAnual};${PecaInversor};${QtdeInversor};${JanConsumo};${FevConsumo};${MarConsumo};${AbrConsumo};${MaiConsumo};${JunConsumo};${JulConsumo};${AgoConsumo};${SetConsumo};${OutConsumo};${NovConsumo};${DezConsumo};${AddConsumo};${PorcentagemFornOrca};${MatFotovOrca};${PainelProtOrca};${StringBoxOrca};${MaterialCaOrca};${EstruCobertOrca};${EletrodutoOrca};${CustoViagemOrca};${LucroOrca};${ComissaoOrca};${ImpostoOrca};${FornOrca};${DescontoOrcaFinal};${InflacaoEletricaFluxo};${JurosMesFinanciamento1};${JurosMesFinanciamento12};${JurosMesFinanciamento48};${JurosMesFinanciamento60};${JurosMesFinanciamento120};${JurosMesFinanciamento150};`
-  var r = await fetchPost(`/saveErp?name=${query}`)
+    var query = `${projectName};${Cliente};${Vendedor};${Ano};${RuaDadoTec};${NumeroDadoTec};${BairroDadoTec};${TipoTelhaDadoTec};${AngTelhaDadoTec};${PosicionamentoDadoTec};${PecaModulo};${TempMediaModulo};${Sujeira};${DegraAnual};${PecaInversor};${QtdeInversor};${JanConsumo};${FevConsumo};${MarConsumo};${AbrConsumo};${MaiConsumo};${JunConsumo};${JulConsumo};${AgoConsumo};${SetConsumo};${OutConsumo};${NovConsumo};${DezConsumo};${AddConsumo};${PorcentagemFornOrca};${MatFotovOrca};${PainelProtOrca};${StringBoxOrca};${MaterialCaOrca};${EstruCobertOrca};${EletrodutoOrca};${CustoViagemOrca};${LucroOrca};${ComissaoOrca};${ImpostoOrca};${FornOrca};${DescontoOrcaFinal};${InflacaoEletricaFluxo};${JurosMesFinanciamento1};${JurosMesFinanciamento12};${JurosMesFinanciamento48};${JurosMesFinanciamento60};${JurosMesFinanciamento120};${JurosMesFinanciamento150}`
+    var r = await fetchPost(`/saveErp?name=${query}`)
+    console.log(r)
+    if (r == 'updated') {
+      alert('PROPOSTA ATUALIZADA!')
+    } else if (r == 'inserted') {
+      alert('PROPOSTA INSERIDA!')
+    } else {
+      alert('ERROR: ' + r)
+    }
+  } else {
+    alert('SELECIONE AO MENOS O CLIENTE PARA SALVAR A PROPOSTA!')
+  }
+}
+
+async function openProject(){
+  var selected_Project = $('#projectData')[0].value
+  var r = await fetchGet(`/getProjectData?name=${selected_Project}`)
+  console.log(r)
+  await closeModal()
 }

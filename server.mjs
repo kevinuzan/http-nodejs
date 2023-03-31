@@ -365,10 +365,8 @@ async function updatePostgre(csv, query, data) {
         });
         // queryAux = queryAux.slice(0, -2)
         var queryFinal = query + queryAux
-        console.log(queryFinal)
         try {
             var { rows } = await pgClient.query(queryFinal)
-            console.log("oi")
             return true
         } catch (e) {
             console.log(e)
@@ -391,7 +389,6 @@ function base64ToArrayBuffer(base64) {
         var ascii = binaryString.charCodeAt(i);
         bytes[i] = ascii;
     }
-    // console.log(bytes)
     return bytes;
 }
 
@@ -410,21 +407,168 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
-// app.post('/testeImagem', function (req, res) {
-//     const form = formidable({ multiples: true });
+async function saveDataPostgre(arrayData) {
+    var listaHeader = [
+        'projectname',
+        'cliente',
+        'vendedor',
+        'ano',
+        'rua',
+        'numero',
+        'bairro',
+        'tipo_telhado',
+        'ang_telhado',
+        'posicionamento',
+        'pecamdl',
+        'temp_mdl',
+        'sujeira',
+        'degra_anual',
+        'pecainv',
+        'qtdeinv',
+        'jan_consumo',
+        'fev_consumo',
+        'mar_consumo',
+        'abr_consumo',
+        'mai_consumo',
+        'jun_consumo',
+        'jul_consumo',
+        'ago_consumo',
+        'set_consumo',
+        'out_consumo',
+        'nov_consumo',
+        'dez_consumo',
+        'add_consumo',
+        'porcentagem_forn',
+        'mat_fotov',
+        'painel_prot',
+        'string_box',
+        'material_ca',
+        'estrutura_cob',
+        'eletroduto',
+        'custo_viagem',
+        'lucro',
+        'comissao',
+        'imposto',
+        'fornecedor_orca',
+        'desconto',
+        'inflacao_eletrica',
+        'juros_1',
+        'juros_12',
+        'juros_48',
+        'juros_60',
+        'juros_120',
+        'juros_150'
+    ]
+    var checkQuery = `select projectname from projectdata where projectname = '${arrayData[0]}'`
+    var { rows } = await pgClient.query(checkQuery)
+    console.log(rows)
+    if (rows.length == 0) {
+        var queryUpdate = 'insert into projectdata values ('
+        for (var i = 0; i < arrayData.length; i++) {
+            queryUpdate += `'${arrayData[i]}', `
+        }
+        queryUpdate = queryUpdate.slice(0, -2)
+        queryUpdate += ')'
+        try {
+            var { rows } = await pgClient.query(queryUpdate)
+            return 'inserted'
+        } catch (e) {
+            return e
+        }
+    } else {
+        var queryUpdate = 'update projectdata '
+        for (var i = 1; i < arrayData.length; i++) {
+            queryUpdate += `set ${listaHeader[i]} = '${arrayData[i]}', `
+        }
+        queryUpdate = queryUpdate.slice(0, -2)
+        queryUpdate += `where projectname = '${projectname}'`
+        try {
+            var { rows } = await pgClient.query(queryUpdate)
+            return 'updated'
+        } catch (e) {
+            return e
+        }
+    }
+}
 
-//     form.parse(req, (err, fields, files) => {
-//         if (err) {
-//             console.log(err);
-//             return;
-//         }
-//         res.json({ fields, files });
-//     });
+async function getProject() {
+    var checkQuery = `select projectname from projectdata`
+    var { rows } = await pgClient.query(checkQuery)
+    return rows
+}
 
-// })
+async function getProjectData(project) {
+    var checkQuery = `select * from projectdata where projectname = '${project}'`
+    var { rows } = await pgClient.query(checkQuery)
+    return rows
+}
 
-app.post('/saveErp', function(req,res){
-    console.log(req.query.name)
+app.post('/saveErp', async function (req, res) {
+    // var projectName = req.query.name.split(";")[0]
+    // var Cliente = req.query.name.split(";")[1]
+    // var Vendedor = req.query.name.split(";")[2]
+    // var Ano = req.query.name.split(";")[3]
+    // var RuaDadoTec = req.query.name.split(";")[4]
+    // var NumeroDadoTec = req.query.name.split(";")[5]
+    // var BairroDadoTec = req.query.name.split(";")[6]
+    // var TipoTelhaDadoTec = req.query.name.split(";")[7]
+    // var AngTelhaDadoTec = req.query.name.split(";")[8]
+    // var PosicionamentoDadoTec = req.query.name.split(";")[9]
+    // var PecaModulo = req.query.name.split(";")[10]
+    // var TempMediaModulo = req.query.name.split(";")[11]
+    // var Sujeira = req.query.name.split(";")[12]
+    // var DegraAnual = req.query.name.split(";")[13]
+    // var PecaInversor = req.query.name.split(";")[14]
+    // var QtdeInversor = req.query.name.split(";")[15]
+    // var JanConsumo = req.query.name.split(";")[16]
+    // var FevConsumo = req.query.name.split(";")[17]
+    // var MarConsumo = req.query.name.split(";")[18]
+    // var AbrConsumo = req.query.name.split(";")[19]
+    // var MaiConsumo = req.query.name.split(";")[20]
+    // var JunConsumo = req.query.name.split(";")[21]
+    // var JulConsumo = req.query.name.split(";")[22]
+    // var AgoConsumo = req.query.name.split(";")[23]
+    // var SetConsumo = req.query.name.split(";")[24]
+    // var OutConsumo = req.query.name.split(";")[25]
+    // var NovConsumo = req.query.name.split(";")[26]
+    // var DezConsumo = req.query.name.split(";")[27]
+    // var AddConsumo = req.query.name.split(";")[28]
+    // var PorcentagemFornOrca = req.query.name.split(";")[29]
+    // var MatFotovOrca = req.query.name.split(";")[30]
+    // var PainelProtOrca = req.query.name.split(";")[31]
+    // var StringBoxOrca = req.query.name.split(";")[32]
+    // var MaterialCaOrca = req.query.name.split(";")[33]
+    // var EstruCobertOrca = req.query.name.split(";")[34]
+    // var EletrodutoOrca = req.query.name.split(";")[35]
+    // var CustoViagemOrca = req.query.name.split(";")[36]
+    // var LucroOrca = req.query.name.split(";")[37]
+    // var ComissaoOrca = req.query.name.split(";")[38]
+    // var ImpostoOrca = req.query.name.split(";")[39]
+    // var FornOrca = req.query.name.split(";")[40]
+    // var DescontoOrcaFinal = req.query.name.split(";")[41]
+    // var InflacaoEletricaFluxo = req.query.name.split(";")[42]
+    // var JurosMesFinanciamento1 = req.query.name.split(";")[43]
+    // var JurosMesFinanciamento12 = req.query.name.split(";")[44]
+    // var JurosMesFinanciamento48 = req.query.name.split(";")[45]
+    // var JurosMesFinanciamento60 = req.query.name.split(";")[46]
+    // var JurosMesFinanciamento120 = req.query.name.split(";")[47]
+    // var JurosMesFinanciamento150 = req.query.name.split(";")[48]
+
+    var dataTotal = req.query.name.split(";")
+
+    var r = await saveDataPostgre(dataTotal)
+    res.json(r)
+})
+
+app.get('/getProject', async function (req, res) {
+    var r = await getProject()
+    res.json(r)
+})
+
+app.get('/getProjectData', async function (req, res) {
+    var project = req.query.name
+    var r = await getProjectData(project)
+    res.json(r)
 })
 
 var dataTotalGrafico = ''
@@ -437,7 +581,6 @@ app.get('/downloadImage', function (req, res) {
         dataTotalGrafico += data.replaceAll(" ", "").replaceAll("\n", "")
         resposta = false
     }
-    console.log(dataTotalGrafico.length, Number(size))
     if (dataTotalGrafico.length >= Number(size)) {
         var base64Data = dataTotalGrafico
         fs.writeFile(path.join(__dirname + `/public/temp_folder/${filename}.png`), base64Data, 'base64', function (err) {
@@ -493,7 +636,7 @@ app.get('/docxTemplater', function (req, res) {
     var potencia_modulo = req.query.name.split(";")[40]
     var potencia_inversor = req.query.name.split(";")[41]
     var reajuste_tarifa = req.query.name.split(";")[42]
-    
+
 
     const content = fs.readFileSync(
         path.join(__dirname + '/public/resourceFiles/modelo_proposta_DANIG.docx'),
@@ -608,13 +751,10 @@ app.get('/updateTask', async function (req, res) {
         dataTotalUpdate += data
         resposta = false
     }
-    console.log(dataTotalUpdate, dataTotalUpdate.length, Number(size))
     if (dataTotalUpdate.length >= Number(size)) {
-        // console.log(dataTotalUpdate)
         dataTotalUpdate = JSON.parse(dataTotalUpdate)
         var csv = ''
         var query = ''
-        console.log(option)
         if (option == 'tarifab3') {
             csv = 'distribuidora_TB3.csv'
             query = ""
@@ -974,7 +1114,6 @@ app.post('/moduloInsert', async function (req, res) {
         var Altura = req.query.name.split(';')[17]
 
         var query = `insert into modulos values ('${id}','${Fabricante}','','${modelo}','${Potencia}','${Vmp}','${Imp}','${Voc}','${Isc}','${Eficiencia}','${TPmax}','${TVoc}','${TIsc}','${Altura}','${Largura}','${Espessura}','${AreaOcupada}','${Tipo_Cel}','${Tecnologia}','${Peso}')`
-        console.log(query)
         var { rows } = await pgClient.query(query)
         res.json(rows)
     } else {
@@ -1006,7 +1145,6 @@ app.post('/moduloUpdate', async function (req, res) {
         var Altura = req.query.name.split(';')[17]
 
         var query = `update modulos set fornecedor = '${Fabricante}', pmax = '${Potencia}', vmp = '${Vmp}', imp = '${Imp}', voc = '${Voc}', isc = '${Isc}', eficiencia = '${Eficiencia}', tpmax = '${TPmax}', tvoc = '${TVoc}', tisc = '${TIsc}', altura = '${Altura}', largura = '${Largura}', espessura = '${Espessura}', area = '${AreaOcupada}', celulas = '${Tipo_Cel}', estilo = '${Tecnologia}', peso = '${Peso}' WHERE LOWER(modelo) = LOWER('${modelo}')`
-        console.log(query)
         var { rows } = await pgClient.query(query)
         // const { rows } = await pool.query(query)
         res.json(rows)
@@ -1171,7 +1309,6 @@ app.get('/greener', async function (req, res) {
 app.get('/updateGreener', async function (req, res) {
     try {
         var greenerData = JSON.parse(req.query.name)
-        console.log(greenerData)
         var sizeGreener = Object.keys(greenerData)
         var queryAux = `update greener_orca as g set 
             value = u.value from (values `
@@ -1181,7 +1318,6 @@ app.get('/updateGreener', async function (req, res) {
         queryAux = queryAux.slice(0, -1)
         queryAux += `) as u(name, value)
             where g.name = u.name`
-        console.log(queryAux)
         var { rows } = await pgClient.query(queryAux)
         res.json(true)
     } catch (err) {

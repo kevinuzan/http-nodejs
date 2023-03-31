@@ -14,11 +14,13 @@
   background: var(--front-card);
   color: white;
   box-shadow: 0 3px 10px rgba(0,0,0 .15);
+  cursor: pointer;
 }
 
 .btn-app.btn-app-sm {
   font-size: .8rem;
   padding: .2rem .9rem;
+  cursor: pointer;
 }
 
 .btn-app:hover {
@@ -43,6 +45,7 @@
 .btn-fp {
   width: 25%; 
   margin: auto;
+  cursor: pointer;
 }
 
 @media(max-width: 800px) {
