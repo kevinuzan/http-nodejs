@@ -80,13 +80,11 @@ body {
   max-width: 80%;
   margin: auto;
   padding: 8px;
-  /* margin-left: auto;
-  margin-right: auto; */
 }
 
 .container-2-columns {
   display: grid;
-  width: 80%;
+  width: 100%;
   margin: auto;
   grid-template-columns: repeat(2, 0fr);
   gap: 0rem 0rem;
@@ -105,10 +103,10 @@ body {
 }
 
 .container-3-columns select{
-  width: 350px;
+  width: 100%;
 }
 .container-3-columns datalist{
-  width: 350px;
+  width: 33%;
 }
 
 .container-4-columns {
@@ -131,6 +129,14 @@ body {
 
 @media(max-width: 800px) {
   .container-2-columns {
+    width: 100%;
+    gap: 1rem 1.2rem;
+    margin: auto;
+  }
+}
+
+@media(max-width: 800px) {
+  .container-3-columns {
     width: 100%;
     gap: 1rem 1.2rem;
     margin: auto;
