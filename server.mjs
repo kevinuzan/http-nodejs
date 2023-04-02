@@ -476,12 +476,13 @@ async function saveDataPostgre(arrayData) {
             return e
         }
     } else {
-        var queryUpdate = 'update projectdata '
+        var queryUpdate = 'update projectdata set'
         for (var i = 1; i < arrayData.length; i++) {
-            queryUpdate += `set ${listaHeader[i]} = '${arrayData[i]}', `
+            queryUpdate += ` ${listaHeader[i]} = '${arrayData[i]}', `
         }
         queryUpdate = queryUpdate.slice(0, -2)
-        queryUpdate += `where projectname = '${projectname}'`
+        queryUpdate += ` where projectname = '${arrayData[0]}'`
+        console.log(queryUpdate)
         try {
             var { rows } = await pgClient.query(queryUpdate)
             return 'updated'

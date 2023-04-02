@@ -3338,9 +3338,164 @@ async function salvarProposta() {
   }
 }
 
-async function openProject(){
+async function openProject() {
   var selected_Project = $('#projectData')[0].value
   var r = await fetchGet(`/getProjectData?name=${selected_Project}`)
   console.log(r)
+  var projectname = r[0].projectname
+  var cliente = r[0].cliente
+  var vendedor = r[0].vendedor
+  var ano = r[0].ano
+  var rua = r[0].rua
+  var numero = r[0].numero
+  var bairro = r[0].bairro
+  var tipo_telhado = r[0].tipo_telhado
+  var ang_telhado = r[0].ang_telhado
+  var posicionamento = r[0].posicionamento
+  var pecamdl = r[0].pecamdl
+  var temp_mdl = r[0].temp_mdl
+  var sujeira = r[0].sujeira
+  var degra_anual = r[0].degra_anual
+  var pecainv = r[0].pecainv
+  var qtdeinv = r[0].qtdeinv
+  var jan_consumo = r[0].jan_consumo
+  var fev_consumo = r[0].fev_consumo
+  var mar_consumo = r[0].mar_consumo
+  var abr_consumo = r[0].abr_consumo
+  var mai_consumo = r[0].mai_consumo
+  var jun_consumo = r[0].jun_consumo
+  var jul_consumo = r[0].jul_consumo
+  var ago_consumo = r[0].ago_consumo
+  var set_consumo = r[0].set_consumo
+  var out_consumo = r[0].out_consumo
+  var nov_consumo = r[0].nov_consumo
+  var dez_consumo = r[0].dez_consumo
+  var add_consumo = r[0].add_consumo
+  var porcentagem_forn = r[0].porcentagem_forn
+  var mat_fotov = r[0].mat_fotov
+  var painel_prot = r[0].painel_prot
+  var string_box = r[0].string_box
+  var material_ca = r[0].material_ca
+  var estrutura_cob = r[0].estrutura_cob
+  var eletroduto = r[0].eletroduto
+  var custo_viagem = r[0].custo_viagem
+  var lucro = r[0].lucro
+  var comissao = r[0].comissao
+  var imposto = r[0].imposto
+  var fornecedor_orca = r[0].fornecedor_orca
+  var desconto = r[0].desconto
+  var inflacao_eletrica = r[0].inflacao_eletrica
+  var juros_1 = r[0].juros_1
+  var juros_12 = r[0].juros_12
+  var juros_48 = r[0].juros_48
+  var juros_60 = r[0].juros_60
+  var juros_120 = r[0].juros_120
+  var juros_150 = r[0].juros_150
+
+  $('#inputCliente')[0].value = r[0].cliente
+  $('#inputVendedor')[0].value = r[0].vendedor
+  $('#inputAno')[0].value = r[0].ano
+  $('#inputRuaDadoTec')[0].value = r[0].rua
+  $('#inputNumeroDadoTec')[0].value = r[0].numero
+  $('#inputBairroDadoTec')[0].value = r[0].bairro
+  $('#inputTipoTelhaDadoTec')[0].value = r[0].tipo_telhado
+  $('#inputAngTelhaDadoTec')[0].value = r[0].ang_telhado
+  $('#inputPosicionamentoDadoTec')[0].value = r[0].posicionamento
+  $('#inputPecaModulo')[0].value = r[0].pecamdl
+  $('#inputTempMediaModulo')[0].value = r[0].temp_mdl
+  $('#inputSujeira')[0].value = r[0].sujeira
+  $('#inputDegraAnual')[0].value = r[0].degra_anual
+  $('#inputPecaInversor')[0].value = r[0].pecainv
+  $('#inputQtdeInversor')[0].value = r[0].qtdeinv
+  $('#inputJanConsumo')[0].value = r[0].jan_consumo
+  $('#inputFevConsumo')[0].value = r[0].fev_consumo
+  $('#inputMarConsumo')[0].value = r[0].mar_consumo
+  $('#inputAbrConsumo')[0].value = r[0].abr_consumo
+  $('#inputMaiConsumo')[0].value = r[0].mai_consumo
+  $('#inputJunConsumo')[0].value = r[0].jun_consumo
+  $('#inputJulConsumo')[0].value = r[0].jul_consumo
+  $('#inputAgoConsumo')[0].value = r[0].ago_consumo
+  $('#inputSetConsumo')[0].value = r[0].set_consumo
+  $('#inputOutConsumo')[0].value = r[0].out_consumo
+  $('#inputNovConsumo')[0].value = r[0].nov_consumo
+  $('#inputDezConsumo')[0].value = r[0].dez_consumo
+  $('#inputAddConsumo')[0].value = r[0].add_consumo
+  $('#inputPorcentagemFornOrca')[0].value = r[0].porcentagem_forn
+  $('#inputMatFotovOrca')[0].value = r[0].mat_fotov
+  $('#inputPainelProtOrca')[0].value = r[0].painel_prot
+  $('#inputStringBoxOrca')[0].value = r[0].string_box
+  $('#inputMaterialCaOrca')[0].value = r[0].material_ca
+  $('#inputEstruCobertOrca')[0].value = r[0].estrutura_cob
+  $('#inputEletrodutoOrca')[0].value = r[0].eletroduto
+  $('#inputCustoViagemOrca')[0].value = r[0].custo_viagem
+  $('#inputLucroOrca')[0].value = r[0].lucro
+  $('#inputComissaoOrca')[0].value = r[0].comissao
+  $('#inputImpostoOrca')[0].value = r[0].imposto
+  $('#inputFornOrca')[0].value = r[0].fornecedor_orca
+  $('#inputDescontoOrcaFinal')[0].value = r[0].desconto
+  $('#inputInflacaoEletricaFluxo')[0].value = r[0].inflacao_eletrica
+  $('#inputJurosMesFinanciamento1')[0].value = r[0].juros_1
+  $('#inputJurosMesFinanciamento12')[0].value = r[0].juros_12
+  $('#inputJurosMesFinanciamento48')[0].value = r[0].juros_48
+  $('#inputJurosMesFinanciamento60')[0].value = r[0].juros_60
+  $('#inputJurosMesFinanciamento120')[0].value = r[0].juros_120
+  $('#inputJurosMesFinanciamento150')[0].value = r[0].juros_150
+
+  $('#inputQuantInvCalculo')[0].value = r[0].qtdeinv
+  await buscaCliente('')
+  await getLocation()
+  var listInput2 = [
+    'inputJanConsumo',
+    'inputFevConsumo',
+    'inputMarConsumo',
+    'inputAbrConsumo',
+    'inputMaiConsumo',
+    'inputJunConsumo',
+    'inputJulConsumo',
+    'inputAgoConsumo',
+    'inputSetConsumo',
+    'inputOutConsumo',
+    'inputNovConsumo',
+    'inputDezConsumo'
+  ]
+  var listConsumo2 = [
+    r[0].jan_consumo,
+    r[0].fev_consumo,
+    r[0].mar_consumo,
+    r[0].abr_consumo,
+    r[0].mai_consumo,
+    r[0].jun_consumo,
+    r[0].jul_consumo,
+    r[0].ago_consumo,
+    r[0].set_consumo,
+    r[0].out_consumo,
+    r[0].nov_consumo,
+    r[0].dez_consumo
+  ]
+  for (let i = 0; i < listInput2.length; i++) {
+    itemsConsumo[listInput2[i]] = parseFloat(listConsumo2[i])
+  }
+  await sumItems('function', 123)
+  var mldGetData = `/mdlDataPeca?name=${r[0].pecamdl}`
+  const dataMdlPeca = await fetchGet(mldGetData)
+  element1.value = dataMdlPeca[0].fornecedor
+  element2.value = dataMdlPeca[0].pmax
+  element3.value = dataMdlPeca[0].celulas
+  element4.value = dataMdlPeca[0].estilo
+  await fillMdlData('FILL', dataMdlPeca)
+  fatorCorrecao('inputSujeira', r[0].sujeira)
+  var invGetData = `/invDataPeca?name=${r[0].pecainv}`
+  const dataInvPeca = await fetchGet(invGetData)
+  element6.value = dataInvPeca[0].fornecedor
+  element7.value = dataInvPeca[0].conexaoca
+  element8.value = dataInvPeca[0].mppt
+  element9.value = dataInvPeca[0].tipo
+  element10.value = dataInvPeca[0].potnomi
+  await fillInvData('FILL', dataInvPeca)
+  await updateDataBegin()
+  await getDataOrcaFinal()
+  await descontoOrcaFinal();
+  await fluxoCaixa()
+  await valFinanciamento()
   await closeModal()
 }
