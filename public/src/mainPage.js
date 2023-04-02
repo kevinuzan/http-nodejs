@@ -159,6 +159,7 @@ async function exportData() {
   console.log(dataMdlForn)
   $('#downloadProposta').attr("download", `${projectName}.docx`);
   $('#downloadProposta')[0].click()
+  await salvarProposta()
 }
 
 async function exportChart() {
@@ -394,6 +395,7 @@ async function resumoFill() {
   economiaEnergiaMensalResumo = CreditoSomaTotal - tarifaTotalCSolarResumo
   economiaPercentualResumo = (CreditoSomaTotal - tarifaTotalCSolarResumo) / CreditoSomaTotal
 
+
   $('#inputPotenciaResumo')[0].value = potenciaResumo
   $('#inputNumeroMdlResumo')[0].value = modulosResumo
   $('#inputAreaResumo')[0].value = areaTotalResumo
@@ -411,7 +413,7 @@ async function resumoFill() {
   $('#inputArvoresPoupadasResumo')[0].value = arvorePoupadaResumo
   $('#inputTonCo2Resumo')[0].value = co2EvitadoResumo
 
-  $('#inputEconomiaAnualResumo')[0].value = ''
+  $('#inputEconomiaAnualResumo')[0].value = brlBrazil.format(economiaEnergiaMensalResumo * 12)
   $('#inputEconomia25Resumo')[0].value = brlBrazil.format(economia25anosResumo)
   $('#inputTirResumo')[0].value = tirResumo
   $('#inputRentabilidadeMensalResumo')[0].value = rentabilidadeMensalResumo
@@ -3444,6 +3446,7 @@ async function openProject() {
   $('#inputQuantInvCalculo')[0].value = r[0].qtdeinv
   await buscaCliente('')
   await getLocation()
+  await getVendedor()
   var listInput2 = [
     'inputJanConsumo',
     'inputFevConsumo',
