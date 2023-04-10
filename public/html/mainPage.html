@@ -87,8 +87,8 @@
 							 CONFIGURAÇÕES
 						</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown-navbar">
-							<a class="dropdown-item" data-target="#openModal" data-toggle="modal" role="tab" name="configTab" href="#openModal"
-								id="openConfig">
+							<a class="dropdown-item" data-target="#openModal" data-toggle="modal" role="tab"
+								name="configTab" href="#openModal" id="openConfig">
 								<i class="fas fa-folder-open"></i>
 								 Abrir</a>
 							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
@@ -269,7 +269,7 @@
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputPorcentagem" style="font-weight: bold">PORCENTAGEM</label>
-										<input disabled id="inputPorcentagem" placeholder="Digite..">
+										<input id="inputPorcentagem" placeholder="Digite..">
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputArea" style="font-weight: bold">ÁREA</label>
@@ -497,8 +497,7 @@
 										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputSujeira" style="font-weight: bold">SUJEIRA (%)</label>
-												<input id="inputSujeira"
-													onchange="fatorCorrecao(this.id,this.value);updateDataBegin()" />
+												<input id="inputSujeira" onchange="updateDataBegin()" />
 											</div>
 											<div class="field-container mt-2">
 												<label for="inputPosTelhado" style="font-weight: bold">POS. TELHADO
@@ -648,7 +647,7 @@
 											</div>
 											<div class="field-container mt-2">
 												<label for="inputStringsInversor" style="font-weight: bold">NÚMERO DE
-													STRINGS</label>
+													MPPT</label>
 												<input list="inputStringsInversorList" id="inputStringsInversor" />
 												<datalist id="inputStringsInversorList">
 												</datalist>
@@ -743,6 +742,20 @@
 							<!-- CONSUMO -->
 							<div class="tab-pane fade show" id="consumo-tab-content" role="tabpanel">
 								<div class="app-container">
+									<br>
+									<div class="outerboxmain align-items-center">
+										<div class="container-5-columns">
+											<div class="field-container mt-2">
+												<label for="inputMediaConsumo" style="font-weight: bold">MÉDIA</label>
+												<input id="inputMediaConsumo" placeholder="Digite..">
+											</div>
+											<div class="field-container mt-2">
+												<label for="fillConsumo" style="font-weight: bold"> </label>
+												<button type="button" onclick="fillConsumo($('#inputMediaConsumo')[0].value)" id="fillConsumo"
+													class="btn-app">PREENCHER</button>
+											</div>
+										</div>
+									</div>
 									<br>
 									<div class="outerboxmain align-items-center">
 										<div class="container-5-columns">
@@ -1000,7 +1013,7 @@
 											</div>
 										</div>
 										<br>
-										<h2 class="app-subtitle-sub">Dimensionamento CA</h2>
+										<h2 class="app-subtitle-sub">Dimensionamento CC</h2>
 										<div class="container-5-columns">
 											<div class="field-container mt-2">
 												<label for="inputCorrenteNomiCCCalculo" style="font-weight: bold">CORR.
@@ -2222,6 +2235,17 @@
 							<div class="outerboxmain align-items-center">
 								<h2 class="app-title">ADICIONAR NOVO CLIENTE</h2>
 								<div class="container-5-columns" id="cadastraisID">
+									<div class="field-container mt-2">
+										<label for="inputCepConfigInsert" style="font-weight: bold">CEP</label>
+										<input id="inputCepConfigInsert" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="buscaCep" style="font-weight: bold"> </label>
+										<button type="button" onclick="buscaCep()" id="buscaCep"
+											class="btn-app">BUSCA</button>
+									</div>
+								</div>
+								<div class="container-5-columns" id="cadastraisID">
 									<div class="field-container mt-2 ">
 										<label for="inputClienteConfigInsert" style="font-weight: bold">CLIENTE</label>
 										<input id="inputClienteConfigInsert" />
@@ -2256,10 +2280,6 @@
 										<label for="inputBairroConfigInsert" style="font-weight: bold">BAIRRO</label>
 										<input id="inputBairroConfigInsert" placeholder="Digite..">
 									</div>
-									<div class="field-container mt-2">
-										<label for="inputCepConfigInsert" style="font-weight: bold">CEP</label>
-										<input id="inputCepConfigInsert" placeholder="Digite..">
-									</div>
 								</div>
 							</div>
 							<br>
@@ -2287,11 +2307,11 @@
 										<label for="inputCofinsConfigInsert" style="font-weight: bold">COFINS</label>
 										<input id="inputCofinsConfigInsert" placeholder="Digite..">
 									</div>
-									<div class="field-container mt-2">
+									<!-- <div class="field-container mt-2">
 										<label for="inputPorcentagemConfigInsert"
 											style="font-weight: bold">PORCENTAGEM</label>
 										<input id="inputPorcentagemConfigInsert" placeholder="Digite..">
-									</div>
+									</div> -->
 									<div class="field-container mt-2">
 										<label for="inputAreaConfigInsert" style="font-weight: bold">ÁREA</label>
 										<input id="inputAreaConfigInsert" placeholder="Digite..">
@@ -2322,7 +2342,14 @@
 									<div class="field-container mt-2">
 										<label for="inputBandeiraConfigInsert"
 											style="font-weight: bold">BANDEIRA</label>
-										<input id="inputBandeiraConfigInsert" placeholder="Digite..">
+										<select disabled id="inputBandeiraConfigInsert">
+											<option selected disabled value="...">...</option>
+											<option value="VERDE">VERDE</option>
+											<option value="AMARELA">AMARELA</option>
+											<option value="VERMELHA I">VERMELHA I</option>
+											<option value="VERMELHA II">VERMELHA II</option>
+											<option value="ESCASSEZ HÍDRICA">ESCASSEZ HÍDRICA</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -2414,11 +2441,11 @@
 										<label for="inputCofinsConfigEdit" style="font-weight: bold">COFINS</label>
 										<input id="inputCofinsConfigEdit" placeholder="Digite..">
 									</div>
-									<div class="field-container mt-2">
+									<!-- <div class="field-container mt-2">
 										<label for="inputPorcentagemConfigEdit"
 											style="font-weight: bold">PORCENTAGEM</label>
 										<input id="inputPorcentagemConfigEdit" placeholder="Digite..">
-									</div>
+									</div> -->
 									<div class="field-container mt-2">
 										<label for="inputAreaConfigEdit" style="font-weight: bold">ÁREA</label>
 										<input id="inputAreaConfigEdit" placeholder="Digite..">
@@ -2448,7 +2475,14 @@
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputBandeiraConfigEdit" style="font-weight: bold">BANDEIRA</label>
-										<input id="inputBandeiraConfigEdit" placeholder="Digite..">
+										<select disabled id="inputBandeiraConfigEdit">
+											<option selected disabled value="...">...</option>
+											<option value="VERDE">VERDE</option>
+											<option value="AMARELA">AMARELA</option>
+											<option value="VERMELHA I">VERMELHA I</option>
+											<option value="VERMELHA II">VERMELHA II</option>
+											<option value="ESCASSEZ HÍDRICA">ESCASSEZ HÍDRICA</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -2762,7 +2796,7 @@
 									<div class="field-container mt-2">
 										<label for="inputStringsInversorConfigInsert" style="font-weight: bold">NÚMERO
 											DE
-											STRINGS</label>
+											MPPT</label>
 										<input id="inputStringsInversorConfigInsert" />
 									</div>
 									<div class="field-container mt-2">
@@ -2877,7 +2911,7 @@
 									<div class="field-container mt-2">
 										<label for="inputStringsInversorConfigEdit" style="font-weight: bold">NÚMERO
 											DE
-											STRINGS</label>
+											MPPT</label>
 										<input id="inputStringsInversorConfigEdit" />
 									</div>
 									<div class="field-container mt-2">

@@ -30,7 +30,7 @@ const firebaseConfig = {
 
 const appFirebase = initializeApp(firebaseConfig);
 
-const auth = getAuth();
+const auth = getAuth(appFirebase);
 
 app.get('/resetPass', async function (req, res) {
     var user = req.query.name
@@ -79,7 +79,7 @@ app.get('/createUser', async function (req, res) {
     var usuario = login.split(';')[0]
     var senha = login.split(';')[1]
     var role = login.split(';')[2]
-    var resultado = createUserWithEmailAndPassword(auth, usuario, senha, role)
+    var resultado = await createUserWithEmailAndPassword(auth, usuario, senha, role)
         .then(async (userCredential) => {
             // Signed in
             const user = userCredential.user;
@@ -724,8 +724,8 @@ app.get('/docxTemplater', function (req, res) {
         finan_60: finan_60,
         finan_120: finan_120,
         finan_150: finan_150,
-        grafico_payback: image1,
-        grafico_cons_gera: image2,
+        grafico_payback: image2,
+        grafico_cons_gera: image1,
     });
 
     var buffer = doc
@@ -1268,6 +1268,23 @@ app.post('/inversorUpdate', async function (req, res) {
         res.json("nexiste")
     }
 });
+
+app.get('/address', async function (req, res) {
+    let address = req.query.name;
+    const args = {
+        params: {
+            key: apiMapsCode,
+            address: address,
+        }
+    };
+    const client = new Client();
+    client.geocode(args).then(gcResponse => {
+        const str = JSON.stringify(gcResponse.data.results);
+        //const str = JSON.stringify(gcResponse);
+        res.json(str)
+    });
+
+})
 
 app.get('/lat_lon', async function (req, res) {
     let address = req.query.name;

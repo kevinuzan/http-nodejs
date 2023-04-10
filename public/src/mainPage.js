@@ -121,7 +121,7 @@ async function exportData() {
   var gasto_novo = brlBrazil.format(valorFaturaAtualCSolarResumo)
   var retorno_anual = ((1 / payback_valor) * 100).toFixed(2)
   var fabricante_modulo = fornecedorMdlResumo
-  var qtde_modulos = qtdeMdlCalc.toFixed(2)
+  var qtde_modulos = qtdeMdlCalc
   var modeloMdl = modeloMdlResumo
   var potencia_modulo = pmax
 
@@ -227,7 +227,9 @@ async function createCharts() {
       title: 'Potência Gerada (kW)',
       autotick: false,
       dtick: dtickUserGera,
-    }
+    }, 
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
 
   Plotly.newPlot('graficoConsumoGeracao', data, layout, config);
@@ -246,7 +248,9 @@ async function createCharts() {
       title: 'Valor (R$)',
       autotick: false,
       dtick: dtickUser,
-    }
+    }, 
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
   var dataPayback = [
     {
@@ -431,7 +435,7 @@ async function resumoFill() {
   $('#inputValFaturaCSolarResumo')[0].value = brlBrazil.format(valorFaturaAtualCSolarResumo)
 
   $('#inputEconomiaEnergiaMensalResumo')[0].value = brlBrazil.format(economiaEnergiaMensalResumo)
-  $('#inputEconomiaPercentualResumo')[0].value = economiaPercentualResumo
+  $('#inputEconomiaPercentualResumo')[0].value = (economiaPercentualResumo * 100) + " %"
   await createCharts()
 }
 var tarifaTotalCSolarResumo = 0
@@ -444,7 +448,6 @@ var itemsConsumo = {
 var somaConsumo = 0
 
 var itemsCorrecao = {
-  inputSujeira: 0,
   inputPosTelhado: 0,
   inputTPmaxPerModulo: 0,
   inputTVocPerModulo: 0,
@@ -467,11 +470,11 @@ var CreditoSomaTotal = 0
 
 //#region UPDATE EM MASSA
 var resultExcelData = 0
-var input = document.getElementById('excelDataMdl');
-input.addEventListener('change', async function () {
+var inputMdl = document.getElementById('excelDataMdl');
+inputMdl.addEventListener('change', async function () {
   console.log
-  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
-    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+  if (inputMdl.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(inputMdl.files[0]).then(function (data) {
       data.shift()
       return data
     })
@@ -479,11 +482,15 @@ input.addEventListener('change', async function () {
     var typeFile = 'modulo'
     var size = dataToSend.length
     var i
+    var resp
     for (i = 0; i < size; i += 1900) {
       var dataToSend_final = dataToSend.slice(i, (i + 1900))
-      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
       // const dataMdlForn = await fetchGet(mldGetData)
       console.log(resp)
+    }
+    if (resp) {
+      alert('DADOS ATUALIZADOS')
     }
     // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
     //console.log(resp)
@@ -492,11 +499,10 @@ input.addEventListener('change', async function () {
   }
 })
 var resultExcelData = 0
-var input = document.getElementById('excelDataInv');
-input.addEventListener('change', async function () {
-  console.log
-  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
-    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+var inputInv = document.getElementById('excelDataInv');
+inputInv.addEventListener('change', async function () {
+  if (inputInv.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(inputInv.files[0]).then(function (data) {
       data.shift()
       return data
     })
@@ -504,11 +510,15 @@ input.addEventListener('change', async function () {
     var typeFile = 'inversor'
     var size = dataToSend.length
     var i
+    var resp
     for (i = 0; i < size; i += 1900) {
       var dataToSend_final = dataToSend.slice(i, (i + 1900))
-      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
       // const dataMdlForn = await fetchGet(mldGetData)
       console.log(resp)
+    }
+    if (resp) {
+      alert('DADOS ATUALIZADOS')
     }
     // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
     //console.log(resp)
@@ -517,11 +527,11 @@ input.addEventListener('change', async function () {
   }
 })
 var resultExcelData = 0
-var input = document.getElementById('excelDataB3');
-input.addEventListener('change', async function () {
+var inputB3 = document.getElementById('excelDataB3');
+inputB3.addEventListener('change', async function () {
   console.log
-  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
-    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+  if (inputB3.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(inputB3.files[0]).then(function (data) {
       data.shift()
       return data
     })
@@ -529,11 +539,15 @@ input.addEventListener('change', async function () {
     var typeFile = 'tarifab3'
     var size = dataToSend.length
     var i
+    var resp
     for (i = 0; i < size; i += 1900) {
       var dataToSend_final = dataToSend.slice(i, (i + 1900))
-      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
       // const dataMdlForn = await fetchGet(mldGetData)
       console.log(resp)
+    }
+    if (resp) {
+      alert('DADOS ATUALIZADOS')
     }
     // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
     //console.log(resp)
@@ -542,11 +556,11 @@ input.addEventListener('change', async function () {
   }
 })
 var resultExcelData = 0
-var input = document.getElementById('excelDataFio');
-input.addEventListener('change', async function () {
+var inputFio = document.getElementById('excelDataFio');
+inputFio.addEventListener('change', async function () {
   console.log
-  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
-    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+  if (inputFio.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(inputFio.files[0]).then(function (data) {
       data.shift()
       return data
     })
@@ -554,11 +568,15 @@ input.addEventListener('change', async function () {
     var typeFile = 'tarifafiob'
     var size = dataToSend.length
     var i
+    var resp
     for (i = 0; i < size; i += 1900) {
       var dataToSend_final = dataToSend.slice(i, (i + 1900))
-      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
       // const dataMdlForn = await fetchGet(mldGetData)
       console.log(resp)
+    }
+    if (resp) {
+      alert('DADOS ATUALIZADOS')
     }
     // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
     //console.log(resp)
@@ -567,11 +585,11 @@ input.addEventListener('change', async function () {
   }
 })
 var resultExcelData = 0
-var input = document.getElementById('excelDataFatK');
-input.addEventListener('change', async function () {
+var inputFatK = document.getElementById('excelDataFatK');
+inputFatK.addEventListener('change', async function () {
   console.log
-  if (input.files[0]['name'].indexOf('.xlsx') != -1) {
-    resultExcelData = await readXlsxFile(input.files[0]).then(function (data) {
+  if (inputFatK.files[0]['name'].indexOf('.xlsx') != -1) {
+    resultExcelData = await readXlsxFile(inputFatK.files[0]).then(function (data) {
       data.shift()
       return data
     })
@@ -579,11 +597,15 @@ input.addEventListener('change', async function () {
     var typeFile = 'fatork'
     var size = dataToSend.length
     var i
+    var resp
     for (i = 0; i < size; i += 1900) {
       var dataToSend_final = dataToSend.slice(i, (i + 1900))
-      var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
+      resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend_final}`)
       // const dataMdlForn = await fetchGet(mldGetData)
       console.log(resp)
+    }
+    if (resp) {
+      alert('DADOS ATUALIZADOS')
     }
     // var resp = await fetchGet(`/updateTask?name=${typeFile};${size};${dataToSend}`)
     //console.log(resp)
@@ -738,6 +760,27 @@ function IRR(values, guess) {
   return resultRate;
 }
 
+async function fillConsumo(valor) {
+  $('#inputJanConsumo')[0].value = valor
+  $('#inputFevConsumo')[0].value = valor
+  $('#inputMarConsumo')[0].value = valor
+  $('#inputAbrConsumo')[0].value = valor
+  $('#inputMaiConsumo')[0].value = valor
+  $('#inputJunConsumo')[0].value = valor
+  $('#inputJulConsumo')[0].value = valor
+  $('#inputAgoConsumo')[0].value = valor
+  $('#inputSetConsumo')[0].value = valor
+  $('#inputOutConsumo')[0].value = valor
+  $('#inputNovConsumo')[0].value = valor
+  $('#inputDezConsumo')[0].value = valor
+  for (let i = 0; i < 12; i++) {
+    itemsConsumo[listInputs[i]] = parseFloat(valor)
+  }
+  await sumItems('function', 123)
+
+
+}
+
 var paybackCompleto = 0
 var dictValorFluxo = []
 var vpTotal = 0
@@ -787,7 +830,7 @@ async function fluxoCaixa() {
       var anoPayback = Math.floor(payback_valor)
       var mesPayback = Math.floor((payback_valor - anoPayback) * 12)
       var diaPayback = Math.floor((((payback_valor - anoPayback) * 12) - mesPayback) * 30)
-      paybackCompleto = `${anoPayback} Anos ${mesPayback} Meses ${diaPayback} Dias`
+      paybackCompleto = `${anoPayback} Anos ${mesPayback} Meses`
       $('#inputPaybackAnoResultado')[0].value = payback_valor.toFixed(2)
       $('#inputPaybackCompletoResultado')[0].value = paybackCompleto
       $('#inputPaybackAnualResultado')[0].value = (1 / payback_valor).toFixed(2) + ' %'
@@ -1025,11 +1068,11 @@ async function updateLucro() {
   lucroMargem = projeHomo + (painelCA * porcentForn) + lucro - moTerceira
   $('#inputLucroMgOrca')[0].value = brlBrazil.format(lucroMargem)
   $('#inputLucroBrutoValorOrcaFinal')[0].value = brlBrazil.format(lucroMargem)
-  $('#inputLucroBrutoPercentualOrcaFinal')[0].value = (lucroMargem / totalGeralOrcaFinal).toFixed(2) + ' %'
+  $('#inputLucroBrutoPercentualOrcaFinal')[0].value = ((lucroMargem / totalGeralOrcaFinal) * 100).toFixed(2) + ' %'
   $('#inputComissaoValorOrcaFinal')[0].value = brlBrazil.format(comissaoValor)
-  $('#inputComissaoPercentualOrcaFinal')[0].value = (comissaoValor / totalGeralOrcaFinal).toFixed(2) + ' %'
+  $('#inputComissaoPercentualOrcaFinal')[0].value = ((comissaoValor / totalGeralOrcaFinal) * 100).toFixed(2) + ' %'
   $('#inputLucroLiqValorOrcaFinal')[0].value = brlBrazil.format(lucroLiq)
-  $('#inputLucroLiqPercentualOrcaFinal')[0].value = (lucroLiq / totalGeralOrcaFinal).toFixed(2) + ' %'
+  $('#inputLucroLiqPercentualOrcaFinal')[0].value = ((lucroLiq / totalGeralOrcaFinal) * 100).toFixed(2) + ' %'
 
   precoKwp = totalGeralOrcaFinal / gerConsumo
   precoPorServKwp = (somaOrcaFinal - Eletroduto - StringBox) / gerConsumo
@@ -1667,7 +1710,7 @@ async function insereCliente() {
   var Icms = document.getElementById(`inputIcmsConfigInsert`).value
   var Pis = document.getElementById(`inputPisConfigInsert`).value
   var Cofins = document.getElementById(`inputCofinsConfigInsert`).value
-  var Porcentagem = document.getElementById(`inputPorcentagemConfigInsert`).value
+  var Porcentagem = 0
   var Area = document.getElementById(`inputAreaConfigInsert`).value
   var Consumo = document.getElementById(`inputConsumoConfigInsert`).value
   var Taxa = document.getElementById(`inputTaxaConfigInsert`).value
@@ -1707,7 +1750,7 @@ async function atualizaCliente() {
   var Icms = document.getElementById(`inputIcmsConfigEdit`).value
   var Pis = document.getElementById(`inputPisConfigEdit`).value
   var Cofins = document.getElementById(`inputCofinsConfigEdit`).value
-  var Porcentagem = document.getElementById(`inputPorcentagemConfigEdit`).value
+  var Porcentagem = 0
   var Area = document.getElementById(`inputAreaConfigEdit`).value
   var Consumo = document.getElementById(`inputConsumoConfigEdit`).value
   var Taxa = document.getElementById(`inputTaxaConfigEdit`).value
@@ -2013,6 +2056,27 @@ $('.onlyDot').on('input', function (e) {
     .replace(/(\..?)\../g, '$1')
     .replace(/^0[^.]/, '0')
 });
+
+async function buscaCep() {
+  try {
+    var cep = $('#inputCepConfigInsert')[0].value
+    const data = await fetchGet(`https://viacep.com.br/ws/${cep}/json/`)
+    if (data.erro) {
+      alert('DIGITE UM CEP VÁLIDO')
+      return
+    }
+    var bairro = data.bairro
+    var cidade = data.localidade
+    var rua = data.logradouro
+    var estado = data.uf
+    $('#inputEstadoConfigInsert')[0].value = estado
+    $('#inputCidadeConfigInsert')[0].value = cidade
+    $('#inputRuaConfigInsert')[0].value = rua
+    $('#inputBairroConfigInsert')[0].value = bairro
+  } catch (e) {
+    alert('DIGITE UM CEP VÁLIDO')
+  }
+}
 
 var dataIrr = 0
 // Dados de Latitude e Longitude
@@ -2432,7 +2496,7 @@ async function fillInvData(option, dataInvPeca) {
     $('#inputFaixaMPPTInversor')[0].value = dataInvPeca[0].faixamppt
     $('#inputTensaoCCInversor')[0].value = dataInvPeca[0].tenspart
     $('#inputMaxTensaoCCInversor')[0].value = dataInvPeca[0].maxtens
-    $('#inputEficienciaInversor')[0].value = dataInvPeca[0].eficiencia
+    $('#inputEficienciaInversor')[0].value = (await valNum(dataInvPeca[0].eficiencia) * 100)
     $('#inputFaixaTensaoInversor')[0].value = dataInvPeca[0].faixatens
     $('#inputCorrenteMaxCCInversor')[0].value = dataInvPeca[0].entradaimp
     $('#inputCorrenteMaxCAInversor')[0].value = dataInvPeca[0].correntesaída
