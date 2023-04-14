@@ -115,7 +115,7 @@ async function exportData() {
   var porcentagem_sistema = $('#inputPorcentagem')[0].value
   var tamanho = Number(potTotalOrca).toFixed(2) + " kWp"
   var economia_ano = brlBrazil.format(mediaAnualEconomia)
-  var investimento_inicial = brlBrazil.format(totalGeralOrcaFinal)
+  var investimento_inicial = brlBrazil.format(Math.round(totalGeralOrcaFinal))
   var payback = paybackCompleto
   var gasto_antigo = brlBrazil.format(valorFaturaAtualSSolarResumo)
   var gasto_novo = brlBrazil.format(valorFaturaAtualCSolarResumo)
@@ -131,17 +131,17 @@ async function exportData() {
   var potencia_inversor = potenciaInv
 
   var estrutura_fixa = $('#inputTelhado')[0].value
-  var area = areaTotalResumo
-  var fator_simultaneidade = (consumoInst).toFixed(2)
-  var fator_injetado = (100 - consumoInst).toFixed(2)
+  var area = Math.round(areaTotalResumo)
+  var fator_simultaneidade = Math.round(consumoInst)
+  var fator_injetado = Math.round(100 - consumoInst)
   var tarifa_imposto = (tarifaTotal_cImposto).toFixed(2)
   var degradacao_anual = await valNum($('#inputDegraAnual')[0].value) * 100
-  var geracao_anual = geracaoAnualResumo + " kWh"
+  var geracao_anual = Math.round(geracaoAnualResumo) + " kWh"
   var reajuste_tarifa = await valNum($('#inputInflacaoEletricaFluxo')[0].value) * 100
 
-  var km = kmRodado.toFixed(2)
-  var arvores = arvorePoupada.toFixed(2)
-  var co2 = co2Evitado.toFixed(2)
+  var km = Math.round(kmRodado)
+  var arvores = Math.round(arvorePoupada)
+  var co2 = Math.round(co2Evitado)
 
   var desconto = descontoOrca.toFixed(2)
   var valor_desconto = totalDescontoOrcaFinal.toFixed(2)
@@ -154,7 +154,15 @@ async function exportData() {
 
   var projectName = `PMC_${Number(potTotalOrca).toFixed(2)}_${cliente}`
 
-  var mldGetData = `/docxTemplater?name=${cliente};${vendedor};${validade};${vendedor_tel};${vendedor_email};${endereco};${cep};${estimativa_mes};${tipo_telhado};${porcentagem_sistema};${tamanho};${economia_ano};${investimento_inicial};${payback};${gasto_antigo};${gasto_novo};${retorno_anual};${qtde_modulos};${fabricante_inversor};${qtde_inversor};${estrutura_fixa};${area};${fator_simultaneidade};${fator_injetado};${tarifa_imposto};${degradacao_anual};${geracao_anual};${km};${arvores};${co2};${desconto};${valor_desconto};${finan_12};${finan_48};${finan_60};${finan_120};${finan_150};${fabricante_modulo};${modeloMdl};${modeloInv};${potencia_modulo};${potencia_inversor};${reajuste_tarifa}`
+  var tipoMdl = tipoMdl
+  var estiloMdl = estiloMdl
+  var eficienciaMdl = eficienciaMdl
+
+  var mppt_inversor = mpptInversor
+  var fase_inversor = faseInversor
+  var faixa_inversor = faixaInversor
+
+  var mldGetData = `/docxTemplater?name=${cliente};${vendedor};${validade};${vendedor_tel};${vendedor_email};${endereco};${cep};${estimativa_mes};${tipo_telhado};${porcentagem_sistema};${tamanho};${economia_ano};${investimento_inicial};${payback};${gasto_antigo};${gasto_novo};${retorno_anual};${qtde_modulos};${fabricante_inversor};${qtde_inversor};${estrutura_fixa};${area};${fator_simultaneidade};${fator_injetado};${tarifa_imposto};${degradacao_anual};${geracao_anual};${km};${arvores};${co2};${desconto};${valor_desconto};${finan_12};${finan_48};${finan_60};${finan_120};${finan_150};${fabricante_modulo};${modeloMdl};${modeloInv};${potencia_modulo};${potencia_inversor};${reajuste_tarifa};${tipoMdl};${estiloMdl};${eficienciaMdl};${mppt_inversor};${fase_inversor};${faixa_inversor}`
   const dataMdlForn = await fetchGet(mldGetData)
   console.log(dataMdlForn)
   $('#downloadProposta').attr("download", `${projectName}.docx`);
@@ -227,7 +235,7 @@ async function createCharts() {
       title: 'Potência Gerada (kW)',
       autotick: false,
       dtick: dtickUserGera,
-    }, 
+    },
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)'
   };
@@ -248,7 +256,7 @@ async function createCharts() {
       title: 'Valor (R$)',
       autotick: false,
       dtick: dtickUser,
-    }, 
+    },
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)'
   };
@@ -2319,7 +2327,7 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputImpModulo')[0].value = dataMdlPeca[0].imp
     $('#inputVocModulo')[0].value = dataMdlPeca[0].voc
     $('#inputIscModulo')[0].value = dataMdlPeca[0].isc
-    $('#inputEficienciaModulo')[0].value = dataMdlPeca[0].eficiencia
+    $('#inputEficienciaModulo')[0].value = await valNum(dataMdlPeca[0].eficiencia) * 100
     $('#inputTPmaxModulo')[0].value = dataMdlPeca[0].tpmax
     $('#inputTVocModulo')[0].value = dataMdlPeca[0].tvoc
     $('#inputTIscModulo')[0].value = dataMdlPeca[0].tisc
@@ -2339,6 +2347,9 @@ async function fillMdlData(option, dataMdlPeca) {
     fornecedorMdl = dataMdlPeca[0].fornecedor
     areaMdl = await valNum(dataMdlPeca[0].area)
     pesoMdl = await valNum(dataMdlPeca[0].peso)
+    tipoMdl = dataMdlPeca[0].celulas
+    estiloMdl = dataMdlPeca[0].estilo
+    eficienciaMdl = await valNum(dataMdlPeca[0].eficiencia) * 100
     $('#inputFabriMdlOrca')[0].value = fornecedorMdl
     await checkTemp()
   } else if (option == 'CLEAR') {
@@ -2364,7 +2375,7 @@ async function fillMdlData(option, dataMdlPeca) {
     $('#inputImpModuloConfigEdit')[0].value = dataMdlPeca[0].imp
     $('#inputVocModuloConfigEdit')[0].value = dataMdlPeca[0].voc
     $('#inputIscModuloConfigEdit')[0].value = dataMdlPeca[0].isc
-    $('#inputEficienciaModuloConfigEdit')[0].value = dataMdlPeca[0].eficiencia
+    $('#inputEficienciaModuloConfigEdit')[0].value = await valNum(dataMdlPeca[0].eficiencia) * 100
     $('#inputTPmaxModuloConfigEdit')[0].value = dataMdlPeca[0].tpmax
     $('#inputTVocModuloConfigEdit')[0].value = dataMdlPeca[0].tvoc
     $('#inputTIscModuloConfigEdit')[0].value = dataMdlPeca[0].tisc
@@ -2379,6 +2390,9 @@ async function fillMdlData(option, dataMdlPeca) {
   await energiaInversor()
 }
 // CHECAR SE A TEMPERATURA ESTÁ PREENCHIDA E PREENCHER O RESTANTE DE FATORE DE CORREÇÃO
+var tipoMdl = ''
+var estiloMdl = ''
+var eficienciaMdl = 0
 var areaMdl = 0
 var pesoMdl = 0
 var tpmax = 0
@@ -2490,6 +2504,9 @@ var maxCorrenteCCinversor = 0
 var maxCorrenteCAinvesor = 0
 var fornecedorInv = 0
 var potenciaInv = 0
+var mpptInversor = 0
+var faseInversor = 0
+var faixaInversor = 0
 // PREENCHER OS INPUTS DE INVERSOR
 async function fillInvData(option, dataInvPeca) {
   if (option == 'FILL') {
@@ -2506,6 +2523,10 @@ async function fillInvData(option, dataInvPeca) {
     maxCorrenteCCinversor = await valNum(dataInvPeca[0].entradaimp)
     maxCorrenteCAinvesor = await valNum(dataInvPeca[0].correntesaída)
     fornecedorInv = dataInvPeca[0].fornecedor
+
+    mpptInversor = dataInvPeca[0].mppt
+    faseInversor = dataInvPeca[0].conexaoca
+    faixaInversor = dataInvPeca[0].faixatens
     $('#inputFabriInvOrca')[0].value = fornecedorInv
     potenciaInv = await valNum(dataInvPeca[0].potnomi)
   } else if (option == 'CLEAR') {
@@ -2519,8 +2540,8 @@ async function fillInvData(option, dataInvPeca) {
 
   } else if (option == 'ConfigEdit') {
     $('#inputFabricanteInversorConfigEdit')[0].value = dataInvPeca[0].fornecedor
-    $('#inputFasesInversorConfigEdit')[0].value = dataInvPeca[0].mppt
-    $('#inputStringsInversorConfigEdit')[0].value = dataInvPeca[0].conexaoca
+    $('#inputFasesInversorConfigEdit')[0].value = dataInvPeca[0].conexaoca
+    $('#inputStringsInversorConfigEdit')[0].value = dataInvPeca[0].mppt
     $('#inputTipoInversorConfigEdit')[0].value = dataInvPeca[0].tipo
     $('#inputPotenciaInversorConfigEdit')[0].value = dataInvPeca[0].potnomi
     $('#inputFaixaMPPTInversorConfigEdit')[0].value = dataInvPeca[0].faixamppt

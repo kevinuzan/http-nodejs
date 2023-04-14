@@ -121,6 +121,10 @@ async function createUserPostgre(user, role) {
         return e
     }
 }
+let brlBrazil = Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+});
 
 async function getRolePostgre(email) {
     try {
@@ -611,26 +615,26 @@ app.get('/docxTemplater', function (req, res) {
     var gasto_antigo = req.query.name.split(";")[14]
     var gasto_novo = req.query.name.split(";")[15]
     var retorno_anual = req.query.name.split(";")[16]
-    var qtde_modulos = req.query.name.split(";")[17]
+    var qtde_modulos = Math.round(req.query.name.split(";")[17])
     var fabricante_inversor = req.query.name.split(";")[18]
-    var qtde_inversor = req.query.name.split(";")[19]
+    var qtde_inversor = Math.round(req.query.name.split(";")[19])
     var estrutura_fixa = req.query.name.split(";")[20]
-    var area = req.query.name.split(";")[21]
+    var area = Math.round(req.query.name.split(";")[21])
     var fator_simultaneidade = req.query.name.split(";")[22]
     var fator_injetado = req.query.name.split(";")[23]
-    var tarifa_imposto = req.query.name.split(";")[24]
+    var tarifa_imposto = brlBrazil.format(req.query.name.split(";")[24])
     var degradacao_anual = req.query.name.split(";")[25]
     var geracao_anual = req.query.name.split(";")[26]
     var km = req.query.name.split(";")[27]
     var arvores = req.query.name.split(";")[28]
     var co2 = req.query.name.split(";")[29]
     var desconto = req.query.name.split(";")[30]
-    var valor_desconto = req.query.name.split(";")[31]
-    var finan_12 = req.query.name.split(";")[32]
-    var finan_48 = req.query.name.split(";")[33]
-    var finan_60 = req.query.name.split(";")[34]
-    var finan_120 = req.query.name.split(";")[35]
-    var finan_150 = req.query.name.split(";")[36]
+    var valor_desconto = brlBrazil.format(req.query.name.split(";")[31])
+    var finan_12 = brlBrazil.format(req.query.name.split(";")[32])
+    var finan_48 = brlBrazil.format(req.query.name.split(";")[33])
+    var finan_60 = brlBrazil.format(req.query.name.split(";")[34])
+    var finan_120 = brlBrazil.format(req.query.name.split(";")[35])
+    var finan_150 = brlBrazil.format(req.query.name.split(";")[36])
     var fabricante_modulo = req.query.name.split(";")[37]
     var modeloMdl = req.query.name.split(";")[38]
     var modeloInv = req.query.name.split(";")[39]
@@ -638,6 +642,19 @@ app.get('/docxTemplater', function (req, res) {
     var potencia_inversor = req.query.name.split(";")[41]
     var reajuste_tarifa = req.query.name.split(";")[42]
 
+    var tipoMdl = req.query.name.split(";")[43]
+    var tecnologiaMdl = req.query.name.split(";")[44]
+    var eficienciaMdl = req.query.name.split(";")[45]
+    var mppt_inversor = req.query.name.split(";")[46]
+    var fase_inversor = req.query.name.split(";")[47]
+    var faixa_inversor = req.query.name.split(";")[48]
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
 
     const content = fs.readFileSync(
         path.join(__dirname + '/public/resourceFiles/modelo_proposta_DANIG.docx'),
@@ -657,13 +674,25 @@ app.get('/docxTemplater', function (req, res) {
     //Pass the function that return image size
     opts.getSize = function (img, tagValue, tagName) {
         const sizeObj = sizeOf(img);
-        const forceWidth = 500;
-        const ratio = forceWidth / sizeObj.width;
-        return [
-            forceWidth,
-            // calculate height taking into account aspect ratio
-            Math.round(sizeObj.height * ratio),
-        ];
+        if (tagName == 'imagem_inversor' || tagName == 'imagem_estrutura' || tagName == 'imagem_modulo') {
+            const forceHeigth = 150;
+            const ratio = forceHeigth / sizeObj.height;
+            return [
+                Math.round(sizeObj.width * ratio),
+                // calculate height taking into account aspect ratio
+                forceHeigth,
+            ];
+        } else {
+            return [sizeObj.width, sizeObj.height]
+        }
+
+        // const forceWidth = 500;
+        // const ratio = forceWidth / sizeObj.width;
+        // return [
+        //     forceWidth,
+        //     // calculate height taking into account aspect ratio
+        //     Math.round(sizeObj.height * ratio),
+        // ];
     }
 
     // var imageModule = new ImageModule(opts);
@@ -673,8 +702,15 @@ app.get('/docxTemplater', function (req, res) {
     const doc = new Docxtemplater(zip, {
         modules: [new ImageModule(opts)]
     });
+    var mdl_img = 'MODULO'
+    var inv_img = modeloInv.substring(0, 3).toUpperCase()
+    var est_img = estrutura_fixa.replaceAll(' ', '_')
     var image1 = path.join(__dirname + '/public/temp_folder/graficoConsumoGeracao.png')
     var image2 = path.join(__dirname + '/public/temp_folder/graficoPayback.png')
+    var image_mdl = path.join(__dirname + '/public/img/' + mdl_img + '.png')
+    var image_inv = path.join(__dirname + '/public/img/' + inv_img + '.png')
+    var image_est = path.join(__dirname + '/public/img/' + est_img + '.png')
+    console.log(image_mdl, image_inv, image_est, mdl_img, inv_img, est_img)
     // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
     doc.render({
         cliente: cliente,
@@ -694,15 +730,22 @@ app.get('/docxTemplater', function (req, res) {
         gasto_antigo: gasto_antigo,
         gasto_novo: gasto_novo,
         retorno_anual: retorno_anual,
+
         fabricante_modulo: fabricante_modulo,
         qtde_modulos: qtde_modulos,
         modeloMdl: modeloMdl,
         potencia_modulo: potencia_modulo,
+        tipoMdl: tipoMdl,
+        tecnologiaMdl: tecnologiaMdl,
+        eficienciaMdl: eficienciaMdl,
 
         fabricante_inversor: fabricante_inversor,
         qtde_inversor: qtde_inversor,
         modeloInv: modeloInv,
         potencia_inversor: potencia_inversor,
+        mppt_inversor: mppt_inversor,
+        fase_inversor: fase_inversor,
+        faixa_inversor: faixa_inversor,
 
         estrutura_fixa: estrutura_fixa,
         area: area,
@@ -724,8 +767,15 @@ app.get('/docxTemplater', function (req, res) {
         finan_60: finan_60,
         finan_120: finan_120,
         finan_150: finan_150,
+
+        //IMAGENS
         grafico_payback: image2,
         grafico_cons_gera: image1,
+        imagem_modulo: image_mdl,
+        imagem_inversor: image_inv,
+        imagem_estrutura: image_est,
+
+        hoje: today,
     });
 
     var buffer = doc
