@@ -983,6 +983,7 @@ var StringBox = 0
 var MaterialCa = 0
 var EstruCobert = 0
 var Eletroduto = 0
+var Aterramento = 0
 var CustoViagem = 0
 var Lucro = 0
 var LucroMg = 0
@@ -993,10 +994,11 @@ async function sumOrcaFinal() {
   MaterialCa = await valNum($('#inputMaterialCaOrca')[0].value)
   EstruCobert = await valNum($('#inputEstruCobertOrca')[0].value)
   Eletroduto = await valNum($('#inputEletrodutoOrca')[0].value)
+  Aterramento = await valNum($('#inputAterramentoOrca')[0].value)
   CustoViagem = await valNum($('#inputCustoViagemOrca')[0].value)
   Lucro = await valNum($('#inputLucroOrca')[0].value)
   LucroMg = lucroMargem
-  somaOrcaFinal = (projeHomo - moTerceira) + moTerceira + MatFotov + PainelProt + StringBox + MaterialCa + EstruCobert + Eletroduto + CustoViagem
+  somaOrcaFinal = (projeHomo - moTerceira) + moTerceira + MatFotov + PainelProt + StringBox + MaterialCa + EstruCobert + Eletroduto + Aterramento + CustoViagem
 
   var inputImpostoOrca = await valNum($('#inputImpostoOrca')[0].value)
   impostoOrcaFinal = (somaOrcaFinal / (1 - (inputImpostoOrca / 100))) * (inputImpostoOrca / 100)
@@ -1068,7 +1070,22 @@ var precoPorServKwp = 0
 var precoPorMatKwp = 0
 async function updateLucro() {
   porcentForn = await valNum($('#inputPorcentagemFornOrca')[0].value) / 100
-  comissao = await valNum($('#inputComissaoOrca')[0].value) / 100
+  // comissao = await valNum($('#inputComissaoOrca')[0].value) / 100
+
+  if (potPicoReal <= 112.5) {
+    comissao = 7 / 100
+    $('#inputComissaoOrca')[0].value = 7
+  } else if (potPicoReal > 112.5 && potPicoReal <= 300) {
+    comissao = 6 / 100
+    $('#inputComissaoOrca')[0].value = 6
+  } else if (potPicoReal > 300 && potPicoReal <= 500) {
+    comissao = 5.5 / 100
+    $('#inputComissaoOrca')[0].value = 5.5
+  } else {
+    comissao = 5 / 100
+    $('#inputComissaoOrca')[0].value = 5
+  }
+
   comissaoValor = comissao * totalGeralOrcaFinal
   lucroLiq = lucroMargem - comissaoValor
   lucro = await valNum($('#inputLucroOrca')[0].value)
@@ -1083,8 +1100,8 @@ async function updateLucro() {
   $('#inputLucroLiqPercentualOrcaFinal')[0].value = ((lucroLiq / totalGeralOrcaFinal) * 100).toFixed(2) + ' %'
 
   precoKwp = totalGeralOrcaFinal / gerConsumo
-  precoPorServKwp = (somaOrcaFinal - Eletroduto - StringBox) / gerConsumo
-  precoPorMatKwp = (LucroMg + Eletroduto + StringBox) / gerConsumo
+  precoPorServKwp = (somaOrcaFinal - Eletroduto - Aterramento - StringBox) / gerConsumo
+  precoPorMatKwp = (LucroMg + Eletroduto + Aterramento + StringBox) / gerConsumo
   $('#inputPrecoKwpValorOrcaFinal')[0].value = brlBrazil.format(precoKwp)
   $('#inputPrecoKwpPercentualOrcaFinal')[0].value = brlBrazil.format(precoKwp / 1000)
   $('#inputPrecoServKwpValorOrcaFinal')[0].value = brlBrazil.format(precoPorServKwp)
@@ -1129,6 +1146,10 @@ async function getDataOrcaFinal() {
       element.valor = Eletroduto
       element.percentual = (Eletroduto / totalGeralOrcaFinal) * 100
       element.valorWp = Eletroduto / potPicoReal / 1000
+    } else if (element.titulo == 'ATERRAMENTO') {
+      element.valor = Aterramento
+      element.percentual = (Aterramento / totalGeralOrcaFinal) * 100
+      element.valorWp = Aterramento / potPicoReal / 1000
     } else if (element.titulo == 'CUSTO VIAGEM') {
       element.valor = CustoViagem
       element.percentual = (CustoViagem / totalGeralOrcaFinal) * 100
@@ -1308,6 +1329,7 @@ var listTituloOrcaFinal = [
   'MATERIAL CA',
   'ESTRUTURA COBERTURA',
   'ELETRODUTO',
+  'ATERRAMENTO',
   'CUSTO VIAGEM',
   'LUCRO',
   'LUCRO BRUTO(R$)',
@@ -1352,6 +1374,11 @@ var dictValorOrca = [
     valorWp: 0
   }, {
     titulo: 'ELETRODUTO',
+    valor: 0,
+    percentual: 0,
+    valorWp: 0
+  }, {
+    titulo: 'ATERRAMENTO',
     valor: 0,
     percentual: 0,
     valorWp: 0
@@ -2015,6 +2042,51 @@ async function atualizaModulo() {
   }
 }
 
+
+// Inserir novo vendedor
+async function insereFornecedor() {
+  var nome = document.getElementById(`inputFornNomeInsere`).value
+  var porcentagem = document.getElementById(`inputFornPorcentagemInsere`).value
+  var query = `${nome};${porcentagem}`
+  const data = await fetchPost('/fornecedorInsert?name=' + query)
+  if (data == 'existe') {
+    alert("ERRO: FORNECEDOR JÁ ESTÁ CADASTRADO!")
+  } else {
+    //DADOS DE VENDEDOR
+    var dataFornecedor = await fetchGet("/getFornecedor")
+    dataFornecedor.forEach(function (item) {
+      if (optionsfornecedor.indexOf(item["nome"]) == -1) {
+        optionsfornecedor += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
+      }
+    });
+    document.getElementById("inputFornOrcaList").innerHTML = optionsfornecedor
+    document.getElementById("inputFornNomeEditarList").innerHTML = optionsfornecedor
+    alert("FORNECEDOR CADASTRADO COM SUCESSO!")
+  }
+}
+// Atualizar dados de vendedor
+async function atualizaFornecedor() {
+  var nome = document.getElementById(`inputFornNomeEditar`).value
+  var porcentagem = document.getElementById(`inputFornPorcentagemEditar`).value
+  var query = `${nome};${porcentagem}`
+  const data = await fetchPost('/fornecedorUpdate?name=' + query)
+  if (data == 'nexiste') {
+    alert("ERRO: FORNECEDOR NÃO ESTÁ CADASTRADO!")
+  } else {
+    //DADOS DE VENDEDOR
+    var dataFornecedor = await fetchGet("/getFornecedor")
+    dataFornecedor.forEach(function (item) {
+      if (optionsfornecedor.indexOf(item["nome"]) == -1) {
+        optionsfornecedor += `<option value= "${item["nome"]}">${item["nome"]}</option>`;
+      }
+    });
+    document.getElementById("inputFornOrcaList").innerHTML = optionsfornecedor
+    document.getElementById("inputFornNomeEditarList").innerHTML = optionsfornecedor
+    alert("FORNECEDOR ATUALIZADO COM SUCESSO!")
+  }
+}
+
+
 // Buscar dados de Modulos
 async function buscaModulo() {
   var peca = $('#inputPecaModuloConfigEdit')[0].value
@@ -2055,6 +2127,14 @@ async function buscaTarifaB3() {
   document.getElementById(`inputTeTarifaB3Editar`).value = dataB3[0].te
   document.getElementById(`inputSImpostoTarifaB3Editar`).value = dataB3[0].s_imposto
 }
+// Buscar dados de Tarifa B3
+async function buscaFornecedor() {
+  var peca = $('#inputFornNomeEditar')[0].value
+  var fornGetData = `/fornecedorEditar?name=${peca}`
+  const dataforn = await fetchGet(fornGetData)
+  document.getElementById(`inputFornPorcentagemEditar`).value = dataforn[0].porcentagem
+}
+
 // BUSCACLIENTE ESTÁ EM OUTRA FUNÇÃO
 //#endregion
 $('.onlyDot').on('input', function (e) {
@@ -2130,6 +2210,7 @@ var optionsVendedores = '`<option selected disabled value= "...">...</option>`'
 var userConnected
 var optionsUsers = '`<option selected disabled value= "...">...</option>`'
 var optionsProject = ''
+var optionsfornecedor = `<option selected disabled value= "...">...</option>`
 // Ao abrir a página, carrega os clientes do banco de dados
 async function onLoad() {
   userConnected = await fetchGet("/loginVerifyResult")
@@ -2148,6 +2229,15 @@ async function onLoad() {
     })
     document.getElementById("inputEmailUserEdit").innerHTML = optionsUsers
   }
+
+  //DADOS DE PROJETO
+  var dataFornecedor = await fetchGet('/getFornecedor')
+  dataFornecedor.forEach(function (item) {
+    if (optionsfornecedor.indexOf(item["nome"]) == -1) {
+      optionsfornecedor += '<option value="' + item["nome"] + '" />';
+    }
+  })
+
   //DADOS DE PROJETO
   var dataProjeto = await fetchGet('/getProject')
   dataProjeto.forEach(function (item) {
@@ -2178,6 +2268,9 @@ async function onLoad() {
       optionsDistribuidora += '<option value="' + item["distribuidora"] + '" />';
     }
   });
+  
+  document.getElementById("inputFornOrcaList").innerHTML = optionsfornecedor
+  document.getElementById("inputFornNomeEditarList").innerHTML = optionsfornecedor
 
   document.getElementById("projectDataList").innerHTML = optionsProject
   document.getElementById("inputVendedor").innerHTML = optionsVendedores
@@ -2251,6 +2344,13 @@ async function onLoad() {
     greenerData[greenerDados[i]['name']] = await valNum(greenerDados[i]['value'])
   }
   await fillGreener()
+}
+async function onChangeForn(valor){
+  var fornGetData = `/fornecedorEditar?name=${valor}`
+  const dataforn = await fetchGet(fornGetData)
+  document.getElementById(`inputPorcentagemFornOrca`).value = dataforn[0].porcentagem
+
+  inputPorcentagemFornOrca
 }
 
 //#region MÓDULOS
@@ -3297,7 +3397,8 @@ async function disabledUser(userRole) {
       'inversoresConfig',
       'fiobConfig',
       'b3Config',
-      'usuariosConfig'
+      'usuariosConfig',
+      'fornConfig'
     ]
     for (i = 0; i < listDisabled.length; i++) {
       var elemento = document.getElementById(listDisabled[i])
@@ -3390,6 +3491,7 @@ async function salvarProposta() {
     var MaterialCaOrca = $('#inputMaterialCaOrca')[0].value //MATERIAL CA
     var EstruCobertOrca = $('#inputEstruCobertOrca')[0].value //ESTRUTURA COBERTURA
     var EletrodutoOrca = $('#inputEletrodutoOrca')[0].value //ELETRODUTO
+    var AterramentoOrca = $('#inputAterramentoOrca')[0].value //ATERRAMENTO
     var CustoViagemOrca = $('#inputCustoViagemOrca')[0].value //CUSTO VIAGEM
     var LucroOrca = $('#inputLucroOrca')[0].value //LUCRO
     var ComissaoOrca = $('#inputComissaoOrca')[0].value //COMISSÃO
@@ -3410,7 +3512,7 @@ async function salvarProposta() {
 
     var projectName = `PMC_${Number(potTotalOrca).toFixed(2)}_${Cliente}`
 
-    var query = `${projectName};${Cliente};${Vendedor};${Ano};${RuaDadoTec};${NumeroDadoTec};${BairroDadoTec};${TipoTelhaDadoTec};${AngTelhaDadoTec};${PosicionamentoDadoTec};${PecaModulo};${TempMediaModulo};${Sujeira};${DegraAnual};${PecaInversor};${QtdeInversor};${JanConsumo};${FevConsumo};${MarConsumo};${AbrConsumo};${MaiConsumo};${JunConsumo};${JulConsumo};${AgoConsumo};${SetConsumo};${OutConsumo};${NovConsumo};${DezConsumo};${AddConsumo};${PorcentagemFornOrca};${MatFotovOrca};${PainelProtOrca};${StringBoxOrca};${MaterialCaOrca};${EstruCobertOrca};${EletrodutoOrca};${CustoViagemOrca};${LucroOrca};${ComissaoOrca};${ImpostoOrca};${FornOrca};${DescontoOrcaFinal};${InflacaoEletricaFluxo};${JurosMesFinanciamento1};${JurosMesFinanciamento12};${JurosMesFinanciamento48};${JurosMesFinanciamento60};${JurosMesFinanciamento120};${JurosMesFinanciamento150}`
+    var query = `${projectName};${Cliente};${Vendedor};${Ano};${RuaDadoTec};${NumeroDadoTec};${BairroDadoTec};${TipoTelhaDadoTec};${AngTelhaDadoTec};${PosicionamentoDadoTec};${PecaModulo};${TempMediaModulo};${Sujeira};${DegraAnual};${PecaInversor};${QtdeInversor};${JanConsumo};${FevConsumo};${MarConsumo};${AbrConsumo};${MaiConsumo};${JunConsumo};${JulConsumo};${AgoConsumo};${SetConsumo};${OutConsumo};${NovConsumo};${DezConsumo};${AddConsumo};${PorcentagemFornOrca};${MatFotovOrca};${PainelProtOrca};${StringBoxOrca};${MaterialCaOrca};${EstruCobertOrca};${EletrodutoOrca};${CustoViagemOrca};${LucroOrca};${ComissaoOrca};${ImpostoOrca};${FornOrca};${DescontoOrcaFinal};${InflacaoEletricaFluxo};${JurosMesFinanciamento1};${JurosMesFinanciamento12};${JurosMesFinanciamento48};${JurosMesFinanciamento60};${JurosMesFinanciamento120};${JurosMesFinanciamento150};${AterramentoOrca}`
     var r = await fetchPost(`/saveErp?name=${query}`)
     console.log(r)
     if (r == 'updated') {
@@ -3478,6 +3580,7 @@ async function openProject() {
   var juros_60 = r[0].juros_60
   var juros_120 = r[0].juros_120
   var juros_150 = r[0].juros_150
+  var aterramento = r[0].aterramento
 
   $('#inputCliente')[0].value = r[0].cliente
   $('#inputVendedor')[0].value = r[0].vendedor
@@ -3514,6 +3617,7 @@ async function openProject() {
   $('#inputMaterialCaOrca')[0].value = r[0].material_ca
   $('#inputEstruCobertOrca')[0].value = r[0].estrutura_cob
   $('#inputEletrodutoOrca')[0].value = r[0].eletroduto
+  $('#inputAterramentoOrca')[0].value = r[0].aterramento
   $('#inputCustoViagemOrca')[0].value = r[0].custo_viagem
   $('#inputLucroOrca')[0].value = r[0].lucro
   $('#inputComissaoOrca')[0].value = r[0].comissao

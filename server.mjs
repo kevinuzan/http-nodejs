@@ -17,6 +17,7 @@ import Docxtemplater from "docxtemplater"
 import sizeOf from "image-size"
 import request from 'request'
 import formidable from 'formidable'
+import multer from 'multer'
 
 const firebaseConfig = {
     apiKey: process.env.apiFirebase,
@@ -32,131 +33,7 @@ const appFirebase = initializeApp(firebaseConfig);
 
 const auth = getAuth(appFirebase);
 
-app.get('/resetPass', async function (req, res) {
-    var user = req.query.name
-    sendPasswordResetEmail(auth, user)
-        .then(() => {
-            res.json(1)
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            res.json(errorMessage)
-        });
-})
 
-app.get('/login', async function (req, res) {
-    var login = req.query.name
-    var usuario = login.split(';')[0]
-    var senha = login.split(';')[1]
-    signInWithEmailAndPassword(auth, usuario, senha)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            conectado = usuario
-            res.json(true)
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            conectado = 'false'
-            res.json(errorMessage)
-            // ..
-        });
-})
-var conectado = 'false'
-app.get('/loginVerify', async function (req, res) {
-    conectado = 'false'
-    res.json(conectado)
-})
-app.get('/loginVerifyResult', async function (req, res) {
-    res.json(conectado)
-})
-
-app.get('/createUser', async function (req, res) {
-    var login = req.query.name
-    var usuario = login.split(';')[0]
-    var senha = login.split(';')[1]
-    var role = login.split(';')[2]
-    var resultado = await createUserWithEmailAndPassword(auth, usuario, senha, role)
-        .then(async (userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            var resposta = await createUserPostgre(usuario, role)
-            return resposta
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            return errorMessage
-            // ..
-        });
-    res.json(resultado)
-})
-
-app.get('/getRole', async function (req, res) {
-    var email = req.query.name
-    var resultado = await getRolePostgre(email)
-    res.json(resultado)
-})
-app.get('/getUser', async function (req, res) {
-    var resultado = await getUserPostgre()
-    res.json(resultado)
-})
-app.get('/updateUser', async function (req, res) {
-    var email = req.query.name.split(';')[0]
-    var role = req.query.name.split(';')[1]
-    var resultado = await updateUserPostgre(email, role)
-    res.json(resultado)
-})
-async function createUserPostgre(user, role) {
-    try {
-        var query = `INSERT INTO users values('${user}','${role}')`
-        var { rows } = await pgClient.query(query)
-        return true
-    } catch (e) {
-        console.log(e)
-        return e
-    }
-}
-let brlBrazil = Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-});
-
-async function getRolePostgre(email) {
-    try {
-        var query = `select role from users where LOWER(email) = LOWER('${email}')`
-        var { rows } = await pgClient.query(query)
-        return { rows }
-    } catch (e) {
-        console.log(e)
-        return e
-    }
-}
-
-async function getUserPostgre() {
-    try {
-        var query = `select email from users`
-        var { rows } = await pgClient.query(query)
-        return rows
-    } catch (e) {
-        console.log(e)
-        return e
-    }
-}
-async function updateUserPostgre(email, role) {
-    try {
-        var query = `update users set role = '${role}' where lower(email) = lower('${email}')`
-        var { rows } = await pgClient.query(query)
-        return rows
-    } catch (e) {
-        console.log(e)
-        return e
-    }
-}
 const pool = new pg.Pool();
 var connectionString = process.env.DATABASE_URL
 var pgClient = new pg.Client(connectionString)
@@ -410,6 +287,152 @@ app.use('/', express.static(path.join(__dirname, '/login.html')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+// Configuração do Multer para receber arquivos
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/resourceFiles'); // Especifique a pasta de destino para salvar o arquivo
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'modelo_proposta_DANIG.docx'); // Gere um nome de arquivo único usando a data atual e o nome original do arquivo
+    }
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/salvar-arquivo', upload.single('arquivoWord'), (req, res) => {
+    // Aqui você pode acessar o arquivo enviado pelo cliente através do objeto "req.file"
+    const arquivo = req.file;
+
+    // Aqui você pode salvar o arquivo no servidor
+
+    res.send('Arquivo salvo com sucesso!');
+});
+
+app.get('/resetPass', async function (req, res) {
+    var user = req.query.name
+    sendPasswordResetEmail(auth, user)
+        .then(() => {
+            res.json(1)
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            res.json(errorMessage)
+        });
+})
+
+app.get('/login', async function (req, res) {
+    var login = req.query.name
+    var usuario = login.split(';')[0]
+    var senha = login.split(';')[1]
+    signInWithEmailAndPassword(auth, usuario, senha)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            conectado = usuario
+            res.json(true)
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            conectado = 'false'
+            res.json(errorMessage)
+            // ..
+        });
+})
+var conectado = 'false'
+app.get('/loginVerify', async function (req, res) {
+    conectado = 'false'
+    res.json(conectado)
+})
+app.get('/loginVerifyResult', async function (req, res) {
+    res.json(conectado)
+})
+
+app.get('/createUser', async function (req, res) {
+    var login = req.query.name
+    var usuario = login.split(';')[0]
+    var senha = login.split(';')[1]
+    var role = login.split(';')[2]
+    var resultado = await createUserWithEmailAndPassword(auth, usuario, senha, role)
+        .then(async (userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            var resposta = await createUserPostgre(usuario, role)
+            return resposta
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            return errorMessage
+            // ..
+        });
+    res.json(resultado)
+})
+
+app.get('/getRole', async function (req, res) {
+    var email = req.query.name
+    var resultado = await getRolePostgre(email)
+    res.json(resultado)
+})
+app.get('/getUser', async function (req, res) {
+    var resultado = await getUserPostgre()
+    res.json(resultado)
+})
+app.get('/updateUser', async function (req, res) {
+    var email = req.query.name.split(';')[0]
+    var role = req.query.name.split(';')[1]
+    var resultado = await updateUserPostgre(email, role)
+    res.json(resultado)
+})
+async function createUserPostgre(user, role) {
+    try {
+        var query = `INSERT INTO users values('${user}','${role}')`
+        var { rows } = await pgClient.query(query)
+        return true
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+let brlBrazil = Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+});
+
+async function getRolePostgre(email) {
+    try {
+        var query = `select role from users where LOWER(email) = LOWER('${email}')`
+        var { rows } = await pgClient.query(query)
+        return { rows }
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+
+async function getUserPostgre() {
+    try {
+        var query = `select email from users`
+        var { rows } = await pgClient.query(query)
+        return rows
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+async function updateUserPostgre(email, role) {
+    try {
+        var query = `update users set role = '${role}' where lower(email) = lower('${email}')`
+        var { rows } = await pgClient.query(query)
+        return rows
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
 
 async function saveDataPostgre(arrayData) {
     var listaHeader = [
@@ -461,7 +484,8 @@ async function saveDataPostgre(arrayData) {
         'juros_48',
         'juros_60',
         'juros_120',
-        'juros_150'
+        'juros_150',
+        'aterramento'
     ]
     var checkQuery = `select projectname from projectdata where projectname = '${arrayData[0]}'`
     var { rows } = await pgClient.query(checkQuery)
@@ -597,6 +621,13 @@ app.get('/downloadImage', function (req, res) {
     res.json(resposta)
 })
 
+app.get('/getFornecedor', async function (req, res) {
+    var query = "SELECT * FROM fornecedores group by nome"
+    var { rows } = await pgClient.query(query)
+    // const { rows } = await pool.query(query)
+    res.json(rows)
+});
+
 app.get('/docxTemplater', function (req, res) {
     var cliente = req.query.name.split(";")[0]
     var vendedor = req.query.name.split(";")[1]
@@ -708,9 +739,17 @@ app.get('/docxTemplater', function (req, res) {
     var image1 = path.join(__dirname + '/public/temp_folder/graficoConsumoGeracao.png')
     var image2 = path.join(__dirname + '/public/temp_folder/graficoPayback.png')
     var image_mdl = path.join(__dirname + '/public/img/' + mdl_img + '.png')
-    var image_inv = path.join(__dirname + '/public/img/' + inv_img + '.png')
-    var image_est = path.join(__dirname + '/public/img/' + est_img + '.png')
-    console.log(image_mdl, image_inv, image_est, mdl_img, inv_img, est_img)
+    try {
+        var image_inv = path.join(__dirname + '/public/img/' + inv_img + '.png')
+    } catch {
+        var image_inv = path.join(__dirname + '/public/img/ERROR.png')
+    }
+    try {
+        var image_est = path.join(__dirname + '/public/img/' + est_img + '.png')
+    } catch {
+        var image_est = path.join(__dirname + '/public/img/ERROR.png')
+    }
+    //console.log(image_mdl, image_inv, image_est, mdl_img, inv_img, est_img)
     // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
     doc.render({
         cliente: cliente,
@@ -944,6 +983,44 @@ app.post('/clienteUpdate', async function (req, res) {
     } else {
         res.json("nexiste")
     }
+});
+
+
+app.post('/fornecedorInsert', async function (req, res) {
+    let nome = req.query.name.split(';')[0];
+    var queryId = `select nome from fornecedores where LOWER(nome) = LOWER('${nome}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length == 0) {
+        var { rows } = await pgClient.query(queryId)
+        let porcentagem = req.query.name.split(';')[1]
+        var query = `insert into fornecedores values ('${nome}','${porcentagem}')`
+        var { rows } = await pgClient.query(query)
+        res.json(rows)
+    } else {
+        res.json('existe')
+    }
+});
+
+app.post('/fornecedorUpdate', async function (req, res) {
+    let fornecedor = req.query.name.split(';')[0];
+    var queryId = `select nome from fornecedores where LOWER(nome) = LOWER('${fornecedor}')`
+    var { rows } = await pgClient.query(queryId)
+    if (rows.length != 0) {
+        let porcentagem = req.query.name.split(';')[1]
+
+        var query = `update fornecedores set porcentagem = '${porcentagem}' WHERE LOWER(nome) = LOWER('${fornecedor}')`
+        var { rows } = await pgClient.query(query)
+        // const { rows } = await pool.query(query)
+        res.json(rows)
+    } else {
+        res.json("nexiste")
+    }
+});
+app.get('/fornecedorEditar', async function (req, res) {
+    var nome = req.query.name
+    var query = `SELECT * FROM fornecedores WHERE nome = '${nome}'`
+    var { rows } = await pgClient.query(query)
+    res.json(rows)
 });
 
 app.post('/vendedorInsert', async function (req, res) {

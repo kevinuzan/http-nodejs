@@ -115,6 +115,10 @@
 								href="#tarifa-b3-tab-content-config" id="b3Config">
 								<i class="fas fa-money-bill"></i>
 								 Tarifa B3</a>
+							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
+								href="#fornecedores-tab-content-config" id="fornConfig">
+								<i class="fas fa-building"></i>
+								 Fornecedores</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item disabled" data-toggle="tab" role="tab" name="configTab"
 								href="#usuarios-tab-content-config" id="usuariosConfig">
@@ -1543,6 +1547,21 @@
 										<input disabled id="inputMaoObraOrca" placeholder="Digite..">
 									</div>
 									<div class="field-container mt-2">
+										<label for="inputLucroMgOrca" style="font-weight: bold">LUCRO (MG
+											CONTRIB.)</label>
+										<input disabled id="inputLucroMgOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputFabriInvOrca" style="font-weight: bold">FABRICANTE
+											INVERSOR</label>
+										<input disabled id="inputFabriInvOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputFabriMdlOrca" style="font-weight: bold">FABRICANTE
+											MÓDULO</label>
+										<input disabled id="inputFabriMdlOrca" placeholder="Digite..">
+									</div>
+									<div class="field-container mt-2">
 										<label for="inputMatFotovOrca" style="font-weight: bold">MATERIAL
 											FOTOVOLTAICO</label>
 										<input id="inputMatFotovOrca" placeholder="Digite.." value="0"
@@ -1576,6 +1595,11 @@
 											onchange="getDataOrcaFinal()">
 									</div>
 									<div class="field-container mt-2">
+										<label for="inputAterramentoOrca" style="font-weight: bold">ATERRAMENTO</label>
+										<input id="inputAterramentoOrca" placeholder="Digite.." value="0"
+											onchange="getDataOrcaFinal()">
+									</div>
+									<div class="field-container mt-2">
 										<label for="inputCustoViagemOrca" style="font-weight: bold">CUSTO VIAGEM</label>
 										<input id="inputCustoViagemOrca" placeholder="Digite.." value="0"
 											onchange="getDataOrcaFinal()">
@@ -1585,11 +1609,7 @@
 										<input id="inputLucroOrca" placeholder="Digite.." value="0"
 											onchange="getDataOrcaFinal()">
 									</div>
-									<div class="field-container mt-2">
-										<label for="inputLucroMgOrca" style="font-weight: bold">LUCRO (MG
-											CONTRIB.)</label>
-										<input disabled id="inputLucroMgOrca" placeholder="Digite..">
-									</div>
+
 									<div class="field-container mt-2">
 										<label for="inputComissaoOrca" style="font-weight: bold">COMISSÃO (%)</label>
 										<input id="inputComissaoOrca" placeholder="Digite.." value="0"
@@ -1602,17 +1622,9 @@
 									</div>
 									<div class="field-container mt-2">
 										<label for="inputFornOrca" style="font-weight: bold">FORNECEDOR</label>
-										<input id="inputFornOrca" placeholder="Digite..">
-									</div>
-									<div class="field-container mt-2">
-										<label for="inputFabriMdlOrca" style="font-weight: bold">FABRICANTE
-											MÓDULO</label>
-										<input disabled id="inputFabriMdlOrca" placeholder="Digite..">
-									</div>
-									<div class="field-container mt-2">
-										<label for="inputFabriInvOrca" style="font-weight: bold">FABRICANTE
-											INVERSOR</label>
-										<input disabled id="inputFabriInvOrca" placeholder="Digite..">
+										<input id="inputFornOrca" list="inputFornOrcaList"
+											onchange="onChangeForn(this.value)">
+										<datalist id="inputFornOrcaList"></datalist>
 									</div>
 								</div>
 							</div>
@@ -2222,9 +2234,22 @@
 					<div class="tab-pane fade show" id="gerar-resumo-tab-content-config" role="tabpanel">
 						<div class="app-container">
 							<div class="field-container mt-3">
-								<button onclick="exportData()" class="btn-app btn-fp">Generate document</button>
+								<button class="btn-app btn-fp" onclick="document.getElementById('arquivoWord').click()">
+									<i class="fas fa-upload"></i>
+									Alterar Modelo
+								</button>
+
+								<button onclick="exportData()" class="btn-app btn-fp mt-3">
+									<i class="fas fa-download"></i>
+									Gerar Proposta
+								</button>
 								<a href="/temp_folder/proposta.docx" download="proposed_file_name.docx"
 									style="visibility: hidden;" id="downloadProposta">Download</a> <!--NÃO APAGAR-->
+									
+								<form style="visibility: hidden;" id="formulario" enctype="multipart/form-data"> <!--NÃO APAGAR-->
+									<button type="submit" class="btn-app btn-fp">Salvar Modelo</button> <!--NÃO APAGAR-->
+									<input type="file" name="arquivoWord" id="arquivoWord"> <!--NÃO APAGAR-->
+								</form> <!--NÃO APAGAR-->
 							</div>
 						</div>
 					</div>
@@ -3122,6 +3147,87 @@
 				</div>
 			</div>
 			<!-- DADOS TARIFAS B3 CONFIGURAÇÕES -->
+			<div class="tab-pane fade show" id="fornecedores-tab-content-config" role="tabpanel">
+				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
+					<ul class="nav nav-tabs justify-content-center" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#inserir-fornecedores-tab-content-config" role="tab">
+								INSERIR
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link app-tab-title" data-toggle="tab"
+								href="#editar-fornecedores-tab-content-config" role="tab">
+								EDITAR
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<!-- INSERIR -->
+					<div class="tab-pane fade show active" id="inserir-fornecedores-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">INSERIR FORNECEDOR</h2>
+								<div class="container-5-columns">
+									<div class="field-container mt-2">
+										<label for="inputFornNomeInsere" style="font-weight: bold">NOME</label>
+										<input id="inputFornNomeInsere" />
+									</div>
+									<div class="field-container mt-2">
+										<label for="inputFornPorcentagemInsere" style="font-weight: bold">PORCENTAGEM
+											(%)</label>
+										<input id="inputFornPorcentagemInsere" />
+									</div>
+								</div>
+							</div>
+							<div class="field-container">
+								<label for="" style="font-weight: bold"> </label>
+								<button type="button" onclick="insereFornecedor()" id="insereFornecedor"
+									class="btn-app btn-fp">INSERIR</button>
+							</div>
+						</div>
+					</div>
+					<!-- EDITAR -->
+					<div class="tab-pane fade show" id="editar-fornecedores-tab-content-config" role="tabpanel">
+						<div class="app-container">
+							<br>
+							<div class="outerboxmain align-items-center">
+								<h2 class="app-title">EDITAR FORNECEDOR</h2>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputFornNomeEditar" style="font-weight: bold">NOME</label>
+										<input id="inputFornNomeEditar" list="inputFornNomeEditarList" />
+										<datalist id="inputFornNomeEditarList"></datalist>
+									</div>
+									<div class="field-container mt-2">
+										<label for="" style="font-weight: bold"> </label>
+										<button type="button" onclick="buscaFornecedor()" id="buscaFornecedor"
+											class="btn-app">BUSCA</button>
+									</div>
+								</div>
+								<div class="container-4-columns">
+									<div class="field-container mt-2">
+										<label for="inputFornPorcentagemEditar"
+											style="font-weight: bold">PORCENTAGEM</label>
+										<input id="inputFornPorcentagemEditar" />
+									</div>
+								</div>
+							</div>
+							<div class="container-2-columns">
+								<div class="field-container">
+									<label for="" style="font-weight: bold"> </label>
+									<button type="button" onclick="atualizaFornecedor()" id="atualizarFornecedor"
+										class="btn-app btn-fp2">ATUALIZAR</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- DADOS TARIFAS B3 CONFIGURAÇÕES -->
 			<div class="tab-pane fade show" id="tarifa-b3-tab-content-config" role="tabpanel">
 				<div class="tab-pane fade show active" id="erp-tab-content-config" role="tabpanel">
 					<ul class="nav nav-tabs justify-content-center" role="tablist">
@@ -3452,6 +3558,26 @@
 </body>
 
 
+<script>
+	const formulario = document.getElementById('formulario');
+	const arquivo = document.getElementById('arquivoWord');
+	arquivo.addEventListener('change', (event) => {
+		event.preventDefault();
+
+		const arquivo = document.getElementById('arquivoWord').files[0];
+		const formData = new FormData();
+
+		formData.append('arquivoWord', arquivo);
+
+		fetch('/salvar-arquivo', {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => response.text())
+			.then(mensagem => alert(mensagem))
+			.catch(erro => console.error(erro));
+	});
+</script>
 <script type="text/javascript" src="/src/mainPage.js"></script>
 <script type="text/javascript" src="/src/themeSwitcher.js"></script>
 
