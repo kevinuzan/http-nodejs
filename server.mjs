@@ -34,7 +34,7 @@ const appFirebase = initializeApp(firebaseConfig);
 const auth = getAuth(appFirebase);
 
 
-const pool = new pg.Pool();
+// const pool = new pg.Pool();
 var connectionString = process.env.DATABASE_URL
 var pgClient = new pg.Client(connectionString)
 pgClient.connect()
